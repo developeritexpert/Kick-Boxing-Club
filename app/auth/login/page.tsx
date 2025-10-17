@@ -1,4 +1,4 @@
-import LoginForm from '@/components/login/LoginForm'
+import LoginForm from '@/components/login/OldLoginForm'
 
 export default function RegisterPage() {
     return (

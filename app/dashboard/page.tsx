@@ -10,7 +10,7 @@ export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) router.push("/auth/login");
+    if (!user) router.push("/");
   }, [user, router]);
 
   if (!user) return null;

@@ -11,7 +11,7 @@ export default function LogoutButton(){
         clearUser();
         document.cookie = `sb-access-token=; path=/; max-age=0`;
         toast.success("Logged out successfully!")
-        router.push("/auth/login");
+        router.push("/");
     }
 
     return (
