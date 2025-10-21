@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { API_ROUTES } from "@/lib/constants";
+import { supabaseClient } from '@/lib/supabaseClient';
 import toast from "react-hot-toast";
 import { useAuthStore, User } from "@/stores/useAuthStore";
 import "../../styles/login.css";
@@ -25,7 +26,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (user) {
-      if (user.role === "admin") router.push("/admin/dashboard");
+      if (user.role === "admin") router.push("/admin");
       else router.push("/dashboard");
     }
   }, [user, router]);
@@ -49,6 +50,14 @@ export default function LoginForm() {
       const result = await res.json();
 
       if (res.ok) {
+        await supabaseClient.auth.setSession({
+          access_token: result.access_token,
+          refresh_token: result.refresh_token,
+        });
+
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        console.log("User from getUser:", user);
+
         setUser(result.user as User);
         toast.success("Login successful!");
       } else {
