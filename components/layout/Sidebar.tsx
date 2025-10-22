@@ -4,6 +4,7 @@ import React from "react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { supabaseClient } from '@/lib/supabaseClient';
 
 type Props = {
   collapsed: boolean;
@@ -25,12 +26,30 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
 
     const router = useRouter()
     const clearUser = useAuthStore((state) => state.clearUser);
-    const handleLogout = () => {
-        clearUser();
-        document.cookie = `sb-access-token=; path=/; max-age=0`;
-        toast.success("Logged out successfully!")
-        router.push("/");
+
+    // const handleLogout = () => {
+    //     clearUser();
+    //     document.cookie = `sb-access-token=; path=/; max-age=0`;
+    //     toast.success("Logged out successfully!")
+    //     router.push("/");
+    // }
+
+    const handleLogout = async () => {
+    try {
+
+      await supabaseClient.auth.signOut();
+
+      clearUser();
+
+      document.cookie = `sb-access-token=; path=/; max-age=0`;
+
+      toast.success("Logged out successfully!");
+      router.push("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+      toast.error("Failed to logout!");
     }
+  };
 
   return (
     <aside className={`sidebar ${collapsed ? "collapsed" : ""}`} aria-label="Sidebar">
