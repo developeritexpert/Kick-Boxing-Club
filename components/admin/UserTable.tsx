@@ -1,0 +1,115 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { supabaseClient } from '@/lib/supabaseClient';
+import './UserTable.css'; // optional styling
+
+type User = {
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  role: 'admin' | 'content_admin' | 'instructor';
+  email?: string;
+};
+
+export default function UserTable() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     setLoading(true);
+  //     const { data, error } = await supabaseClient
+  //       .from('user_meta')
+  //       .select('user_id, first_name, last_name, role, email');
+
+  //     if (error) {
+  //       console.error('Error fetching users:', error.message);
+  //     } else {
+  //       setUsers(data);
+  //     }
+  //     setLoading(false);
+  //   };
+
+  //   fetchUsers();
+  // }, []);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch('/api/admin/users');
+        if (!res.ok) throw new Error(res.statusText);
+
+        const dataObj = await res.json();
+        setUsers(dataObj.users); 
+      } catch (err: unknown) {
+        let message = 'Unknown error';
+        if (err instanceof Error) {
+          message = err.message;
+        }
+        setError(message);
+        console.error(err);
+        // setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const getAssignedRoleText = (role: User['role']) => {
+    switch (role) {
+      case 'admin':
+        return 'Full access: Manage users, content, classes, payments';
+      case 'content_admin':
+        return 'Manage workouts, upload videos, moderate comments';
+      case 'instructor':
+        return 'Conduct classes, track member progress';
+      default:
+        return '-';
+    }
+  };
+
+  if (loading) return <p>Loading users...</p>;
+  if (error) return <p className="error">Error: {error}</p>;
+
+  return (
+    <div className="user-table-container">
+      <table className="user-table">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Assigned Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.user_id}>
+              <td>{user.user_id}</td>
+              <td>
+                <div className="user-name">
+                  <div className="avatar-placeholder" />
+                  {user.first_name} {user.last_name}
+                </div>
+              </td>
+              <td>{user.role}</td>
+              <td>{getAssignedRoleText(user.role)}</td>
+              <td>
+                <button className="edit-btn">Edit</button>
+                <button className="delete-btn">Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
