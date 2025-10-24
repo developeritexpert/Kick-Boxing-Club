@@ -63,7 +63,7 @@ export default function LoginForm() {
       } else {
         toast.error(result.error || "Login failed");
       }
-    } catch (err) {
+    } catch {
       toast.error("Something went wrong");
     }
   };

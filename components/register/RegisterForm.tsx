@@ -7,7 +7,7 @@ import * as z from "zod";
 import { API_ROUTES } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { useAuthStore ,User } from "@/stores/useAuthStore";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const registerSchema = z.object({
   email: z.string().email({ message: "Invalid email" }),
@@ -21,7 +21,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser);
+  // const setUser = useAuthStore((state) => state.setUser);
   const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function RegisterPage() {
         toast.error(result.error || "Registration failed");
         setMessage(result.error || "Registration failed");
       }
-    } catch (err) {
+    } catch {
       toast.error("Something went wrong");
       setMessage("Something went wrong");
     }
