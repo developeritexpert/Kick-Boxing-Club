@@ -14,9 +14,14 @@ type Props = {
 const menu = [
   { key: "dashboard", label: "Dashboard", icon: "🏠", href: "/admin" },
   { key: "users", label: "User Management", icon: "👤", href: "/admin/users" },
-  { key: "library", label: "Workout Library", icon: "📚", href: "/admin/library" },
-  { key: "create", label: "Create a Workout", icon: "💪", href: "/admin/create" },
-  { key: "builder", label: "Workout Builder", icon: "🧩", href: "/admin/builder" },
+  { key: "workouts", label: "Workout Library", icon: "📚", href: "/admin/workouts" },
+  { key: "movement", label: "Create a Movement", icon: "🏠", href: "/admin/movement/create" },
+  { key: "momentLibrary", label: "Movement Library", icon: "🏠", href: "/admin/movement/library" },
+  { key: "workout", label: "Create a Workout", icon: "💪", href: "/admin/create" },
+  { key: "workoutLibrary", label: "Workout Library", icon: "💪", href: "/admin/workout/library" },
+  { key: "favorites", label: "My Favorites", icon: "💪", href: "/admin/favorites" },
+  { key: "recent", label: "Recent Workouts", icon: "💪", href: "/admin/recent" },
+  // { key: "builder", label: "Workout Builder", icon: "🧩", href: "/admin/builder" },
   { key: "settings", label: "Setting", icon: "⚙️", href: "/admin/settings" },
 ];
 
