@@ -1,0 +1,101 @@
+.library-container {
+  background-color: #fafafa;
+  padding: 40px;
+  min-height: calc(100vh - 80px);
+}
+
+.library-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.search-input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 250px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #e30d1a;
+}
+
+.category-filter {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: white;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.table-container {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.movement-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.movement-table thead {
+  background-color: #111;
+  color: #fff;
+}
+
+.movement-table th, .movement-table td {
+  padding: 14px 20px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.movement-table tbody tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+.movement-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 6px 14px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.edit-btn {
+  background-color: #d81c0e;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #b2160c;
+}
+
+.delete-btn {
+  background-color: #efefef;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.delete-btn:hover {
+  background-color: #ddd;
+}
