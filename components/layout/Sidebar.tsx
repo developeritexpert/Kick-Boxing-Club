@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { supabaseClient } from '@/lib/supabaseClient';
+import Link from "next/link";
 
 type Props = {
   collapsed: boolean;
@@ -26,18 +27,15 @@ const menu = [
 ];
 
 export default function Sidebar({ collapsed, setCollapsed }: Props) {
-  // Hardcoded active key for demo. Replace with router-based active detection.
-  const activeKey = "dashboard";
-
+    const [mounted, setMounted] = useState(false);
     const router = useRouter()
+    const pathname = usePathname();
     const clearUser = useAuthStore((state) => state.clearUser);
 
-    // const handleLogout = () => {
-    //     clearUser();
-    //     document.cookie = `sb-access-token=; path=/; max-age=0`;
-    //     toast.success("Logged out successfully!")
-    //     router.push("/");
-    // }
+    useEffect(() => {
+      setMounted(true);
+    }, []);
+
 
     const handleLogout = async () => {
     try {
@@ -56,6 +54,8 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
     }
   };
 
+  if (!mounted) return null;
+
   return (
     <aside className={`sidebar ${collapsed ? "collapsed" : ""}`} aria-label="Sidebar">
       <div className="sidebar-top">
@@ -69,14 +69,17 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
 
       <nav className="sidebar-nav">
         <ul>
-          {menu.map((m) => (
-            <li key={m.key} className={m.key === activeKey ? "nav-item active" : "nav-item"}>
-              <a href={m.href} className="nav-link">
-                <span className="nav-icon">{m.icon}</span>
-                {!collapsed && <span className="nav-label">{m.label}</span>}
-              </a>
-            </li>
-          ))}
+          {menu.map((m) => {
+            const isActive = m.href === "/admin" ? pathname === "/admin" : pathname.startsWith(m.href);
+            return (
+              <li key={m.key} className={`nav-item ${isActive ? "active" : ""}`}>
+                <Link href={m.href} className="nav-link">
+                  <span className="nav-icon">{m.icon}</span>
+                  {!collapsed && <span className="nav-label">{m.label}</span>}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
 

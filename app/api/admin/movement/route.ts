@@ -22,10 +22,8 @@ export async function GET() {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    // Get unique user IDs
     const userIds = [...new Set(data.map(m => m.created_by).filter(Boolean))];
 
-    // Fetch user metadata
     const { data: userMetaData, error: userMetaError } = await supabaseAdmin
       .from('user_meta')
       .select('user_id, first_name, last_name')
@@ -35,7 +33,6 @@ export async function GET() {
       console.error('Error fetching user meta:', userMetaError);
     }
 
-    // Create a map for quick lookup
     const userMetaMap = new Map(
       userMetaData?.map(u => [u.user_id, u]) || []
     );

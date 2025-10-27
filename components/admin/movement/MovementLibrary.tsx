@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useRouter } from "next/navigation";
 import './MovementLibrary.css';
 
 type Movement = {
@@ -19,7 +20,8 @@ const MovementLibrary: React.FC = () => {
     const [movements, setMovements] = useState<Movement[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch movements from API
+    const router = useRouter();
+
     useEffect(() => {
         const fetchMovements = async () => {
             try {
@@ -66,6 +68,8 @@ const MovementLibrary: React.FC = () => {
 		}
 	};
 
+
+
     return (
         <div className="library-container">
             <div className="library-header">
@@ -109,15 +113,16 @@ const MovementLibrary: React.FC = () => {
                                         <td>{m.category}</td>
                                         <td>{m.created_by}</td>
                                         <td>
-                                            {/* <button className="edit-btn" onClick={() => handleEdit(m.id)}>✏️ Edit</button> */}
-                                            <button className="edit-btn">✏️ Edit</button>
+                                            <button className="edit-btn" onClick={() => router.push(`/admin/movement/${m.id}/edit`) }>Edit</button>
+                                            {/* <button className="edit-btn"> Edit</button> */}
+
                                             <button
                                                 className="delete-btn"
                                                 onClick={() => handleDelete(m.id)}
                                             >
-                                                🗑 Delete
+                                                 Delete
                                             </button>
-                                            {/* <button className="delete-btn">🗑 Delete</button> */}
+                                            {/* <button className="delete-btn"> Delete</button> */}
                                         </td>
                                     </tr>
                                 ))

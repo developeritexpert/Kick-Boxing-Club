@@ -1,8 +1,10 @@
 "use client";
 
 import React from "react";
+import { useRouter } from 'next/navigation';
 
 export default function AdminPage() {
+    const router = useRouter();
   return (
     <div className="dashboard-page">
       <div className="page-header-spacer" />
@@ -38,7 +40,7 @@ export default function AdminPage() {
 
         <div className="panel-actions">
           <button className="btn btn-black">Manage Access Levels</button>
-          <button className="btn btn-red">Add New Role</button>
+          <button className="btn btn-red" onClick={() => router.push('/admin/users/add')}>Add New Role</button>
         </div>
       </section>
     </div>
