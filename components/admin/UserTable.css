@@ -1,50 +1,50 @@
 .user-table-container {
-  overflow-x: auto;
-  margin-top: 20px;
+    overflow-x: auto;
+    margin-top: 20px;
 }
 
 .user-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
 }
 
 .user-table th,
 .user-table td {
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  text-align: left;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
 }
 
 .user-name {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .avatar-placeholder {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #ccc;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
 }
 
 .edit-btn,
 .delete-btn {
-  padding: 6px 10px;
-  margin-right: 6px;
-  font-size: 13px;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
+    padding: 6px 10px;
+    margin-right: 6px;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .edit-btn {
-  background-color: #000;
-  color: white;
+    background-color: #000;
+    color: white;
 }
 
 .delete-btn {
-  background-color: #d60000;
-  color: white;
+    background-color: #d60000;
+    color: white;
 }

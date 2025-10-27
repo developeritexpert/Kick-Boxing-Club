@@ -1,18 +1,19 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-html, body {
-  height: 100%;
-  background: #f8f8f8;
-  margin: 0;
-  padding: 0;
+html,
+body {
+    height: 100%;
+    background: #f8f8f8;
+    margin: 0;
+    padding: 0;
 }
 
 #__next,
 main {
-  min-height: 100%;
+    min-height: 100%;
 }
 
 button,
 a {
-  transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }

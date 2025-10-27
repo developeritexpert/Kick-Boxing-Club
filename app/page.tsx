@@ -1,12 +1,10 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import LoginForm from '@/components/login/LoginForm'
+// import { useRouter } from 'next/navigation';
+import LoginForm from '@/components/login/LoginForm';
 
 export default function Page() {
-  // const router = useRouter();
+    // const router = useRouter();
 
-  return (
-    <LoginForm />
-  );
+    return <LoginForm />;
 }

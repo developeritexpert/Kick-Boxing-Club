@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 import './MovementLibrary.css';
 
 type Movement = {
@@ -50,25 +50,23 @@ const MovementLibrary: React.FC = () => {
             (filter === 'All' || m.category === filter),
     );
 
-	const handleDelete = async (id: string) => {
-		if (!confirm("Are you sure you want to delete this movement?")) return;
+    const handleDelete = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this movement?')) return;
 
-		try {
-			const res = await fetch(`/api/admin/movement/${id}`, { method: "DELETE" });
-			const data = await res.json();
+        try {
+            const res = await fetch(`/api/admin/movement/${id}`, { method: 'DELETE' });
+            const data = await res.json();
 
-			if (res.ok) {
-			toast.success("Movement deleted!");
-			setMovements((prev) => prev.filter((m) => m.id !== id));
-			} else {
-			toast.error(data.error || "Failed to delete movement.");
-			}
-		} catch (err) {
-			if (err instanceof Error) toast.error(err.message);
-		}
-	};
-
-
+            if (res.ok) {
+                toast.success('Movement deleted!');
+                setMovements((prev) => prev.filter((m) => m.id !== id));
+            } else {
+                toast.error(data.error || 'Failed to delete movement.');
+            }
+        } catch (err) {
+            if (err instanceof Error) toast.error(err.message);
+        }
+    };
 
     return (
         <div className="library-container">
@@ -94,7 +92,7 @@ const MovementLibrary: React.FC = () => {
 
             <div className="table-container">
                 {loading ? (
-                    <p>Loading movements...</p>
+                    <p className="loading">Loading movements...</p>
                 ) : (
                     <table className="movement-table">
                         <thead>
@@ -113,14 +111,21 @@ const MovementLibrary: React.FC = () => {
                                         <td>{m.category}</td>
                                         <td>{m.created_by}</td>
                                         <td>
-                                            <button className="edit-btn" onClick={() => router.push(`/admin/movement/${m.id}/edit`) }>Edit</button>
+                                            <button
+                                                className="edit-btn"
+                                                onClick={() =>
+                                                    router.push(`/admin/movement/${m.id}/edit`)
+                                                }
+                                            >
+                                                Edit
+                                            </button>
                                             {/* <button className="edit-btn"> Edit</button> */}
 
                                             <button
                                                 className="delete-btn"
                                                 onClick={() => handleDelete(m.id)}
                                             >
-                                                 Delete
+                                                Delete
                                             </button>
                                             {/* <button className="delete-btn"> Delete</button> */}
                                         </td>
