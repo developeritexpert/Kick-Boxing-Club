@@ -1,27 +1,24 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-import "./globals.css";
-import { Toaster } from "react-hot-toast";
-
+import './globals.css';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
-  title: "Kick Boxing Club Fitness",
-  description: "Kick Boxing Club Fitness",
+    title: 'Kick Boxing Club Fitness',
+    description: 'Kick Boxing Club Fitness',
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body>
-        {children}
-        <Toaster position="top-right" reverseOrder={false} />
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body>
+                {children}
+                <Toaster position="top-right" reverseOrder={false} />
+            </body>
+        </html>
+    );
 }
-
-

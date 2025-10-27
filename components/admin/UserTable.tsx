@@ -2,141 +2,138 @@
 
 import React, { useEffect, useState } from 'react';
 import './UserTable.css'; // optional styling
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 type User = {
-  user_id: string;
-  first_name: string;
-  last_name: string;
-  role: 'admin' | 'content_admin' | 'instructor';
-  email?: string;
+    user_id: string;
+    first_name: string;
+    last_name: string;
+    role: 'admin' | 'content_admin' | 'instructor';
+    email?: string;
 };
 
 export default function UserTable() {
-  const router = useRouter();
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
+    const [users, setUsers] = useState<User[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const res = await fetch('/api/admin/users');
+                if (!res.ok) throw new Error(res.statusText);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch('/api/admin/users');
-        if (!res.ok) throw new Error(res.statusText);
+                const dataObj = await res.json();
+                setUsers(dataObj.users);
+            } catch (err: unknown) {
+                let message = 'Unknown error';
+                if (err instanceof Error) {
+                    message = err.message;
+                }
+                setError(message);
+                console.error(err);
+                // setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        const dataObj = await res.json();
-        setUsers(dataObj.users); 
-      } catch (err: unknown) {
-        let message = 'Unknown error';
-        if (err instanceof Error) {
-          message = err.message;
+        fetchUsers();
+    }, []);
+
+    const getAssignedRoleText = (role: User['role']) => {
+        switch (role) {
+            case 'admin':
+                return 'Full access: Manage users, content, classes, payments';
+            case 'content_admin':
+                return 'Manage workouts, upload videos, moderate comments';
+            case 'instructor':
+                return 'Conduct classes, track member progress';
+            default:
+                return '-';
         }
-        setError(message);
-        console.error(err);
-        // setError(err.message);
-      } finally {
-        setLoading(false);
-      }
     };
 
-    fetchUsers();
-  }, []);
+    const handleDelete = async (userId: string) => {
+        if (!confirm('Are you sure you want to delete this user?')) return;
 
-  const getAssignedRoleText = (role: User['role']) => {
-    switch (role) {
-      case 'admin':
-        return 'Full access: Manage users, content, classes, payments';
-      case 'content_admin':
-        return 'Manage workouts, upload videos, moderate comments';
-      case 'instructor':
-        return 'Conduct classes, track member progress';
-      default:
-        return '-';
-    }
-  };
+        try {
+            const res = await fetch(`/api/admin/users/${userId}`, {
+                method: 'DELETE',
+            });
 
-  const handleDelete = async (userId: string) => {
-  if (!confirm('Are you sure you want to delete this user?')) return;
+            const data = await res.json();
 
-    try {
-      const res = await fetch(`/api/admin/users/${userId}`, {
-        method: 'DELETE',
-      });
+            if (!res.ok) throw new Error(data.error || 'Failed to delete user');
 
-      const data = await res.json();
+            setUsers((prev) => prev.filter((u) => u.user_id !== userId));
 
-      if (!res.ok) throw new Error(data.error || 'Failed to delete user');
+            toast.success('User deleted successfully');
+            router.push('/admin/users');
 
-      setUsers((prev) => prev.filter((u) => u.user_id !== userId));
+            // alert('User deleted successfully');
+        } catch (err: unknown) {
+            let message = 'Unknown error';
+            if (err instanceof Error) message = err.message;
+            toast.error(`Error deleting user`);
+            console.log(`Error deleting user: ${message}`);
+        }
+    };
 
-      toast.success('User deleted successfully');
-      router.push("/admin/users");
+    if (loading) return <p>Loading users...</p>;
+    if (error) return <p className="error">Error: {error}</p>;
 
-      // alert('User deleted successfully');
-    } catch (err: unknown) {
-      let message = 'Unknown error';
-      if (err instanceof Error) message = err.message;
-      toast.error(`Error deleting user`)
-      console.log(`Error deleting user: ${message}`);
-    }
-  };
+    return (
+        <div className="user-table-container">
+            <table className="user-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Assigned Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map((user) => (
+                        <tr key={user.user_id}>
+                            <td>{user.user_id}</td>
+                            <td>
+                                <div className="user-name">
+                                    <div className="avatar-placeholder" />
+                                    {user.first_name} {user.last_name}
+                                </div>
+                            </td>
+                            <td>{user.role}</td>
+                            <td>{getAssignedRoleText(user.role)}</td>
+                            <td>
+                                {/* <button className="edit-btn">Edit</button> */}
 
-  if (loading) return <p>Loading users...</p>;
-  if (error) return <p className="error">Error: {error}</p>;
+                                <button
+                                    className="edit-btn"
+                                    onClick={() => router.push(`/admin/users/${user.user_id}/edit`)}
+                                >
+                                    Edit
+                                </button>
 
-  return (
-    <div className="user-table-container">
-      <table className="user-table">
-        <thead>
-          <tr>
-            <th>User ID</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Assigned Role</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.user_id}>
-              <td>{user.user_id}</td>
-              <td>
-                <div className="user-name">
-                  <div className="avatar-placeholder" />
-                  {user.first_name} {user.last_name}
-                </div>
-              </td>
-              <td>{user.role}</td>
-              <td>{getAssignedRoleText(user.role)}</td>
-              <td>
-                {/* <button className="edit-btn">Edit</button> */}
+                                {/* <button className="delete-btn">Delete</button> */}
 
-                <button
-                  className="edit-btn"
-                  onClick={() => router.push(`/admin/users/${user.user_id}/edit`)}
-                >
-                  Edit
-                </button>
-
-                {/* <button className="delete-btn">Delete</button> */}
-
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDelete(user.user_id)}
-                >
-                  Delete
-                </button>
-
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+                                <button
+                                    className="delete-btn"
+                                    onClick={() => handleDelete(user.user_id)}
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 }

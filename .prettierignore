@@ -2,3 +2,62 @@ node_modules
 .next
 dist
 .env.local
+
+# Node & dependency folders
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build output
+.next
+out
+dist
+build
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Logs & temporary files
+*.log
+*.tmp
+
+# Coverage reports
+coverage
+
+# Public/static assets
+public/*
+!.prettierrc
+!.prettierignore
+
+# Generated files
+*.min.js
+*.min.css
+
+# TypeScript build artifacts
+*.tsbuildinfo
+
+# Mac / OS artifacts
+.DS_Store
+
+# Prisma / Supabase / other generated code
+prisma/migrations
+supabase/types
+supabase/functions
+
+# IDE folders
+.vscode
+.idea
+
+
+
+tsconfig.json
+README.md
+postcss.config.mjs
+package.json
+next.config.ts
+eslint.config.mjs

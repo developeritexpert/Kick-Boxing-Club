@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
-
     const { id } = await context.params;
 
     if (!id) {
@@ -20,7 +19,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
                     video_url,
                     video_provider,
                     category:category_id ( id, name )
-                `
+                `,
             )
             .eq('id', id)
             .single();
@@ -40,9 +39,6 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
     }
 }
 
-
-
-
 export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     interface MovementUpdate {
         name?: string;
@@ -59,18 +55,17 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
     if (!id) return NextResponse.json({ error: 'Movement ID required' }, { status: 400 });
 
     try {
-
         const formData = await req.formData();
 
-        const name = formData.get("name") as string;
-        const category_id = formData.get("category") as string;
-        const sub_category = formData.get("sub_category") as string;
-        const media = formData.get("media") as File | null;
-        const description = "test";
-        const video_provider = "cloudflare";
-        const video_id = "test";
-        const video_url = "test";
-        const created_by = "4f1a65e9-4bd8-4426-b4a8-bc2aae9784cc";
+        const name = formData.get('name') as string;
+        const category_id = formData.get('category') as string;
+        const sub_category = formData.get('sub_category') as string;
+        // const media = formData.get('media') as File | null;
+        const description = 'test';
+        const video_provider = 'cloudflare';
+        const video_id = 'test';
+        const video_url = 'test';
+        const created_by = '4f1a65e9-4bd8-4426-b4a8-bc2aae9784cc';
 
         const updateData: MovementUpdate = {
             name,
@@ -80,9 +75,8 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
             video_provider,
             video_id,
             video_url,
-            created_by
+            created_by,
         };
-
 
         Object.keys(updateData).forEach((key) => {
             if (updateData[key] === undefined || updateData[key] === null) {
@@ -91,9 +85,9 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
         });
 
         const { data, error } = await supabaseAdmin
-            .from("movements")
+            .from('movements')
             .update(updateData)
-            .eq("id", id)
+            .eq('id', id)
             .select()
             .single();
 
@@ -101,14 +95,14 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
 
         return NextResponse.json({ movement: data }, { status: 200 });
     } catch (error) {
-        console.error("PUT /api/admin/movement error:", error);
+        console.error('PUT /api/admin/movement error:', error);
 
         const message =
             error instanceof Error
                 ? error.message
-                : typeof error === "object"
-                    ? JSON.stringify(error)
-                    : String(error);
+                : typeof error === 'object'
+                  ? JSON.stringify(error)
+                  : String(error);
 
         return NextResponse.json({ error: message }, { status: 500 });
 
@@ -118,9 +112,6 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
         // );
     }
 }
-
-
-
 
 export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     const { id } = await context.params;

@@ -49,9 +49,8 @@ export default function EditMovementPage() {
                     console.log(`error fetching `);
                     console.log(err.message);
                 } else {
-                    toast.error("Unknown error occurred");
+                    toast.error('Unknown error occurred');
                 }
-
             } finally {
                 setLoading(false);
             }
@@ -63,13 +62,13 @@ export default function EditMovementPage() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch("/api/common/categories");
+                const res = await fetch('/api/common/categories');
                 const data = await res.json();
                 if (data.categories) {
                     setTags(data.categories);
                 }
             } catch (err) {
-                console.error("Error fetching tags:", err);
+                console.error('Error fetching tags:', err);
             }
         };
         fetchCategories();
@@ -96,7 +95,7 @@ export default function EditMovementPage() {
             // if (!res.ok) throw new Error(data.error || 'Failed to update movement');
 
             if (!res.ok) {
-                console.error("Server returned error:", data); 
+                console.error('Server returned error:', data);
                 throw new Error(data.error || 'Failed to update movement');
             }
 
@@ -107,9 +106,8 @@ export default function EditMovementPage() {
                 toast.error(err.message);
                 console.log(`error fetching `);
                 console.log(err.message);
-            }
-            else {
-                toast.error("Unknown error occurred");
+            } else {
+                toast.error('Unknown error occurred');
             }
         } finally {
             setSaving(false);
@@ -118,20 +116,26 @@ export default function EditMovementPage() {
 
     // delete movement
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this movement?")) return;
+        if (!confirm('Are you sure you want to delete this movement?')) return;
 
         try {
-            const res = await fetch(`/api/admin/movement/${id}`, { method: "DELETE" });
+            const res = await fetch(`/api/admin/movement/${id}`, { method: 'DELETE' });
             const data = await res.json();
 
             if (res.ok) {
-                toast.success("Movement deleted!");
+                toast.success('Movement deleted!');
                 // setMovements((prev) => prev.filter((m) => m.id !== id));
             } else {
-                toast.error(data.error || "Failed to delete movement.");
+                toast.error(data.error || 'Failed to delete movement.');
             }
         } catch (err) {
             if (err instanceof Error) toast.error(err.message);
+        }
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setMedia(e.target.files[0]);
         }
     };
 
@@ -164,7 +168,7 @@ export default function EditMovementPage() {
                         >
                             {tags.length > 0 ? (
                                 tags.map((tag) => (
-                                    <option key={tag.id} value={tag.id} >
+                                    <option key={tag.id} value={tag.id}>
                                         {tag.name || ''}
                                     </option>
                                 ))
@@ -173,7 +177,6 @@ export default function EditMovementPage() {
                             )}
                         </select>
                     </div>
-
 
                     <div className="form-group">
                         <label>Sub-category</label>
@@ -185,7 +188,7 @@ export default function EditMovementPage() {
                         />
                     </div>
 
-                    <div className="form-group full-width">
+                    {/* <div className="form-group full-width">
                         <label>Upload Photos and Videos</label>
                         <div className="upload-box">
                             <input
@@ -194,6 +197,26 @@ export default function EditMovementPage() {
                                 accept="image/*,video/*"
                             />
                             <p>{media ? media.name : 'Select file to upload or drag here'}</p>
+                        </div>
+                    </div> */}
+
+                    <div className="form-group full-width">
+                        <div className="upload-box">
+                            <input
+                                type="file"
+                                accept="video/*"
+                                id="videoUpload"
+                                onChange={handleFileChange}
+                            />
+                            <label htmlFor="videoUpload" className="upload-label">
+                                <div className="upload-icon">⬆️</div>
+                                <p>
+                                    Select to Upload
+                                    <br />
+                                    or drag your video here
+                                </p>
+                            </label>
+                            {media && <p className="file-name">{media.name}</p>}
                         </div>
                     </div>
                 </div>
