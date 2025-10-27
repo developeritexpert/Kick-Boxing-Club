@@ -10,20 +10,36 @@ const CreateMovement: React.FC = () => {
   const [video, setVideo] = useState<File | null>(null);
 
   // Fetch categories (tags) from API
+  // useEffect(() => {
+  //   const fetchTags = async () => {
+  //     try {
+  //       const res = await fetch("/api/common/tags");
+  //       const data = await res.json();
+  //       if (data.tags) {
+  //         setTags(data.tags);
+  //         setCategory(data.tags[0]?.id || "");
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching tags:", err);
+  //     }
+  //   };
+  //   fetchTags();
+  // }, []);
+
   useEffect(() => {
-    const fetchTags = async () => {
+    const fetchCategories = async () => {
       try {
-        const res = await fetch("/api/common/tags");
+        const res = await fetch("/api/common/categories");
         const data = await res.json();
-        if (data.tags) {
-          setTags(data.tags);
-          setCategory(data.tags[0]?.id || "");
+        if (data.categories) {
+          setTags(data.categories);
+          setCategory(data.categories[0]?.id || "");
         }
       } catch (err) {
         console.error("Error fetching tags:", err);
       }
     };
-    fetchTags();
+    fetchCategories();
   }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -17,6 +17,7 @@ export async function POST(req: Request) {
     const video_id = "test";
     const video_url = "test";
     const created_by = "4f1a65e9-4bd8-4426-b4a8-bc2aae9784cc";
+    const category_id = formData.get("category") as string;
 
     
     // CLOUDFLARE
@@ -66,6 +67,7 @@ export async function POST(req: Request) {
     //     );
     //   }
     // }
+    
 
 
     const { data, error } = await supabaseAdmin.from("movements").insert([
@@ -76,6 +78,7 @@ export async function POST(req: Request) {
         video_id,
         video_url,
         created_by,
+        category_id
       },
     ]);
 
