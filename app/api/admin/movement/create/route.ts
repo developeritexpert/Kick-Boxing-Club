@@ -2,93 +2,54 @@
 
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { CLOUDFLARE } from '@/lib/cloudflare';
 
 export async function POST(req: Request) {
     try {
         const formData = await req.formData();
 
         const movementName = formData.get('movementName') as string;
-        // const category = formData.get("category") as string;
-        // const videoFile = formData.get("video") as File | null;
-
-        const description = 'test';
-        const video_provider = 'cloudflare';
-        const video_id = 'test';
-        const video_url = 'test';
-        const created_by = '4f1a65e9-4bd8-4426-b4a8-bc2aae9784cc';
         const category_id = formData.get('category') as string;
+        const created_by = 'ed14d193-b06a-4961-a84e-d8341490abc0';
+        const video_provider = 'cloudflare';
+        const description = 'cloudFlare upload test';
 
-        // CLOUDFLARE
-        // if (videoFile) {
-        //   try {
-        //     const cloudflareAccountId = process.env.CLOUDFLARE_ACCOUNT_ID!;
-        //     const cloudflareToken = process.env.CLOUDFLARE_API_TOKEN!;
-        //
-        //     // Create a direct upload URL
-        //     const directUploadRes = await fetch(
-        //       `https://api.cloudflare.com/client/v4/accounts/${cloudflareAccountId}/stream/direct_upload`,
-        //       {
-        //         method: "POST",
-        //         headers: {
-        //           Authorization: `Bearer ${cloudflareToken}`,
-        //           "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({
-        //           maxDurationSeconds: 600, // optional
-        //           meta: { name: movementName },
-        //         }),
-        //       }
-        //     );
-        //
-        //     const directUploadData = await directUploadRes.json();
-        //     const uploadURL = directUploadData.result.uploadURL;
-        //
-        //     //Upload the file to that URL
-        //     const uploadRes = await fetch(uploadURL, {
-        //       method: "PUT",
-        //       body: videoFile,
-        //     });
-        //
-        //     if (!uploadRes.ok) {
-        //       throw new Error("Cloudflare upload failed");
-        //     }
-        //
-        //     //Save the Cloudflare video UID and URL
-        //     video_id = directUploadData.result.uid;
-        //     video_url = `https://videodelivery.net/${video_id}/manifest/video.m3u8`;
-        //
-        //   } catch (cloudflareError: any) {
-        //     console.error("Cloudflare upload failed:", cloudflareError);
-        //     return NextResponse.json(
-        //       { error: "Failed to upload to Cloudflare Stream" },
-        //       { status: 500 }
-        //     );
-        //   }
-        // }
+        const cfReservedContainer = await CLOUDFLARE.createDirectUpload(600);
+        const video_uid = cfReservedContainer.uid;
+        const upload_url = cfReservedContainer.uploadURL;
 
-        const { data, error } = await supabaseAdmin.from('movements').insert([
+        // video view url 
+        const video_url = `https://iframe.videodelivery.net/${video_uid}`;
+
+        const { data, error } = await supabaseAdmin.from("movements").insert([
             {
                 name: movementName,
                 description,
                 video_provider,
-                video_id,
+                video_id: video_uid,
                 video_url,
                 created_by,
                 category_id,
+                thumbnail_url: `https://videodelivery.net/${video_uid}/thumbnails/thumbnail.jpg`
             },
         ]);
 
         if (error) {
+            console.error("Supabase insert error:", error);
             return NextResponse.json({ error: error.message }, { status: 500 });
         }
 
         return NextResponse.json(
-            { success: true, message: 'Movement created successfully', data },
+            {
+                success: true,
+                message: 'Movement created successfully',
+                uploadURL: upload_url,
+                video_uid,
+            },
             { status: 200 },
         );
     } catch (error) {
         console.error('Error creating movement:', error);
-        // return NextResponse.json({ error: err.message }, { status: 500 });
         return NextResponse.json(
             { error: error instanceof Error ? error.message : String(error) },
             { status: 500 },
