@@ -72,7 +72,8 @@ export async function POST(req: NextRequest) {
         }
 
         const video_uid = video.uid || video.id;
-        const duration = video.duration;
+        // const duration = video.duration;
+        const duration = Math.round(video.duration || 0);
         const thumbnail_url =
             video.thumbnail ||
             `https://videodelivery.net/${video_uid}/thumbnails/thumbnail.jpg`;
