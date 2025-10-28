@@ -28,6 +28,7 @@ export default function EditMovementPage() {
     const [category, setCategory] = useState('');
     const [subCategory, setSubCategory] = useState('');
     const [media, setMedia] = useState<File | null>(null);
+    const [dragActive, setDragActive] = useState(false);
 
     const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
 
@@ -46,7 +47,7 @@ export default function EditMovementPage() {
             } catch (err: unknown) {
                 if (err instanceof Error) {
                     toast.error(err.message);
-                    console.log(`error fetching `);
+                    console.log(`error fetchMovement `);
                     console.log(err.message);
                 } else {
                     toast.error('Unknown error occurred');
@@ -74,45 +75,115 @@ export default function EditMovementPage() {
         fetchCategories();
     }, []);
 
+
+    // server side video upload
+    // const handleSubmit = async (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     setSaving(true);
+
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append('name', name);
+    //         formData.append('category', category);
+    //         formData.append('sub_category', subCategory);
+    //         if (media) formData.append('media', media);
+
+    //         const res = await fetch(`/api/admin/movement/${id}`, {
+    //             method: 'PUT',
+    //             body: formData,
+    //         });
+
+    //         const data = await res.json();
+
+    //         if (!res.ok) {
+    //             console.error('Server returned error:', data);
+    //             throw new Error(data.error || 'Failed to update movement');
+    //         }
+
+    //         toast.success('Movement updated successfully!');
+    //         router.push('/admin/movement/library');
+    //     } catch (err: unknown) {
+    //         if (err instanceof Error) {
+    //             toast.error(err.message);
+    //             console.log(`error handleSubmit `);
+    //             console.log(err.message);
+    //         } else {
+    //             toast.error('Unknown error occurred');
+    //         }
+    //     } finally {
+    //         setSaving(false);
+    //     }
+    // };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // toast('submit function is not complete');
         setSaving(true);
 
         try {
+
             const formData = new FormData();
             formData.append('name', name);
             formData.append('category', category);
-            formData.append('sub_category', subCategory);
-            if (media) formData.append('media', media);
+            formData.append('subCategory', subCategory);
 
-            const res = await fetch(`/api/admin/movement/${id}`, {
-                method: 'PUT',
-                body: formData,
+
+            let uploadURL, video_uid;
+
+            if (media) {
+                const res = await fetch(`/api/admin/movement/${id}?upload=true`, {
+                    method: 'PUT',
+                });
+                const data = await res.json();
+
+                if (!res.ok) throw new Error(data.error || 'Failed to create upload URL');
+
+                uploadURL = data.uploadURL;
+                video_uid = data.video_uid;
+
+
+                const uploadForm = new FormData();
+                uploadForm.append('file', media);
+
+                const uploadRes = await fetch(uploadURL, {
+                    method: 'POST',
+                    body: uploadForm,
+                });
+
+                if (!uploadRes.ok) throw new Error('Video upload failed');
+            }
+
+
+            const finalBody = JSON.stringify({
+                name,
+                category,
+                subCategory,
+                ...(video_uid && {
+                    video_id: video_uid,
+                    video_url: `https://iframe.videodelivery.net/${video_uid}`,
+                    thumbnail_url: `https://videodelivery.net/${video_uid}/thumbnails/thumbnail.jpg`,
+                }),
             });
 
-            const data = await res.json();
-            // if (!res.ok) throw new Error(data.error || 'Failed to update movement');
+            const updateRes = await fetch(`/api/admin/movement/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: finalBody,
+            });
 
-            if (!res.ok) {
-                console.error('Server returned error:', data);
-                throw new Error(data.error || 'Failed to update movement');
-            }
+            const updateData = await updateRes.json();
+            if (!updateRes.ok) throw new Error(updateData.error || 'Failed to update movement');
 
             toast.success('Movement updated successfully!');
             router.push('/admin/movement/library');
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                toast.error(err.message);
-                console.log(`error fetching `);
-                console.log(err.message);
-            } else {
-                toast.error('Unknown error occurred');
-            }
+            console.error(err);
+            if (err instanceof Error) toast.error(err.message);
+            else toast.error('Unknown error occurred');
         } finally {
             setSaving(false);
         }
     };
+
 
     // delete movement
     const handleDelete = async (id: string) => {
@@ -137,6 +208,28 @@ export default function EditMovementPage() {
         if (e.target.files && e.target.files[0]) {
             setMedia(e.target.files[0]);
         }
+    };
+
+    const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(false);
+        const file = e.dataTransfer.files?.[0];
+        if (file && file.type.startsWith("video/")) {
+            setMedia(file);
+        }
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(false);
     };
 
     if (loading) return <p>Loading movement...</p>;
@@ -188,18 +281,6 @@ export default function EditMovementPage() {
                         />
                     </div>
 
-                    {/* <div className="form-group full-width">
-                        <label>Upload Photos and Videos</label>
-                        <div className="upload-box">
-                            <input
-                                type="file"
-                                onChange={(e) => setMedia(e.target.files?.[0] || null)}
-                                accept="image/*,video/*"
-                            />
-                            <p>{media ? media.name : 'Select file to upload or drag here'}</p>
-                        </div>
-                    </div> */}
-
                     <div className="form-group full-width">
                         <div className="upload-box">
                             <input
@@ -208,7 +289,13 @@ export default function EditMovementPage() {
                                 id="videoUpload"
                                 onChange={handleFileChange}
                             />
-                            <label htmlFor="videoUpload" className="upload-label">
+                            <label
+                                htmlFor="videoUpload"
+                                className="upload-label"
+                                onDrop={handleDrop}
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                            >
                                 <div className="upload-icon">⬆️</div>
                                 <p>
                                     Select to Upload

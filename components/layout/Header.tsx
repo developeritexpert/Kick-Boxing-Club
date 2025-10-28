@@ -16,15 +16,15 @@ export default function Header({ onToggle }: { onToggle?: () => void }) {
             <div className="header-title">Welcome to Dashboard, John Doe!</div>
 
             <div className="header-right">
-                {/* <img src="/logo.png" alt="Kickboxing Club" className="header-logo" /> */}
-                <Image
+                <img src="/logo.png" alt="Kickboxing Club" className="header-logo" />
+                {/* <Image
                     src="/logo.png"
                     alt="Kickboxing Club"
                     width={72}
                     height={36}
                     className="header-logo"
                     priority
-                />
+                /> */}
             </div>
         </header>
     );
