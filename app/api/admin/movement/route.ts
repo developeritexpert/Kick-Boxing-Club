@@ -13,7 +13,10 @@ export async function GET() {
         name,
         description,
         created_by,
-        category:category_id ( id, name )
+        category:category_id ( id, name ),
+        video_id,
+        thumbnail_url,
+        video_duration
       `,
             )
             .order('created_at', { ascending: false });
@@ -21,6 +24,14 @@ export async function GET() {
         if (error) {
             return NextResponse.json({ error: error.message }, { status: 500 });
         }
+
+        if (!data || data.length === 0) {
+      return NextResponse.json(
+        { success: true, message: "No movements found", data: [] },
+        { status: 200 }
+      );
+    }
+
 
         const userIds = [...new Set(data.map((m) => m.created_by).filter(Boolean))];
 
@@ -41,6 +52,9 @@ export async function GET() {
             description: string | null;
             category: { id: string; name: string } | { id: string; name: string }[];
             created_by: string;
+            video_id: string | null;
+            thumbnail_url: string | null;
+            video_duration: number | null;
         };
 
         const formattedData = data.map((m: MovementRow) => {
@@ -59,6 +73,9 @@ export async function GET() {
                 created_by: user
                     ? `${user.first_name ?? ''} ${user.last_name ?? ''}`.trim()
                     : 'Unknown',
+                video_id: m.video_id ?? null,
+                thumbnail_url: m.thumbnail_url ?? null,
+                duration: m.video_duration ?? null,
             };
         });
 

@@ -257,7 +257,14 @@ export default function EditMovementPage() {
                         <label>Category</label>
                         <select
                             value={category || ''}
-                            onChange={(e) => setCategory(e.target.value)}
+                            // onChange={(e) => setCategory(e.target.value)}
+                            onChange={(e) => {
+                                const selected = e.target.value;
+                                setCategory(selected);
+
+                                const selectedTag = tags.find((t) => t.id === selected);
+                                if (selectedTag?.name !== 'HIIT') setSubCategory('');
+                            }}
                         >
                             {tags.length > 0 ? (
                                 tags.map((tag) => (
@@ -271,7 +278,25 @@ export default function EditMovementPage() {
                         </select>
                     </div>
 
-                    <div className="form-group">
+
+                    {tags.find((t) => t.id === category)?.name === 'HIIT' && (
+                        <div className="form-group">
+                            <label>Sub-category</label>
+                            <select
+                                value={subCategory || ''}
+                                onChange={(e) => setSubCategory(e.target.value)}
+                                required
+                            >
+                                <option value="">Select sub-category</option>
+                                <option value="Upper Body">Upper Body</option>
+                                <option value="Lower Body">Lower Body</option>
+                                <option value="Full Body">Full Body</option>
+                                <option value="Core">Core</option>
+                            </select>
+                        </div>
+                    )}
+
+                    {/* <div className="form-group">
                         <label>Sub-category</label>
                         <input
                             value={subCategory || ''}
@@ -279,7 +304,7 @@ export default function EditMovementPage() {
                             required
                             placeholder="Enter sub-category"
                         />
-                    </div>
+                    </div> */}
 
                     <div className="form-group full-width">
                         <div className="upload-box">
