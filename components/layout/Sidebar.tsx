@@ -15,11 +15,11 @@ type Props = {
 const menu = [
     { key: 'dashboard', label: 'Dashboard', icon: '🏠', href: '/admin' },
     { key: 'users', label: 'User Management', icon: '👤', href: '/admin/users' },
-    { key: 'workouts', label: 'Workout Library', icon: '📚', href: '/admin/workouts' },
+    // { key: 'workouts', label: 'Workout Library', icon: '📚', href: '/admin/workouts' },
     { key: 'movement', label: 'Create a Movement', icon: '🏠', href: '/admin/movement/create' },
     { key: 'momentLibrary', label: 'Movement Library', icon: '📚', href: '/admin/movement/library' },
-    { key: 'workout', label: 'Create a Workout', icon: '💪', href: '/admin/create' },
-    { key: 'workoutLibrary', label: 'Workout Library', icon: '📚', href: '/admin/workout/library' },
+    { key: 'workout', label: 'Create a Workout', icon: '💪', href: '/admin/workouts/create' },
+    { key: 'workoutLibrary', label: 'Workout Library', icon: '📚', href: '/admin/workouts' },
     { key: 'favorites', label: 'My Favorites', icon: '💪', href: '/admin/favorites' },
     { key: 'recent', label: 'Recent Workouts', icon: '🕒', href: '/admin/recent' },
     // { key: "builder", label: "Workout Builder", icon: "🧩", href: "/admin/builder" },
@@ -59,8 +59,8 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
             <div className="sidebar-top">
                 <div className="sidebar-brand">
                     {/* <div className="hamburger" onClick={() => setCollapsed(!collapsed)} title="Toggle sidebar">
-            ☰
-          </div> */}
+                        ☰
+                    </div> */}
                     {!collapsed && <div className="brand-text">All Locations</div>}
                 </div>
             </div>
@@ -68,10 +68,12 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
             <nav className="sidebar-nav">
                 <ul>
                     {menu.map((m) => {
+
                         const isActive =
                             m.href === '/admin'
                                 ? pathname === '/admin'
-                                : pathname.startsWith(m.href);
+                                : pathname === m.href;
+
                         return (
                             <li key={m.key} className={`nav-item ${isActive ? 'active' : ''}`}>
                                 <Link href={m.href} className="nav-link">

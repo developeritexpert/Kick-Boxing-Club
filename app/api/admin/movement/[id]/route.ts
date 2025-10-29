@@ -216,19 +216,60 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
 
     if (!id) return NextResponse.json({ error: 'Movement ID required' }, { status: 400 });
 
-    try {
-        const { error } = await supabaseAdmin.from('movements').delete().eq('id', id);
+    // try {
+    //     const { error } = await supabaseAdmin.from('movements').delete().eq('id', id);
 
-        if (error) throw error;
+    //     if (error) throw error;
+
+    //     return NextResponse.json(
+    //         { status: 'ok', message: 'Movement deleted successfully' },
+    //         { status: 200 },
+    //     );
+    // } catch (error) {
+    //     return NextResponse.json(
+    //         { error: error instanceof Error ? error.message : String(error) },
+    //         { status: 500 },
+    //     );
+    // }
+
+
+    try {
+        const { data: existing, error: fetchError } = await supabaseAdmin
+            .from('movements')
+            .select('id, video_id')
+            .eq('id', id)
+            .single();
+
+        if (fetchError || !existing)
+            return NextResponse.json(
+                { error: fetchError?.message || 'Movement not found' },
+                { status: 404 }
+            );
+
+        if (existing.video_id) {
+            try {
+                await CLOUDFLARE.deleteVideoFromCloudflare(existing.video_id);
+            } catch (error) {
+                console.error('Cloudflare video delete failed:', error);
+            }
+        }
+
+        const { error: deleteError } = await supabaseAdmin
+            .from('movements')
+            .delete()
+            .eq('id', id);
+
+        if (deleteError) throw deleteError;
 
         return NextResponse.json(
             { status: 'ok', message: 'Movement deleted successfully' },
-            { status: 200 },
+            { status: 200 }
         );
     } catch (error) {
+        console.error('Movement delete error:', error);
         return NextResponse.json(
             { error: error instanceof Error ? error.message : String(error) },
-            { status: 500 },
+            { status: 500 }
         );
     }
 }
