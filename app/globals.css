@@ -8,10 +8,10 @@ body {
     padding: 0;
 }
 
-#__next,
+/* #__next,
 main {
     min-height: 100%;
-}
+} */
 
 button,
 a {
