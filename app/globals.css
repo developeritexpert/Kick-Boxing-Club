@@ -8,8 +8,7 @@ body {
     padding: 0;
 }
 
-#__next,
-main {
+#__next{
     min-height: 100%;
 }
 

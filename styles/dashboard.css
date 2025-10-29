@@ -212,7 +212,6 @@ body,
 .content-area {
     padding: 28px 34px;
     flex: 1;
-    overflow-y: auto;
 }
 
 /* small spacer to align title when header present */
@@ -304,8 +303,8 @@ body,
 .dashboard-footer {
     text-align: center;
     color: #000000;
-    background: #fff;
-    border-top: 1px solid #eee;
+    background: #FBFBF9;
+    border-top: 1px solid #0000001A;
     padding: 40px 22px;
     font-size: 16px;
     font-weight: 400;
