@@ -7,6 +7,7 @@ import './CreateMovement.css';
 const CreateMovement: React.FC = () => {
     const [movementName, setMovementName] = useState('');
     const [category, setCategory] = useState('');
+    const [subCategory, setSubCategory] = useState('');
     const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
     const [video, setVideo] = useState<File | null>(null);
     const [dragActive, setDragActive] = useState(false);
@@ -65,6 +66,8 @@ const CreateMovement: React.FC = () => {
         const formData = new FormData();
         formData.append('movementName', movementName);
         formData.append('category', category);
+
+        if (subCategory) formData.append('subCategory', subCategory);
 
         // if (video) formData.append('video', video);
         // console.log("Form Data :");
@@ -143,6 +146,29 @@ const CreateMovement: React.FC = () => {
                             <option disabled>Loading...</option>
                         )}
                     </select>
+
+                    {(() => {
+                        const selectedTag = tags.find((t) => t.id === category);
+                        if (selectedTag?.name === 'HIIT') {
+                            return (
+                                <>
+                                    <label>Sub-category</label>
+                                    <select
+                                        value={subCategory}
+                                        onChange={(e) => setSubCategory(e.target.value)}
+                                        required
+                                    >
+                                        <option value="">Select sub-category</option>
+                                        <option value="Upper Body">Upper Body</option>
+                                        <option value="Lower Body">Lower Body</option>
+                                        <option value="Full Body">Full Body</option>
+                                        <option value="Core">Core</option>
+                                    </select>
+                                </>
+                            );
+                        }
+                        return null;
+                    })()}
 
                     <label>Upload Video</label>
                     <div className="upload-box">
