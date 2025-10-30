@@ -85,7 +85,7 @@ span.workout-hrt-icn img {
 .workout-exercises {
     font-weight: 400;
     font-size: 14px;
-    line-height: 100%;
+    line-height: 1.2;
     color: #b40200;
     margin-top: 10px;
 }
@@ -105,7 +105,7 @@ span.workout-hrt-icn img {
 .workout-title {
     font-weight: 500;
     font-size: 18px;
-    line-height: 100%;
+    line-height: 1.2;
     margin-right: 12px;
     color: #000000;
 }
@@ -147,7 +147,7 @@ span.workout-hrt-icn img {
     font-size: 28px;
     font-weight: 700;
     margin-bottom: 9px;
-    line-height: 100%;
+    line-height: 1.2;
 }
 
 .workout-difficulty {
@@ -155,7 +155,7 @@ span.workout-hrt-icn img {
     text-transform: capitalize;
     font-size: 14px;
     font-weight: 400;
-    line-height: 100%;
+    line-height: 1.2;
 }
 
 /* Responsive Design */
@@ -253,7 +253,7 @@ span.workout-hrt-icn img {
     color: #000000;
     font-weight: 400;
     font-size: 14px;
-    line-height: 100%;
+    line-height: 1.2;
 }
 
 .search-input::placeholder {
@@ -307,4 +307,51 @@ span.workout-hrt-icn img {
     border: 0.8px solid #0000000a;
     border-radius: 50%;
     cursor: pointer;
+}
+@media(max-width:1399px){
+    .workout-title {
+    color: #000;
+    margin-right: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2
+    ;
+}
+.workout-exercises {
+
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+.add-workout-btn {
+    padding: 12px 13px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.workout-duration {
+    color: #000;
+    margin-bottom: 7px;
+    font-size: 22px;;
+    line-height: 1.2;
+}
+.workout-header {
+  
+    margin-bottom: 7px;
+
+}
+span.workout-hrt-icn img {
+    width: 29px;
+    height: 24px;
+}
+.workout-card {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    padding: 22px 22px;
+    transition: transform .3s;
+}
+.search-box {
+    max-width: 274px;
+  
+}
 }
