@@ -25,10 +25,14 @@ const CreateWorkout: React.FC = () => {
     const [movements, setMovements] = useState<Movement[]>([]);
     const [boxingMovements, setBoxingMovements] = useState<SelectedMovement[]>([]);
     const [kickboxingMovements, setKickboxingMovements] = useState<SelectedMovement[]>([]);
+    const [hiitMovements, setHiitMovements] = useState<SelectedMovement[]>([]);
     const [loading, setLoading] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
-    const [currentCategory, setCurrentCategory] = useState<'boxing' | 'kickboxing' | null>(null);
+    const [currentCategory, setCurrentCategory] = useState<'boxing' | 'kickboxing' | 'hiit' | null>(null);
     const [tempSelected, setTempSelected] = useState<SelectedMovement[]>([]);
+    const [workoutClass, setworkoutClass] = useState('');
+
+    const MAX_MOVEMENTS_PER_CATEGORY = 5;
 
     useEffect(() => {
         const fetchMovements = async () => {
@@ -48,12 +52,12 @@ const CreateWorkout: React.FC = () => {
         fetchMovements();
     }, []);
 
-    const openPopup = (category: 'boxing' | 'kickboxing') => {
+    const openPopup = (category: 'boxing' | 'kickboxing' | 'hiit') => {
         setCurrentCategory(category);
-        // Pre-load existing selections for this category
-        const existingSelections = category === 'boxing'
-            ? boxingMovements
-            : kickboxingMovements;
+        const existingSelections = 
+            category === 'boxing' ? boxingMovements :
+            category === 'kickboxing' ? kickboxingMovements :
+            hiitMovements;
         setTempSelected([...existingSelections]);
         setShowPopup(true);
     };
@@ -68,10 +72,12 @@ const CreateWorkout: React.FC = () => {
         setTempSelected(prev => {
             const exists = prev.find(m => m.id === movement.id);
             if (exists) {
-                // Remove from selection
                 return prev.filter(m => m.id !== movement.id);
             } else {
-                // Add to selection with next order number
+                if (prev.length >= MAX_MOVEMENTS_PER_CATEGORY) {
+                    toast.error(`Maximum ${MAX_MOVEMENTS_PER_CATEGORY} movements allowed per category`);
+                    return prev;
+                }
                 return [...prev, { ...movement, order: prev.length + 1 }];
             }
         });
@@ -82,18 +88,24 @@ const CreateWorkout: React.FC = () => {
 
         if (currentCategory === 'boxing') {
             setBoxingMovements(tempSelected);
-        } else {
+        } else if (currentCategory === 'kickboxing') {
             setKickboxingMovements(tempSelected);
+        } else {
+            setHiitMovements(tempSelected);
         }
 
         closePopup();
-        toast.success(`${currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1)} movements updated`);
+        const categoryName = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+        toast.success(`${categoryName} movements updated`);
     };
 
-    const handleMoveUp = (category: 'boxing' | 'kickboxing', index: number) => {
+    const handleMoveUp = (category: 'boxing' | 'kickboxing' | 'hiit', index: number) => {
         if (index === 0) return;
 
-        const setter = category === 'boxing' ? setBoxingMovements : setKickboxingMovements;
+        const setter = 
+            category === 'boxing' ? setBoxingMovements :
+            category === 'kickboxing' ? setKickboxingMovements :
+            setHiitMovements;
 
         setter(prev => {
             const updated = [...prev];
@@ -102,10 +114,13 @@ const CreateWorkout: React.FC = () => {
         });
     };
 
-    const handleMoveDown = (category: 'boxing' | 'kickboxing', index: number, length: number) => {
+    const handleMoveDown = (category: 'boxing' | 'kickboxing' | 'hiit', index: number, length: number) => {
         if (index === length - 1) return;
 
-        const setter = category === 'boxing' ? setBoxingMovements : setKickboxingMovements;
+        const setter = 
+            category === 'boxing' ? setBoxingMovements :
+            category === 'kickboxing' ? setKickboxingMovements :
+            setHiitMovements;
 
         setter(prev => {
             const updated = [...prev];
@@ -114,8 +129,11 @@ const CreateWorkout: React.FC = () => {
         });
     };
 
-    const removeMovement = (category: 'boxing' | 'kickboxing', movementId: string) => {
-        const setter = category === 'boxing' ? setBoxingMovements : setKickboxingMovements;
+    const removeMovement = (category: 'boxing' | 'kickboxing' | 'hiit', movementId: string) => {
+        const setter = 
+            category === 'boxing' ? setBoxingMovements :
+            category === 'kickboxing' ? setKickboxingMovements :
+            setHiitMovements;
 
         setter(prev => {
             const filtered = prev.filter(m => m.id !== movementId);
@@ -128,70 +146,134 @@ const CreateWorkout: React.FC = () => {
         setDescription('');
         setLocation('');
         setFocus('');
+        setworkoutClass('');
         setBoxingMovements([]);
         setKickboxingMovements([]);
+        setHiitMovements([]);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        alert('workout saved');
+        if (!name.trim()) {
+            toast.error('Workout name is required');
+            return;
+        }
 
-        // if (!name.trim()) {
-        //     toast.error('Workout name is required');
-        //     return;
-        // }
+        const allMovements = [...boxingMovements, ...kickboxingMovements, ...hiitMovements];
 
-        // const allMovements = [...boxingMovements, ...kickboxingMovements];
+        if (allMovements.length === 0) {
+            toast.error('Please select at least one movement');
+            return;
+        }
 
-        // if (allMovements.length === 0) {
-        //     toast.error('Please select at least one movement');
-        //     return;
-        // }
+        setLoading(true);
+        try {
+            const res = await fetch('/api/admin/workout/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name,
+                    description,
+                    location,
+                    focus,
+                    workoutClass,
+                    movements: allMovements.map((m, index) => ({
+                        id: m.id,
+                        order: index + 1,
+                        duration: m.duration || 30,
+                        rest_after: 30,
+                    })),
+                }),
+            });
 
-        // setLoading(true);
-        // try {
-        //     const res = await fetch('/api/admin/workout', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({
-        //             name,
-        //             description,
-        //             location,
-        //             focus,
-        //             movements: allMovements.map((m, index) => ({
-        //                 id: m.id,
-        //                 order: index + 1,
-        //                 duration: m.duration || 30,
-        //                 rest_after: 30,
-        //             })),
-        //         }),
-        //     });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to create workout');
 
-        //     const data = await res.json();
-        //     if (!res.ok) throw new Error(data.error || 'Failed to create workout');
-
-        //     toast.success('Workout created successfully!');
-        //     handleCancel();
-        // } catch (err) {
-        //     const message =
-        //         err instanceof Error ? err.message : 'Something went wrong';
-        //     toast.error(message);
-        // } finally {
-        //     setLoading(false);
-        // }
+            toast.success('Workout created successfully!');
+            handleCancel();
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Something went wrong';
+            toast.error(message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const filteredMovements = currentCategory
         ? movements.filter(m => m.category.toLowerCase() === currentCategory.toLowerCase())
         : [];
 
+    const renderCategoryBox = (
+        category: 'boxing' | 'kickboxing' | 'hiit',
+        title: string,
+        selectedMovements: SelectedMovement[]
+    ) => (
+        <div className="class-type-box">
+            <div className="class-header">
+                <h4>{title}</h4>
+                <button
+                    type="button"
+                    className="add-btn"
+                    onClick={() => openPopup(category)}
+                >
+                    + Add
+                </button>
+            </div>
+            <div className="movement-list">
+                {selectedMovements.length === 0 ? (
+                    <p className="empty-text">No movements selected</p>
+                ) : (
+                    <>
+                        <p style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>
+                            {selectedMovements.length}/{MAX_MOVEMENTS_PER_CATEGORY} movements
+                        </p>
+                        {selectedMovements.map((m, idx) => (
+                            <div key={m.id} className="movement-item-with-controls">
+                                <span className="movement-name">
+                                    {idx + 1}. {m.name}
+                                </span>
+                                <div className="movement-controls">
+                                    <button
+                                        type="button"
+                                        className="arrow-btn"
+                                        onClick={() => handleMoveUp(category, idx)}
+                                        disabled={idx === 0}
+                                        title="Move up"
+                                    >
+                                        ↑
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="arrow-btn"
+                                        onClick={() => handleMoveDown(category, idx, selectedMovements.length)}
+                                        disabled={idx === selectedMovements.length - 1}
+                                        title="Move down"
+                                    >
+                                        ↓
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="remove-btn"
+                                        onClick={() => removeMovement(category, m.id)}
+                                        title="Remove"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </>
+                )}
+            </div>
+        </div>
+    );
+
     return (
         <div className="create-workout-container">
             <h2>Create New Workout</h2>
 
             <div className="workout-layout">
-                {/* Left Section - Form */}
                 <div className="left-section">
                     <form className="create-workout-form" onSubmit={handleSubmit}>
                         <div className="form-group">
@@ -209,16 +291,20 @@ const CreateWorkout: React.FC = () => {
                                 <label>Location</label>
                                 <select value={location} onChange={(e) => setLocation(e.target.value)}>
                                     <option value="">Select Location</option>
-                                    <option value="studio1">Studio 1</option>
-                                    <option value="studio2">Studio 2</option>
+                                    <option value="Lakewood">Lakewood</option>
+                                    <option value="Orange">Orange</option>
+                                    <option value="Downey">Downey</option>
                                 </select>
                             </div>
 
                             <div className="form-group">
                                 <label>Class</label>
-                                <select value={focus} onChange={(e) => setFocus(e.target.value)}>
+                                <select value={workoutClass} onChange={(e) => setworkoutClass(e.target.value)}>
                                     <option value="">Select Class</option>
-                                    <option value="2vs Kickboxing">2vs Kickboxing</option>
+                                    <option value="Fitness Kickboxing">Fitness Kickboxing</option>
+                                    {/* <option value="Jus' Kickboxing">Jus' Kickboxing</option> */}
+                                    <option value="Jus' Kickboxing">Jus&apos; Kickboxing</option>
+                                    <option value="Power Kickboxing">Power Kickboxing</option>
                                 </select>
                             </div>
                         </div>
@@ -262,127 +348,22 @@ const CreateWorkout: React.FC = () => {
                     </form>
                 </div>
 
-                {/* Right Section - Class Type */}
                 <div className="right-section">
                     <h3>Class Type</h3>
 
-                    <div className="class-type-box">
-                        <div className="class-header">
-                            <h4>Boxing</h4>
-                            <button
-                                type="button"
-                                className="add-btn"
-                                onClick={() => openPopup('boxing')}
-                            >
-                                + Add
-                            </button>
-                        </div>
-                        <div className="movement-list">
-                            {boxingMovements.length === 0 ? (
-                                <p className="empty-text">No movements selected</p>
-                            ) : (
-                                boxingMovements.map((m, idx) => (
-                                    <div key={m.id} className="movement-item-with-controls">
-                                        <span className="movement-name">
-                                            {idx + 1}. {m.name}
-                                        </span>
-                                        <div className="movement-controls">
-                                            <button
-                                                type="button"
-                                                className="arrow-btn"
-                                                onClick={() => handleMoveUp('boxing', idx)}
-                                                disabled={idx === 0}
-                                                title="Move up"
-                                            >
-                                                ↑
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="arrow-btn"
-                                                onClick={() => handleMoveDown('boxing', idx, boxingMovements.length)}
-                                                disabled={idx === boxingMovements.length - 1}
-                                                title="Move down"
-                                            >
-                                                ↓
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="remove-btn"
-                                                onClick={() => removeMovement('boxing', m.id)}
-                                                title="Remove"
-                                            >
-                                                ×
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="class-type-box">
-                        <div className="class-header">
-                            <h4>Kickboxing</h4>
-                            <button
-                                type="button"
-                                className="add-btn"
-                                onClick={() => openPopup('kickboxing')}
-                            >
-                                + Add
-                            </button>
-                        </div>
-                        <div className="movement-list">
-                            {kickboxingMovements.length === 0 ? (
-                                <p className="empty-text">No movements selected</p>
-                            ) : (
-                                kickboxingMovements.map((m, idx) => (
-                                    <div key={m.id} className="movement-item-with-controls">
-                                        <span className="movement-name">
-                                            {idx + 1}. {m.name}
-                                        </span>
-                                        <div className="movement-controls">
-                                            <button
-                                                type="button"
-                                                className="arrow-btn"
-                                                onClick={() => handleMoveUp('kickboxing', idx)}
-                                                disabled={idx === 0}
-                                                title="Move up"
-                                            >
-                                                ↑
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="arrow-btn"
-                                                onClick={() => handleMoveDown('kickboxing', idx, kickboxingMovements.length)}
-                                                disabled={idx === kickboxingMovements.length - 1}
-                                                title="Move down"
-                                            >
-                                                ↓
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="remove-btn"
-                                                onClick={() => removeMovement('kickboxing', m.id)}
-                                                title="Remove"
-                                            >
-                                                ×
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))
-                            )}
-                        </div>
-                    </div>
+                    {renderCategoryBox('boxing', 'Boxing', boxingMovements)}
+                    {renderCategoryBox('kickboxing', 'Kickboxing', kickboxingMovements)}
+                    {renderCategoryBox('hiit', 'HIIT', hiitMovements)}
                 </div>
             </div>
 
-            {/* Popup Modal */}
+            {/* Modal */}
             {showPopup && (
                 <div className="modal-overlay" onClick={closePopup}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
                             <h3>
-                                Select {currentCategory ? currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1) : ''} Movements
+                                Select {currentCategory ? currentCategory.toUpperCase() : ''} Movements
                             </h3>
                             <button className="close-btn" onClick={closePopup}>×</button>
                         </div>
@@ -391,31 +372,36 @@ const CreateWorkout: React.FC = () => {
                             {filteredMovements.length === 0 ? (
                                 <p className="empty-text">No movements available for this category</p>
                             ) : (
-                                <div className="movements-grid">
-                                    {filteredMovements.map((m) => {
-                                        const isSelected = tempSelected.some(sel => sel.id === m.id);
-                                        const selectionOrder = tempSelected.findIndex(sel => sel.id === m.id);
+                                <>
+                                    <p style={{ marginBottom: '16px', color: '#666' }}>
+                                        Selected: {tempSelected.length}/{MAX_MOVEMENTS_PER_CATEGORY}
+                                    </p>
+                                    <div className="movements-grid">
+                                        {filteredMovements.map((m) => {
+                                            const isSelected = tempSelected.some(sel => sel.id === m.id);
+                                            const selectionOrder = tempSelected.findIndex(sel => sel.id === m.id);
 
-                                        return (
-                                            <div
-                                                key={m.id}
-                                                className={`movement-card ${isSelected ? 'selected' : ''}`}
-                                                onClick={() => toggleTempSelection(m)}
-                                            >
-                                                {isSelected && (
-                                                    <div className="selection-badge">{selectionOrder + 1}</div>
-                                                )}
-                                                <img
-                                                    src={m.thumbnail_url || '/placeholder-thumb.png'}
-                                                    alt={m.name}
-                                                    className="movement-thumb"
-                                                />
-                                                <p>{m.name}</p>
-                                                <small>{m.duration ? `${m.duration}s` : 'No duration'}</small>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                                            return (
+                                                <div
+                                                    key={m.id}
+                                                    className={`movement-card ${isSelected ? 'selected' : ''}`}
+                                                    onClick={() => toggleTempSelection(m)}
+                                                >
+                                                    {isSelected && (
+                                                        <div className="selection-badge">{selectionOrder + 1}</div>
+                                                    )}
+                                                    <img
+                                                        src={m.thumbnail_url || '/placeholder-thumb.png'}
+                                                        alt={m.name}
+                                                        className="movement-thumb"
+                                                    />
+                                                    <p>{m.name}</p>
+                                                    <small>{m.duration ? `${m.duration}s` : 'No duration'}</small>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </>
                             )}
                         </div>
 
