@@ -1,0 +1,138 @@
+.profile-cnt {
+    border: 1px solid rgba(0, 0, 0, .1);
+    padding: 37px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+span.profile-heart {
+    position: absolute;
+    bottom: 0;
+    left: 93px;
+    background-color: #FFFFFF;
+    border-radius: 50px;
+    padding: 9px;
+}
+
+.profile-img {
+    position: relative;
+
+}
+.profile-name {
+    margin-left: 30px;
+}
+.profile-name h3 {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.profile-name p {
+    font-size: 14px;
+    font-weight: 400;
+}
+h3 {}
+
+.profile-name h3 {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.profile-name p {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.person-info {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    margin-top: 37px;
+    padding-bottom: 43px;
+}
+.prsn-hd {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+button.prsn-btn {
+    margin-right:25px;
+    color: white;
+    background-color: #B40200;
+    padding: 16px 31px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 5px;
+}
+button.prsn-btn img {
+    margin-bottom: 3px;
+}
+button.prsn-btn span {
+    font-size: 16px;
+    font-weight: 600;
+}
+.prsn-hd {
+    border-bottom: 1px solid #0000001A;
+}
+
+.prsn-hd h2 {
+    font-size: 28px;
+    font-weight: 600;
+    padding: 30px 0px 30px 37px;
+}
+.prfl-info-cnt {
+    padding: 25px 0px 0px 37px;
+}
+.prfl-info-cnt {
+    display: flex;
+}
+
+.prfl-name {
+    flex: 1;
+}
+
+.prfl-name h4 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 24px;
+}
+
+.prfl-name h5 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    color: #000000;
+}
+.mrgntp{
+    margin-top:25px;
+}
+
+.acnt-info h2 {
+    font-size: 28px;
+    font-weight: 600;
+    border-bottom: 1px solid #0000001A;
+    padding: 30px 0 30px 37px;
+}
+
+.acnt-info {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    margin-top: 37px;
+    padding-bottom: 43px;
+}
+.acnt-preferences.mrgntp {
+    padding-left: 37px;
+}
+.acnt-info-cnt {
+    display: flex;
+    width: 100%;
+}
+
+.acnt-preferences.mrgntp {
+    padding-left: 37px;
+}
+
+.acnt-info-cnt .form-group {
+    flex: 1;
+}
