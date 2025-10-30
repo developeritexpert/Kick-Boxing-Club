@@ -108,14 +108,14 @@ button.prsn-btn span {
     margin-top:25px;
 }
 
-.acnt-info h2 {
+.acnt-info h2,.theme-info h2 {
     font-size: 28px;
     font-weight: 600;
     border-bottom: 1px solid #0000001A;
     padding: 30px 0 30px 37px;
 }
 
-.acnt-info {
+.acnt-info,.theme-info {
     border: 1px solid rgba(0, 0, 0, .1);
     border-radius: 5px;
     margin-top: 37px;
@@ -123,6 +123,7 @@ button.prsn-btn span {
 }
 .acnt-preferences.mrgntp {
     padding-left: 37px;
+    padding-right:25px;
 }
 .acnt-info-cnt {
     display: flex;
@@ -134,5 +135,53 @@ button.prsn-btn span {
 }
 
 .acnt-info-cnt .form-group {
+    flex: 1;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.form-group label {
+    font-size: 16px;
+}
+.mrgn-top-23{
+    margin-top:23px;
+}
+.form-select {
+    padding: 15px 25px;
+    border: 1px solid #0000001A;
+    border-radius: 5px;
+}
+.form-select {
+    padding: 15px 25px;
+    border: 1px solid #0000001A;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #000000;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.form-select:focus {
+  border-color: black;
+  outline: none;
+  /* box-shadow: 0 0 4px rgba(180, 2, 0, 0.2); */
+}
+select#language ,select#location{
+    margin-right: 30px;
+}
+.form-group.mrgn-top-23 {
+    width: 50%;
+}
+.checkbox-group {
+    display: flex;
+    gap: 85px;
+}
+.settings-box {
+    padding-left: 37px;
+    display: flex;
+}
+.setting-group {
     flex: 1;
 }
