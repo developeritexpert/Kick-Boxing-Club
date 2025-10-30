@@ -89,7 +89,8 @@ const CreateMovement: React.FC = () => {
             return;
         }
 
-        const { uploadURL, video_uid } = data;
+        // const { uploadURL, video_uid } = data;
+        const { uploadURL } = data;
 
         const uploadForm = new FormData();
         uploadForm.append('file', video);
