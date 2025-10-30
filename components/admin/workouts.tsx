@@ -88,18 +88,18 @@ const Workouts: React.FC = () => {
         setCurrentPage(num);
         setActiveArrow(null);
     };
-    const getDifficultyClass = (level: string) => {
-        switch (level) {
-            case 'Beginner':
-                return 'difficulty-beginner';
-            case 'Intermediate':
-                return 'difficulty-intermediate';
-            case 'Advanced':
-                return 'difficulty-advanced';
-            default:
-                return 'difficulty-beginner';
-        }
-    };
+    // const getDifficultyClass = (level: string) => {
+    //     switch (level) {
+    //         case 'Beginner':
+    //             return 'difficulty-beginner';
+    //         case 'Intermediate':
+    //             return 'difficulty-intermediate';
+    //         case 'Advanced':
+    //             return 'difficulty-advanced';
+    //         default:
+    //             return 'difficulty-beginner';
+    //     }
+    // };
 
     return (
         <div className="workouts-container">

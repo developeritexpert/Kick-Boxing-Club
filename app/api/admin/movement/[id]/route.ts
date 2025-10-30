@@ -40,17 +40,17 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
     }
 }
 
-interface MovementUpdate {
-    name?: string;
-    sub_category?: string;
-    category_id?: string;
-    description?: string;
-    video_provider?: string;
-    video_id?: string;
-    video_url?: string;
-    created_by?: string;
-    thumbnail_url?: string;
-}
+// interface MovementUpdate {
+//     name?: string;
+//     sub_category?: string;
+//     category_id?: string;
+//     description?: string;
+//     video_provider?: string;
+//     video_id?: string;
+//     video_url?: string;
+//     created_by?: string;
+//     thumbnail_url?: string;
+// }
 
 export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     const { id } = await context.params;
