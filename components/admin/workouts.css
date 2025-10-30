@@ -355,3 +355,18 @@ span.workout-hrt-icn img {
   
 }
 }
+
+
+.loading-content{
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #666;
+}
+
+.error-content{
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #ff0000;
+}
