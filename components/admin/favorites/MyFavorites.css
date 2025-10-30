@@ -1,0 +1,128 @@
+.search-box {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    flex: 1;
+    align-items: center;
+    max-width: 330px;
+    padding: 14px 18px;
+    transition: border-color .3s;
+    display: flex;
+    position: relative;
+}
+.search-input {
+    color: #000;
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+.search-input::placeholder {
+    color: #000;
+}
+.search-box {
+    max-width: 274px;
+}
+.search-icon {
+    margin-right: 8px;
+    font-size: 16px;
+    position: relative;
+}
+
+table.favourites-tbl {
+
+    margin-top: 30px;
+    width: 100%;
+    
+}
+table.favourites-tbl th {
+    color: #fff;
+    text-align: left;
+    background: #1C1C1C;
+    border: 1px solid rgba(255, 255, 255, .09);
+    padding: 22px 35px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+table.favourites-tbl  td {
+     padding: 22px 35px;
+  border: 1px solid #0000001A;
+  font-size: 14px;
+  color: #000000;
+}
+/* table.favourites-tbl thead {
+    border: 1px solid #01010117;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+} */
+ table.favourites-tbl th:first-child {
+    border-radius: 5px 0px 0px 0px;
+    
+}
+ table.favourites-tbl th:last-child {
+    border-radius: 0px 5px 0px 0px;
+   
+}
+ table.favourites-tbl button.view {
+    background-color: #B40200;
+    border:1px solid #B40200;
+    color: white;
+    padding: 10px 14px;
+    display: flex;
+     align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor:pointer;
+     transition: all 0.3s ease
+}
+ table.favourites-tbl button.view:hover{
+    opacity:90%;
+ }
+table.favourites-tbl button.view img {
+    width: 14px;
+    height: 14px;
+}
+table.favourites-tbl button.view > div{
+    font-size: 12px;
+    line-height: 1.2;
+}
+table.favourites-tbl .fav-btn {
+    display: flex;
+    gap: 10px;
+        width: 100%;
+    justify-content: center;
+}
+table.favourites-tbl button.delete {
+    display: flex;
+    padding: 10px 14px;
+    border: 1px solid #0000001A;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor:pointer;
+}
+ table.favourites-tbl button.delete img {
+    width: 11px;
+    height: 14px;
+}
+table.favourites-tbl button.delete > div {
+    font-size: 12px;
+    color: #000000;
+}
+table.favourites-tbl button.delete:hover{
+    opacity:80%;
+}
+@media(max-width:1399px){
+    table.favourites-tbl th {
+    padding: 16px 30px;
+    font-size: 14px;
+
+}
+table.favourites-tbl td {
+    padding: 14px 30px;
+    font-size: 14px;
+}
+}
