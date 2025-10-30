@@ -36,6 +36,10 @@ export async function POST(req: Request) {
             },
         ]);
 
+        console.log('Create movement api result :');
+        console.log(data);
+        
+
         if (error) {
             console.error("Supabase insert error:", error);
             return NextResponse.json({ error: error.message }, { status: 500 });
