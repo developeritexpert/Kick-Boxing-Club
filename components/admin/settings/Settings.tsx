@@ -1,6 +1,32 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import './Settings.css';
 const Settings: React.FC = () => {
+    const [value, setValue] = useState(50);
+    // ✅ useEffect runs after component mounts
+    useEffect(() => {
+        const slider = document.getElementById('r1') as HTMLInputElement | null;
+
+        if (!slider) return;
+
+        function setGradient(el: HTMLInputElement) {
+            const min = Number(el.min) || 0;
+            const max = Number(el.max) || 100;
+            const val = Number(el.value);
+            const pct = ((val - min) / (max - min)) * 100;
+
+            el.style.background = `linear-gradient(to right, #B40200 ${pct}%, #0000001A ${pct}%)`;
+        }
+
+        setGradient(slider);
+        slider.addEventListener('input', () => setGradient(slider));
+
+        // ✅ Cleanup event listener on unmount
+        return () => {
+            slider.removeEventListener('input', () => setGradient(slider));
+        };
+    }, []);
+
     return (
         <div>
             <div className="profile-cnt">
@@ -44,7 +70,7 @@ const Settings: React.FC = () => {
                         <h5>J(+62)821 525-9583</h5>
                     </div>
                     <div className="prfl-name">
-                        <h4>LUser Role</h4>
+                        <h4>User Role</h4>
                         <h5>Participate </h5>
                     </div>
                     <div className="prfl-name">
@@ -86,14 +112,18 @@ const Settings: React.FC = () => {
                             <option>Canada</option>
                         </select>
                     </div>
-                    <div className="form-group mrgn-top-23">
+                    <div className="checkbx-frm mrgn-top-23">
                         <label htmlFor="notifications">Notification Preferences</label>
                         <div className="checkbox-group">
-                            <label>
-                                <input type="checkbox" defaultChecked /> Email
+                            <label className="custom-checkbox">
+                                <input type="checkbox" defaultChecked />
+                                <span className="checkmark"></span>
+                                Email
                             </label>
-                            <label>
-                                <input type="checkbox" defaultChecked /> SMS
+                            <label className="custom-checkbox">
+                                <input type="checkbox" defaultChecked />
+                                <span className="checkmark"></span>
+                                SMS
                             </label>
                         </div>
                     </div>
@@ -105,37 +135,41 @@ const Settings: React.FC = () => {
                     {/* Theme mode */}
                     <div className="setting-group">
                         <label className="group-title">Theme mode</label>
-                        <div className="radio-group">
-                            <label>
-                                <input type="radio" name="theme" /> Light mode
+                        <div className="radio-group mt-8">
+                            <label className="custom-radio">
+                                <input type="radio" name="theme" />
+                                <span className="radio-box">Light mode</span>
                             </label>
-                            <label>
-                                <input type="radio" name="theme" /> Dark mode
+                            <label className="custom-radio">
+                                <input type="radio" name="theme" />
+                                <span className="radio-box">Dark mode</span>
                             </label>
-                            <label>
-                                <input type="radio" name="theme" defaultChecked /> System Default
-                                mode
+                            <label className="custom-radio">
+                                <input type="radio" name="theme" defaultChecked />
+                                <span className="radio-box">System Default mode</span>
                             </label>
                         </div>
                     </div>
                     <div className="setting-group">
                         <label className="group-title">Font Size</label>
-                        <div className="slider-group">
+                        <div className="slider-group mt-8">
                             <input
+                                id="r1"
                                 type="range"
-                                min="12"
-                                max="24"
-                                defaultValue="16"
                                 className="slider"
+                                min="0"
+                                max="100"
+                                value={value}
+                                onChange={(e) => setValue(Number(e.target.value))}
                             />
                             <span>Medium</span>
                         </div>
                     </div>
                 </div>
                 <div className="settings-box theme-accnt">
-                    <div className="setting-group">
+                    {/* <div className="setting-group">
                         <label className="group-title">Layout Style</label>
-                        <div className="layout-options">
+                        <div className="layout-options mt-8">
                             <div className="layout-box active">
                                 <div className="red-bar" />
                                 <div className="gray-box" />
@@ -145,14 +179,45 @@ const Settings: React.FC = () => {
                                 <div className="gray-box2" />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="setting-group">
                         <label className="group-title">Accent Color</label>
-                        <div className="color-options">
-                            <div className="color-swatch active" />
-                            <div className="color-swatch" />
+                        <div className="color-options mt-8">
+                            <label className="color-swatch bg-red">
+                                <input type="radio" name="accent" value="red" defaultChecked />
+                            </label>{' '}
+                            <label className="color-swatch bg-black">
+                                <input type="radio" name="accent" value="black" />
+                            </label>
+                            <label className="color-swatch bg-blue">
+                                <input type="radio" name="accent" value="blue" />
+                            </label>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className="workout-locn">
+                <h2>Workout Information</h2>
+                    <div className="inner-wrkout-locn">
+                <button className="prsn-btn">+ Location</button>
+                <button className="prsn-btn">+ Class</button>
+            </div>
+            </div>
+        
+            <div className="workouts-vdo">
+                <h2>Upload Photos and Videos for Workout</h2>
+                <div className="upload-box">
+                    <input type="file" accept="video/*" id="videoUpload" />
+                    <label htmlFor="videoUpload" className="upload-label">
+                        <div className="upload-icon">
+                            <img src="/vdo_upload_icon.png" alt="upload-vdo-icon" />
+                        </div>
+                        <p className="wrkout-vdo-para">
+                            <span className="work-vdio-btn">Select to Upload</span>
+
+                            <span> or drag your video here</span>
+                        </p>
+                    </label>
                 </div>
             </div>
         </div>
