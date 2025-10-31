@@ -39,7 +39,7 @@ const Workouts: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [activeArrow, setActiveArrow] = useState<'left' | 'right' | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    
+
     const itemsPerPage = 6;
 
     useEffect(() => {
@@ -121,6 +121,17 @@ const Workouts: React.FC = () => {
         }
     }, [filteredWorkouts, currentPage, totalPages]);
 
+    const handleCardClick = (workoutId: string) => {
+        router.push(`/admin/workouts/${workoutId}`);
+        console.log(`card : ${workoutId}`);
+    };
+
+    const handleHeartClick = (e: React.MouseEvent<HTMLSpanElement>, workoutId: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(`Heart : ${workoutId}`);
+    }
+
     return (
         <div className="workouts-container">
             <div className="workouts-controls">
@@ -162,10 +173,10 @@ const Workouts: React.FC = () => {
                 <>
                     <div className="workouts-grid">
                         {currentWorkouts.map((workout) => (
-                            <div key={workout.id} className="workout-card">
+                            <div key={workout.id} className="workout-card" onClick={() => handleCardClick(workout.id)}>
                                 <div className="workout-header">
                                     <h3 className="workout-title">{workout.name}</h3>
-                                    <span className="workout-hrt-icn">
+                                    <span className="workout-hrt-icn" onClick={(e) => handleHeartClick(e, workout.id)}>
                                         <img src="/heart-icon.png" alt="heart icon" />
                                     </span>
                                 </div>
@@ -185,7 +196,7 @@ const Workouts: React.FC = () => {
                             <div
                                 className={`arrow left-arrow ${activeArrow === 'left' ? 'active' : ''}`}
                                 onClick={() => handleArrowClick('left')}
-                                style={{ 
+                                style={{
                                     cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
                                     opacity: currentPage === 1 ? 0.5 : 1
                                 }}
@@ -220,7 +231,7 @@ const Workouts: React.FC = () => {
                             <div
                                 className={`arrow right-arrow ${activeArrow === 'right' ? 'active' : ''}`}
                                 onClick={() => handleArrowClick('right')}
-                                style={{ 
+                                style={{
                                     cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
                                     opacity: currentPage === totalPages ? 0.5 : 1
                                 }}

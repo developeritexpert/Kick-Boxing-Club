@@ -54,10 +54,10 @@ const CreateWorkout: React.FC = () => {
 
     const openPopup = (category: 'boxing' | 'kickboxing' | 'hiit') => {
         setCurrentCategory(category);
-        const existingSelections = 
+        const existingSelections =
             category === 'boxing' ? boxingMovements :
-            category === 'kickboxing' ? kickboxingMovements :
-            hiitMovements;
+                category === 'kickboxing' ? kickboxingMovements :
+                    hiitMovements;
         setTempSelected([...existingSelections]);
         setShowPopup(true);
     };
@@ -75,7 +75,10 @@ const CreateWorkout: React.FC = () => {
                 return prev.filter(m => m.id !== movement.id);
             } else {
                 if (prev.length >= MAX_MOVEMENTS_PER_CATEGORY) {
-                    toast.error(`Maximum ${MAX_MOVEMENTS_PER_CATEGORY} movements allowed per category`);
+                    // toast.error(`Maximum ${MAX_MOVEMENTS_PER_CATEGORY} movements allowed per category`);
+                    setTimeout(() => {
+                        toast.error(`Maximum ${MAX_MOVEMENTS_PER_CATEGORY} movements allowed per category`);
+                    }, 0);
                     return prev;
                 }
                 return [...prev, { ...movement, order: prev.length + 1 }];
@@ -102,10 +105,10 @@ const CreateWorkout: React.FC = () => {
     const handleMoveUp = (category: 'boxing' | 'kickboxing' | 'hiit', index: number) => {
         if (index === 0) return;
 
-        const setter = 
+        const setter =
             category === 'boxing' ? setBoxingMovements :
-            category === 'kickboxing' ? setKickboxingMovements :
-            setHiitMovements;
+                category === 'kickboxing' ? setKickboxingMovements :
+                    setHiitMovements;
 
         setter(prev => {
             const updated = [...prev];
@@ -117,10 +120,10 @@ const CreateWorkout: React.FC = () => {
     const handleMoveDown = (category: 'boxing' | 'kickboxing' | 'hiit', index: number, length: number) => {
         if (index === length - 1) return;
 
-        const setter = 
+        const setter =
             category === 'boxing' ? setBoxingMovements :
-            category === 'kickboxing' ? setKickboxingMovements :
-            setHiitMovements;
+                category === 'kickboxing' ? setKickboxingMovements :
+                    setHiitMovements;
 
         setter(prev => {
             const updated = [...prev];
@@ -130,10 +133,10 @@ const CreateWorkout: React.FC = () => {
     };
 
     const removeMovement = (category: 'boxing' | 'kickboxing' | 'hiit', movementId: string) => {
-        const setter = 
+        const setter =
             category === 'boxing' ? setBoxingMovements :
-            category === 'kickboxing' ? setKickboxingMovements :
-            setHiitMovements;
+                category === 'kickboxing' ? setKickboxingMovements :
+                    setHiitMovements;
 
         setter(prev => {
             const filtered = prev.filter(m => m.id !== movementId);
@@ -302,7 +305,6 @@ const CreateWorkout: React.FC = () => {
                                 <select value={workoutClass} onChange={(e) => setworkoutClass(e.target.value)}>
                                     <option value="">Select Class</option>
                                     <option value="Fitness Kickboxing">Fitness Kickboxing</option>
-                                    {/* <option value="Jus' Kickboxing">Jus' Kickboxing</option> */}
                                     <option value="Jus' Kickboxing">Jus&apos; Kickboxing</option>
                                     <option value="Power Kickboxing">Power Kickboxing</option>
                                 </select>
@@ -327,13 +329,10 @@ const CreateWorkout: React.FC = () => {
 
                         <div className="workout-list-section">
                             <h4>Workout List</h4>
-                            <div className="workout-items">
-                                <div className="workout-item">Push-Ups</div>
-                                <div className="workout-item">Jab / Cross / Hook</div>
-                                <div className="workout-item">SA Man</div>
-                                <div className="workout-item">Jab / Cross / RHH</div>
-                                <div className="workout-item">Mountain Climbers</div>
-                                <div className="workout-item">Jab / Cross / LBH</div>
+                            <div className="workout-items hide-scrollbar">
+                                {movements.map((m) => (
+                                    <div key={m.id} className="workout-item">{m.name}</div>
+                                ))}
                             </div>
                         </div>
 
