@@ -20,7 +20,7 @@ const Settings: React.FC = () => {
 
   
 
-    const handleThemeChange = (e: any) => {
+    const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedTheme = e.target.value;
         console.log('selected theme', selectedTheme);
         setTheme(selectedTheme);

@@ -1,12 +1,12 @@
 /* ===== Global resets (optional) ===== */
 :root {
-    --sidebar-bg: #0f0f0f;
+    --sidebar-bg: #000000;
     --sidebar-width: 240px;
     --sidebar-collapsed-width: 80px;
-    --accent-red: #e60000;
+    --accent-red: #B40200;
     --card-bg: #ffffff;
     --muted: #777;
-    --page-bg: #fafafa;
+    --page-bg: #FBFBF9;
 }
 
 * {
@@ -19,14 +19,17 @@ body,
     margin: 0;
 }
 
+aside.sidebar.collapsed button.logout {
+    display: none;
+}
 /* ===== Layout (container) ===== */
 .admin-layout {
-    display: flex;
-    min-height: 100vh;
     background: var(--page-bg);
-    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    height: 100vh;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    display: flex;
+    overflow: hidden;
 }
-
 /* Sidebar */
 .sidebar {
     width: var(--sidebar-width);
@@ -38,6 +41,7 @@ body,
     box-shadow: 1px 0 0 rgba(0, 0, 0, 0.12);
     min-height: 100vh;
     position: relative;
+    overflow: auto;
 }
 
 .admin-layout.collapsed .sidebar {
@@ -45,7 +49,7 @@ body,
 }
 
 .sidebar-top {
-    padding: 18px 16px;
+    padding: 18px 36px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.02);
     display: flex;
     align-items: center;
@@ -54,12 +58,13 @@ body,
 
 /* brand */
 .sidebar-brand {
-    display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
+    display: flex;
+    border-bottom: 1px solid #FFFFFF4D;
+    padding-bottom: 15px;
 }
-
 .hamburger {
     cursor: pointer;
     font-size: 18px;
@@ -70,13 +75,13 @@ body,
 
 .brand-text {
     font-weight: 700;
-    font-size: 14px;
-    margin-left: 8px;
+    font-size: 16px;
+
 }
 
 /* nav */
 .sidebar-nav {
-    padding-top: 20px;
+    /* padding-top: 20px; */
     flex: 1;
 }
 
@@ -87,9 +92,9 @@ body,
 }
 
 .nav-item {
+    padding: 10px 0 0px 22px;
+    transition: background 0.3s ease-in-out;
     display: block;
-    padding: 10px 12px;
-    transition: background 0.15s ease;
 }
 
 .nav-link {
@@ -99,7 +104,7 @@ body,
     color: #ddd;
     text-decoration: none;
     padding: 10px 12px;
-    border-radius: 4px;
+
 }
 
 .nav-icon {
@@ -109,18 +114,22 @@ body,
 }
 
 .nav-label {
-    font-size: 15px;
+    font-size: 16px;
 }
 
 /* active / hover */
 .nav-item:hover .nav-link {
-    background: rgba(255, 255, 255, 0.03);
+    background: #b40200;
     color: #fff;
+       border-top-left-radius: 55px;
+    border-bottom-left-radius: 55px;
 }
 .nav-item.active .nav-link {
     background: var(--accent-red);
     color: #fff;
     font-weight: 600;
+    border-top-left-radius: 55px;
+    border-bottom-left-radius: 55px;
 }
 
 /* collapsed adjustments */
@@ -422,4 +431,9 @@ header.dashboard-header {
 
 .delete-btn:hover {
     background-color: #e0e0e0;
+}
+@media (max-width: 1399px) {
+.nav-label {
+    font-size: 15px;
+}
 }
