@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/layout/Sidebar';
-import Header from '../../components/layout/Header';
-import Footer from '../../components/layout/Footer';
-import '../../styles/dashboard.css';
+import Sidebar from '../../../components/layout/Sidebar';
+import Header from '../../../components/layout/Header';
+import Footer from '../../../components/layout/Footer';
+import '../../../styles/dashboard.css';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     // Single source of truth for sidebar collapsed state
