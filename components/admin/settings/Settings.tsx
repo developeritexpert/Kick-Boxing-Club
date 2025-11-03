@@ -1,12 +1,12 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import './Settings.css';
+import styles from "./Settings.module.css";
+
 const Settings: React.FC = () => {
     const [value, setValue] = useState(50);
-    // ✅ useEffect runs after component mounts
+
     useEffect(() => {
         const slider = document.getElementById('r1') as HTMLInputElement | null;
-
         if (!slider) return;
 
         function setGradient(el: HTMLInputElement) {
@@ -14,14 +14,11 @@ const Settings: React.FC = () => {
             const max = Number(el.max) || 100;
             const val = Number(el.value);
             const pct = ((val - min) / (max - min)) * 100;
-
             el.style.background = `linear-gradient(to right, #B40200 ${pct}%, #0000001A ${pct}%)`;
         }
 
         setGradient(slider);
         slider.addEventListener('input', () => setGradient(slider));
-
-        // ✅ Cleanup event listener on unmount
         return () => {
             slider.removeEventListener('input', () => setGradient(slider));
         };
@@ -29,72 +26,72 @@ const Settings: React.FC = () => {
 
     return (
         <div>
-            <div className="profile-cnt">
-                <div className="profile-img">
+            <div className={styles.profileCnt}>
+                <div className={styles.profileImg}>
                     <img src="/profile.png" alt="profile-img" />
-                    <span className="profile-heart">
+                    <span className={styles.profileHeart}>
                         <img src="/camera_icon.png" alt="heart-icon" />
                     </span>
                 </div>
-                <div className="profile-name">
+                <div className={styles.profileName}>
                     <h3>John Doe</h3>
                     <p>Participate</p>
                     <p>Leeds, United Kingdom</p>
                 </div>
             </div>
-            <div className="person-info">
-                <div className="prsn-hd">
+
+            <div className={styles.personInfo}>
+                <div className={styles.prsnHd}>
                     <h2>Personal Information</h2>
-                    <button className="prsn-btn">
+                    <button className={styles.prsnBtn}>
                         <img src="/edit_icon.png" alt="edit-icon" />
                         <span>Edit</span>
                     </button>
                 </div>
-                <div className="prfl-info-cnt">
-                    <div className="prfl-name">
-                        <h4>First Name</h4>
-                        <h5>John</h5>
+
+                <div className={styles.prflInfoCnt}>
+                    <div className={styles.prflName}>
+                        <h4>First Name</h4><h5>John</h5>
                     </div>
-                    <div className="prfl-name">
-                        <h4>Last Name</h4>
-                        <h5>Doe</h5>
+                    <div className={styles.prflName}>
+                        <h4>Last Name</h4><h5>Doe</h5>
                     </div>
-                    <div className="prfl-name">
-                        <h4>Email Address</h4>
-                        <h5>info@johndoe.com</h5>
+                    <div className={styles.prflName}>
+                        <h4>Email Address</h4><h5>info@johndoe.com</h5>
                     </div>
                 </div>
-                <div className="prfl-info-cnt mrgntp">
-                    <div className="prfl-name">
-                        <h4>Phone Number</h4>
-                        <h5>J(+62)821 525-9583</h5>
+
+                <div className={`${styles.prflInfoCnt} ${styles.mrgntp}`}>
+                    <div className={styles.prflName}>
+                        <h4>Phone Number</h4><h5>(+62)821 525-9583</h5>
                     </div>
-                    <div className="prfl-name">
-                        <h4>User Role</h4>
-                        <h5>Participate </h5>
+                    <div className={styles.prflName}>
+                        <h4>User Role</h4><h5>Participate</h5>
                     </div>
-                    <div className="prfl-name">
-                        <h4>Date of birth</h4>
-                        <h5>October 16, 2001</h5>
+                    <div className={styles.prflName}>
+                        <h4>Date of birth</h4><h5>October 16, 2001</h5>
                     </div>
                 </div>
             </div>
-            <div className="acnt-info">
+
+            <div className={styles.acntInfo}>
                 <h2>Account Preferences</h2>
-                <div className="acnt-preferences mrgntp">
-                    <div className="acnt-info-cnt mrgn-top-23">
-                        <div className="form-group">
+
+                <div className={`${styles.acntPreferences} ${styles.mrgntp}`}>
+                    <div className={`${styles.acntInfoCnt} ${styles.mrgnTop23}`}>
+                        <div className={`${styles.formGroup}`}>
                             <label htmlFor="language">Language</label>
-                            <select id="language" className="form-select">
+                            <select id="language"  className={`${styles.formSelect}   ${styles.mrgnRight30}`}>
                                 <option>English</option>
                                 <option>Hindi</option>
                                 <option>Spanish</option>
                                 <option>French</option>
                             </select>
                         </div>
-                        <div className="form-group">
+
+                        <div className={`${styles.formGroup}`}>
                             <label htmlFor="timezone">Time Zone</label>
-                            <select id="timezone" className="form-select">
+                            <select id="timezone" className={`${styles.formSelect}   ${styles.mrgnRight30}`}>
                                 <option>Default</option>
                                 <option>GMT +5:30 (India)</option>
                                 <option>GMT +1 (London)</option>
@@ -102,9 +99,10 @@ const Settings: React.FC = () => {
                             </select>
                         </div>
                     </div>
-                    <div className="form-group mrgn-top-23">
+
+                    <div className={`${styles.formGroup} ${styles.mrgnTop23} `}>
                         <label htmlFor="location">Location</label>
-                        <select id="location" className="form-select">
+                        <select id="location" className={`${styles.formSelect}   ${styles.mrgnRight30}`}>
                             <option>Choose a Location</option>
                             <option>India</option>
                             <option>United States</option>
@@ -112,51 +110,53 @@ const Settings: React.FC = () => {
                             <option>Canada</option>
                         </select>
                     </div>
-                    <div className="checkbx-frm mrgn-top-23">
+
+                    <div className={`${styles.checkbxFrm} ${styles.mrgnTop23}`}>
                         <label htmlFor="notifications">Notification Preferences</label>
-                        <div className="checkbox-group">
-                            <label className="custom-checkbox">
+                        <div className={styles.checkboxGroup}>
+                            <label className={styles.customCheckbox}>
                                 <input type="checkbox" defaultChecked />
-                                <span className="checkmark"></span>
+                                <span className={styles.checkmark}></span>
                                 Email
                             </label>
-                            <label className="custom-checkbox">
+                            <label className={styles.customCheckbox}>
                                 <input type="checkbox" defaultChecked />
-                                <span className="checkmark"></span>
+                                <span className={styles.checkmark}></span>
                                 SMS
                             </label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="theme-info  ">
-                <h2>Theme & Display Settings </h2>
-                <div className="settings-box mrgn-top-23">
-                    {/* Theme mode */}
-                    <div className="setting-group">
-                        <label className="group-title">Theme mode</label>
-                        <div className="radio-group mt-8">
-                            <label className="custom-radio">
+
+            <div className={styles.themeInfo}>
+                <h2>Theme & Display Settings</h2>
+                <div className={`${styles.settingsBox} ${styles.mrgnTop23}`}>
+                    <div className={styles.settingGroup}>
+                        <label className={`${styles.groupTitle} ${styles.mrgnBtm8}`}>Theme mode</label>
+                        <div className={styles.radioGroup}>
+                            <label className={styles.customRadio}>
                                 <input type="radio" name="theme" />
-                                <span className="radio-box">Light mode</span>
+                                <span className={styles.radioBox}>Light mode</span>
                             </label>
-                            <label className="custom-radio">
+                            <label className={styles.customRadio}>
                                 <input type="radio" name="theme" />
-                                <span className="radio-box">Dark mode</span>
+                                <span className={styles.radioBox}>Dark mode</span>
                             </label>
-                            <label className="custom-radio">
+                            <label className={styles.customRadio}>
                                 <input type="radio" name="theme" defaultChecked />
-                                <span className="radio-box">System Default mode</span>
+                                <span className={styles.radioBox}>System Default mode</span>
                             </label>
                         </div>
                     </div>
-                    <div className="setting-group">
-                        <label className="group-title">Font Size</label>
-                        <div className="slider-group mt-8">
+
+                    <div className={styles.settingGroup}>
+                        <label className={`${styles.groupTitle} ${styles.mrgnBtm8}`}>Font Size</label>
+                        <div className={styles.sliderGroup}>
                             <input
                                 id="r1"
                                 type="range"
-                                className="slider"
+                                className={styles.slider}
                                 min="0"
                                 max="100"
                                 value={value}
@@ -166,55 +166,43 @@ const Settings: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className="settings-box theme-accnt">
-                    {/* <div className="setting-group">
-                        <label className="group-title">Layout Style</label>
-                        <div className="layout-options mt-8">
-                            <div className="layout-box active">
-                                <div className="red-bar" />
-                                <div className="gray-box" />
-                            </div>
-                            <div className="layout-box">
-                                <div className="gray-box2" />
-                                <div className="gray-box2" />
-                            </div>
-                        </div>
-                    </div> */}
-                    <div className="setting-group">
-                        <label className="group-title">Accent Color</label>
-                        <div className="color-options mt-8">
-                            <label className="color-swatch bg-red">
+
+                <div className={`${styles.settingsBox} ${styles.themeAccnt} `}>
+                    <div className={styles.settingGroup}>
+                        <label className={`${styles.groupTitle} ${styles.mrgnBtm8}`}>Accent Color</label>
+                        <div className={styles.colorOptions}>
+                            <label className={`${styles.colorSwatch} ${styles.bgRed}`}>
                                 <input type="radio" name="accent" value="red" defaultChecked />
-                            </label>{' '}
-                            <label className="color-swatch bg-black">
+                            </label>
+                            <label className={`${styles.colorSwatch} ${styles.bgBlack}`}>
                                 <input type="radio" name="accent" value="black" />
                             </label>
-                            <label className="color-swatch bg-blue">
+                            <label className={`${styles.colorSwatch} ${styles.bgBlue}`}>
                                 <input type="radio" name="accent" value="blue" />
                             </label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="workout-locn">
+
+            <div className={styles.workoutLocn}>
                 <h2>Workout Information</h2>
-                    <div className="inner-wrkout-locn">
-                <button className="prsn-btn">+ Location</button>
-                <button className="prsn-btn">+ Class</button>
+                <div className={styles.innerWrkoutLocn}>
+                    <button className={styles.prsnBtn}>+ Location</button>
+                    <button className={styles.prsnBtn}>+ Class</button>
+                </div>
             </div>
-            </div>
-        
-            <div className="workouts-vdo">
+
+            <div className={styles.workoutsVdo}>
                 <h2>Upload Photos and Videos for Workout</h2>
-                <div className="upload-box">
+                <div className={styles.uploadBox}>
                     <input type="file" accept="video/*" id="videoUpload" />
-                    <label htmlFor="videoUpload" className="upload-label">
-                        <div className="upload-icon">
+                    <label htmlFor="videoUpload" className={styles.uploadLabel}>
+                        <div className={styles.uploadIcon}>
                             <img src="/vdo_upload_icon.png" alt="upload-vdo-icon" />
                         </div>
-                        <p className="wrkout-vdo-para">
-                            <span className="work-vdio-btn">Select to Upload</span>
-
+                        <p className={styles.wrkoutVdoPara}>
+                            <span className={styles.workVdioBtn}>Select to Upload</span>
                             <span> or drag your video here</span>
                         </p>
                     </label>
