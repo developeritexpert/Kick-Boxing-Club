@@ -1,5 +1,18 @@
 
 
+html[data-theme="dark"] {
+   --layout-bg: #ffffff; /* White background */
+  --text-color: #fff;
+}
+
+html[data-theme="light"] {
+  --bg-color: #fff;
+  --text-color: #000;
+}
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
 
 .profileCnt {
     border: 1px solid rgba(0, 0, 0, 0.1);
