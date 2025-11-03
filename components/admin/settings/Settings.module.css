@@ -1,3 +1,6 @@
+
+
+
 .profileCnt {
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 37px;
@@ -5,6 +8,7 @@
     align-items: center;
     border-radius: 5px;
 }
+
 span.profileHeart {
     position: absolute;
     bottom: 0;
@@ -21,11 +25,11 @@ span.profileHeart {
     margin-left: 30px;
 }
 .profileName h3 {
-    font-size: 26px;
+   font-size: calc(var(--dynamic-font-size) * 1.6);
     font-weight: 600;
 }
 .profileName p {
-    font-size: 14px;
+  font-size: calc(var(--dynamic-font-size) * 0.875); 
     font-weight: 400;
 }
 
@@ -44,7 +48,7 @@ span.profileHeart {
 button.prsnBtn {
     margin-right: 25px;
     color: white;
-    background-color: #b40200;
+  background-color: var(--accent-color);
     padding: 16px 31px;
     display: flex;
     align-items: center;
@@ -55,7 +59,7 @@ button.prsnBtn img {
     margin-bottom: 3px;
 }
 button.prsnBtn span {
-    font-size: 16px;
+  font-size: calc(var(--dynamic-font-size) * 1); /* ~16px */
     font-weight: 600;
 }
 .prsnHd {
@@ -63,7 +67,7 @@ button.prsnBtn span {
 }
 
 .prsnHd h2 {
-    font-size: 28px;
+   font-size: calc(var(--dynamic-font-size) * 1.75); 
     font-weight: 600;
     padding: 30px 0px 30px 37px;
 }
@@ -77,14 +81,14 @@ button.prsnBtn span {
 }
 
 .prflName h4 {
-    font-size: 16px;
+       font-size: calc(var(--dynamic-font-size) * 1); /* ~16px default */
     font-weight: 400;
     color: #000000;
     line-height: 24px;
 }
 
 .prflName h5 {
-    font-size: 18px;
+  font-size: calc(var(--dynamic-font-size) * 1.125); /* ~18px default */
     font-weight: 600;
     line-height: 30px;
     color: #000000;
@@ -95,7 +99,7 @@ button.prsnBtn span {
 
 .acntInfo h2,
 .themeInfo h2 {
-    font-size: 28px;
+    font-size: calc(var(--dynamic-font-size) * 1.75); /* ~28px when default */
     font-weight: 600;
     border-bottom: 1px solid #0000001a;
     padding: 30px 0 30px 37px;
@@ -130,7 +134,7 @@ button.prsnBtn span {
     gap: 15px;
 }
 .acntInfo .formGroup label {
-    font-size: 16px;
+    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px */
 }
 .mrgnTop23 {
     margin-top: 23px;
@@ -211,7 +215,7 @@ select#timezone {
     align-items: center;
 }
 .themeInfo label.groupTitle {
-    font-size: 16px;
+    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px */
     color: black;
     line-height: 1.2;
 }
@@ -287,7 +291,7 @@ select#timezone {
 }
 .workoutsVdo h2 {
     color: #000;
-    font-size: 28px;
+    font-size: calc(var(--dynamic-font-size) * 1.75); /* ~28px when default */
     font-weight: 600;
     margin-bottom: 18px;
 }
@@ -302,7 +306,7 @@ select#timezone {
     border-radius: 5px;
     margin-bottom: 5px;
     padding: 12px 20px;
-    font-size: 12px;
+    font-size: calc(var(--dynamic-font-size) * 0.75); /* ~12px default */
     font-weight: 600;
 }
 .workoutsVdo .uploadBox {
@@ -320,14 +324,14 @@ select#timezone {
 }
 .workoutsVdo .uploadIcon {
     margin-bottom: 23px;
-    font-size: 25px;
+   font-size: calc(var(--dynamic-font-size) * 1.56); /* ~25px default */
 }
 .workoutsVdo .uploadLabel {
     cursor: pointer;
     color: #777;
     flex-direction: column;
     align-items: center;
-    font-size: 14px;
+    font-size: calc(var(--dynamic-font-size) * 0.875); /* ~14px default */
     display: flex;
 }
 .workoutsVdo input {
@@ -359,10 +363,16 @@ select#timezone {
 
 .themeInfo .slider {
     appearance: none;
+     --slider-progress: 50%;
     width: 300px;
     height: 4px;
     border-radius: 1px;
-    background: linear-gradient(to right, #4caf50 50%, #ddd 50%);
+   /* ✅ Slider progress & background controlled by CSS variables */
+    background: linear-gradient(
+        to right,
+        var(--accent-color, #B40200) var(--slider-progress),
+        rgba(0, 0, 0, 0.1) var(--slider-progress)
+    );
     outline: none;
     margin-right:16px;
     background-size: cover !important;
@@ -374,7 +384,7 @@ select#timezone {
     width: 17px;
     height: 17px;
     border-radius: 50%;
-    background: #B40200;
+   background: var(--accent-color, #B40200);
     cursor: pointer;
     background-repeat: no-repeat;
 }
@@ -383,7 +393,7 @@ select#timezone {
     width: 17px;
     height: 17px;
     border-radius: 50%;
-    background: #2e7d32;
+   background: var(--accent-color, #B40200);
     cursor: pointer;
 }
 .themeInfo .slider::-moz-range-track {
@@ -394,11 +404,11 @@ select#timezone {
 .themeInfo .slider::-moz-rangeProgress {
     height: 12px;
     border-radius: 8px;
-    background: #4caf50;
+    background: var(--accent-color, #B40200);
 }
 
 .workoutLocn h2 {
-    font-size: 28px;
+    font-size: calc(var(--dynamic-font-size) * 1.75); /* ~28px default */
     font-weight: 600;
     border-bottom:1px solid #0000001A;
     padding: 30px 0 30px 37px;
@@ -417,31 +427,31 @@ select#timezone {
 
 @media(max-width:1399px){
     .profileName h3 {
-        font-size: 24px;
+        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
     }
     .prflName h5 {
-        font-size: 16px;
+      font-size: calc(var(--dynamic-font-size) * 1); 
     }
     .prsnHd h2 {
         padding: 19px 0 19px 37px;
-        font-size: 24px;
+         font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
         font-weight: 600;
     }
     button.prsnBtn {
         padding: 8px 12px;
     }
     button.prsnBtn span {
-        font-size: 15px;
+        font-size: calc(var(--dynamic-font-size) * 0.94); /* ~15px default */
     }
     .acntInfo h2, .themeInfo h2 {
         padding: 19px 0 19px 37px;
-        font-size: 24px;
+     font-size: var(--dynamic-font-size, 16px)
     }
     .workoutLocn h2 {
         padding: 19px 0 19px 37px;
-        font-size: 24px;
+        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
     }
     .workoutsVdo h2 {
-        font-size: 24px;
+       font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
     }
 }

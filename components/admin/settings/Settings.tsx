@@ -4,25 +4,60 @@ import styles from "./Settings.module.css";
 
 const Settings: React.FC = () => {
     const [value, setValue] = useState(50);
+     const [fontSize, setFontSize] = useState("Medium");
+     
+       const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
 
-    useEffect(() => {
-        const slider = document.getElementById('r1') as HTMLInputElement | null;
-        if (!slider) return;
+    let label = "Medium";
+    let size = "16px";
 
-        function setGradient(el: HTMLInputElement) {
-            const min = Number(el.min) || 0;
-            const max = Number(el.max) || 100;
-            const val = Number(el.value);
-            const pct = ((val - min) / (max - min)) * 100;
-            el.style.background = `linear-gradient(to right, #B40200 ${pct}%, #0000001A ${pct}%)`;
-        }
+    if (value <= 33) {
+      label = "Small";
+      size = "14px";
+    } else if (value <= 66) {
+      label = "Medium";
+      size = "16px";
+    } else {
+      label = "Large";
+      size = "18px";
+    }
 
-        setGradient(slider);
-        slider.addEventListener('input', () => setGradient(slider));
-        return () => {
-            slider.removeEventListener('input', () => setGradient(slider));
-        };
-    }, []);
+    setFontSize(label);
+     document.documentElement.style.setProperty('--dynamic-font-size', size);
+    // document.body.style.fontSize = size; //  Apply font size globally
+  };
+  const handleAccentChange = (color) => {
+  document.documentElement.style.setProperty('--accent-color', color);
+};
+useEffect(() => {
+  // Set initial accent color when settings page loads
+  document.documentElement.style.setProperty('--accent-color', '#B40200');
+}, []);
+useEffect(() => {
+    
+    const slider = document.getElementById('r1') as HTMLInputElement | null;
+    if (!slider) return;
+
+    function updateSliderUI(el: HTMLInputElement) {
+        const min = Number(el.min) || 0;
+        const max = Number(el.max) || 100;
+        const val = Number(el.value);
+        const pct = ((val - min) / (max - min)) * 100;
+
+        el.style.setProperty('--slider-progress', `${pct}%`);
+    }
+
+    updateSliderUI(slider);
+
+    const handler = () => updateSliderUI(slider);
+
+    slider.addEventListener('input', handler);
+
+    return () => {
+        slider.removeEventListener('input', handler);
+    };
+}, []);
 
     return (
         <div>
@@ -160,9 +195,12 @@ const Settings: React.FC = () => {
                                 min="0"
                                 max="100"
                                 value={value}
-                                onChange={(e) => setValue(Number(e.target.value))}
+                                onChange={(e) => {handleSliderChange(e)
+                                      setValue(Number(e.target.value))
+                                }
+                                  }
                             />
-                            <span>Medium</span>
+                            <span>{fontSize}</span>
                         </div>
                     </div>
                 </div>
@@ -172,13 +210,18 @@ const Settings: React.FC = () => {
                         <label className={`${styles.groupTitle} ${styles.mrgnBtm8}`}>Accent Color</label>
                         <div className={styles.colorOptions}>
                             <label className={`${styles.colorSwatch} ${styles.bgRed}`}>
-                                <input type="radio" name="accent" value="red" defaultChecked />
+                                <input type="radio" name="accent" value="#B40200" defaultChecked 
+                                  onChange={(e) => handleAccentChange(e.target.value)}
+                                />
                             </label>
                             <label className={`${styles.colorSwatch} ${styles.bgBlack}`}>
-                                <input type="radio" name="accent" value="black" />
+                                <input type="radio" name="accent" value="black" 
+                                  onChange={(e) => handleAccentChange(e.target.value)}/>
                             </label>
                             <label className={`${styles.colorSwatch} ${styles.bgBlue}`}>
-                                <input type="radio" name="accent" value="blue" />
+                                <input type="radio" name="accent" value="blue"
+                                  onChange={(e) => handleAccentChange(e.target.value)}
+                                 />
                             </label>
                         </div>
                     </div>
