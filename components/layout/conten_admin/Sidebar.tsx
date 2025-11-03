@@ -13,17 +13,17 @@ type Props = {
 };
 
 const menu = [
-    { key: 'dashboard', label: 'Dashboard', icon: '/home_icon.png',alt:"home-icon" ,href: '/admin' },
-    { key: 'users', label: 'User Management', icon: '/create_management_icon.png',alt:"create-library-icon" , href: '/admin/users' },
+    { key: 'dashboard', label: 'Dashboard', icon: '/home_icon.png',alt:"home-icon" ,href: '/content-admin' },
+    // { key: 'users', label: 'User Management', icon: '/create_management_icon.png',alt:"create-library-icon" , href: '/content-admin/users' },
     // { key: 'workouts', label: 'Workout Library', icon: '📚', href: '/admin/workouts' },
-    { key: 'movement', label: 'Create a Movement',  icon: '/create_movmnt.png',alt:"create_movmnt_icon" , href: '/admin/movement/create' },
-    { key: 'momentLibrary', label: 'Movement Library',  icon: '/movement_library_icon.png',alt:"movement_library_icon_icon" , href: '/admin/movement/library' },
-    { key: 'workout', label: 'Create a Workout', icon: '/create_workout_icon.png',alt:"/create_workout_icon.png" , href: '/admin/workouts/create' },
-    { key: 'workoutLibrary', label: 'Workout Library', icon: '/workout_libray.png',alt:"workout_libray_icon" ,  href: '/admin/workouts' },
-    { key: 'favorites', label: 'My Favorites',  icon: '/myFav_icon.png',alt:"myFav__icon" ,href: '/admin/favorites' },
-    { key: 'recent', label: 'Recent Workouts',  icon: '/recent_icon.png',alt:"recent__icon" , href: '/admin/recent' },
+    { key: 'movement', label: 'Create a Movement',  icon: '/create_movmnt.png',alt:"create_movmnt_icon" , href: '/content-admin/movement/create' },
+    { key: 'momentLibrary', label: 'Movement Library',  icon: '/movement_library_icon.png',alt:"movement_library_icon_icon" , href: '/content-admin/movement/library' },
+    { key: 'workout', label: 'Create a Workout', icon: '/create_workout_icon.png',alt:"/create_workout_icon.png" , href: '/content-admin/workouts/create' },
+    { key: 'workoutLibrary', label: 'Workout Library', icon: '/workout_libray.png',alt:"workout_libray_icon" ,  href: '/content-admin/workouts' },
+    { key: 'favorites', label: 'My Favorites',  icon: '/myFav_icon.png',alt:"myFav__icon" ,href: '/content-admin/favorites' },
+    { key: 'recent', label: 'Recent Workouts',  icon: '/recent_icon.png',alt:"recent__icon" , href: '/content-admin/recent' },
     // { key: "builder", label: "Workout Builder", icon: "🧩", href: "/admin/builder" },
-    { key: 'settings', label: 'Setting',  icon: '/setting_icon.png',alt:"setting_icon" , href: '/admin/settings' },
+    { key: 'settings', label: 'Setting',  icon: '/setting_icon.png',alt:"setting_icon" , href: '/content-admin/settings' },
 ];
 
 export default function Sidebar({ collapsed, setCollapsed }: Props) {
@@ -70,8 +70,8 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
                     {menu.map((m) => {
 
                         const isActive =
-                            m.href === '/admin'
-                                ? pathname === '/admin'
+                            m.href === '/content-admin'
+                                ? pathname === '/content-admin'
                                 : pathname === m.href;
 
                         return (
