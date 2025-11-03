@@ -27,7 +27,9 @@ export default function LoginForm() {
     useEffect(() => {
         if (user) {
             if (user.role === 'admin') router.push('/admin');
-            else router.push('/admin');
+            else if (user.role === 'content_admin') router.push('/content_admin');
+            else if (user.role === 'instructor') router.push('/instructor');
+            else router.push('/');
         }
     }, [user, router]);
 
