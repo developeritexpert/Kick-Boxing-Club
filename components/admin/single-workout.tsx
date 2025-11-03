@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
-import { Stream } from '@cloudflare/stream-react';
 import './single-workout.css';
 
 interface MovementItem {
@@ -30,21 +29,140 @@ const SingleWorkout: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isResting, setIsResting] = useState(false);
     const [restTimer, setRestTimer] = useState(0);
+    const [workoutComplete, setWorkoutComplete] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isFullscreen, setIsFullscreen] = useState(false);
     const { workoutId } = useParams();
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const currentIndexRef = useRef(currentIndex);
     const workoutRef = useRef(workout);
-
+    const videoContainerRef = useRef<HTMLDivElement>(null);
+    const iframeRef = useRef<HTMLIFrameElement>(null);
 
     useEffect(() => {
         currentIndexRef.current = currentIndex;
     }, [currentIndex]);
 
     useEffect(() => {
+        const handleMessage = (event: MessageEvent) => {
+           if (event.origin !== 'https://iframe.videodelivery.net') {
+				console.log('Ignoring message from:', event.origin);
+				return;
+			}
+            try {
+                const data = event.data;
+                if (data && data.eventName === 'ended') {
+                    console.log('Video ended - starting rest period');
+                    handleVideoEnd();
+                }
+                // console.log('Stream event:', data);
+            } catch (error) {
+                console.error('Error handling iframe message:', error);
+            }
+        };
+        window.addEventListener('message', handleMessage);
+        return () => {
+            window.removeEventListener('message', handleMessage);
+        };
+    }, [currentIndex, workout]); 
+
+    useEffect(() => {
         workoutRef.current = workout;
     }, [workout]);
+
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(!!document.fullscreenElement);
+        };
+
+        document.addEventListener("fullscreenchange", handleFullscreenChange);
+        document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+        document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+        document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+        return () => {
+            document.removeEventListener("fullscreenchange", handleFullscreenChange);
+            document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+            document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
+            document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
+        };
+    }, []);
+
+    // Toggle fullscreen on the container
+	function requestFullscreen(element: HTMLElement) {
+		const anyElement = element as HTMLElement & {
+			webkitRequestFullscreen?: () => Promise<void>;
+			mozRequestFullScreen?: () => Promise<void>;
+			msRequestFullscreen?: () => Promise<void>;
+		};
+
+		if (anyElement.requestFullscreen) {
+			return anyElement.requestFullscreen();
+		} else if (anyElement.webkitRequestFullscreen) {
+			return anyElement.webkitRequestFullscreen();
+		} else if (anyElement.mozRequestFullScreen) {
+			return anyElement.mozRequestFullScreen();
+		} else if (anyElement.msRequestFullscreen) {
+			return anyElement.msRequestFullscreen();
+		}
+	}
+
+	function exitFullscreen() {
+		const doc = document as Document & {
+			webkitExitFullscreen?: () => Promise<void>;
+			mozCancelFullScreen?: () => Promise<void>;
+			msExitFullscreen?: () => Promise<void>;
+		};
+
+		if (doc.exitFullscreen) {
+			return doc.exitFullscreen();
+		} else if (doc.webkitExitFullscreen) {
+			return doc.webkitExitFullscreen();
+		} else if (doc.mozCancelFullScreen) {
+			return doc.mozCancelFullScreen();
+		} else if (doc.msExitFullscreen) {
+			return doc.msExitFullscreen();
+		}
+	}
+
+	const toggleFullscreen = () => {
+		const elem = videoContainerRef.current;
+		if (!elem) return;
+
+		if (!document.fullscreenElement) {
+			requestFullscreen(elem);
+		} else {
+			exitFullscreen();
+		}
+	};
+
+    // const toggleFullscreen = () => {
+    //     const elem = videoContainerRef.current;
+    //     if (!elem) return;
+
+    //     if (!document.fullscreenElement) {
+    //         if (elem.requestFullscreen) {
+    //             elem.requestFullscreen();
+    //         } else if ((elem as any).webkitRequestFullscreen) {
+    //             (elem as any).webkitRequestFullscreen();
+    //         } else if ((elem as any).mozRequestFullScreen) {
+    //             (elem as any).mozRequestFullScreen();
+    //         } else if ((elem as any).msRequestFullscreen) {
+    //             (elem as any).msRequestFullscreen();
+    //         }
+    //     } else {
+    //         if (document.exitFullscreen) {
+    //             document.exitFullscreen();
+    //         } else if ((document as any).webkitExitFullscreen) {
+    //             (document as any).webkitExitFullscreen();
+    //         } else if ((document as any).mozCancelFullScreen) {
+    //             (document as any).mozCancelFullScreen();
+    //         } else if ((document as any).msExitFullscreen) {
+    //             (document as any).msExitFullscreen();
+    //         }
+    //     }
+    // };
 
     useEffect(() => {
         if (!workoutId) return;
@@ -115,7 +233,9 @@ const SingleWorkout: React.FC = () => {
         const current = workout?.workout_movements[currentIndex];
         if (!current) return;
 
+        // Check if this is the last video
         if (!workout || currentIndex >= workout.workout_movements.length - 1) {
+            setWorkoutComplete(true);
             return;
         }
 
@@ -130,6 +250,7 @@ const SingleWorkout: React.FC = () => {
 
         setIsResting(false);
         setRestTimer(0);
+        setWorkoutComplete(false);
 
         if (workout && currentIndex < workout.workout_movements.length - 1) {
             setCurrentIndex(prev => prev + 1);
@@ -144,6 +265,7 @@ const SingleWorkout: React.FC = () => {
 
         setIsResting(false);
         setRestTimer(0);
+        setWorkoutComplete(false);
 
         if (currentIndex > 0) {
             setCurrentIndex(prev => prev - 1);
@@ -195,6 +317,11 @@ const SingleWorkout: React.FC = () => {
     const isLast = currentIndex === workout.workout_movements.length - 1;
     const totalMovements = workout.workout_movements.length;
 
+    // Construct iframe URL for Cloudflare Stream
+    const getIframeSrc = (videoId: string) => {
+        return `https://iframe.videodelivery.net/${videoId}?autoplay=true&controls=true`;
+    };
+
     return (
         <div className="single-workout-container">
             <div className="workout-card">
@@ -208,202 +335,305 @@ const SingleWorkout: React.FC = () => {
                     </div>
                 </div>
 
-                {isResting ? (
-                    <div style={{
+                {/* Video Container with Rest Overlay */}
+                <div
+                    ref={videoContainerRef}
+                    style={{
+                        position: 'relative',
                         width: '100%',
                         aspectRatio: '16/9',
-                        background: 'linear-gradient(135deg, #ff0202ff 0%, #ff0202ff 100%)',
+                        background: '#000',
                         borderRadius: '8px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        padding: '40px',
-                        color: 'white'
-                    }}>
-                        <h2 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '20px' }}>Rest Time</h2>
-                        <div style={{ fontSize: '72px', fontWeight: '700', marginBottom: '20px' }}>{restTimer}s</div>
-                        {currentIndex < totalMovements - 1 && (
-                            <p style={{ fontSize: '20px', marginBottom: '20px' }}>
-                                Next: {workout.workout_movements[currentIndex + 1]?.movements.name}
-                            </p>
-                        )}
-                        <button
-                            onClick={skipRest}
+                        overflow: 'hidden'
+                    }}
+                >
+                    {currentMovement?.movements.video_id ? (
+                        <iframe
+                            ref={iframeRef}
+                            key={currentMovement.movements.video_id}
+                            src={getIframeSrc(currentMovement.movements.video_id)}
                             style={{
-                                background: 'white',
-                                color: '#ff0202ff',
-                                padding: '12px 24px',
-                                borderRadius: '24px',
-                                border: 'none',
-                                fontWeight: '600',
-                                cursor: 'pointer',
-                                fontSize: '16px'
-                            }}
-                        >
-                            Skip Rest
-                        </button>
-                    </div>
-                ) : (
-                    <>
-                        {currentMovement?.movements.video_id ? (
-                            // default cloudFlare plalyer
-                            // <iframe
-                            //     key={currentMovement.movements.video_id}
-                            //     src={`https://iframe.videodelivery.net/${currentMovement.movements.video_id}?autoplay=true&muted=false`}
-                            //     allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                            //     allowFullScreen
-                            //     className="workout-image"
-                            //     style={{ aspectRatio: '16/9', border: 'none' }}
-                            // />
-                            <Stream
-                                controls
-                                autoplay
-                                src={currentMovement.movements.video_id}
-                                onEnded={handleVideoEnd}
-                                onError={(e) => console.error('Video error', e)}
-                                className="w-full h-full rounded-xl"
-                            />
-
-                        ) : (
-                            <div style={{
                                 width: '100%',
-                                aspectRatio: '16/9',
-                                background: '#f0f0f0',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}>
-                                <p>No video available</p>
-                            </div>
-                        )}
-
-                        <div style={{ width: '100%', marginTop: '16px' }}>
-                            <div className="casting-cnt">
-                                <h2 className="workout-title">{currentMovement?.movements.name}</h2>
-                                <img src="/casting_icon.png" alt="casting img" />
-                            </div>
-                            <div className="workout-meta">
-                                {currentMovement?.duration > 0 && (
-                                    <div className="meta-item">
-                                        <span className="meta-label">Duration:</span>
-                                        <span className="meta-value">{currentMovement.duration}s</span>
-                                    </div>
-                                )}
-                                {currentMovement?.rest_after > 0 && (
-                                    <div className="meta-item">
-                                        <span className="meta-label">Rest After:</span>
-                                        <span className="meta-value">{currentMovement.rest_after}s</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </>
-                )}
-
-                <div style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    marginTop: '24px',
-                    gap: '16px'
-                }}>
-                    <button
-                        onClick={goToPreviousVideo}
-                        disabled={isFirst}
-                        style={{
-                            padding: '12px 24px',
-                            borderRadius: '24px',
-                            border: 'none',
-                            fontWeight: '600',
-                            cursor: isFirst ? 'not-allowed' : 'pointer',
-                            fontSize: '16px',
-                            background: isFirst ? '#e0e0e0' : '#ff0202ff',
-                            color: isFirst ? '#999' : 'white',
-                            opacity: isFirst ? 0.6 : 1
-                        }}
-                    >
-                        ← Previous
-                    </button>
-
-                    <div style={{ flex: 1, maxWidth: '300px' }}>
-                        <div style={{
-                            background: '#e0e0e0',
-                            height: '8px',
-                            borderRadius: '4px',
-                            overflow: 'hidden'
-                        }}>
-                            <div style={{
-                                background: '#ff0202ff',
                                 height: '100%',
-                                width: `${((currentIndex + 1) / totalMovements) * 100}%`,
-                                transition: 'width 0.3s ease'
-                            }} />
+                                border: 'none',
+                                position: 'absolute',
+                                top: 0,
+                                left: 0
+                            }}
+                            allow="autoplay; encrypted-media;"
+                            allowFullScreen={false}
+                            title={`Video player for ${currentMovement.movements.name}`}
+                        />
+                    ) : (
+                        <div style={{
+                            width: '100%',
+                            height: '100%',
+                            background: '#f0f0f0',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <p>No video available</p>
                         </div>
-                    </div>
+                    )}
 
+                    {/* Custom Fullscreen Button */}
                     <button
-                        onClick={isLast ? undefined : goToNextVideo}
-                        disabled={isLast}
+                        onClick={toggleFullscreen}
                         style={{
-                            padding: '12px 24px',
-                            borderRadius: '24px',
+                            position: 'absolute',
+                            top: '12px',
+                            right: '12px',
+                            background: 'rgba(0, 0, 0, 0.6)',
+                            color: 'white',
                             border: 'none',
+                            borderRadius: '6px',
+                            padding: '8px',
+                            cursor: 'pointer',
+                            fontSize: '14px',
                             fontWeight: '600',
-                            cursor: isLast ? 'not-allowed' : 'pointer',
-                            fontSize: '16px',
-                            background: isLast ? '#e0e0e0' : '#ff0202ff',
-                            color: isLast ? '#999' : 'white',
-                            opacity: isLast ? 0.6 : 1
+                            zIndex: 20,
+                            transition: 'background 0.2s',
                         }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.8)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)'}
                     >
-                        Next →
+                        {/* {isFullscreen ? '✕ ' : 'F'} */}
+						 {isFullscreen ? '✕ Exit Fullscreen' : 'Fullscreen'}
                     </button>
+
+                    {/* Rest Overlay - Shows on top of video during rest */}
+                    {isResting && (
+                        <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'rgba(0, 0, 0, 0.92)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '40px',
+                            color: 'white',
+                            zIndex: 10
+                        }}>
+                            <h2 style={{
+                                fontSize: isFullscreen ? '48px' : '32px',
+                                fontWeight: '700',
+                                marginBottom: '20px',
+                                textAlign: 'center'
+                            }}>
+                                Rest Time
+                            </h2>
+                            <div style={{
+                                fontSize: isFullscreen ? '120px' : '72px',
+                                fontWeight: '700',
+                                marginBottom: '20px',
+                                color: '#ff0202ff'
+                            }}>
+                                {restTimer}s
+                            </div>
+                            {currentIndex < totalMovements - 1 && (
+                                <p style={{
+                                    fontSize: isFullscreen ? '28px' : '20px',
+                                    marginBottom: '30px',
+                                    textAlign: 'center',
+                                    maxWidth: '80%'
+                                }}>
+                                    Next: {workout.workout_movements[currentIndex + 1]?.movements.name}
+                                </p>
+                            )}
+                            <button
+                                onClick={skipRest}
+                                style={{
+                                    background: '#ff0202ff',
+                                    color: 'white',
+                                    padding: isFullscreen ? '16px 48px' : '12px 24px',
+                                    borderRadius: '24px',
+                                    border: 'none',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    fontSize: isFullscreen ? '20px' : '16px',
+                                    transition: 'transform 0.2s',
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                            >
+                                Skip Rest →
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Workout Complete Overlay */}
+                    {workoutComplete && (
+                        <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'rgba(255, 2, 2, 0.95)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '40px',
+                            color: 'white',
+                            zIndex: 10
+                        }}>
+                            <h3 style={{
+                                fontSize: isFullscreen ? '48px' : '32px',
+                                fontWeight: '700',
+                                marginBottom: '16px',
+                                textAlign: 'center'
+                            }}>
+                                Workout Complete!
+                            </h3>
+                            <p style={{
+                                fontSize: isFullscreen ? '24px' : '18px',
+                                textAlign: 'center'
+                            }}>
+                                Great job finishing all {totalMovements} movements!
+                            </p>
+                        </div>
+                    )}
                 </div>
 
-                {!isResting && !isLast && (
-                    <button
-                        onClick={handleVideoEnd}
-                        style={{
-                            width: '100%',
-                            marginTop: '16px',
-                            padding: '16px',
-                            borderRadius: '8px',
-                            border: 'none',
-                            fontWeight: '600',
-                            cursor: 'pointer',
-                            fontSize: '16px',
-                            background: '#ff0202ff',
-                            color: 'white'
-                        }}
-                    >
-                        Video Finished - Start Rest Period
-                    </button>
+                {/* Movement Info - Hidden in fullscreen */}
+                {!isFullscreen && (
+                    <div style={{ width: '100%', marginTop: '16px' }}>
+                        <div className="casting-cnt">
+                            <h2 className="workout-title">{currentMovement?.movements.name}</h2>
+                            <img src="/casting_icon.png" alt="casting img" />
+                        </div>
+                        <div className="workout-meta">
+                            {currentMovement?.duration > 0 && (
+                                <div className="meta-item">
+                                    <span className="meta-label">Duration:</span>
+                                    <span className="meta-value">{currentMovement.duration}s</span>
+                                </div>
+                            )}
+                            {currentMovement?.rest_after > 0 && (
+                                <div className="meta-item">
+                                    <span className="meta-label">Rest After:</span>
+                                    <span className="meta-value">{currentMovement.rest_after}s</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 )}
 
-                {isLast && !isResting && (
-                    <div style={{
-                        width: '100%',
-                        marginTop: '24px',
-                        background: '#ff0202ff',
-                        color: 'white',
-                        padding: '24px',
-                        borderRadius: '8px',
-                        textAlign: 'center'
-                    }}>
-                        <h3 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '8px' }}>
-                            Workout Complete!
-                        </h3>
-                        <p style={{ fontSize: '18px' }}>Great job finishing all movements!</p>
-                    </div>
+                {/* Navigation Controls - Hidden in fullscreen */}
+                {!isFullscreen && (
+                    <>
+                        <div style={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            marginTop: '24px',
+                            gap: '16px'
+                        }}>
+                            <button
+                                onClick={goToPreviousVideo}
+                                disabled={isFirst}
+                                style={{
+                                    padding: '12px 24px',
+                                    borderRadius: '24px',
+                                    border: 'none',
+                                    fontWeight: '600',
+                                    cursor: isFirst ? 'not-allowed' : 'pointer',
+                                    fontSize: '16px',
+                                    background: isFirst ? '#e0e0e0' : '#ff0202ff',
+                                    color: isFirst ? '#999' : 'white',
+                                    opacity: isFirst ? 0.6 : 1
+                                }}
+                            >
+                                ← Previous
+                            </button>
+
+                            <div style={{ flex: 1, maxWidth: '300px' }}>
+                                <div style={{
+                                    background: '#e0e0e0',
+                                    height: '8px',
+                                    borderRadius: '4px',
+                                    overflow: 'hidden'
+                                }}>
+                                    <div style={{
+                                        background: '#ff0202ff',
+                                        height: '100%',
+                                        width: `${((currentIndex + 1) / totalMovements) * 100}%`,
+                                        transition: 'width 0.3s ease'
+                                    }} />
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={isLast ? undefined : goToNextVideo}
+                                disabled={isLast}
+                                style={{
+                                    padding: '12px 24px',
+                                    borderRadius: '24px',
+                                    border: 'none',
+                                    fontWeight: '600',
+                                    cursor: isLast ? 'not-allowed' : 'pointer',
+                                    fontSize: '16px',
+                                    background: isLast ? '#e0e0e0' : '#ff0202ff',
+                                    color: isLast ? '#999' : 'white',
+                                    opacity: isLast ? 0.6 : 1
+                                }}
+                            >
+                                Next →
+                            </button>
+                        </div>
+
+                        {!isResting && !isLast && (
+                            <button
+                                onClick={handleVideoEnd}
+                                style={{
+                                    width: '100%',
+                                    marginTop: '16px',
+                                    padding: '16px',
+                                    borderRadius: '8px',
+                                    border: 'none',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    fontSize: '16px',
+                                    background: '#ff0202ff',
+                                    color: 'white'
+                                }}
+                            >
+                                Video Finished - Start Rest Period
+                            </button>
+                        )}
+
+                        {isLast && !workoutComplete && (
+                            <button
+                                onClick={handleVideoEnd}
+                                style={{
+                                    width: '100%',
+                                    marginTop: '16px',
+                                    padding: '16px',
+                                    borderRadius: '8px',
+                                    border: 'none',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    fontSize: '16px',
+                                    background: '#ff0202ff',
+                                    color: 'white'
+                                }}
+                            >
+                                Complete Workout
+                            </button>
+                        )}
+                    </>
                 )}
             </div>
         </div>
     );
 };
-
 export default SingleWorkout;
 
 
@@ -413,11 +643,16 @@ export default SingleWorkout;
 
 
 
-// ::::::::::::::::autoplay error :::::::::::::::::::
-// ::::::::::::::::autoplay error :::::::::::::::::::
-// ::::::::::::::::autoplay error :::::::::::::::::::
-// ::::::::::::::::autoplay error :::::::::::::::::::
-// ::::::::::::::::autoplay error :::::::::::::::::::
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -454,11 +689,72 @@ export default SingleWorkout;
 //     const [currentIndex, setCurrentIndex] = useState(0);
 //     const [isResting, setIsResting] = useState(false);
 //     const [restTimer, setRestTimer] = useState(0);
+//     const [workoutComplete, setWorkoutComplete] = useState(false);
 //     const [loading, setLoading] = useState(true);
 //     const [error, setError] = useState<string | null>(null);
+//     const [isFullscreen, setIsFullscreen] = useState(false);
 //     const { workoutId } = useParams();
-
 //     const timerRef = useRef<NodeJS.Timeout | null>(null);
+//     const currentIndexRef = useRef(currentIndex);
+//     const workoutRef = useRef(workout);
+//     const videoContainerRef = useRef<HTMLDivElement>(null);
+
+//     useEffect(() => {
+//         currentIndexRef.current = currentIndex;
+//     }, [currentIndex]);
+
+//     useEffect(() => {
+//         workoutRef.current = workout;
+//     }, [workout]);
+
+//     // Detect fullscreen changes
+//     useEffect(() => {
+//         const handleFullscreenChange = () => {
+//             setIsFullscreen(!!document.fullscreenElement);
+//         };
+
+//         document.addEventListener("fullscreenchange", handleFullscreenChange);
+//         document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+//         document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+//         document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+//         return () => {
+//             document.removeEventListener("fullscreenchange", handleFullscreenChange);
+//             document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
+//             document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
+//             document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
+//         };
+//     }, []);
+
+//     // Toggle fullscreen on the container
+//     const toggleFullscreen = () => {
+//         const elem = videoContainerRef.current;
+//         if (!elem) return;
+
+//         if (!document.fullscreenElement) {
+//             if (elem.requestFullscreen) {
+//                 elem.requestFullscreen();
+//             } else if ((elem as any).webkitRequestFullscreen) {
+//                 (elem as any).webkitRequestFullscreen();
+//             } else if ((elem as any).mozRequestFullScreen) {
+//                 (elem as any).mozRequestFullScreen();
+//             } else if ((elem as any).msRequestFullscreen) {
+//                 (elem as any).msRequestFullscreen();
+//             }
+//         } else {
+//             if (document.exitFullscreen) {
+//                 document.exitFullscreen();
+//             } else if ((document as any).webkitExitFullscreen) {
+//                 (document as any).webkitExitFullscreen();
+//             } else if ((document as any).mozCancelFullScreen) {
+//                 (document as any).mozCancelFullScreen();
+//             } else if ((document as any).msExitFullscreen) {
+//                 (document as any).msExitFullscreen();
+//             }
+//         }
+//     };
+
+    
 
 //     useEffect(() => {
 //         if (!workoutId) return;
@@ -508,9 +804,16 @@ export default SingleWorkout;
 //                 if (prev <= 1) {
 //                     if (timerRef.current) {
 //                         clearInterval(timerRef.current);
+//                         timerRef.current = null;
 //                     }
 //                     setIsResting(false);
-//                     goToNextVideo();
+
+//                     const currentWorkout = workoutRef.current;
+//                     const currentIdx = currentIndexRef.current;
+
+//                     if (currentWorkout && currentIdx < currentWorkout.workout_movements.length - 1) {
+//                         setCurrentIndex(currentIdx + 1);
+//                     }
 //                     return 0;
 //                 }
 //                 return prev - 1;
@@ -522,7 +825,9 @@ export default SingleWorkout;
 //         const current = workout?.workout_movements[currentIndex];
 //         if (!current) return;
 
+//         // Check if this is the last video
 //         if (!workout || currentIndex >= workout.workout_movements.length - 1) {
+//             setWorkoutComplete(true);
 //             return;
 //         }
 
@@ -537,6 +842,7 @@ export default SingleWorkout;
 
 //         setIsResting(false);
 //         setRestTimer(0);
+//         setWorkoutComplete(false);
 
 //         if (workout && currentIndex < workout.workout_movements.length - 1) {
 //             setCurrentIndex(prev => prev + 1);
@@ -551,6 +857,7 @@ export default SingleWorkout;
 
 //         setIsResting(false);
 //         setRestTimer(0);
+//         setWorkoutComplete(false);
 
 //         if (currentIndex > 0) {
 //             setCurrentIndex(prev => prev - 1);
@@ -602,17 +909,6 @@ export default SingleWorkout;
 //     const isLast = currentIndex === workout.workout_movements.length - 1;
 //     const totalMovements = workout.workout_movements.length;
 
-
-//     if (!currentMovement) {
-//         return (
-//             <div className="single-workout-container">
-//                 <div className="workout-card">
-//                     <p>Loading movement...</p>
-//                 </div>
-//             </div>
-//         );
-//     }
-
 //     return (
 //         <div className="single-workout-container">
 //             <div className="workout-card">
@@ -626,197 +922,192 @@ export default SingleWorkout;
 //                     </div>
 //                 </div>
 
-//                 {isResting ? (
-//                     <div style={{
-//                         width: '100%',
-//                         aspectRatio: '16/9',
-//                         background: 'linear-gradient(135deg, #ff0202ff 0%, #ff0202ff 100%)',
-//                         borderRadius: '8px',
-//                         display: 'flex',
-//                         flexDirection: 'column',
-//                         alignItems: 'center',
-//                         justifyContent: 'center',
-//                         padding: '40px',
-//                         color: 'white'
-//                     }}>
-//                         <h2 style={{ fontSize: '32px', fontWeight: '700', marginBottom: '20px' }}>Rest Time</h2>
-//                         <div style={{ fontSize: '72px', fontWeight: '700', marginBottom: '20px' }}>{restTimer}s</div>
-//                         {currentIndex < totalMovements - 1 && (
-//                             <p style={{ fontSize: '20px', marginBottom: '20px' }}>
-//                                 Next: {workout.workout_movements[currentIndex + 1]?.movements.name}
-//                             </p>
-//                         )}
-//                         <button
-//                             onClick={skipRest}
-//                             style={{
-//                                 background: 'white',
-//                                 color: '#ff0202ff',
-//                                 padding: '12px 24px',
-//                                 borderRadius: '24px',
-//                                 border: 'none',
-//                                 fontWeight: '600',
-//                                 cursor: 'pointer',
-//                                 fontSize: '16px'
-//                             }}
-//                         >
-//                             Skip Rest
-//                         </button>
-//                     </div>
-//                 ) : (
-//                     <>
-//                         {currentMovement.movements.video_id ? (
-//                             // default cloudFlare plalyer
-//                             // <iframe
-//                             //     key={currentMovement.movements.video_id}
-//                             //     src={`https://iframe.videodelivery.net/${currentMovement.movements.video_id}?autoplay=true&muted=false`}
-//                             //     allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-//                             //     allowFullScreen
-//                             //     className="workout-image"
-//                             //     style={{ aspectRatio: '16/9', border: 'none' }}
-//                             // />
-//                             <Stream
-//                                 controls
-//                                 autoplay
-//                                 src={currentMovement.movements.video_id}
-//                                 onEnded={handleVideoEnd}
-//                                 onError={(e) => console.error('Video error', e)}
-//                                 className="w-full h-full rounded-xl"
-//                             />
-
-//                         ) : (
+//                 {/* Video Container with Rest Overlay */}
+//                 <div
+//                     ref={videoContainerRef}
+//                     style={{
+//                         position: 'relative',width: '100%',aspectRatio: '16/9',background: '#000',borderRadius: '8px',overflow: 'hidden'
+//                     }}
+//                 >
+//                     {currentMovement?.movements.video_id ? (
+//                         <Stream     
+//                             controls
+//                             autoplay
+//                             src={currentMovement.movements.video_id}
+//                             onEnded={handleVideoEnd}
+//                             onError={(e) => console.error('Video error', e)}
+//                             className="w-full h-full"
+//                         />
+//                     ) : (
 //                         <div style={{
-//                             width: '100%',
-//                             aspectRatio: '16/9',
-//                             background: '#f0f0f0',
-//                             borderRadius: '8px',
-//                             display: 'flex',
-//                             alignItems: 'center',
-//                             justifyContent: 'center'
+//                             width: '100%',height: '100%',background: '#f0f0f0',display: 'flex',alignItems: 'center',justifyContent: 'center'
 //                         }}>
 //                             <p>No video available</p>
 //                         </div>
+//                     )}
+
+//                     {/* Custom Fullscreen Button */}
+//                     <button
+//                         onClick={toggleFullscreen}
+//                         style={{
+//                             position: 'absolute',top: '12px',right: '12px',background: 'rgba(0, 0, 0, 0.6)',color: 'white',border: 'none',borderRadius: '6px',padding: '8px ',cursor: 'pointer',fontSize: '14px',fontWeight: '600',zIndex: 20,transition: 'background 0.2s',
+//                         }}
+//                         onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.8)'}
+//                         onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)'}
+//                     >
+//                         {/* {isFullscreen ? '✕ Exit Fullscreen' : 'Fullscreen'} */}
+//                         {isFullscreen ? '✕ ' : 'F'}
+//                     </button>
+
+//                     {/* Rest Overlay - Shows on top of video during rest */}
+//                     {isResting && (
+//                         <div style={{
+//                             position: 'absolute',top: 0,left: 0,right: 0,bottom: 0,background: 'rgba(0, 0, 0, 0.92)',display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center',padding: '40px',color: 'white',zIndex: 10
+//                         }}>
+//                             <h2 style={{
+//                                 fontSize: isFullscreen ? '48px' : '32px',fontWeight: '700',marginBottom: '20px',textAlign: 'center'
+//                             }}>
+//                                 Rest Time
+//                             </h2>
+//                             <div style={{
+//                                 fontSize: isFullscreen ? '120px' : '72px',fontWeight: '700',marginBottom: '20px',color: '#ff0202ff'
+//                             }}>
+//                                 {restTimer}s
+//                             </div>
+//                             {currentIndex < totalMovements - 1 && (
+//                                 <p style={{
+//                                     fontSize: isFullscreen ? '28px' : '20px',marginBottom: '30px',
+//                                     textAlign: 'center',maxWidth: '80%'
+//                                 }}>
+//                                     Next: {workout.workout_movements[currentIndex + 1]?.movements.name}
+//                                 </p>
+//                             )}
+//                             <button
+//                                 onClick={skipRest}
+//                                 style={{
+//                                     background: '#ff0202ff',color: 'white',
+//                                     padding: isFullscreen ? '16px 48px' : '12px 24px',borderRadius: '24px',border: 'none',fontWeight: '600',
+//                                     cursor: 'pointer',fontSize: isFullscreen ? '20px' : '16px',transition: 'transform 0.2s',
+//                                 }}
+//                                 onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+//                                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+//                             >
+//                                 Skip Rest →
+//                             </button>
+//                         </div>
+//                     )}
+
+//                     {/* Workout Complete Overlay */}
+//                     {workoutComplete && (
+//                         <div style={{
+//                             position: 'absolute',top: 0,left: 0,right: 0,bottom: 0,background: 'rgba(255, 2, 2, 0.95)',display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center',padding: '40px',color: 'white',zIndex: 10
+//                         }}>
+//                             <h3 style={{
+//                                 fontSize: isFullscreen ? '48px' : '32px',fontWeight: '700',
+//                                 marginBottom: '16px',textAlign: 'center'
+//                             }}>
+//                                 Workout Complete!
+//                             </h3>
+//                             <p style={{
+//                                 fontSize: isFullscreen ? '24px' : '18px',textAlign: 'center'
+//                             }}>
+//                                 Great job finishing all {totalMovements} movements!
+//                             </p>
+//                         </div>
+//                     )}
+//                 </div>
+
+//                 {/* Movement Info - Hidden in fullscreen */}
+//                 {!isFullscreen && (
+//                     <div style={{ width: '100%', marginTop: '16px' }}>
+//                         <div className="casting-cnt">
+//                             <h2 className="workout-title">{currentMovement?.movements.name}</h2>
+//                             <img src="/casting_icon.png" alt="casting img" />
+//                         </div>
+//                         <div className="workout-meta">
+//                             {currentMovement?.duration > 0 && (
+//                                 <div className="meta-item">
+//                                     <span className="meta-label">Duration:</span>
+//                                     <span className="meta-value">{currentMovement.duration}s</span>
+//                                 </div>
+//                             )}
+//                             {currentMovement?.rest_after > 0 && (
+//                                 <div className="meta-item">
+//                                     <span className="meta-label">Rest After:</span>
+//                                     <span className="meta-value">{currentMovement.rest_after}s</span>
+//                                 </div>
+//                             )}
+//                         </div>
+//                     </div>
+//                 )}
+
+//                 {/* Navigation Controls - Hidden in fullscreen */}
+//                 {!isFullscreen && (
+//                     <>
+//                         <div style={{
+//                             width: '100%',display: 'flex',alignItems: 'center',justifyContent: 'space-between',marginTop: '24px',gap: '16px'
+//                         }}>
+//                             <button
+//                                 onClick={goToPreviousVideo}
+//                                 disabled={isFirst}
+//                                 style={{
+//                                     padding: '12px 24px',borderRadius: '24px',border: 'none',fontWeight: '600',cursor: isFirst ? 'not-allowed' : 'pointer',
+//                                     fontSize: '16px',background: isFirst ? '#e0e0e0' : '#ff0202ff',
+//                                     color: isFirst ? '#999' : 'white',opacity: isFirst ? 0.6 : 1
+//                                 }}
+//                             >
+//                                 ← Previous
+//                             </button>
+
+//                             <div style={{ flex: 1, maxWidth: '300px' }}>
+//                                 <div style={{
+//                                     background: '#e0e0e0',height: '8px',borderRadius: '4px',overflow: 'hidden'
+//                                 }}>
+//                                     <div style={{
+//                                         background: '#ff0202ff',height: '100%',
+//                                         width: `${((currentIndex + 1) / totalMovements) * 100}%`,
+//                                         transition: 'width 0.3s ease'
+//                                     }} />
+//                                 </div>
+//                             </div>
+
+//                             <button
+//                                 onClick={isLast ? undefined : goToNextVideo}
+//                                 disabled={isLast}
+//                                 style={{
+//                                     padding: '12px 24px',borderRadius: '24px',border: 'none',fontWeight: '600',cursor: isLast ? 'not-allowed' : 'pointer',
+//                                     fontSize: '16px',background: isLast ? '#e0e0e0' : '#ff0202ff',
+//                                     color: isLast ? '#999' : 'white',opacity: isLast ? 0.6 : 1
+//                                 }}
+//                             >
+//                                 Next →
+//                             </button>
+//                         </div>
+
+//                         {!isResting && !isLast && (
+//                             <button
+//                                 onClick={handleVideoEnd}
+//                                 style={{
+//                                     width: '100%',marginTop: '16px',padding: '16px',borderRadius: '8px',
+//                                     border: 'none',fontWeight: '600',cursor: 'pointer',fontSize: '16px',background: '#ff0202ff',color: 'white'
+//                                 }}
+//                             >
+//                                 Video Finished - Start Rest Period
+//                             </button>
 //                         )}
 
-//                         <div style={{ width: '100%', marginTop: '16px' }}>
-//                             <div className="casting-cnt">
-//                                 <h2 className="workout-title">{currentMovement.movements.name}</h2>
-//                                 <img src="/casting_icon.png" alt="casting img"/>
-//                             </div>
-//                             <div className="workout-meta">
-//                                 {currentMovement.duration > 0 && (
-//                                     <div className="meta-item">
-//                                         <span className="meta-label">Duration:</span>
-//                                         <span className="meta-value">{currentMovement.duration}s</span>
-//                                     </div>
-//                                 )}
-//                                 {currentMovement.rest_after > 0 && (
-//                                     <div className="meta-item">
-//                                         <span className="meta-label">Rest After:</span>
-//                                         <span className="meta-value">{currentMovement.rest_after}s</span>
-//                                     </div>
-//                                 )}
-//                             </div>
-//                         </div>
+//                         {isLast && !workoutComplete && (
+//                             <button
+//                                 onClick={handleVideoEnd}
+//                                 style={{
+//                                     width: '100%',marginTop: '16px',padding: '16px',borderRadius: '8px',border: 'none',fontWeight: '600',cursor: 'pointer',fontSize: '16px',background: '#ff0202ff',color: 'white'
+//                                 }}
+//                             >
+//                                 Complete Workout
+//                             </button>
+//                         )}
 //                     </>
 //                 )}
-
-//                 <div style={{
-//                     width: '100%',
-//                     display: 'flex',
-//                     alignItems: 'center',
-//                     justifyContent: 'space-between',
-//                     marginTop: '24px',
-//                     gap: '16px'
-//                 }}>
-//                     <button
-//                         onClick={goToPreviousVideo}
-//                         disabled={isFirst}
-//                         style={{
-//                             padding: '12px 24px',
-//                             borderRadius: '24px',
-//                             border: 'none',
-//                             fontWeight: '600',
-//                             cursor: isFirst ? 'not-allowed' : 'pointer',
-//                             fontSize: '16px',
-//                             background: isFirst ? '#e0e0e0' : '#ff0202ff',
-//                             color: isFirst ? '#999' : 'white',
-//                             opacity: isFirst ? 0.6 : 1
-//                         }}
-//                     >
-//                         ← Previous
-//                     </button>
-
-//                     <div style={{ flex: 1, maxWidth: '300px' }}>
-//                         <div style={{
-//                             background: '#e0e0e0',
-//                             height: '8px',
-//                             borderRadius: '4px',
-//                             overflow: 'hidden'
-//                         }}>
-//                             <div style={{
-//                                 background: '#ff0202ff',
-//                                 height: '100%',
-//                                 width: `${((currentIndex + 1) / totalMovements) * 100}%`,
-//                                 transition: 'width 0.3s ease'
-//                             }} />
-//                         </div>
-//                     </div>
-
-//                     <button
-//                         onClick={isLast ? undefined : goToNextVideo}
-//                         disabled={isLast}
-//                         style={{
-//                             padding: '12px 24px',
-//                             borderRadius: '24px',
-//                             border: 'none',
-//                             fontWeight: '600',
-//                             cursor: isLast ? 'not-allowed' : 'pointer',
-//                             fontSize: '16px',
-//                             background: isLast ? '#e0e0e0' : '#ff0202ff',
-//                             color: isLast ? '#999' : 'white',
-//                             opacity: isLast ? 0.6 : 1
-//                         }}
-//                     >
-//                         Next →
-//                     </button>
-//                 </div>
-
-//                 {!isResting && !isLast && (
-//                     <button
-//                         onClick={handleVideoEnd}
-//                         style={{
-//                             width: '100%',
-//                             marginTop: '16px',
-//                             padding: '16px',
-//                             borderRadius: '8px',
-//                             border: 'none',
-//                             fontWeight: '600',
-//                             cursor: 'pointer',
-//                             fontSize: '16px',
-//                             background: '#ff0202ff',
-//                             color: 'white'
-//                         }}
-//                     >
-//                         Video Finished - Start Rest Period
-//                     </button>
-//                 )}
-
-//                 {isLast && !isResting && (
-//                     <div style={{
-//                         width: '100%',
-//                         marginTop: '24px',
-//                         background: '#ff0202ff',
-//                         color: 'white',
-//                         padding: '24px',
-//                         borderRadius: '8px',
-//                         textAlign: 'center'
-//                     }}>
-//                         <h3 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '8px' }}>
-//                             Workout Complete!
-//                         </h3>
-//                         <p style={{ fontSize: '18px' }}>Great job finishing all movements!</p>
-//                     </div>
-//                 )}
 //             </div>
 //         </div>
 //     );
@@ -824,56 +1115,3 @@ export default SingleWorkout;
 
 // export default SingleWorkout;
 
-
-
-
-
-
-// ::::::::::::Static Design::::::::::::
-// ::::::::::::Static Design::::::::::::
-// ::::::::::::Static Design::::::::::::
-
-
-// 'use client';
-
-// import React from 'react';
-// // import Image from 'next/image';
-// import './single-workout.css';
-
-// const SingleWorkout: React.FC = () => {
-//     return (
-//         <div className="single-workout-container">
-//             <div className="workout-card">
-//                 <img
-//                     src="https://picsum.photos/800/400?random=1"
-//                     alt="Workout"
-//                     className="workout-image"
-//                 />
-//                 <div className="casting-cnt">
-//                      <h1 className="workout-title">Morning Kickboxing Live</h1>
-//                      <img src="/casting_icon.png" alt="casting img"/>
-
-//                 </div>
-
-//                 <div className="workout-meta">
-//                     <div className="meta-item">
-//                           <span className="meta-icon">
-//                             <img src="/duration_icon.png" alt="tick_icon"/>
-//                           </span>
-//                         <span className="meta-label">Duration:</span>
-//                         <span className="meta-value">60 min</span>
-//                     </div>
-//                     <div className="meta-item">
-//                          <span className="meta-icon">
-//                             <img src="/tick_icon.png" alt="duration_icon"/>
-//                           </span>
-//                         <span className="meta-label">Status:</span>
-//                         <span className="meta-value status-active">Active</span>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default SingleWorkout;
