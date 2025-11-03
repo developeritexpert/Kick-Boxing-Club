@@ -1,0 +1,482 @@
+.profile-cnt {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 37px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+span.profile-heart {
+    position: absolute;
+    bottom: 0;
+    left: 93px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    padding: 9px;
+}
+
+.profile-img {
+    position: relative;
+}
+.profile-name {
+    margin-left: 30px;
+}
+.profile-name h3 {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.profile-name p {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.profile-name h3 {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.profile-name p {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.person-info {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 37px;
+    padding-bottom: 43px;
+}
+.prsn-hd {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+button.prsn-btn {
+    margin-right: 25px;
+    color: white;
+    background-color: #b40200;
+    padding: 16px 31px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 5px;
+}
+button.prsn-btn img {
+    margin-bottom: 3px;
+}
+button.prsn-btn span {
+    font-size: 16px;
+    font-weight: 600;
+}
+.prsn-hd {
+    border-bottom: 1px solid #0000001a;
+}
+
+.prsn-hd h2 {
+    font-size: 28px;
+    font-weight: 600;
+    padding: 30px 0px 30px 37px;
+}
+.prfl-info-cnt {
+    padding: 25px 0px 0px 37px;
+}
+.prfl-info-cnt {
+    display: flex;
+}
+
+.prfl-name {
+    flex: 1;
+}
+
+.prfl-name h4 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 24px;
+}
+
+.prfl-name h5 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    color: #000000;
+}
+.mrgntp {
+    margin-top: 25px;
+}
+
+.acnt-info h2,
+.theme-info h2 {
+    font-size: 28px;
+    font-weight: 600;
+    border-bottom: 1px solid #0000001a;
+    padding: 30px 0 30px 37px;
+}
+
+.acnt-info,
+.theme-info {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 37px;
+    padding-bottom: 43px;
+}
+.acnt-preferences.mrgntp {
+    padding-left: 37px;
+    padding-right: 25px;
+}
+.acnt-info-cnt {
+    display: flex;
+    width: 100%;
+}
+
+.acnt-preferences.mrgntp {
+    padding-left: 37px;
+}
+
+.acnt-info-cnt .form-group {
+    flex: 1;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.acnt-info .form-group label {
+    font-size: 16px;
+}
+.mrgn-top-23 {
+    margin-top: 23px;
+}
+.form-select {
+    padding: 15px 25px;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+}
+.form-select {
+    padding: 15px 25px;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #000000;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.form-select:focus {
+    border-color: black;
+    outline: none;
+    /* box-shadow: 0 0 4px rgba(180, 2, 0, 0.2); */
+}
+.acnt-info select#language,
+select#location,
+select#timezone {
+    margin-right: 30px;
+}
+.form-group.mrgn-top-23 {
+    width: 50%;
+}
+.acnt-info .checkbox-group {
+    gap: 85px;
+    display: flex;
+    margin-top: 15px;
+}
+.settings-box {
+    padding-left: 37px;
+    display: flex;
+}
+.setting-group {
+    flex: 1;
+}
+
+.acnt-info select {
+    appearance: none;
+}
+.acnt-info .form-group:after {
+    content: '';
+    background-image: url('/dropdown_icon.png');
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    top: 61px;
+    position: absolute;
+    right: 50px;
+}
+.acnt-info .form-group {
+    position: relative;
+}
+
+.acnt-info .custom-checkbox input[type='checkbox'] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #0000001a;
+    border-radius: 2px;
+    margin-right: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.acnt-info .custom-checkbox input[type='checkbox']:checked {
+    background-image: url('/tick_checkout_icon.png');
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #0000001a;
+    border-radius: 2px;
+    margin-right: 8px;
+    cursor: pointer;
+    position: relative;
+    background-position: center;
+}
+
+.acnt-info label.custom-checkbox {
+    display: flex;
+    align-items: center;
+}
+.theme-info label.group-title {
+    font-size: 16px;
+    color: black;
+    line-height: 1.2;
+}
+.mt-8 {
+    margin-top: 8px;
+}
+.settings-box.theme-accnt {
+    margin-top: 55px;
+}
+.radio-group {
+    display: flex;
+    gap: 20px;
+}
+/* Hide the default browser radio button */
+.theme-info .custom-radio input[type='radio'] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 25px;
+    height: 25px;
+
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid #0000001a;
+    margin-right: 8px;
+}
+
+.theme-info .custom-radio input[type='radio']:checked {
+    background-image: url('/radio_ellipse_icon .png');
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #b40200;
+}
+.theme-info label.custom-radio {
+    align-items: center;
+    display: flex;
+}
+
+.theme-info .layout-box.active {
+    width: 125px;
+    height: 100px;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 10px;
+    gap: 15px;
+}
+.layout-box .red-bar,
+.layout-box .gray-box {
+    width: 35px;
+    height: 80px;
+    border-radius: 5px;
+    background-color: #e4e4e4;
+}
+
+.color-swatch {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-right: 8px;
+}
+.bg-red {
+    background: #B40200;
+}
+.bg-black {
+    background: black;
+}
+.bg-blue {
+    background: blue;
+}
+.theme-info .color-options.mt-8 {
+    display: flex;
+}
+.workouts-vdo h2 {
+    color: #000;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.workouts-vdo {
+    margin-bottom: 18px;
+    margin-top: 52px;
+}
+.workouts-vdo span.work-vdio-btn {
+    background-color: #b4020005;
+    color: #000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 12px 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.workouts-vdo .upload-box {
+    text-align: center;
+    background-color: #01010103;
+    border: 1px dashed #0000001a;
+    border-radius: 5px;
+    padding: 25px;
+    position: relative;
+}
+.workouts-vdo p.wrkout-vdo-para {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+}
+.workouts-vdo .upload-icon {
+    margin-bottom: 23px;
+    font-size: 25px;
+}
+.workouts-vdo .upload-label {
+    cursor: pointer;
+    color: #777;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    display: flex;
+}
+.workouts-vdo input#videoUpload {
+    display: none;
+}
+
+/* HIDE default radio completely */
+.color-swatch input[type='radio'] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    margin-right: 8px;
+     
+}
+/* Highlight border when selected */
+.color-swatch input[type='radio']:checked + .color-swatch,
+.color-swatch input[type='radio']:checked {
+    border: 2px solid white;
+    outline: 2px solid green;
+   
+}
+
+.theme-info   .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 300px;
+    height: 4px;
+    border-radius: 1px;
+    background: linear-gradient(to right, #4caf50 50%, #ddd 50%);
+    outline: none;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    margin-right:16px;
+}
+
+.theme-info  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #B40200;
+    cursor: pointer;
+    background-repeat: no-repeat;
+}
+
+.theme-info  .slider::-moz-range-thumb {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #2e7d32;
+    cursor: pointer;
+}
+.theme-info  .slider::-moz-range-track {
+    height: 12px;
+    border-radius: 8px;
+    background: transparent;
+}
+.theme-info  .slider::-moz-range-progress {
+    height: 12px;
+    border-radius: 8px;
+    background: #4caf50;
+}
+
+.workout-locn h2 {
+    font-size: 28px;
+    font-weight: 600;
+    border-bottom:1px solid #0000001A;
+    padding: 30px 0 30px 37px;
+}
+.workout-locn{
+       border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    margin-top: 37px;
+    padding-bottom: 23px;
+}
+.inner-wrkout-locn {
+    display: flex;
+    margin-top: 23px;
+    margin-left:37px;
+}
+@media(max-width:1399px){
+    .profile-name h3 {
+    font-size: 24px;
+   
+}
+    .prfl-name h5 {
+ 
+    font-size: 16px;
+   
+}
+.prsn-hd h2 {
+    padding: 19px 0 19px 37px;
+    font-size: 24px;
+    font-weight: 600;
+}
+button.prsn-btn {
+    padding: 8px 12px;
+}
+button.prsn-btn span {
+    font-size: 15px;
+
+}
+.acnt-info h2, .theme-info h2 {
+    padding: 19px 0 19px 37px;
+    font-size: 24px;
+
+}
+.workout-locn h2 {
+    padding: 19px 0 19px 37px;
+    font-size: 24px;
+   
+}
+.workouts-vdo h2 {
+
+    font-size: 24px;
+}
+}
