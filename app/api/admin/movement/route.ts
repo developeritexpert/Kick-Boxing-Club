@@ -27,11 +27,10 @@ export async function GET() {
 
         if (!data || data.length === 0) {
             return NextResponse.json(
-                { success: true, message: "No movements found", data: [] },
-                { status: 200 }
+                { success: true, message: 'No movements found', data: [] },
+                { status: 200 },
             );
         }
-
 
         const userIds = [...new Set(data.map((m) => m.created_by).filter(Boolean))];
 

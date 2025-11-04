@@ -19,10 +19,10 @@ export async function POST(req: Request) {
         const video_uid = cfReservedContainer.uid;
         const upload_url = cfReservedContainer.uploadURL;
 
-        // video view url 
+        // video view url
         const video_url = `https://iframe.videodelivery.net/${video_uid}`;
 
-        const { data, error } = await supabaseAdmin.from("movements").insert([
+        const { data, error } = await supabaseAdmin.from('movements').insert([
             {
                 name: movementName,
                 description,
@@ -32,16 +32,15 @@ export async function POST(req: Request) {
                 created_by,
                 category_id,
                 sub_category: subCategory || null,
-                thumbnail_url: `https://videodelivery.net/${video_uid}/thumbnails/thumbnail.jpg`
+                thumbnail_url: `https://videodelivery.net/${video_uid}/thumbnails/thumbnail.jpg`,
             },
         ]);
 
         console.log('Create movement api result :');
         console.log(data);
-        
 
         if (error) {
-            console.error("Supabase insert error:", error);
+            console.error('Supabase insert error:', error);
             return NextResponse.json({ error: error.message }, { status: 500 });
         }
 

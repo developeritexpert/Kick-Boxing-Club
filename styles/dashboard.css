@@ -3,10 +3,10 @@
     --sidebar-bg: #000000;
     --sidebar-width: 240px;
     --sidebar-collapsed-width: 80px;
-    --accent-red: #B40200;
+    --accent-red: #b40200;
     --card-bg: #ffffff;
     --muted: #777;
-    --page-bg: #FBFBF9;
+    --page-bg: #fbfbf9;
 }
 
 * {
@@ -37,11 +37,10 @@ aside.sidebar.collapsed button.logout {
     color: #fff;
     flex-direction: column;
     min-height: 100vh;
-    transition: width .26s;
+    transition: width 0.26s;
     display: flex;
     position: relative;
     overflow-y: auto;
-
 
     /* Hide scrollbar (Chrome, Edge, Safari) */
     scrollbar-width: none; /* Firefox */
@@ -70,7 +69,7 @@ aside.sidebar.collapsed button.logout {
     align-items: center;
     width: 100%;
     display: flex;
-    border-bottom: 1px solid #FFFFFF4D;
+    border-bottom: 1px solid #ffffff4d;
     padding-bottom: 15px;
 }
 .hamburger {
@@ -84,7 +83,6 @@ aside.sidebar.collapsed button.logout {
 .brand-text {
     font-weight: 700;
     font-size: 16px;
-
 }
 
 /* nav */
@@ -112,7 +110,6 @@ aside.sidebar.collapsed button.logout {
     color: #ddd;
     text-decoration: none;
     padding: 10px 12px;
-
 }
 
 .nav-icon {
@@ -129,7 +126,7 @@ aside.sidebar.collapsed button.logout {
 .nav-item:hover .nav-link {
     background: #b40200;
     color: #fff;
-       border-top-left-radius: 55px;
+    border-top-left-radius: 55px;
     border-bottom-left-radius: 55px;
 }
 .nav-item.active .nav-link {
@@ -441,7 +438,7 @@ header.dashboard-header {
     background-color: #e0e0e0;
 }
 @media (max-width: 1399px) {
-.nav-label {
-    font-size: 15px;
-}
+    .nav-label {
+        font-size: 15px;
+    }
 }

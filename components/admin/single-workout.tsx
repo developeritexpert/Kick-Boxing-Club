@@ -46,10 +46,10 @@ const SingleWorkout: React.FC = () => {
 
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
-           if (event.origin !== 'https://iframe.videodelivery.net') {
-				console.log('Ignoring message from:', event.origin);
-				return;
-			}
+            if (event.origin !== 'https://iframe.videodelivery.net') {
+                console.log('Ignoring message from:', event.origin);
+                return;
+            }
             try {
                 const data = event.data;
                 if (data && data.eventName === 'ended') {
@@ -65,7 +65,7 @@ const SingleWorkout: React.FC = () => {
         return () => {
             window.removeEventListener('message', handleMessage);
         };
-    }, [currentIndex, workout]); 
+    }, [currentIndex, workout]);
 
     useEffect(() => {
         workoutRef.current = workout;
@@ -76,66 +76,66 @@ const SingleWorkout: React.FC = () => {
             setIsFullscreen(!!document.fullscreenElement);
         };
 
-        document.addEventListener("fullscreenchange", handleFullscreenChange);
-        document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-        document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-        document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
         return () => {
-            document.removeEventListener("fullscreenchange", handleFullscreenChange);
-            document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
-            document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
-            document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
         };
     }, []);
 
     // Toggle fullscreen on the container
-	function requestFullscreen(element: HTMLElement) {
-		const anyElement = element as HTMLElement & {
-			webkitRequestFullscreen?: () => Promise<void>;
-			mozRequestFullScreen?: () => Promise<void>;
-			msRequestFullscreen?: () => Promise<void>;
-		};
+    function requestFullscreen(element: HTMLElement) {
+        const anyElement = element as HTMLElement & {
+            webkitRequestFullscreen?: () => Promise<void>;
+            mozRequestFullScreen?: () => Promise<void>;
+            msRequestFullscreen?: () => Promise<void>;
+        };
 
-		if (anyElement.requestFullscreen) {
-			return anyElement.requestFullscreen();
-		} else if (anyElement.webkitRequestFullscreen) {
-			return anyElement.webkitRequestFullscreen();
-		} else if (anyElement.mozRequestFullScreen) {
-			return anyElement.mozRequestFullScreen();
-		} else if (anyElement.msRequestFullscreen) {
-			return anyElement.msRequestFullscreen();
-		}
-	}
+        if (anyElement.requestFullscreen) {
+            return anyElement.requestFullscreen();
+        } else if (anyElement.webkitRequestFullscreen) {
+            return anyElement.webkitRequestFullscreen();
+        } else if (anyElement.mozRequestFullScreen) {
+            return anyElement.mozRequestFullScreen();
+        } else if (anyElement.msRequestFullscreen) {
+            return anyElement.msRequestFullscreen();
+        }
+    }
 
-	function exitFullscreen() {
-		const doc = document as Document & {
-			webkitExitFullscreen?: () => Promise<void>;
-			mozCancelFullScreen?: () => Promise<void>;
-			msExitFullscreen?: () => Promise<void>;
-		};
+    function exitFullscreen() {
+        const doc = document as Document & {
+            webkitExitFullscreen?: () => Promise<void>;
+            mozCancelFullScreen?: () => Promise<void>;
+            msExitFullscreen?: () => Promise<void>;
+        };
 
-		if (doc.exitFullscreen) {
-			return doc.exitFullscreen();
-		} else if (doc.webkitExitFullscreen) {
-			return doc.webkitExitFullscreen();
-		} else if (doc.mozCancelFullScreen) {
-			return doc.mozCancelFullScreen();
-		} else if (doc.msExitFullscreen) {
-			return doc.msExitFullscreen();
-		}
-	}
+        if (doc.exitFullscreen) {
+            return doc.exitFullscreen();
+        } else if (doc.webkitExitFullscreen) {
+            return doc.webkitExitFullscreen();
+        } else if (doc.mozCancelFullScreen) {
+            return doc.mozCancelFullScreen();
+        } else if (doc.msExitFullscreen) {
+            return doc.msExitFullscreen();
+        }
+    }
 
-	const toggleFullscreen = () => {
-		const elem = videoContainerRef.current;
-		if (!elem) return;
+    const toggleFullscreen = () => {
+        const elem = videoContainerRef.current;
+        if (!elem) return;
 
-		if (!document.fullscreenElement) {
-			requestFullscreen(elem);
-		} else {
-			exitFullscreen();
-		}
-	};
+        if (!document.fullscreenElement) {
+            requestFullscreen(elem);
+        } else {
+            exitFullscreen();
+        }
+    };
 
     // const toggleFullscreen = () => {
     //     const elem = videoContainerRef.current;
@@ -219,7 +219,10 @@ const SingleWorkout: React.FC = () => {
                     const currentWorkout = workoutRef.current;
                     const currentIdx = currentIndexRef.current;
 
-                    if (currentWorkout && currentIdx < currentWorkout.workout_movements.length - 1) {
+                    if (
+                        currentWorkout &&
+                        currentIdx < currentWorkout.workout_movements.length - 1
+                    ) {
                         setCurrentIndex(currentIdx + 1);
                     }
                     return 0;
@@ -253,7 +256,7 @@ const SingleWorkout: React.FC = () => {
         setWorkoutComplete(false);
 
         if (workout && currentIndex < workout.workout_movements.length - 1) {
-            setCurrentIndex(prev => prev + 1);
+            setCurrentIndex((prev) => prev + 1);
         }
     };
 
@@ -268,7 +271,7 @@ const SingleWorkout: React.FC = () => {
         setWorkoutComplete(false);
 
         if (currentIndex > 0) {
-            setCurrentIndex(prev => prev - 1);
+            setCurrentIndex((prev) => prev - 1);
         }
     };
 
@@ -330,7 +333,9 @@ const SingleWorkout: React.FC = () => {
                     <div className="workout-meta">
                         <div className="meta-item">
                             <span className="meta-label">Movement:</span>
-                            <span className="meta-value">{currentIndex + 1} of {totalMovements}</span>
+                            <span className="meta-value">
+                                {currentIndex + 1} of {totalMovements}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -344,7 +349,7 @@ const SingleWorkout: React.FC = () => {
                         aspectRatio: '16/9',
                         background: '#000',
                         borderRadius: '8px',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
                     }}
                 >
                     {currentMovement?.movements.video_id ? (
@@ -358,21 +363,23 @@ const SingleWorkout: React.FC = () => {
                                 border: 'none',
                                 position: 'absolute',
                                 top: 0,
-                                left: 0
+                                left: 0,
                             }}
                             allow="autoplay; encrypted-media;"
                             allowFullScreen={false}
                             title={`Video player for ${currentMovement.movements.name}`}
                         />
                     ) : (
-                        <div style={{
-                            width: '100%',
-                            height: '100%',
-                            background: '#f0f0f0',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
+                        <div
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                background: '#f0f0f0',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
                             <p>No video available</p>
                         </div>
                     )}
@@ -395,54 +402,67 @@ const SingleWorkout: React.FC = () => {
                             zIndex: 20,
                             transition: 'background 0.2s',
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.8)'}
-                        onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)'}
+                        onMouseEnter={(e) =>
+                            (e.currentTarget.style.background = 'rgba(0, 0, 0, 0.8)')
+                        }
+                        onMouseLeave={(e) =>
+                            (e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)')
+                        }
                     >
                         {/* {isFullscreen ? '✕ ' : 'F'} */}
-						 {isFullscreen ? '✕ Exit Fullscreen' : 'Fullscreen'}
+                        {isFullscreen ? '✕ Exit Fullscreen' : 'Fullscreen'}
                     </button>
 
                     {/* Rest Overlay - Shows on top of video during rest */}
                     {isResting && (
-                        <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            background: 'rgba(0, 0, 0, 0.92)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '40px',
-                            color: 'white',
-                            zIndex: 10
-                        }}>
-                            <h2 style={{
-                                fontSize: isFullscreen ? '48px' : '32px',
-                                fontWeight: '700',
-                                marginBottom: '20px',
-                                textAlign: 'center'
-                            }}>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                background: 'rgba(0, 0, 0, 0.92)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '40px',
+                                color: 'white',
+                                zIndex: 10,
+                            }}
+                        >
+                            <h2
+                                style={{
+                                    fontSize: isFullscreen ? '48px' : '32px',
+                                    fontWeight: '700',
+                                    marginBottom: '20px',
+                                    textAlign: 'center',
+                                }}
+                            >
                                 Rest Time
                             </h2>
-                            <div style={{
-                                fontSize: isFullscreen ? '120px' : '72px',
-                                fontWeight: '700',
-                                marginBottom: '20px',
-                                color: '#ff0202ff'
-                            }}>
+                            <div
+                                style={{
+                                    fontSize: isFullscreen ? '120px' : '72px',
+                                    fontWeight: '700',
+                                    marginBottom: '20px',
+                                    color: '#ff0202ff',
+                                }}
+                            >
                                 {restTimer}s
                             </div>
                             {currentIndex < totalMovements - 1 && (
-                                <p style={{
-                                    fontSize: isFullscreen ? '28px' : '20px',
-                                    marginBottom: '30px',
-                                    textAlign: 'center',
-                                    maxWidth: '80%'
-                                }}>
-                                    Next: {workout.workout_movements[currentIndex + 1]?.movements.name}
+                                <p
+                                    style={{
+                                        fontSize: isFullscreen ? '28px' : '20px',
+                                        marginBottom: '30px',
+                                        textAlign: 'center',
+                                        maxWidth: '80%',
+                                    }}
+                                >
+                                    Next:{' '}
+                                    {workout.workout_movements[currentIndex + 1]?.movements.name}
                                 </p>
                             )}
                             <button
@@ -458,8 +478,10 @@ const SingleWorkout: React.FC = () => {
                                     fontSize: isFullscreen ? '20px' : '16px',
                                     transition: 'transform 0.2s',
                                 }}
-                                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                onMouseEnter={(e) =>
+                                    (e.currentTarget.style.transform = 'scale(1.05)')
+                                }
+                                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                             >
                                 Skip Rest →
                             </button>
@@ -468,33 +490,39 @@ const SingleWorkout: React.FC = () => {
 
                     {/* Workout Complete Overlay */}
                     {workoutComplete && (
-                        <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            background: 'rgba(255, 2, 2, 0.95)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '40px',
-                            color: 'white',
-                            zIndex: 10
-                        }}>
-                            <h3 style={{
-                                fontSize: isFullscreen ? '48px' : '32px',
-                                fontWeight: '700',
-                                marginBottom: '16px',
-                                textAlign: 'center'
-                            }}>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                background: 'rgba(255, 2, 2, 0.95)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '40px',
+                                color: 'white',
+                                zIndex: 10,
+                            }}
+                        >
+                            <h3
+                                style={{
+                                    fontSize: isFullscreen ? '48px' : '32px',
+                                    fontWeight: '700',
+                                    marginBottom: '16px',
+                                    textAlign: 'center',
+                                }}
+                            >
                                 Workout Complete!
                             </h3>
-                            <p style={{
-                                fontSize: isFullscreen ? '24px' : '18px',
-                                textAlign: 'center'
-                            }}>
+                            <p
+                                style={{
+                                    fontSize: isFullscreen ? '24px' : '18px',
+                                    textAlign: 'center',
+                                }}
+                            >
                                 Great job finishing all {totalMovements} movements!
                             </p>
                         </div>
@@ -518,7 +546,9 @@ const SingleWorkout: React.FC = () => {
                             {currentMovement?.rest_after > 0 && (
                                 <div className="meta-item">
                                     <span className="meta-label">Rest After:</span>
-                                    <span className="meta-value">{currentMovement.rest_after}s</span>
+                                    <span className="meta-value">
+                                        {currentMovement.rest_after}s
+                                    </span>
                                 </div>
                             )}
                         </div>
@@ -528,14 +558,16 @@ const SingleWorkout: React.FC = () => {
                 {/* Navigation Controls - Hidden in fullscreen */}
                 {!isFullscreen && (
                     <>
-                        <div style={{
-                            width: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            marginTop: '24px',
-                            gap: '16px'
-                        }}>
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                marginTop: '24px',
+                                gap: '16px',
+                            }}
+                        >
                             <button
                                 onClick={goToPreviousVideo}
                                 disabled={isFirst}
@@ -548,25 +580,29 @@ const SingleWorkout: React.FC = () => {
                                     fontSize: '16px',
                                     background: isFirst ? '#e0e0e0' : '#ff0202ff',
                                     color: isFirst ? '#999' : 'white',
-                                    opacity: isFirst ? 0.6 : 1
+                                    opacity: isFirst ? 0.6 : 1,
                                 }}
                             >
                                 ← Previous
                             </button>
 
                             <div style={{ flex: 1, maxWidth: '300px' }}>
-                                <div style={{
-                                    background: '#e0e0e0',
-                                    height: '8px',
-                                    borderRadius: '4px',
-                                    overflow: 'hidden'
-                                }}>
-                                    <div style={{
-                                        background: '#ff0202ff',
-                                        height: '100%',
-                                        width: `${((currentIndex + 1) / totalMovements) * 100}%`,
-                                        transition: 'width 0.3s ease'
-                                    }} />
+                                <div
+                                    style={{
+                                        background: '#e0e0e0',
+                                        height: '8px',
+                                        borderRadius: '4px',
+                                        overflow: 'hidden',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            background: '#ff0202ff',
+                                            height: '100%',
+                                            width: `${((currentIndex + 1) / totalMovements) * 100}%`,
+                                            transition: 'width 0.3s ease',
+                                        }}
+                                    />
                                 </div>
                             </div>
 
@@ -582,7 +618,7 @@ const SingleWorkout: React.FC = () => {
                                     fontSize: '16px',
                                     background: isLast ? '#e0e0e0' : '#ff0202ff',
                                     color: isLast ? '#999' : 'white',
-                                    opacity: isLast ? 0.6 : 1
+                                    opacity: isLast ? 0.6 : 1,
                                 }}
                             >
                                 Next →
@@ -602,7 +638,7 @@ const SingleWorkout: React.FC = () => {
                                     cursor: 'pointer',
                                     fontSize: '16px',
                                     background: '#ff0202ff',
-                                    color: 'white'
+                                    color: 'white',
                                 }}
                             >
                                 Video Finished - Start Rest Period
@@ -622,7 +658,7 @@ const SingleWorkout: React.FC = () => {
                                     cursor: 'pointer',
                                     fontSize: '16px',
                                     background: '#ff0202ff',
-                                    color: 'white'
+                                    color: 'white',
                                 }}
                             >
                                 Complete Workout
@@ -635,27 +671,6 @@ const SingleWorkout: React.FC = () => {
     );
 };
 export default SingleWorkout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 'use client';
 
@@ -753,8 +768,6 @@ export default SingleWorkout;
 //             }
 //         }
 //     };
-
-    
 
 //     useEffect(() => {
 //         if (!workoutId) return;
@@ -930,7 +943,7 @@ export default SingleWorkout;
 //                     }}
 //                 >
 //                     {currentMovement?.movements.video_id ? (
-//                         <Stream     
+//                         <Stream
 //                             controls
 //                             autoplay
 //                             src={currentMovement.movements.video_id}
@@ -1114,4 +1127,3 @@ export default SingleWorkout;
 // };
 
 // export default SingleWorkout;
-
