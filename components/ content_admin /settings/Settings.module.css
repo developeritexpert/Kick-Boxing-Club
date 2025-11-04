@@ -1,18 +1,16 @@
-
-
-html[data-theme="dark"] {
-   --layout-bg: #ffffff; /* White background */
-  --text-color: #fff;
+/* html[data-theme='dark'] {
+    --layout-bg: #ffffff; 
+    --text-color: #fff;
 }
 
-html[data-theme="light"] {
-  --bg-color: #fff;
-  --text-color: #000;
+html[data-theme='light'] {
+    --bg-color: #fff;
+    --text-color: #000;
 }
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}
+    background-color: var(--bg-color);
+    color: var(--text-color);
+} */
 
 .profileCnt {
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -38,11 +36,11 @@ span.profileHeart {
     margin-left: 30px;
 }
 .profileName h3 {
-   font-size: calc(var(--dynamic-font-size) * 1.6);
+    font-size: calc(var(--dynamic-font-size) * 1.6);
     font-weight: 600;
 }
 .profileName p {
-  font-size: calc(var(--dynamic-font-size) * 0.875); 
+    font-size: calc(var(--dynamic-font-size) * 0.875);
     font-weight: 400;
 }
 
@@ -61,7 +59,7 @@ span.profileHeart {
 button.prsnBtn {
     margin-right: 25px;
     color: white;
-  background-color: var(--accent-color);
+    background-color: var(--accent-color);
     padding: 16px 31px;
     display: flex;
     align-items: center;
@@ -72,7 +70,7 @@ button.prsnBtn img {
     margin-bottom: 3px;
 }
 button.prsnBtn span {
-  font-size: calc(var(--dynamic-font-size) * 1); /* ~16px */
+    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px */
     font-weight: 600;
 }
 .prsnHd {
@@ -80,7 +78,7 @@ button.prsnBtn span {
 }
 
 .prsnHd h2 {
-   font-size: calc(var(--dynamic-font-size) * 1.75); 
+    font-size: calc(var(--dynamic-font-size) * 1.75);
     font-weight: 600;
     padding: 30px 0px 30px 37px;
 }
@@ -94,14 +92,14 @@ button.prsnBtn span {
 }
 
 .prflName h4 {
-       font-size: calc(var(--dynamic-font-size) * 1); /* ~16px default */
+    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px default */
     font-weight: 400;
     color: #000000;
     line-height: 24px;
 }
 
 .prflName h5 {
-  font-size: calc(var(--dynamic-font-size) * 1.125); /* ~18px default */
+    font-size: calc(var(--dynamic-font-size) * 1.125); /* ~18px default */
     font-weight: 600;
     line-height: 30px;
     color: #000000;
@@ -241,10 +239,9 @@ select#timezone {
 .radioGroup {
     display: flex;
     gap: 20px;
-
 }
-.radioGroup span{
-    margin-left:7px; 
+.radioGroup span {
+    margin-left: 7px;
 }
 
 .themeInfo .customRadio input[type='radio'] {
@@ -254,14 +251,12 @@ select#timezone {
     border-radius: 50%;
     cursor: pointer;
     border: 1px solid #0000001a;
-  
 }
-.mrgnLeft8{
-    margin-left:8px;
+.mrgnLeft8 {
+    margin-left: 8px;
 }
 
 .themeInfo .customRadio input[type='radio']:checked {
-
     background-image: url('/elipse_icon_new.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -295,11 +290,11 @@ select#timezone {
     border-radius: 2px;
     cursor: pointer;
     margin-right: 8px;
-    display:inline-block;
+    display: inline-block;
 }
 
 .bgRed {
-    background: #B40200;
+    background: #b40200;
 }
 .bgBlack {
     background: black;
@@ -345,7 +340,7 @@ select#timezone {
 }
 .workoutsVdo .uploadIcon {
     margin-bottom: 23px;
-   font-size: calc(var(--dynamic-font-size) * 1.56); /* ~25px default */
+    font-size: calc(var(--dynamic-font-size) * 1.56); /* ~25px default */
 }
 .workoutsVdo .uploadLabel {
     cursor: pointer;
@@ -358,12 +353,12 @@ select#timezone {
 .workoutsVdo input {
     display: none;
 }
-.mrgnBtm8{
-    margin-bottom:8px;
-    display:inline-block;
+.mrgnBtm8 {
+    margin-bottom: 8px;
+    display: inline-block;
 }
-.mrgnRight30{
-    margin-right:30px;
+.mrgnRight30 {
+    margin-right: 30px;
 }
 
 .colorSwatch input[type='radio'] {
@@ -384,18 +379,18 @@ select#timezone {
 
 .themeInfo .slider {
     appearance: none;
-     --slider-progress: 50%;
+    --slider-progress: 50%;
     width: 300px;
     height: 4px;
     border-radius: 1px;
-   /* ✅ Slider progress & background controlled by CSS variables */
+    /* ✅ Slider progress & background controlled by CSS variables */
     background: linear-gradient(
         to right,
-        var(--accent-color, #B40200) var(--slider-progress),
+        var(--accent-color, #b40200) var(--slider-progress),
         rgba(0, 0, 0, 0.1) var(--slider-progress)
     );
     outline: none;
-    margin-right:16px;
+    margin-right: 16px;
     background-size: cover !important;
     background-repeat: no-repeat !important;
 }
@@ -405,7 +400,7 @@ select#timezone {
     width: 17px;
     height: 17px;
     border-radius: 50%;
-   background: var(--accent-color, #B40200);
+    background: var(--accent-color, #b40200);
     cursor: pointer;
     background-repeat: no-repeat;
 }
@@ -414,7 +409,7 @@ select#timezone {
     width: 17px;
     height: 17px;
     border-radius: 50%;
-   background: var(--accent-color, #B40200);
+    background: var(--accent-color, #b40200);
     cursor: pointer;
 }
 .themeInfo .slider::-moz-range-track {
@@ -422,20 +417,20 @@ select#timezone {
     border-radius: 8px;
     background: transparent;
 }
-.themeInfo .slider::-moz-rangeProgress {
+.themeInfo .slider::-moz-rangeprogress {
     height: 12px;
     border-radius: 8px;
-    background: var(--accent-color, #B40200);
+    background: var(--accent-color, #b40200);
 }
 
 .workoutLocn h2 {
     font-size: calc(var(--dynamic-font-size) * 1.75); /* ~28px default */
     font-weight: 600;
-    border-bottom:1px solid #0000001A;
+    border-bottom: 1px solid #0000001a;
     padding: 30px 0 30px 37px;
 }
 .workoutLocn {
-    border: 1px solid rgba(0, 0, 0, .1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     margin-top: 37px;
     padding-bottom: 23px;
@@ -443,19 +438,19 @@ select#timezone {
 .innerWrkoutLocn {
     display: flex;
     margin-top: 23px;
-    margin-left:37px;
+    margin-left: 37px;
 }
 
-@media(max-width:1399px){
+@media (max-width: 1399px) {
     .profileName h3 {
         font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
     }
     .prflName h5 {
-      font-size: calc(var(--dynamic-font-size) * 1); 
+        font-size: calc(var(--dynamic-font-size) * 1);
     }
     .prsnHd h2 {
         padding: 19px 0 19px 37px;
-         font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
         font-weight: 600;
     }
     button.prsnBtn {
@@ -464,15 +459,16 @@ select#timezone {
     button.prsnBtn span {
         font-size: calc(var(--dynamic-font-size) * 0.94); /* ~15px default */
     }
-    .acntInfo h2, .themeInfo h2 {
+    .acntInfo h2,
+    .themeInfo h2 {
         padding: 19px 0 19px 37px;
-     font-size: var(--dynamic-font-size, 16px)
+        font-size: var(--dynamic-font-size, 16px);
     }
     .workoutLocn h2 {
         padding: 19px 0 19px 37px;
         font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
     }
     .workoutsVdo h2 {
-       font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
     }
 }

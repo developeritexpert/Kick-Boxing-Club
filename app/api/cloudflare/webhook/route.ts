@@ -1,19 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import crypto from "crypto";
+import { NextRequest, NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import crypto from 'crypto';
 
 function verifyWebhookSignature(
     body: string,
     timestamp: string,
     signature: string,
-    secret: string
+    secret: string,
 ): boolean {
     try {
         const payload = `${timestamp}.${body}`;
-        const expectedSignature = crypto
-            .createHmac("sha256", secret)
-            .update(payload)
-            .digest("hex");
+        const expectedSignature = crypto.createHmac('sha256', secret).update(payload).digest('hex');
 
         const signatureBuffer = Buffer.from(signature);
         const expectedBuffer = Buffer.from(expectedSignature);
@@ -23,51 +20,51 @@ function verifyWebhookSignature(
         }
 
         return crypto.timingSafeEqual(signatureBuffer, expectedBuffer);
-
     } catch (error) {
-        console.error("Signature verification error:", error);
+        console.error('Signature verification error:', error);
         return false;
     }
 }
 
 export async function POST(req: NextRequest) {
     try {
-
         const rawBody = await req.text();
         const body = JSON.parse(rawBody);
 
         // const signature = req.headers.get("webhook-signature");
         // const timestamp = req.headers.get("webhook-timestamp");
-        const signature = req.headers.get("Webhook-Signature") || req.headers.get("webhook-signature");
-        const timestamp = req.headers.get("Webhook-Timestamp") || req.headers.get("webhook-timestamp");
+        const signature =
+            req.headers.get('Webhook-Signature') || req.headers.get('webhook-signature');
+        const timestamp =
+            req.headers.get('Webhook-Timestamp') || req.headers.get('webhook-timestamp');
 
         const secret = process.env.CLOUDFLARE_WEBHOOK_SECRET;
 
         if (secret && signature && timestamp) {
             const isValid = verifyWebhookSignature(rawBody, timestamp, signature, secret);
             if (!isValid) {
-                console.error("Invalid webhook signature");
-                return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+                console.error('Invalid webhook signature');
+                return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
             }
         }
 
-        console.log("Cloudflare webhook received:", JSON.stringify(body, null, 2));
+        console.log('Cloudflare webhook received:', JSON.stringify(body, null, 2));
 
         const eventType = body?.event?.type || body?.type;
         const video = body?.video || body?.data || body;
 
         if (!video?.uid) {
-            console.warn("Unexpected webhook payload:", body);
-            return NextResponse.json({ message: "No video UID found" }, { status: 200 });
+            console.warn('Unexpected webhook payload:', body);
+            return NextResponse.json({ message: 'No video UID found' }, { status: 200 });
         }
 
-        if (eventType !== "video.ready" && video?.status?.state !== "ready") {
+        if (eventType !== 'video.ready' && video?.status?.state !== 'ready') {
             return NextResponse.json(
                 {
-                    message: "Video not ready, skipping",
+                    message: 'Video not ready, skipping',
                     received: true,
                 },
-                { status: 200 }
+                { status: 200 },
             );
         }
 
@@ -75,39 +72,38 @@ export async function POST(req: NextRequest) {
         // const duration = video.duration;
         const duration = Math.round(video.duration || 0);
         const thumbnail_url =
-            video.thumbnail ||
-            `https://videodelivery.net/${video_uid}/thumbnails/thumbnail.jpg`;
+            video.thumbnail || `https://videodelivery.net/${video_uid}/thumbnails/thumbnail.jpg`;
 
-        console.log("Updating Supabase:", { video_uid, duration, thumbnail_url });
+        console.log('Updating Supabase:', { video_uid, duration, thumbnail_url });
 
         if (!video_uid) {
-            console.error("Missing video UID in webhook payload");
+            console.error('Missing video UID in webhook payload');
             return NextResponse.json(
                 {
-                    error: "Missing video UID",
+                    error: 'Missing video UID',
                     received: true,
                 },
-                { status: 400 }
+                { status: 400 },
             );
         }
 
         const { error: updateError } = await supabaseAdmin
-            .from("movements")
+            .from('movements')
             .update({
                 video_duration: duration,
                 thumbnail_url: thumbnail_url,
-                status: "approved",
+                status: 'approved',
             })
-            .eq("video_id", video_uid);
+            .eq('video_id', video_uid);
 
         if (updateError) {
-            console.error("Error updating Supabase:", updateError);
+            console.error('Error updating Supabase:', updateError);
             return NextResponse.json(
                 {
                     error: updateError.message,
                     received: true,
                 },
-                { status: 500 }
+                { status: 500 },
             );
         }
 
@@ -115,30 +111,21 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
             {
                 success: true,
-                message: "Movement updated successfully",
+                message: 'Movement updated successfully',
             },
-            { status: 200 }
+            { status: 200 },
         );
     } catch (error) {
-        console.error("Cloudflare webhook error:", error);
+        console.error('Cloudflare webhook error:', error);
         return NextResponse.json(
             {
-                error: (error as Error).message || "Internal server error",
+                error: (error as Error).message || 'Internal server error',
                 received: true,
             },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }
-
-
-
-
-
-
-
-
-
 
 // import { NextRequest, NextResponse } from "next/server";
 // import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -189,6 +176,3 @@ export async function POST(req: NextRequest) {
 //     );
 //   }
 // }
-
-
-

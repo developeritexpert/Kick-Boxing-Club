@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server"
-import { supabaseAdmin } from "@/lib/supabaseAdmin"
+import { NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 type MovementInput = {
     id: string;
@@ -8,25 +8,26 @@ type MovementInput = {
     rest_after?: number;
 };
 
-
 export async function POST(req: Request) {
     try {
-
         const data = await req.json();
 
-        const { name, location, focus, movements } = data;
+        const { name, locationId, classId, focus, movements } = data;
 
         const total_duration = movements.reduce(
-            (acc: number, m: MovementInput) => acc + (m.duration || 0) + (m.rest_after || 0), 0
+            (acc: number, m: MovementInput) => acc + (m.duration || 0) + (m.rest_after || 0),
+            0,
         );
 
         const { data: workout, error: workoutError } = await supabaseAdmin
-            .from("workouts")
+            .from('workouts')
             .insert([
                 {
                     name,
                     total_duration,
-                    created_by: "ed14d193-b06a-4961-a84e-d8341490abc0",
+                    location_id: locationId,
+                    class_id: classId,
+                    created_by: 'ed14d193-b06a-4961-a84e-d8341490abc0',
                 },
             ])
             .select()
@@ -43,19 +44,18 @@ export async function POST(req: Request) {
         }));
 
         const { error: movementError } = await supabaseAdmin
-            .from("workout_movements")
+            .from('workout_movements')
             .insert(workoutMovements);
 
         if (movementError) throw movementError;
 
         return NextResponse.json(
             {
-                message: "Workout created successfully",
+                message: 'Workout created successfully',
                 workout_id: workout.id,
             },
-            { status: 200 }
+            { status: 200 },
         );
-
     } catch (error) {
         console.error('Error creating Workout:', error);
         return NextResponse.json(
@@ -63,4 +63,4 @@ export async function POST(req: Request) {
             { status: 500 },
         );
     }
-} 
+}

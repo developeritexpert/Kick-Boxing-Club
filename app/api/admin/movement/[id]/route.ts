@@ -115,11 +115,14 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
     } catch (error) {
         console.error('PUT /api/admin/movement error:', error);
         const message =
-            error instanceof Error ? error.message : typeof error === 'object' ? JSON.stringify(error) : String(error);
+            error instanceof Error
+                ? error.message
+                : typeof error === 'object'
+                  ? JSON.stringify(error)
+                  : String(error);
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
-
 
 // server side video upload
 // export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
@@ -131,7 +134,7 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
 //         const category_id = formData.get('category') as string;
 //         const sub_category = formData.get('sub_category') as string;
 //         const media = formData.get('media') as File | null;
-//         // get movement data which need to be updated 
+//         // get movement data which need to be updated
 //         const { data: existing, error: fetchError } = await supabaseAdmin
 //             .from("movements")
 //             .select("*")
@@ -232,7 +235,6 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
     //     );
     // }
 
-
     try {
         const { data: existing, error: fetchError } = await supabaseAdmin
             .from('movements')
@@ -243,7 +245,7 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
         if (fetchError || !existing)
             return NextResponse.json(
                 { error: fetchError?.message || 'Movement not found' },
-                { status: 404 }
+                { status: 404 },
             );
 
         if (existing.video_id) {
@@ -254,22 +256,19 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
             }
         }
 
-        const { error: deleteError } = await supabaseAdmin
-            .from('movements')
-            .delete()
-            .eq('id', id);
+        const { error: deleteError } = await supabaseAdmin.from('movements').delete().eq('id', id);
 
         if (deleteError) throw deleteError;
 
         return NextResponse.json(
             { status: 'ok', message: 'Movement deleted successfully' },
-            { status: 200 }
+            { status: 200 },
         );
     } catch (error) {
         console.error('Movement delete error:', error);
         return NextResponse.json(
             { error: error instanceof Error ? error.message : String(error) },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }

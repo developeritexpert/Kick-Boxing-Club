@@ -75,7 +75,6 @@ export default function EditMovementPage() {
         fetchCategories();
     }, []);
 
-
     // server side video upload
     // const handleSubmit = async (e: React.FormEvent) => {
     //     e.preventDefault();
@@ -120,12 +119,10 @@ export default function EditMovementPage() {
         setSaving(true);
 
         try {
-
             const formData = new FormData();
             formData.append('name', name);
             formData.append('category', category);
             formData.append('subCategory', subCategory);
-
 
             let uploadURL, video_uid;
 
@@ -140,7 +137,6 @@ export default function EditMovementPage() {
                 uploadURL = data.uploadURL;
                 video_uid = data.video_uid;
 
-
                 const uploadForm = new FormData();
                 uploadForm.append('file', media);
 
@@ -151,7 +147,6 @@ export default function EditMovementPage() {
 
                 if (!uploadRes.ok) throw new Error('Video upload failed');
             }
-
 
             const finalBody = JSON.stringify({
                 name,
@@ -184,7 +179,6 @@ export default function EditMovementPage() {
         }
     };
 
-
     // delete movement
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this movement?')) return;
@@ -215,7 +209,7 @@ export default function EditMovementPage() {
         e.stopPropagation();
         setDragActive(false);
         const file = e.dataTransfer.files?.[0];
-        if (file && file.type.startsWith("video/")) {
+        if (file && file.type.startsWith('video/')) {
             setMedia(file);
         }
     };
@@ -277,7 +271,6 @@ export default function EditMovementPage() {
                             )}
                         </select>
                     </div>
-
 
                     {tags.find((t) => t.id === category)?.name === 'HIIT' && (
                         <div className="form-group">

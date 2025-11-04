@@ -1,9 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import styles from './Settings.module.css';
 import { translations } from './translations';
 
 const Settings: React.FC = () => {
+    const router = useRouter();
     const [lang, setLang] = useState('en');
     const [theme, setTheme] = useState('system');
 
@@ -18,15 +20,13 @@ const Settings: React.FC = () => {
         day: 'numeric',
     }).format(birthDate);
 
-  
-
     const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedTheme = e.target.value;
         console.log('selected theme', selectedTheme);
         setTheme(selectedTheme);
         document.documentElement.setAttribute('data-theme', selectedTheme);
     };
-    
+
     const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Number(e.target.value);
 
@@ -73,12 +73,12 @@ const Settings: React.FC = () => {
     };
 
     useEffect(() => {
-          if (theme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light';
-        document.documentElement.setAttribute('data-theme', systemTheme);
-    }
+        if (theme === 'system') {
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+            document.documentElement.setAttribute('data-theme', systemTheme);
+        }
         const storedLang = localStorage.getItem('language') || 'en';
         setLang(storedLang);
     }, []);
@@ -141,6 +141,16 @@ const Settings: React.FC = () => {
             slider.removeEventListener('input', handler);
         };
     }, []);
+
+    const handleAddLocation = () => {
+        router.push('/admin/location/addLocation');
+        router.refresh();
+    };
+
+    const handleAddClass = () => {
+        router.push('/admin/class/addClass');
+        router.refresh();
+    };
 
     return (
         <div>
@@ -367,8 +377,13 @@ const Settings: React.FC = () => {
             <div className={styles.workoutLocn}>
                 <h2>{t.workoutInformation}</h2>
                 <div className={styles.innerWrkoutLocn}>
-                    <button className={styles.prsnBtn}> {t.addLocation}</button>
-                    <button className={styles.prsnBtn}>{t.addClass}</button>
+                    <button className={styles.prsnBtn} onClick={handleAddLocation}>
+                        {' '}
+                        {t.addLocation}
+                    </button>
+                    <button className={styles.prsnBtn} onClick={handleAddClass}>
+                        {t.addClass}
+                    </button>
                 </div>
             </div>
 

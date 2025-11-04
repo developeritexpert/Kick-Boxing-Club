@@ -20,7 +20,6 @@ interface SelectedMovement extends Movement {
 const CreateWorkout: React.FC = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [location, setLocation] = useState('');
     const [focus, setFocus] = useState('');
     const [movements, setMovements] = useState<Movement[]>([]);
     const [boxingMovements, setBoxingMovements] = useState<SelectedMovement[]>([]);
@@ -28,12 +27,60 @@ const CreateWorkout: React.FC = () => {
     const [hiitMovements, setHiitMovements] = useState<SelectedMovement[]>([]);
     const [loading, setLoading] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
-    const [currentCategory, setCurrentCategory] = useState<'boxing' | 'kickboxing' | 'hiit' | null>(null);
+    const [currentCategory, setCurrentCategory] = useState<'boxing' | 'kickboxing' | 'hiit' | null>(
+        null,
+    );
     const [tempSelected, setTempSelected] = useState<SelectedMovement[]>([]);
-    const [workoutClass, setworkoutClass] = useState('');
+
+    // ========================================================
+    // const [workoutClass, setworkoutClass] = useState('');
+    // const [location, setLocation] = useState('');
+    // ========================================================
+    // ========================= New states ====================
+
+    const [locations, setLocations] = useState<{ id: string; name: string }[]>([]);
+    const [classes, setClasses] = useState<{ id: string; name: string }[]>([]);
+    const [locationId, setLocationId] = useState('');
+    const [classId, setClassId] = useState('');
+
+    // ++++++++++++++++++End new states+++++++++++++++++++++
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [locRes, classRes] = await Promise.all([
+                    fetch('/api/admin/location'),
+                    fetch('/api/admin/class'),
+                ]);
+                const locData = await locRes.json();
+                const classData = await classRes.json();
+
+                // console.log(`All loctions : ${JSON.stringify(locData)} `);
+                // console.log(`All Classes : ${JSON.stringify(classData)} `);
+
+                const locationsArray = Array.isArray(locData)
+                    ? locData
+                    : Array.isArray(locData.data)
+                      ? locData.data
+                      : [];
+
+                const classesArray = Array.isArray(classData)
+                    ? classData
+                    : Array.isArray(classData.data)
+                      ? classData.data
+                      : [];
+
+                setLocations(locationsArray || []);
+                setClasses(classesArray || []);
+            } catch (error) {
+                console.error('Error fetching location/class data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const MAX_MOVEMENTS_PER_CATEGORY = 5;
-
     useEffect(() => {
         const fetchMovements = async () => {
             try {
@@ -55,9 +102,11 @@ const CreateWorkout: React.FC = () => {
     const openPopup = (category: 'boxing' | 'kickboxing' | 'hiit') => {
         setCurrentCategory(category);
         const existingSelections =
-            category === 'boxing' ? boxingMovements :
-                category === 'kickboxing' ? kickboxingMovements :
-                    hiitMovements;
+            category === 'boxing'
+                ? boxingMovements
+                : category === 'kickboxing'
+                  ? kickboxingMovements
+                  : hiitMovements;
         setTempSelected([...existingSelections]);
         setShowPopup(true);
     };
@@ -69,15 +118,17 @@ const CreateWorkout: React.FC = () => {
     };
 
     const toggleTempSelection = (movement: Movement) => {
-        setTempSelected(prev => {
-            const exists = prev.find(m => m.id === movement.id);
+        setTempSelected((prev) => {
+            const exists = prev.find((m) => m.id === movement.id);
             if (exists) {
-                return prev.filter(m => m.id !== movement.id);
+                return prev.filter((m) => m.id !== movement.id);
             } else {
                 if (prev.length >= MAX_MOVEMENTS_PER_CATEGORY) {
                     // toast.error(`Maximum ${MAX_MOVEMENTS_PER_CATEGORY} movements allowed per category`);
                     setTimeout(() => {
-                        toast.error(`Maximum ${MAX_MOVEMENTS_PER_CATEGORY} movements allowed per category`);
+                        toast.error(
+                            `Maximum ${MAX_MOVEMENTS_PER_CATEGORY} movements allowed per category`,
+                        );
                     }, 0);
                     return prev;
                 }
@@ -106,26 +157,34 @@ const CreateWorkout: React.FC = () => {
         if (index === 0) return;
 
         const setter =
-            category === 'boxing' ? setBoxingMovements :
-                category === 'kickboxing' ? setKickboxingMovements :
-                    setHiitMovements;
+            category === 'boxing'
+                ? setBoxingMovements
+                : category === 'kickboxing'
+                  ? setKickboxingMovements
+                  : setHiitMovements;
 
-        setter(prev => {
+        setter((prev) => {
             const updated = [...prev];
             [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
             return updated.map((m, i) => ({ ...m, order: i + 1 }));
         });
     };
 
-    const handleMoveDown = (category: 'boxing' | 'kickboxing' | 'hiit', index: number, length: number) => {
+    const handleMoveDown = (
+        category: 'boxing' | 'kickboxing' | 'hiit',
+        index: number,
+        length: number,
+    ) => {
         if (index === length - 1) return;
 
         const setter =
-            category === 'boxing' ? setBoxingMovements :
-                category === 'kickboxing' ? setKickboxingMovements :
-                    setHiitMovements;
+            category === 'boxing'
+                ? setBoxingMovements
+                : category === 'kickboxing'
+                  ? setKickboxingMovements
+                  : setHiitMovements;
 
-        setter(prev => {
+        setter((prev) => {
             const updated = [...prev];
             [updated[index + 1], updated[index]] = [updated[index], updated[index + 1]];
             return updated.map((m, i) => ({ ...m, order: i + 1 }));
@@ -134,12 +193,14 @@ const CreateWorkout: React.FC = () => {
 
     const removeMovement = (category: 'boxing' | 'kickboxing' | 'hiit', movementId: string) => {
         const setter =
-            category === 'boxing' ? setBoxingMovements :
-                category === 'kickboxing' ? setKickboxingMovements :
-                    setHiitMovements;
+            category === 'boxing'
+                ? setBoxingMovements
+                : category === 'kickboxing'
+                  ? setKickboxingMovements
+                  : setHiitMovements;
 
-        setter(prev => {
-            const filtered = prev.filter(m => m.id !== movementId);
+        setter((prev) => {
+            const filtered = prev.filter((m) => m.id !== movementId);
             return filtered.map((m, i) => ({ ...m, order: i + 1 }));
         });
     };
@@ -147,12 +208,19 @@ const CreateWorkout: React.FC = () => {
     const handleCancel = () => {
         setName('');
         setDescription('');
-        setLocation('');
         setFocus('');
-        setworkoutClass('');
         setBoxingMovements([]);
         setKickboxingMovements([]);
         setHiitMovements([]);
+
+        // ==================
+        // setLocation('');
+        // setworkoutClass('');
+        // ==================
+        setLocations([]);
+        setClasses([]);
+        setLocationId('');
+        setClassId('');
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -178,9 +246,9 @@ const CreateWorkout: React.FC = () => {
                 body: JSON.stringify({
                     name,
                     description,
-                    location,
+                    locationId,
+                    classId,
                     focus,
-                    workoutClass,
                     movements: allMovements.map((m, index) => ({
                         id: m.id,
                         order: index + 1,
@@ -189,6 +257,23 @@ const CreateWorkout: React.FC = () => {
                     })),
                 }),
             });
+            // const res = await fetch('/api/admin/workout/create', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         name,
+            //         description,
+            //         location,
+            //         focus,
+            //         workoutClass,
+            //         movements: allMovements.map((m, index) => ({
+            //             id: m.id,
+            //             order: index + 1,
+            //             duration: m.duration || 30,
+            //             rest_after: 30,
+            //         })),
+            //     }),
+            // });
 
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Failed to create workout');
@@ -204,22 +289,18 @@ const CreateWorkout: React.FC = () => {
     };
 
     const filteredMovements = currentCategory
-        ? movements.filter(m => m.category.toLowerCase() === currentCategory.toLowerCase())
+        ? movements.filter((m) => m.category.toLowerCase() === currentCategory.toLowerCase())
         : [];
 
     const renderCategoryBox = (
         category: 'boxing' | 'kickboxing' | 'hiit',
         title: string,
-        selectedMovements: SelectedMovement[]
+        selectedMovements: SelectedMovement[],
     ) => (
         <div className="class-type-box">
             <div className="class-header">
                 <h4>{title}</h4>
-                <button
-                    type="button"
-                    className="add-btn"
-                    onClick={() => openPopup(category)}
-                >
+                <button type="button" className="add-btn" onClick={() => openPopup(category)}>
                     + Add
                 </button>
             </div>
@@ -249,7 +330,9 @@ const CreateWorkout: React.FC = () => {
                                     <button
                                         type="button"
                                         className="arrow-btn"
-                                        onClick={() => handleMoveDown(category, idx, selectedMovements.length)}
+                                        onClick={() =>
+                                            handleMoveDown(category, idx, selectedMovements.length)
+                                        }
                                         disabled={idx === selectedMovements.length - 1}
                                         title="Move down"
                                     >
@@ -289,10 +372,48 @@ const CreateWorkout: React.FC = () => {
                             />
                         </div>
 
+                        {/* New location and class section */}
                         <div className="form-row">
                             <div className="form-group">
                                 <label>Location</label>
-                                <select value={location} onChange={(e) => setLocation(e.target.value)}>
+                                <select
+                                    value={locationId}
+                                    onChange={(e) => setLocationId(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select Location</option>
+                                    {locations.map((loc) => (
+                                        <option key={loc.id} value={loc.id}>
+                                            {loc.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Class</label>
+                                <select
+                                    value={classId}
+                                    onChange={(e) => setClassId(e.target.value)}
+                                    required
+                                >
+                                    <option value="">Select Class</option>
+                                    {classes.map((cls) => (
+                                        <option key={cls.id} value={cls.id}>
+                                            {cls.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* <div className="form-row">
+                            <div className="form-group">
+                                <label>Location</label>
+                                <select
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                >
                                     <option value="">Select Location</option>
                                     <option value="Lakewood">Lakewood</option>
                                     <option value="Orange">Orange</option>
@@ -302,14 +423,17 @@ const CreateWorkout: React.FC = () => {
 
                             <div className="form-group">
                                 <label>Class</label>
-                                <select value={workoutClass} onChange={(e) => setworkoutClass(e.target.value)}>
+                                <select
+                                    value={workoutClass}
+                                    onChange={(e) => setworkoutClass(e.target.value)}
+                                >
                                     <option value="">Select Class</option>
                                     <option value="Fitness Kickboxing">Fitness Kickboxing</option>
                                     <option value="Jus' Kickboxing">Jus&apos; Kickboxing</option>
                                     <option value="Power Kickboxing">Power Kickboxing</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="form-group focus-group">
                             <label>Focus</label>
@@ -331,7 +455,9 @@ const CreateWorkout: React.FC = () => {
                             <h4>Workout List</h4>
                             <div className="workout-items hide-scrollbar">
                                 {movements.map((m) => (
-                                    <div key={m.id} className="workout-item">{m.name}</div>
+                                    <div key={m.id} className="workout-item">
+                                        {m.name}
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -356,20 +482,25 @@ const CreateWorkout: React.FC = () => {
                 </div>
             </div>
 
-            {/* Modal */}
+            {/* modal */}
             {showPopup && (
                 <div className="modal-overlay" onClick={closePopup}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
                             <h3>
-                                Select {currentCategory ? currentCategory.toUpperCase() : ''} Movements
+                                Select {currentCategory ? currentCategory.toUpperCase() : ''}{' '}
+                                Movements
                             </h3>
-                            <button className="close-btn" onClick={closePopup}>×</button>
+                            <button className="close-btn" onClick={closePopup}>
+                                ×
+                            </button>
                         </div>
 
                         <div className="modal-body">
                             {filteredMovements.length === 0 ? (
-                                <p className="empty-text">No movements available for this category</p>
+                                <p className="empty-text">
+                                    No movements available for this category
+                                </p>
                             ) : (
                                 <>
                                     <p style={{ marginBottom: '16px', color: '#666' }}>
@@ -377,8 +508,12 @@ const CreateWorkout: React.FC = () => {
                                     </p>
                                     <div className="movements-grid">
                                         {filteredMovements.map((m) => {
-                                            const isSelected = tempSelected.some(sel => sel.id === m.id);
-                                            const selectionOrder = tempSelected.findIndex(sel => sel.id === m.id);
+                                            const isSelected = tempSelected.some(
+                                                (sel) => sel.id === m.id,
+                                            );
+                                            const selectionOrder = tempSelected.findIndex(
+                                                (sel) => sel.id === m.id,
+                                            );
 
                                             return (
                                                 <div
@@ -387,15 +522,24 @@ const CreateWorkout: React.FC = () => {
                                                     onClick={() => toggleTempSelection(m)}
                                                 >
                                                     {isSelected && (
-                                                        <div className="selection-badge">{selectionOrder + 1}</div>
+                                                        <div className="selection-badge">
+                                                            {selectionOrder + 1}
+                                                        </div>
                                                     )}
                                                     <img
-                                                        src={m.thumbnail_url || '/placeholder-thumb.png'}
+                                                        src={
+                                                            m.thumbnail_url ||
+                                                            '/placeholder-thumb.png'
+                                                        }
                                                         alt={m.name}
                                                         className="movement-thumb"
                                                     />
                                                     <p>{m.name}</p>
-                                                    <small>{m.duration ? `${m.duration}s` : 'No duration'}</small>
+                                                    <small>
+                                                        {m.duration
+                                                            ? `${m.duration}s`
+                                                            : 'No duration'}
+                                                    </small>
                                                 </div>
                                             );
                                         })}
