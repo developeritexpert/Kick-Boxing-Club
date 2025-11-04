@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import './AddUserPage.css'; // Make sure you import the CSS
+import './AddUserPage.css';
 
 type UserForm = {
     first_name: string;

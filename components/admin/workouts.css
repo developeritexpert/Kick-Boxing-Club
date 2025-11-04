@@ -308,63 +308,57 @@ span.workout-hrt-icn img {
     border-radius: 50%;
     cursor: pointer;
 }
-@media(max-width:1399px){
+@media (max-width: 1399px) {
     .workout-title {
-    color: #000;
-    margin-right: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.2
-    ;
-}
-.workout-exercises {
-
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.2;
-}
-.add-workout-btn {
-    padding: 12px 13px;
-    font-size: 14px;
-    font-weight: 600;
-}
-.workout-duration {
-    color: #000;
-    margin-bottom: 7px;
-    font-size: 22px;;
-    line-height: 1.2;
-}
-.workout-header {
-  
-    margin-bottom: 7px;
-
-}
-span.workout-hrt-icn img {
-    width: 29px;
-    height: 24px;
-}
-.workout-card {
-    border: 1px solid rgba(0, 0, 0, .1);
-    border-radius: 5px;
-    padding: 22px 22px;
-    transition: transform .3s;
-}
-.search-box {
-    max-width: 274px;
-  
-}
+        color: #000;
+        margin-right: 12px;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.2;
+    }
+    .workout-exercises {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.2;
+    }
+    .add-workout-btn {
+        padding: 12px 13px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .workout-duration {
+        color: #000;
+        margin-bottom: 7px;
+        font-size: 22px;
+        line-height: 1.2;
+    }
+    .workout-header {
+        margin-bottom: 7px;
+    }
+    span.workout-hrt-icn img {
+        width: 29px;
+        height: 24px;
+    }
+    .workout-card {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        padding: 22px 22px;
+        transition: transform 0.3s;
+    }
+    .search-box {
+        max-width: 274px;
+    }
 }
 
-
-.loading-content{
+.loading-content {
     text-align: center;
     padding: 40px;
     font-size: 18px;
     color: #666;
 }
 
-.error-content{
+.error-content {
     text-align: center;
     padding: 40px;
     font-size: 18px;
