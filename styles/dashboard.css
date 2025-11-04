@@ -75,9 +75,10 @@ aside.sidebar.collapsed button.logout {
     border-bottom: 1px solid #ffffff4d;
     padding-bottom: 15px;
 }
-aside.sidebar.collapsed .sidebar-top,aside.sidebar.collapsed .sidebar-brand{
+aside.sidebar.collapsed .sidebar-top,
+aside.sidebar.collapsed .sidebar-brand {
     border-bottom: none;
-    display:none;
+    display: none;
 }
 .hamburger {
     cursor: pointer;

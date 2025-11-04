@@ -13,17 +13,65 @@ type Props = {
 };
 
 const menu = [
-    { key: 'dashboard', label: 'Dashboard', icon: '/home_icon.png',alt:"home-icon" ,href: '/content-admin' },
+    {
+        key: 'dashboard',
+        label: 'Dashboard',
+        icon: '/home_icon.png',
+        alt: 'home-icon',
+        href: '/content-admin',
+    },
     // { key: 'users', label: 'User Management', icon: '/create_management_icon.png',alt:"create-library-icon" , href: '/content-admin/users' },
     // { key: 'workouts', label: 'Workout Library', icon: '📚', href: '/admin/workouts' },
-    { key: 'movement', label: 'Create a Movement',  icon: '/create_movmnt.png',alt:"create_movmnt_icon" , href: '/content-admin/movement/create' },
-    { key: 'momentLibrary', label: 'Movement Library',  icon: '/movement_library_icon.png',alt:"movement_library_icon_icon" , href: '/content-admin/movement/library' },
-    { key: 'workout', label: 'Create a Workout', icon: '/create_workout_icon.png',alt:"/create_workout_icon.png" , href: '/content-admin/workouts/create' },
-    { key: 'workoutLibrary', label: 'Workout Library', icon: '/workout_libray.png',alt:"workout_libray_icon" ,  href: '/content-admin/workouts' },
-    { key: 'favorites', label: 'My Favorites',  icon: '/myFav_icon.png',alt:"myFav__icon" ,href: '/content-admin/favorites' },
-    { key: 'recent', label: 'Recent Workouts',  icon: '/recent_icon.png',alt:"recent__icon" , href: '/content-admin/recent' },
+    {
+        key: 'movement',
+        label: 'Create a Movement',
+        icon: '/create_movmnt.png',
+        alt: 'create_movmnt_icon',
+        href: '/content-admin/movement/create',
+    },
+    {
+        key: 'momentLibrary',
+        label: 'Movement Library',
+        icon: '/movement_library_icon.png',
+        alt: 'movement_library_icon_icon',
+        href: '/content-admin/movement/library',
+    },
+    {
+        key: 'workout',
+        label: 'Create a Workout',
+        icon: '/create_workout_icon.png',
+        alt: '/create_workout_icon.png',
+        href: '/content-admin/workouts/create',
+    },
+    {
+        key: 'workoutLibrary',
+        label: 'Workout Library',
+        icon: '/workout_libray.png',
+        alt: 'workout_libray_icon',
+        href: '/content-admin/workouts',
+    },
+    {
+        key: 'favorites',
+        label: 'My Favorites',
+        icon: '/myFav_icon.png',
+        alt: 'myFav__icon',
+        href: '/content-admin/favorites',
+    },
+    {
+        key: 'recent',
+        label: 'Recent Workouts',
+        icon: '/recent_icon.png',
+        alt: 'recent__icon',
+        href: '/content-admin/recent',
+    },
     // { key: "builder", label: "Workout Builder", icon: "🧩", href: "/admin/builder" },
-    { key: 'settings', label: 'Setting',  icon: '/setting_icon.png',alt:"setting_icon" , href: '/content-admin/settings' },
+    {
+        key: 'settings',
+        label: 'Setting',
+        icon: '/setting_icon.png',
+        alt: 'setting_icon',
+        href: '/content-admin/settings',
+    },
 ];
 
 export default function Sidebar({ collapsed, setCollapsed }: Props) {
@@ -31,15 +79,14 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
     const router = useRouter();
     const pathname = usePathname();
     const clearUser = useAuthStore((state) => state.clearUser);
-    
+
     useEffect(() => {
         setMounted(true);
     }, []);
-       
-    const handleSidebar=()=>{
-        setCollapsed(!collapsed);
 
-    }
+    const handleSidebar = () => {
+        setCollapsed(!collapsed);
+    };
     const handleLogout = async () => {
         try {
             await supabaseClient.auth.signOut();
@@ -66,18 +113,15 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
                         ☰
                     </div> */}
                     {!collapsed && <div className="brand-text">All Locations</div>}
-
                 </div>
                 <div className="close_btn" onClick={handleSidebar}>
                     <img src="/new_close.png" alt="close-img" />
                 </div>
-                
             </div>
 
             <nav className="sidebar-nav">
                 <ul>
                     {menu.map((m) => {
-
                         const isActive =
                             m.href === '/content-admin'
                                 ? pathname === '/content-admin'
@@ -87,7 +131,7 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
                             <li key={m.key} className={`nav-item ${isActive ? 'active' : ''}`}>
                                 <Link href={m.href} className="nav-link">
                                     <span className="nav-icon">
-                                        <img src={m.icon} alt="home_icon"/>
+                                        <img src={m.icon} alt="home_icon" />
                                     </span>
                                     {!collapsed && <span className="nav-label">{m.label}</span>}
                                 </Link>
@@ -99,10 +143,9 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
 
             <div className="sidebar-footer">
                 <button onClick={handleLogout} className="logout">
-                 <img src="/logout_icon.png" alt="logout-icon"/>  
-                 <span className="logout-text">Logout</span> 
+                    <img src="/logout_icon.png" alt="logout-icon" />
+                    <span className="logout-text">Logout</span>
                 </button>
-
             </div>
         </aside>
     );

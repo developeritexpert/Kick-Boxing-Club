@@ -141,10 +141,9 @@ export default function ContentAdminSidebar({ collapsed, setCollapsed }: Props) 
 
             <div className="sidebar-footer">
                 <button onClick={handleLogout} className="logout">
-                 <img src="/logout_icon.png" alt="logout-icon"/>  
-                 <span className="logout-text">Logout</span> 
+                    <img src="/logout_icon.png" alt="logout-icon" />
+                    <span className="logout-text">Logout</span>
                 </button>
-
             </div>
         </aside>
     );

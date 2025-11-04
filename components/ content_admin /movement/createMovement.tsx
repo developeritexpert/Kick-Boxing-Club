@@ -38,7 +38,7 @@ const CreateMovement: React.FC = () => {
         e.stopPropagation();
         setDragActive(false);
         const file = e.dataTransfer.files?.[0];
-        if (file && file.type.startsWith("video/")) {
+        if (file && file.type.startsWith('video/')) {
             setVideo(file);
         }
     };
@@ -59,7 +59,7 @@ const CreateMovement: React.FC = () => {
         e.preventDefault();
 
         if (!video) {
-            toast.error('Please select a video before submitting.')
+            toast.error('Please select a video before submitting.');
             return;
         }
 
@@ -83,7 +83,7 @@ const CreateMovement: React.FC = () => {
         const data = await res.json();
 
         if (!res.ok) {
-            toast.error('Something Went wrong')
+            toast.error('Something Went wrong');
             console.log('Error from /api/admin/movement/create');
             console.log(data.error);
             return;
@@ -96,14 +96,14 @@ const CreateMovement: React.FC = () => {
         uploadForm.append('file', video);
 
         const uploadRes = await fetch(uploadURL, {
-            method: "POST",
+            method: 'POST',
             body: uploadForm,
         });
 
         if (!uploadRes.ok) {
             const text = await uploadRes.text();
-            console.error("Cloudflare upload failed:", text);
-            toast.error("Video upload failed");
+            console.error('Cloudflare upload failed:', text);
+            toast.error('Video upload failed');
             return;
         }
 
@@ -116,9 +116,8 @@ const CreateMovement: React.FC = () => {
         // }
 
         toast.success('Movement created and video uploaded!');
-        setMovementName("");
+        setMovementName('');
         setVideo(null);
-
     };
 
     return (
@@ -206,4 +205,3 @@ const CreateMovement: React.FC = () => {
 };
 
 export default CreateMovement;
-
