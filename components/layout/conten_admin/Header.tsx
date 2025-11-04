@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-export default function ContentAdminHeader({ onToggle }: { onToggle?: () => void }) {
+export default function Header({ onToggle }: { onToggle?: () => void }) {
     return (
         <header className="dashboard-header">
             <div className="header-left">
@@ -13,7 +13,7 @@ export default function ContentAdminHeader({ onToggle }: { onToggle?: () => void
                 </button>
             </div>
 
-            <div className="header-title">Welcome to Dashboard, John Doe!</div>
+            <div className="header-title">Welcome to Dashboard, John Does!</div>
 
             <div className="header-right">
                 <img src="/logo.png" alt="Kickboxing Club" className="header-logo" />

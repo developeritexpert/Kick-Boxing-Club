@@ -31,11 +31,15 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
     const router = useRouter();
     const pathname = usePathname();
     const clearUser = useAuthStore((state) => state.clearUser);
-
+    
     useEffect(() => {
         setMounted(true);
     }, []);
+       
+    const handleSidebar=()=>{
+        setCollapsed(!collapsed);
 
+    }
     const handleLogout = async () => {
         try {
             await supabaseClient.auth.signOut();
@@ -62,7 +66,12 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
                         ☰
                     </div> */}
                     {!collapsed && <div className="brand-text">All Locations</div>}
+
                 </div>
+                <div className="close_btn" onClick={handleSidebar}>
+                    <img src="/new_close.png" alt="close-img" />
+                </div>
+                
             </div>
 
             <nav className="sidebar-nav">

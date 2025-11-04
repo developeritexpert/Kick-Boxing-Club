@@ -26,7 +26,7 @@ const menu = [
     { key: 'settings', label: 'Setting',  icon: '/setting_icon.png',alt:"setting_icon" , href: '/admin/settings' },
 ];
 
-export default function Sidebar({ collapsed, setCollapsed }: Props) {
+export default function ContentAdminSidebar({ collapsed, setCollapsed }: Props) {
     const [mounted, setMounted] = useState(false);
     const router = useRouter();
     const pathname = usePathname();

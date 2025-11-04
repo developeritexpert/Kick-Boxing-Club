@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-export default function ContenAdminFooter() {
+export default function Footer() {
     return (
         <footer className="dashboard-footer">
-            © Copyright Kickboxing Club. All Rights Reserved
+            © Copyright Kickboxing Club. All Rights Reserveds
         </footer>
     );
 }
