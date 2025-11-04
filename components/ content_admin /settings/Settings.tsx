@@ -267,7 +267,7 @@ const Settings: React.FC = () => {
                             <label className={styles.customCheckbox}>
                                 <input type="checkbox" defaultChecked />
                                 <span className={styles.checkmark}></span>
-                                {t.sms}
+                                SMS
                             </label>
                         </div>
                     </div>
