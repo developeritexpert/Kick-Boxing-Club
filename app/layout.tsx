@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-
-import './globals.css';
 import { Toaster } from 'react-hot-toast';
+import Script from 'next/script';
+import './globals.css';
 
 export const metadata: Metadata = {
     title: 'Kick Boxing Club Fitness',
@@ -17,8 +17,19 @@ export default function RootLayout({
         <html lang="en">
             <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+                <Script
+                    src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"
+                    strategy="beforeInteractive"
+                />
+
             </head>
             <body>
+                {/* <Script
+                    src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"
+                    strategy="beforeInteractive"
+                /> */}
+
                 {children}
                 <Toaster position="top-right" reverseOrder={false} />
             </body>

@@ -92,23 +92,26 @@ export default function UserTable() {
             <table className="user-table">
                 <thead>
                     <tr>
-                        <th>User ID</th>
+                        <th>S.no</th>
                         <th>Name</th>
+                        <th>Email</th>
                         <th>Role</th>
                         <th>Assigned Role</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user) => (
+                    {users.map((user, index) => (
                         <tr key={user.user_id}>
-                            <td>{user.user_id}</td>
+                            {/* <td>{user.user_id}</td> */}
+                            <td>{index + 1}</td>
                             <td>
                                 <div className="user-name">
-                                    <div className="avatar-placeholder" />
+                                    {/* <div className="avatar-placeholder" /> */}
                                     {user.first_name} {user.last_name}
                                 </div>
                             </td>
+                            <td>{user.email}</td>
                             <td>{user.role}</td>
                             <td>{getAssignedRoleText(user.role)}</td>
                             <td>

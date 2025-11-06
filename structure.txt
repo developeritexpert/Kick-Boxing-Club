@@ -1,0 +1,206 @@
+this is project file structure created on 4th November 2025
+
+fitness-class-builder/
+├─ app/
+│  ├─ (dashboard)/
+│  │  └─ admin/
+│  │     ├─ class/
+│  │     │  └─ addClass/
+│  │     │     └─ page.tsx
+│  │     ├─ favorites/
+│  │     │  └─ page.tsx
+│  │     ├─ location/
+│  │     │  └─ addLocation/
+│  │     │     └─ page.tsx
+│  │     ├─ movement/
+│  │     │  ├─ [id]/
+│  │     │  │  └─ edit/
+│  │     │  │     └─ page.tsx
+│  │     │  ├─ create/
+│  │     │  │  └─ page.tsx
+│  │     │  └─ library/
+│  │     │     └─ page.tsx
+│  │     ├─ recent/
+│  │     │  └─ page.tsx
+│  │     ├─ settings/
+│  │     │  └─ page.tsx
+│  │     ├─ users/
+│  │     │  ├─ [userId]/
+│  │     │  │  └─ edit/
+│  │     │  │     └─ page.tsx
+│  │     │  ├─ add/
+│  │     │  │  ├─ AddUserPage.css
+│  │     │  │  └─ page.tsx
+│  │     │  └─ page.tsx
+│  │     ├─ workouts/
+│  │     │  ├─ [workoutId]/
+│  │     │  │  └─ page.tsx
+│  │     │  ├─ create/
+│  │     │  │  └─ page.tsx
+│  │     │  ├─ singleworkout/
+│  │     │  │  └─ page.tsx
+│  │     │  └─ page.tsx
+│  │     ├─ layout.tsx
+│  │     └─ page.tsx
+│  ├─ api/
+│  │  ├─ admin/
+│  │  │  ├─ class/
+│  │  │  │  ├─ create/
+│  │  │  │  │  └─ route.ts
+│  │  │  │  └─ route.ts
+│  │  │  ├─ create-user/
+│  │  │  │  └─ route.ts
+│  │  │  ├─ location/
+│  │  │  │  ├─ create/
+│  │  │  │  │  └─ route.ts
+│  │  │  │  └─ route.ts
+│  │  │  ├─ movement/
+│  │  │  │  ├─ [id]/
+│  │  │  │  │  └─ route.ts
+│  │  │  │  ├─ create/
+│  │  │  │  │  └─ route.ts
+│  │  │  │  └─ route.ts
+│  │  │  ├─ users/
+│  │  │  │  ├─ [userId]/
+│  │  │  │  │  └─ route.ts
+│  │  │  │  └─ route.ts
+│  │  │  └─ workout/
+│  │  │     ├─ [workoutId]/
+│  │  │     │  └─ route.ts
+│  │  │     ├─ create/
+│  │  │     │  └─ route.ts
+│  │  │     └─ route.ts
+│  │  ├─ auth/
+│  │  │  ├─ login/
+│  │  │  │  └─ route.ts
+│  │  │  └─ register/
+│  │  │     └─ route.ts
+│  │  ├─ cloudflare/
+│  │  │  └─ webhook/
+│  │  │     └─ route.ts
+│  │  ├─ common/
+│  │  │  ├─ categories/
+│  │  │  │  └─ route.ts
+│  │  │  ├─ difficulty-levels/
+│  │  │  │  └─ route.ts
+│  │  │  ├─ equipments/
+│  │  │  │  └─ route.ts
+│  │  │  └─ tags/
+│  │  │     └─ route.ts
+│  │  └─ health/
+│  │     └─ route.ts
+│  ├─ auth/
+│  │  └─ register/
+│  │     └─ page.tsx
+│  ├─ dashboard/
+│  │  ├─ admin/
+│  │  ├─ content-admin/
+│  │  └─ instructor/
+│  ├─ favicon.ico
+│  ├─ globals.css
+│  ├─ layout.tsx
+│  ├─ middleware.ts
+│  ├─ not-found.tsx
+│  └─ page.tsx
+├─ components/
+│  ├─ admin/
+│  │  ├─ class/
+│  │  │  ├─ addClass.css
+│  │  │  └─ addClass.tsx
+│  │  ├─ favorites/
+│  │  │  ├─ MyFavorites.css
+│  │  │  └─ MyFavorites.tsx
+│  │  ├─ location/
+│  │  │  ├─ addLocation.css
+│  │  │  └─ addLocation.tsx
+│  │  ├─ movement/
+│  │  │  ├─ CreateMovement.css
+│  │  │  ├─ createMovement.tsx
+│  │  │  ├─ EditMovement.css
+│  │  │  ├─ EditMovement.tsx
+│  │  │  ├─ MovementLibrary.css
+│  │  │  └─ MovementLibrary.tsx
+│  │  ├─ recent/
+│  │  │  ├─ RecentWorkouts.css
+│  │  │  └─ RecentWorkouts.tsx
+│  │  ├─ settings/
+│  │  │  ├─ Settings.module.css
+│  │  │  ├─ Settings.tsx
+│  │  │  └─ translations.ts
+│  │  ├─ workout/
+│  │  │  ├─ CreateWorkout.css
+│  │  │  └─ CreateWorkout.tsx
+│  │  ├─ EditUser.css
+│  │  ├─ EditUser.tsx
+│  │  ├─ single-workout.css
+│  │  ├─ single-workout.tsx
+│  │  ├─ UserTable.css
+│  │  ├─ UserTable.tsx
+│  │  ├─ workouts.css
+│  │  └─ workouts.tsx
+│  ├─ layout/
+│  │  ├─ content_admin/
+│  │  ├─ Footer.tsx
+│  │  ├─ Header.tsx
+│  │  └─ Sidebar.tsx
+│  ├─ login/
+│  │  └─ LoginForm.tsx
+│  ├─ Logout/
+│  │  └─ LogoutButton.tsx
+│  └─ register/
+│     └─ RegisterForm.tsx
+├─ lib/
+│  ├─ cloudflare.ts
+│  ├─ constants.ts
+│  ├─ supabaseAdmin.ts
+│  └─ supabaseClient.ts
+├─ public/
+│  ├─ camera_icon.png
+│  ├─ casting_icon.png
+│  ├─ create_management_icon.png
+│  ├─ create_movmnt.png
+│  ├─ create_workout_icon.png
+│  ├─ delete_icon.png
+│  ├─ dropdown_icon.png
+│  ├─ duration_icon.png
+│  ├─ edit_icon.png
+│  ├─ elipse_icon_new.png
+│  ├─ file.svg
+│  ├─ globe.svg
+│  ├─ heart-icon.png
+│  ├─ home_icon.png
+│  ├─ logout_icon.png
+│  ├─ movement_library_icon.png
+│  ├─ myFav_icon.png
+│  ├─ next.svg
+│  ├─ profile.png
+│  ├─ radio_ellipse_icon .png
+│  ├─ recent_icon.png
+│  ├─ search_icon.png
+│  ├─ setting_icon.png
+│  ├─ tick_checkout_icon.png
+│  ├─ tick_icon.png
+│  ├─ vdo_upload_icon.png
+│  ├─ vercel.svg
+│  ├─ view_icon.png
+│  ├─ window.svg
+│  └─ workout_libray.png
+├─ stores/
+│  └─ useAuthStore.ts
+├─ styles/
+│  ├─ dashboard.css
+│  └─ login.css
+├─ types/
+├─ .env.local
+├─ .gitignore
+├─ .prettierignore
+├─ .prettierrc.json
+├─ eslint.config.mjs
+├─ next-env.d.ts
+├─ next.config.ts
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
+├─ README.md
+├─ readme.txt
+└─ tsconfig.json
