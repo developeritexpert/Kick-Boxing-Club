@@ -45,11 +45,9 @@ export const useChromecast = () => {
     const isInitializedRef = useRef(false);
     const timeUpdateIntervalRef = useRef<NodeJS.Timeout | null>(null);
     
-    // CRITICAL: Add flag to prevent race conditions
     const isConnectingRef = useRef(false);
     const connectionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Initialize Cast API
     useEffect(() => {
         const initializeCastApi = () => {
             if (isInitializedRef.current) {
@@ -72,13 +70,12 @@ export const useChromecast = () => {
             const apiConfig = new cast.ApiConfig(
                 sessionRequest,
                 (session: any) => {
-                    console.log('🎯 Cast session started via listener');
+                    console.log(' Cast session started via listener');
                     handleSessionConnected(session);
                 },
                 (status: string) => {
-                    console.log('📡 Cast receiver status changed:', status);
+                    console.log(' Cast receiver status changed:', status);
                     
-                    // CRITICAL: Only disconnect if we're not in the middle of connecting
                     if ((status === 'disconnected' || status === 'stopped') && !isConnectingRef.current) {
                         console.log('Session disconnected via status');
                         handleSessionDisconnected();
@@ -90,11 +87,10 @@ export const useChromecast = () => {
                 cast.initialize(
                     apiConfig,
                     () => {
-                        console.log('✅ Cast API initialized successfully');
+                        console.log(' Cast API initialized successfully');
                         isInitializedRef.current = true;
                         setIsCastAvailable(true);
                         
-                        // Check for existing session
                         try {
                             const existingSession = cast.framework?.CastContext?.getInstance()?.getCurrentSession();
                             if (existingSession) {
@@ -111,12 +107,12 @@ export const useChromecast = () => {
                         }
                     },
                     (error: any) => {
-                        console.error('❌ Cast API initialization error:', error);
+                        console.error(' Cast API initialization error:', error);
                         setIsCastAvailable(false);
                     }
                 );
             } catch (e) {
-                console.error('❌ Exception during Cast initialization:', e);
+                console.error(' Exception during Cast initialization:', e);
             }
         };
 
@@ -173,12 +169,11 @@ export const useChromecast = () => {
 
     const handleSessionConnected = (session: any) => {
         if (!session) {
-            console.log('⚠️ No session provided');
+            console.log(' No session provided');
             isConnectingRef.current = false;
             return;
         }
 
-        // CRITICAL: Set connecting flag and clear any existing timeout
         isConnectingRef.current = true;
         if (connectionTimeoutRef.current) {
             clearTimeout(connectionTimeoutRef.current);
@@ -194,16 +189,15 @@ export const useChromecast = () => {
                 session.getSessionObj?.()?.receiver?.friendlyName ||
                 'Chromecast Device';
             
-            console.log('📺 Device name extracted:', friendlyName);
+            console.log(' Device name extracted:', friendlyName);
         } catch (e) {
             console.log('Could not extract device name:', e);
         }
 
-        console.log('🔗 Connecting to session:', friendlyName);
+        console.log(' Connecting to session:', friendlyName);
         castSessionRef.current = session;
         setDeviceName(friendlyName);
         
-        // Remove old session listener if exists
         if (sessionListenerRef.current) {
             try {
                 session.removeUpdateListener(sessionListenerRef.current);
@@ -212,11 +206,9 @@ export const useChromecast = () => {
             }
         }
 
-        // Setup session listener
         sessionListenerRef.current = (isAlive: boolean) => {
-            console.log('💓 Session update - isAlive:', isAlive);
+            console.log(' Session update - isAlive:', isAlive);
             
-            // CRITICAL: Only disconnect if not in connecting state
             if (!isAlive && !isConnectingRef.current) {
                 console.log('Session died, disconnecting');
                 handleSessionDisconnected();
@@ -225,12 +217,11 @@ export const useChromecast = () => {
 
         try {
             session.addUpdateListener(sessionListenerRef.current);
-            console.log('✅ Session listener attached');
+            console.log(' Session listener attached');
         } catch (e) {
             console.log('Could not add session listener:', e);
         }
 
-        // Check for existing media
         try {
             const media = session.getMediaSession?.();
             if (media) {
@@ -241,18 +232,16 @@ export const useChromecast = () => {
             console.log('No existing media');
         }
 
-        // CRITICAL: Set connected state AFTER a small delay to ensure stability
         connectionTimeoutRef.current = setTimeout(() => {
-            console.log('✅ Session stable, setting isConnected = true');
+            console.log(' Session stable, setting isConnected = true');
             setIsConnected(true);
             isConnectingRef.current = false;
-        }, 500); // 500ms delay to ensure session is stable
+        }, 500); 
     };
 
     const handleSessionDisconnected = () => {
-        console.log('🔌 Session disconnected, cleaning up');
+        console.log(' Session disconnected, cleaning up');
         
-        // Clear connection timeout
         if (connectionTimeoutRef.current) {
             clearTimeout(connectionTimeoutRef.current);
             connectionTimeoutRef.current = null;
@@ -276,27 +265,25 @@ export const useChromecast = () => {
     const setupMediaListeners = (media: CastMediaObject) => {
         mediaRef.current = media;
 
-        // Remove old listener
         if (mediaListenerRef.current) {
             try {
                 media.removeUpdateListener(mediaListenerRef.current);
             } catch (e) {}
         }
 
-        // Setup new listener
         mediaListenerRef.current = (isAlive: boolean) => {
             if (!isAlive) return;
 
             const state = media.playerState || 'IDLE';
             const idleReason = media.idleReason;
             
-            console.log('🎬 Media state update:', state, 'Idle reason:', idleReason);
+            console.log(' Media state update:', state, 'Idle reason:', idleReason);
             setPlayerState(state);
 
             if (state === 'IDLE' && idleReason === 'FINISHED') {
-                console.log('✅ Video finished');
+                console.log(' Video finished');
             } else if (state === 'IDLE' && idleReason === 'ERROR') {
-                console.error('❌ Media playback error');
+                console.error(' Media playback error');
             }
 
             if (media.media?.duration) {
@@ -306,7 +293,6 @@ export const useChromecast = () => {
 
         media.addUpdateListener(mediaListenerRef.current);
 
-        // Setup time update interval
         if (timeUpdateIntervalRef.current) {
             clearInterval(timeUpdateIntervalRef.current);
         }
@@ -321,7 +307,7 @@ export const useChromecast = () => {
 
     const requestCastSession = useCallback(async () => {
         if (!window.chrome?.cast) {
-            console.error('❌ Cast API not available');
+            console.error(' Cast API not available');
             alert('Chromecast is not available. Please use Chrome browser and ensure the Cast extension is enabled.');
             return false;
         }
@@ -333,19 +319,19 @@ export const useChromecast = () => {
 
         try {
             setIsLoading(true);
-            isConnectingRef.current = true; // Set connecting flag
-            console.log('📡 Requesting cast session...');
+            isConnectingRef.current = true; 
+            console.log(' Requesting cast session...');
             
             await window.chrome.cast.requestSession(
                 (session: any) => {
-                    console.log('✅ Session created:', session);
+                    console.log(' Session created:', session);
                     handleSessionConnected(session);
                     setIsLoading(false);
                 },
                 (error: any) => {
-                    console.log('❌ Error requesting session:', error);
+                    console.log(' Error requesting session:', error);
                     setIsLoading(false);
-                    isConnectingRef.current = false; // Clear connecting flag
+                    isConnectingRef.current = false; 
                     
                     if (error.code === 'cancel') {
                         console.log('User cancelled cast request');
@@ -356,7 +342,7 @@ export const useChromecast = () => {
             );
             return true;
         } catch (error) {
-            console.error('❌ Request session exception:', error);
+            console.error(' Request session exception:', error);
             setIsLoading(false);
             isConnectingRef.current = false;
             return false;
@@ -367,16 +353,15 @@ export const useChromecast = () => {
         return new Promise((resolve, reject) => {
             const session = castSessionRef.current;
             if (!session) {
-                console.error('❌ No active cast session');
+                console.error(' No active cast session');
                 reject(new Error('No active session'));
                 return;
             }
 
-            console.log('📹 Loading media:', media.title);
+            console.log(' Loading media:', media.title);
             
-            // Use DASH URL for cross-platform support (Windows + Android + Chrome)
             const dashUrl = `https://videodelivery.net/${media.videoId}/manifest/video.mpd`;
-            console.log('🎥 DASH URL:', dashUrl);
+            console.log(' DASH URL:', dashUrl);
 
             const mediaInfo = new window.chrome.cast.media.MediaInfo(
                 dashUrl,
@@ -402,12 +387,12 @@ export const useChromecast = () => {
             session.loadMedia(
                 request,
                 (mediaObj: CastMediaObject) => {
-                    console.log('✅ Media loaded successfully');
+                    console.log(' Media loaded successfully');
                     setupMediaListeners(mediaObj);
                     resolve(mediaObj);
                 },
                 (error: any) => {
-                    console.error('❌ Error loading media:', error);
+                    console.error('Error loading media:', error);
                     console.error('Error code:', error.code);
                     console.error('Error description:', error.description);
                     reject(error);
@@ -424,12 +409,12 @@ export const useChromecast = () => {
             return;
         }
 
-        console.log('🛑 Stopping cast session...');
+        console.log('Stopping cast session...');
         
         try {
             session.stop(
                 () => {
-                    console.log('✅ Session stopped successfully');
+                    console.log('Session stopped successfully');
                     handleSessionDisconnected();
                 },
                 (error: any) => {
@@ -452,7 +437,7 @@ export const useChromecast = () => {
 
         try {
             media.play(new window.chrome.cast.media.PlayRequest());
-            console.log('▶️ Playing');
+            console.log('Playing');
         } catch (e) {
             console.error('Error playing:', e);
         }
@@ -467,7 +452,7 @@ export const useChromecast = () => {
 
         try {
             media.pause(new window.chrome.cast.media.PauseRequest());
-            console.log('⏸️ Paused');
+            console.log('Paused');
         } catch (e) {
             console.error('Error pausing:', e);
         }
@@ -492,7 +477,7 @@ export const useChromecast = () => {
             const request = new window.chrome.cast.media.SeekRequest();
             request.currentTime = timeInSeconds;
             media.seek(request);
-            console.log(`⏩ Seeked to ${timeInSeconds}s`);
+            console.log(` Seeked to ${timeInSeconds}s`);
         } catch (e) {
             console.error('Error seeking:', e);
         }

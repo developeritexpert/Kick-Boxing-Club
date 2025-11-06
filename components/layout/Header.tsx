@@ -1,9 +1,12 @@
 'use client';
 
 import React from 'react';
+import { useAuthStore, User } from '@/stores/useAuthStore';
 import Image from 'next/image';
 
 export default function Header({ onToggle }: { onToggle?: () => void }) {
+    const user = useAuthStore((state) => state.user);
+
     return (
         <header className="dashboard-header">
             <div className="header-left">
@@ -13,7 +16,7 @@ export default function Header({ onToggle }: { onToggle?: () => void }) {
                 </button>
             </div>
 
-            <div className="header-title">Welcome to Dashboard, John Doe!</div>
+            <div className="header-title">Welcome to Dashboard, {user?.first_name} {user?.last_name}</div>
 
             <div className="header-right">
                 <img src="/logo.png" alt="Kickboxing Club" className="header-logo" />

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'react-hot-toast';
 import Script from 'next/script';
+import { ChromecastProvider } from '@/lib/context/ChromecastContext';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -14,7 +15,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -25,12 +26,11 @@ export default function RootLayout({
 
             </head>
             <body>
-                {/* <Script
-                    src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"
-                    strategy="beforeInteractive"
-                /> */}
+                <ChromecastProvider>
+                    {children}
+                </ChromecastProvider>
 
-                {children}
+                {/* {children} */}
                 <Toaster position="top-right" reverseOrder={false} />
             </body>
         </html>

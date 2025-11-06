@@ -1,3 +1,7 @@
+// this file is not in user but contain the video player logic without casting and without context 
+// never called in a file or route just for backup 
+
+
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
