@@ -27,7 +27,7 @@ const MyFavorites: React.FC = () => {
     ];
 
     return (
-        <div>
+        <div className="content-admin-fav">
             <div className="search-box">
                 <span className="search-icon">
                     <img src="/search_icon.png" alt="search icon" />

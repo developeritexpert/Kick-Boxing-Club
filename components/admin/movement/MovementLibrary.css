@@ -1,131 +1,7 @@
 .library-container {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    margin-top: 37px;
-    padding-bottom: 43px;
-}
-.library-container h3.hdr {
-    padding: 30px 0 30px 37px;
-    border-bottom: 1px solid #0000001a;
-    font-size: 28px;
-    font-weight: 600;
-}
-.library-container .edit-mvmbt {
-    padding-left: 37px;
-    margin-top: 25px;
-}
-
-.edit-mvmnt-cntnt {
-    display: flex;
-    width: 100%;
-}
-
-.library-container .cat-ctn {
-    flex: 1;
-    flex-direction: column;
-    gap: 15px;
-    display: flex;
-    position: relative;
-}
-
-.library-container .cat-ctn::after {
-    content: '';
-    background-image: url('/dropdown_icon.png');
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-    position: absolute;
-    top: 61px;
-    right: 50px;
-}
-.library-container .cat-ctn select {
-    appearance: none;
-}
-
-.library-container .cat-ctn label {
-    font-size: 16px;
-}
-.library-container .cate-sel {
-    color: #000;
-    cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    padding: 15px 25px;
-    font-size: 16px;
-    transition: border-color 0.2s;
-    margin-right: 30px;
-}
-
-.library-container .cate-sel:focus {
-    border-color: #000;
-    outline: none;
-}
-.subcategory.cat-ctn {
-    margin-top: 26px;
-    width: 50%;
-}
-
-.workoutsVdo {
-    margin-top: 52px;
-    margin-bottom: 18px;
-}
-
-.workoutsVdo h2 {
-    color: #000;
-    font-size: 18px;
-    margin-bottom: 18px;
-    font-weight: 600;
-}
-
-.workoutsVdo .uploadBox {
-    text-align: center;
-    background-color: rgba(1, 1, 1, 0.01);
-    border: 1px dashed rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    padding: 25px;
-    position: relative;
-}
-
-.workoutsVdo input#videoUpload {
-    display: none;
-}
-
-.workoutsVdo label.uploadLabel {
-    cursor: pointer;
-    color: #777;
-    font-size: 12px;
-    flex-direction: column;
-    align-items: center;
-    display: flex;
-}
-
-.workoutsVdo .uploadIcon {
-    margin-bottom: 23px;
-}
-
-.workoutsVdo .wrkoutVdoPara {
-    color: #000;
-    flex-direction: column;
-    display: flex;
-}
-.workoutsVdo .workVdioBtn {
-    color: #000;
-    font-size: 12px;
-    background-color: rgba(180, 2, 0, 0.02);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    margin-bottom: 12px;
-    padding: 12px 20px;
-    font-weight: 600;
-}
-
-p.wrkoutVdoPara span {
-    font-size: 14px;
-    display: inline-block;
-}
-
-.delt-btn {
-    margin-top: 42px;
+    background-color: #fafafa;
+    padding: 40px;
+    min-height: calc(100vh - 80px);
 }
 
 .library-header {
@@ -136,7 +12,7 @@ p.wrkoutVdoPara span {
     margin-bottom: 25px;
 }
 
-.search-input {
+.admin-library-container .search-input {
     padding: 10px 15px;
     border-radius: 8px;
     border: 1px solid #ccc;
@@ -232,33 +108,4 @@ p.wrkoutVdoPara span {
 
 .delete-btn:hover {
     background-color: #ddd;
-}
-
-@media (max-width: 1399px) {
-    .library-container h3.hdr {
-        font-size: 18px;
-        padding: 19px 0 19px 37px;
-    }
-}
-@media (max-width: 767px) {
-    .edit-mvmnt-cntnt {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .library-container {
-        margin-top: 24px;
-    }
-    .library-container h3.hdr {
-        padding: 14px 0 12px 32px;
-    }
-    .library-container .edit-mvmbt {
-        margin-top: 20px;
-    }
-    .library-container .edit-mvmbt {
-        padding-left: 32px;
-    }
-    .delt-btn {
-        margin-top: 15px;
-    }
 }

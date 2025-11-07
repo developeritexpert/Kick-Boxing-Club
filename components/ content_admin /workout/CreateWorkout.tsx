@@ -18,6 +18,16 @@ interface SelectedMovement extends Movement {
 }
 
 const CreateWorkout: React.FC = () => {
+    const [openLocation, setOpenLocation] = useState(false);
+    const [locationValue, setLocationValue] = useState('Lakewood');
+
+    // Dropdown #2 State
+    const [openClass, setOpenClass] = useState(false);
+    const [classValue, setClassValue] = useState('Fitness Kickboxing');
+
+    const locationOptions = ['Lakewood', 'Orange', 'Downey'];
+    const classOptions = ['Fitness Kickboxing', 'Power Kickboxing', 'Jobo Kickboxing'];
+
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
@@ -35,24 +45,6 @@ const CreateWorkout: React.FC = () => {
     const [workoutClass, setworkoutClass] = useState('');
 
     const MAX_MOVEMENTS_PER_CATEGORY = 5;
-
-    useEffect(() => {
-        const fetchMovements = async () => {
-            try {
-                const res = await fetch('/api/admin/movement');
-                const data = await res.json();
-
-                if (!res.ok) throw new Error(data.error || 'Failed to load movements');
-                setMovements(data.data || []);
-            } catch (err) {
-                console.error(err);
-                const message = err instanceof Error ? err.message : 'Failed to load movements';
-                toast.error(message);
-            }
-        };
-
-        fetchMovements();
-    }, []);
 
     const openPopup = (category: 'boxing' | 'kickboxing' | 'hiit') => {
         setCurrentCategory(category);
@@ -79,7 +71,6 @@ const CreateWorkout: React.FC = () => {
                 return prev.filter((m) => m.id !== movement.id);
             } else {
                 if (prev.length >= MAX_MOVEMENTS_PER_CATEGORY) {
-                    // toast.error(`Maximum ${MAX_MOVEMENTS_PER_CATEGORY} movements allowed per category`);
                     setTimeout(() => {
                         toast.error(
                             `Maximum ${MAX_MOVEMENTS_PER_CATEGORY} movements allowed per category`,
@@ -287,7 +278,7 @@ const CreateWorkout: React.FC = () => {
     );
 
     return (
-        <div className="create-workout-container">
+        <div className="create-workout-container content-admin-create-workout">
             <h2>Create New Workout</h2>
 
             <div className="workout-layout">
@@ -306,28 +297,62 @@ const CreateWorkout: React.FC = () => {
                         <div className="form-row">
                             <div className="form-group">
                                 <label>Location</label>
-                                <select
-                                    value={location}
-                                    onChange={(e) => setLocation(e.target.value)}
-                                >
-                                    <option value="">Select Location</option>
-                                    <option value="Lakewood">Lakewood</option>
-                                    <option value="Orange">Orange</option>
-                                    <option value="Downey">Downey</option>
-                                </select>
+                                <div className="customDropdown">
+                                    <button
+                                        type="button"
+                                        className={`dropdownBtn ${openLocation ? 'active' : ''}`}
+                                        onClick={() => setOpenLocation(!openLocation)}
+                                    >
+                                        {locationValue}
+                                    </button>
+
+                                    {openLocation && (
+                                        <ul className="dropdownList">
+                                            {locationOptions.map((opt) => (
+                                                <li
+                                                    key={opt}
+                                                    className="dropdownItem"
+                                                    onClick={() => {
+                                                        setLocationValue(opt);
+                                                        setOpenLocation(false);
+                                                    }}
+                                                >
+                                                    {opt}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
                             </div>
 
                             <div className="form-group">
                                 <label>Class</label>
-                                <select
-                                    value={workoutClass}
-                                    onChange={(e) => setworkoutClass(e.target.value)}
-                                >
-                                    <option value="">Select Class</option>
-                                    <option value="Fitness Kickboxing">Fitness Kickboxing</option>
-                                    <option value="Jus' Kickboxing">Jus&apos; Kickboxing</option>
-                                    <option value="Power Kickboxing">Power Kickboxing</option>
-                                </select>
+                                <div className="customDropdown">
+                                    <button
+                                        type="button"
+                                        className={`dropdownBtn ${openClass ? 'active' : ''}`}
+                                        onClick={() => setOpenClass(!openClass)}
+                                    >
+                                        {classValue}
+                                    </button>
+
+                                    {openClass && (
+                                        <ul className="dropdownList">
+                                            {classOptions.map((opt) => (
+                                                <li
+                                                    key={opt}
+                                                    className="dropdownItem"
+                                                    onClick={() => {
+                                                        setClassValue(opt);
+                                                        setOpenClass(false);
+                                                    }}
+                                                >
+                                                    {opt}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
                             </div>
                         </div>
 
@@ -357,15 +382,6 @@ const CreateWorkout: React.FC = () => {
                                 ))}
                             </div>
                         </div>
-
-                        <div className="button-group">
-                            <button type="button" className="btn cancel" onClick={handleCancel}>
-                                Cancel
-                            </button>
-                            <button type="submit" className="btn create" disabled={loading}>
-                                {loading ? 'Creating...' : 'Create'}
-                            </button>
-                        </div>
                     </form>
                 </div>
 
@@ -376,6 +392,14 @@ const CreateWorkout: React.FC = () => {
                     {renderCategoryBox('kickboxing', 'Kickboxing', kickboxingMovements)}
                     {renderCategoryBox('hiit', 'HIIT', hiitMovements)}
                 </div>
+            </div>
+            <div className="button-group">
+                <button type="button" className="btn cancel" onClick={handleCancel}>
+                    Cancel
+                </button>
+                <button type="submit" className="btn create" disabled={loading}>
+                    {loading ? 'Creating...' : 'Create'}
+                </button>
             </div>
 
             {/* Modal */}

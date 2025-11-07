@@ -8,6 +8,21 @@ const Settings: React.FC = () => {
     const router = useRouter();
     const [lang, setLang] = useState('en');
     const [theme, setTheme] = useState('system');
+    const [openLanguage, setOpenLanguage] = useState(false);
+    const [languageValue, setLanguageValue] = useState('English');
+
+    // Dropdown #2 State
+    const [openLocation, setOpenLocation] = useState(false);
+    const [locationValue, setLocationValue] = useState('Choose a location');
+
+    // Dropdown #2 State
+    const [openTimeZone, setOpenTimeZone] = useState(false);
+    const [timeZoneValue, setTimeZoneValue] = useState('Default');
+
+    const languageOptions = ['hindi', 'sapanish', 'french'];
+
+    const locationOptions = ['india', 'london', 'newyok', 'aus'];
+    const timeZoneOptions = ['india', 'london', 'newyok', 'aus'];
 
     const t = translations[lang] || translations['en'];
     const [value, setValue] = useState(50);
@@ -142,18 +157,8 @@ const Settings: React.FC = () => {
         };
     }, []);
 
-    const handleAddLocation = () => {
-        router.push('/admin/location/addLocation');
-        router.refresh();
-    };
-
-    const handleAddClass = () => {
-        router.push('/admin/class/addClass');
-        router.refresh();
-    };
-
     return (
-        <div>
+        <div className={styles.settingInformations}>
             <div className={styles.profileCnt}>
                 <div className={styles.profileImg}>
                     <img src="/profile.png" alt="profile-img" />
@@ -215,48 +220,96 @@ const Settings: React.FC = () => {
                     <div className={`${styles.acntInfoCnt} ${styles.mrgnTop23}`}>
                         <div className={`${styles.formGroup}`}>
                             <label htmlFor="language">{t.language}</label>
-                            <select
-                                id="language"
-                                value={lang}
-                                className={`${styles.formSelect} ${styles.mrgnRight30}`}
-                                onChange={handleLanguageChange}
-                            >
-                                <option value="en">{t.english}</option>
-                                <option value="hi">{t.hindi}</option>
-                                <option value="es">{t.spanish}</option>
-                                <option value="fr">{t.french}</option>
-                            </select>
+                            <div className={styles.customDropdown}>
+                                <button
+                                    type="button"
+                                    className={`${styles.dropdownBtn} ${openLanguage ? styles.active : ''}`}
+                                    onClick={() => setOpenLanguage(!openLanguage)}
+                                >
+                                    {languageValue}
+                                </button>
+
+                                {openLanguage && (
+                                    <ul className={styles.dropdownList}>
+                                        {languageOptions.map((opt) => (
+                                            <li
+                                                key={opt}
+                                                className={styles.dropdownItem}
+                                                onClick={() => {
+                                                    setLanguageValue(opt);
+                                                    setOpenLanguage(false);
+                                                }}
+                                            >
+                                                {opt}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
                         </div>
 
-                        <div className={`${styles.formGroup}`}>
+                        <div className={`${styles.formGroup} ${styles.timeZoneInfo}`}>
                             <label htmlFor="timezone">{t.timezone}</label>
-                            <select
-                                id="timezone"
-                                className={`${styles.formSelect} ${styles.mrgnRight30}`}
-                            >
-                                <option>{t.default}</option>
-                                <option>{t.india}</option>
-                                <option>{t.london}</option>
-                                <option>{t.newYork}</option>
-                            </select>
+                            <div className={styles.customDropdown}>
+                                <button
+                                    type="button"
+                                    className={`${styles.dropdownBtn} ${openTimeZone ? styles.active : ''}`}
+                                    onClick={() => setOpenTimeZone(!openTimeZone)}
+                                >
+                                    {timeZoneValue}
+                                </button>
+
+                                {openTimeZone && (
+                                    <ul className={styles.dropdownList}>
+                                        {timeZoneOptions.map((opt) => (
+                                            <li
+                                                key={opt}
+                                                className={styles.dropdownItem}
+                                                onClick={() => {
+                                                    setTimeZoneValue(opt);
+                                                    setOpenTimeZone(false);
+                                                }}
+                                            >
+                                                {opt}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
                         </div>
                     </div>
 
                     <div className={`${styles.formGroup} ${styles.mrgnTop23}`}>
-                        <label htmlFor="location">{t.locationText}</label>
-                        <select
-                            id="location"
-                            className={`${styles.formSelect} ${styles.mrgnRight30}`}
-                        >
-                            <option>{t.chooseLocation}</option>
-                            <option>{t.india}</option>
-                            <option>{t.unitedStates}</option>
-                            <option>{t.unitedKingdom}</option>
-                            <option>{t.canada}</option>
-                        </select>
+                        <label htmlFor="location">Location</label>
+                        <div className={styles.customDropdown}>
+                            <button
+                                type="button"
+                                className={`${styles.dropdownBtn} ${openLocation ? styles.active : ''}`}
+                                onClick={() => setOpenLocation(!openLocation)}
+                            >
+                                {locationValue}
+                            </button>
+
+                            {openLocation && (
+                                <ul className={styles.dropdownList}>
+                                    {locationOptions.map((opt) => (
+                                        <li
+                                            key={opt}
+                                            className={styles.dropdownItem}
+                                            onClick={() => {
+                                                setLocationValue(opt);
+                                                setOpenLocation(false);
+                                            }}
+                                        >
+                                            {opt}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
                     </div>
 
-                    <div className={`${styles.checkbxFrm} ${styles.mrgnTop23}`}>
+                    <div className={`${styles.checkbxFrm} ${styles.noticfrm} ${styles.mrgnTop23}`}>
                         <label htmlFor="notifications">{t.notificationPref}</label>
                         <div className={styles.checkboxGroup}>
                             <label className={styles.customCheckbox}>
@@ -317,7 +370,9 @@ const Settings: React.FC = () => {
                     </div>
 
                     <div className={styles.settingGroup}>
-                        <label className={`${styles.groupTitle} ${styles.mrgnBtm8}`}>
+                        <label
+                            className={`${styles.groupTitle} ${styles.mrgnBtm8} ${styles.fontSizeLbl}`}
+                        >
                             {t.fontSize}
                         </label>
                         <div className={styles.sliderGroup}>
@@ -374,7 +429,7 @@ const Settings: React.FC = () => {
                 </div>
             </div>
 
-            <div className={styles.workoutLocn}>
+            {/* <div className={styles.workoutLocn}>
                 <h2>{t.workoutInformation}</h2>
                 <div className={styles.innerWrkoutLocn}>
                     <button className={styles.prsnBtn} onClick={handleAddLocation}>
@@ -385,7 +440,7 @@ const Settings: React.FC = () => {
                         {t.addClass}
                     </button>
                 </div>
-            </div>
+            </div> */}
 
             <div className={styles.workoutsVdo}>
                 <h2>{t.uploadHeading}</h2>

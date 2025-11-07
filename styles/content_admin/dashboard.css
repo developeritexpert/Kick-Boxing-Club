@@ -57,90 +57,10 @@ ul {
     margin-block: 0;
     padding-left: 0;
 }
-
-.recent-activity-card h4 {
-    font-size: 18px;
-    color: #b40200;
-    margin-bottom: 15px;
-}
-
-.grid-cls,
-.tick-cls {
-    align-items: center;
-    gap: 6px;
-    display: flex;
-    font-size: 14px;
-    color: #000000;
-    width: 100%;
-    max-width: 90px;
-}
-
-.category-cls {
-    font-size: 14px;
-    width: 100%;
-    max-width: 90px;
-}
-
-.status {
-    font-size: 14px;
-    color: #000000;
-}
-
-.cls p,
-.status p,
-.category p {
-    font-size: 12px;
-    color: #838383;
-}
-
-.grid-cls img,
-.tick-cls img {
-    width: 12px;
-    height: 12px;
-}
-.inside-crd {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.cls,
-.status {
-    display: flex;
-    gap: 12px;
-}
-
-.category {
-    display: flex;
-    gap: 12px;
-}
-
-.recent-activity-card {
-    border: 1px solid #0000001a;
-    border-radius: 5px;
-    background: #fff;
-    flex-direction: column;
-    gap: 8px;
-    padding: 28px 24px;
-    display: flex;
-}
-
-.recent-activity-hdg h4 {
-    font-size: 24px;
-    color: #000000;
-    font-weight: 600;
-}
-
-.recent-activity-hdg {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-}
-
 aside.sidebar.collapsed button.logout {
     background: none;
     border: none;
-    padding: 16px 0 0 22px;
+    padding: 16px 0 0 0px;
 }
 
 /* ===== Layout (container) ===== */
@@ -151,18 +71,7 @@ aside.sidebar.collapsed button.logout {
     display: flex;
     overflow: hidden;
 }
-.dashboard-page article.card img {
-    /* width: 70px; */
-    height: 70px;
-}
-.dashboard-page article.card {
-    background: #fff;
-    justify-content: space-between;
-    padding: 40px 30px;
-    display: flex;
-    border: 1px solid #0000001a;
-    border-radius: 5px;
-}
+
 /* Sidebar */
 .sidebar {
     width: var(--sidebar-width);
@@ -275,6 +184,10 @@ aside.sidebar.collapsed .sidebar-brand {
     border-bottom-left-radius: 55px;
 }
 
+.admin-layout.collapsed .nav-item {
+    padding: 10px 0 0 11px;
+
+}
 /* collapsed adjustments */
 .admin-layout.collapsed .brand-text {
     display: none;
@@ -305,6 +218,12 @@ aside.sidebar.collapsed .sidebar-brand {
     gap: 10px;
     margin-top: 20px;
 }
+.logout:hover {
+    background: #b40200;
+    border-color: #b40200;
+    color: #fff; /* Ensure the text stays white */
+    transform: scale(1.05); /* Slightly scale up the button */
+}
 aside.sidebar.collapsed button.logout span {
     display: none;
 }
@@ -315,6 +234,7 @@ aside.sidebar.collapsed button.logout span {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    width: 100%;
 }
 
 /* header (top bar) */
@@ -383,35 +303,6 @@ aside.sidebar.collapsed button.logout span {
     flex-wrap: wrap;
 } */
 
-.cards-row,
-.recnt-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-.recnt-cards {
-    margin-top: 30px;
-}
-
-.card-title {
-    color: #000;
-    margin-bottom: 9px;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.card-value {
-    color: #000;
-    margin-bottom: 8px;
-    font-size: 28px;
-    font-weight: 700;
-}
-.card-sub {
-    color: #000;
-    font-size: 14px;
-    max-width: 170px;
-}
 /* instructor panel */
 .instructor-panel {
     background: var(--card-bg);
@@ -473,6 +364,12 @@ header.dashboard-header {
     padding: 20px;
 }
 
+.editmvment .table-header {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 20px;
+}
 .table-header {
     display: flex;
     justify-content: space-between;
@@ -582,27 +479,13 @@ header.dashboard-header {
     .nav-label {
         font-size: 15px;
     }
-    .card-title {
-        font-size: 16px;
-    }
-    .card-value {
-        font-size: 20px;
-    }
-    .dashboard-page article.card img {
-        height: 52px;
-    }
-    .recent-activity-hdg h4 {
-        font-size: 22px;
-    }
+
     .btn {
         padding: 10px 12px;
         font-size: 15px;
     }
     .dashboard-page article.card {
         padding: 26px 23px;
-    }
-    .recent-activity-card h4 {
-        font-size: 17px;
     }
 }
 
@@ -630,21 +513,10 @@ header.dashboard-header {
 }
 
 @media (max-width: 767px) {
-    .card-title {
-        margin-bottom: 7px;
-    }
     .dashboard-page article.card {
         padding: 20px 15px;
     }
-    .recent-activity-hdg h4 {
-        font-size: 18px;
-        margin-bottom: 12px;
-    }
-    .recent-activity-hdg {
-        align-items: unset;
-        margin-top: 20px;
-        flex-direction: column;
-    }
+
     .sidebar {
         width: 240px;
         height: auto;
@@ -670,16 +542,7 @@ header.dashboard-header {
     .header-title {
         font-size: 12px;
     }
-    .dashboard-page article.card img {
-        height: 34px;
-    }
-    .card-title {
-        margin-bottom: 5px;
-    }
-    .card-value {
-        font-size: 18px;
-        margin-bottom: 5px;
-    }
+
     .panel-actions {
         gap: 10px;
         display: flex;

@@ -28,7 +28,7 @@ const RecentWorkouts: React.FC = () => {
     ];
 
     return (
-        <div>
+        <div className="recentWrkout content-admin-recnt-workout">
             <div className="search-box">
                 <span className="search-icon">
                     <img src="/search_icon.png" alt="search icon" />

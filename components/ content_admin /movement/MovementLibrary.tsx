@@ -1,149 +1,116 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import './MovementLibrary.css';
-
-type Movement = {
-    id: string;
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+interface Workout {
+    id: number;
     name: string;
     category: string;
-    created_by: string;
-    video_url?: string;
-    video_provider?: string;
-};
+    date: string;
+}
 
-const MovementLibrary: React.FC = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filter, setFilter] = useState('All');
-    const [movements, setMovements] = useState<Movement[]>([]);
-    const [loading, setLoading] = useState(true);
+const MovementLibraryWorkouts: React.FC = () => {
+    const MovementLibraryWorkoutsData: Workout[] = [
+        { id: 1, name: 'Power HIIT Circuit', category: 'HIIT', date: 'Oct 21, 2025' },
+        { id: 2, name: 'Jab-Cross Burnout', category: 'Boxing', date: 'Oct 21, 2025' },
+        { id: 3, name: 'Cardio Sculpt', category: 'Cardio', date: 'Oct 21, 2025' },
+        { id: 4, name: 'Core Crusher', category: 'Abs', date: 'Oct 21, 2025' },
+        { id: 5, name: 'Full Body Burn', category: 'Strength', date: 'Oct 21, 2025' },
+        { id: 6, name: 'Morning Yoga Flow', category: 'Yoga', date: 'Oct 21, 2025' },
+        { id: 7, name: 'Lower Body Blast', category: 'Legs', date: 'Oct 21, 2025' },
+        { id: 8, name: 'Dance Fit Groove', category: 'Zumba', date: 'Oct 21, 2025' },
+        { id: 9, name: 'Spin & Sweat', category: 'Cycling', date: 'Oct 21, 2025' },
+        { id: 10, name: 'Upper Body Power', category: 'Strength', date: 'Oct 21, 2025' },
+        { id: 11, name: 'Mindful Stretch', category: 'Yoga', date: 'Oct 21, 2025' },
+        { id: 12, name: 'Fat Burn Express', category: 'Cardio', date: 'Oct 21, 2025' },
+        { id: 13, name: 'Combat Conditioning', category: 'Boxing', date: 'Oct 21, 2025' },
+        { id: 14, name: 'Tabata Torch', category: 'HIIT', date: 'Oct 21, 2025' },
+        { id: 15, name: 'Pilates Core Flow', category: 'Pilates', date: 'Oct 21, 2025' },
+    ];
 
+    const [openCategory, setOpenCategory] = useState(false);
+    const [categoryValue, setCategoryValue] = useState('ALL');
+
+    const categoryOptions = ['Boxing', 'Boxing2', 'Boxing3', 'Boxing4'];
     const router = useRouter();
 
-    useEffect(() => {
-        const fetchMovements = async () => {
-            try {
-                const res = await fetch('/api/admin/movement');
-                const data = await res.json();
-
-                if (res.ok && data.success) {
-                    setMovements(data.data);
-                } else {
-                    console.error('Error fetching movements:', data.error);
-                }
-            } catch (err: unknown) {
-                // console.error("Error fetching movements:", err);
-                if (err instanceof Error) toast.error(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchMovements();
-    }, []);
-
-    const filteredMovements = movements.filter(
-        (m) =>
-            m.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-            (filter === 'All' || m.category === filter),
-    );
-
-    const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this movement?')) return;
-
-        try {
-            const res = await fetch(`/api/admin/movement/${id}`, { method: 'DELETE' });
-            const data = await res.json();
-
-            if (res.ok) {
-                toast.success('Movement deleted!');
-                setMovements((prev) => prev.filter((m) => m.id !== id));
-            } else {
-                toast.error(data.error || 'Failed to delete movement.');
-            }
-        } catch (err) {
-            if (err instanceof Error) toast.error(err.message);
-        }
-    };
-
     return (
-        <div className="library-container">
-            <div className="library-header">
-                <input
-                    type="text"
-                    placeholder="🔍  Search..."
-                    className="search-input"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <select
-                    className="category-filter"
-                    value={filter}
-                    onChange={(e) => setFilter(e.target.value)}
-                >
-                    <option>All</option>
-                    {Array.from(new Set(movements.map((m) => m.category))).map((category) => (
-                        <option key={category}>{category}</option>
-                    ))}
-                </select>
+        <div className="content-admin-movemntLibrary recentWrkout">
+            <div className="cnt-admin-all-catgry">
+                <div className="search-box">
+                    <span className="search-icon">
+                        <img src="/search_icon.png" alt="search icon" />
+                    </span>
+                    <input type="text" placeholder="Search workouts..." className="search-input" />
+                </div>
+                <div className="customDropdown">
+                    <button
+                        type="button"
+                        className={`dropdownBtn ${openCategory ? 'active' : ''}`}
+                        onClick={() => setOpenCategory(!openCategory)}
+                    >
+                        {categoryValue}
+                    </button>
+
+                    {openCategory && (
+                        <ul className="dropdownList">
+                            {categoryOptions.map((opt) => (
+                                <li
+                                    key={opt}
+                                    className="dropdownItem"
+                                    onClick={() => {
+                                        setCategoryValue(opt);
+                                        setOpenCategory(false);
+                                    }}
+                                >
+                                    {opt}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
             </div>
+            <div className="table-wrapper">
+                <table className="favourites-tbl">
+                    <thead>
+                        <tr>
+                            <th>Workout Name</th>
+                            <th>Category</th>
 
-            <div className="table-container">
-                {loading ? (
-                    <p className="loading">Loading movements...</p>
-                ) : (
-                    <table className="movement-table">
-                        <thead>
-                            <tr>
-                                <th>Movement Name</th>
-                                <th>Category</th>
-                                <th>Added By</th>
-                                <th>Action</th>
+                            <th>Date Completed</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {MovementLibraryWorkoutsData.map((workout) => (
+                            <tr key={workout.id}>
+                                <td>{workout.name}</td>
+                                <td>{workout.category}</td>
+                                <td>{workout.date}</td>
+                                <td>
+                                    <div className="fav-btn">
+                                        <button
+                                            className="view"
+                                            onClick={() =>
+                                                router.push(`/content-admin/movement/123/edit`)
+                                            }
+                                        >
+                                            <img src="/edit_icon.png" alt="view-icon" />
+                                            <div> Edit</div>
+                                        </button>
+                                        <button className="delete">
+                                            <img src="/delete_icon.png" alt="delete-icon" />
+                                            <div> Delete</div>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {filteredMovements.length > 0 ? (
-                                filteredMovements.map((m) => (
-                                    <tr key={m.id}>
-                                        <td>{m.name}</td>
-                                        <td>{m.category}</td>
-                                        <td>{m.created_by}</td>
-                                        <td>
-                                            <button
-                                                className="edit-btn"
-                                                onClick={() =>
-                                                    router.push(`/admin/movement/${m.id}/edit`)
-                                                }
-                                            >
-                                                Edit
-                                            </button>
-                                            {/* <button className="edit-btn"> Edit</button> */}
-
-                                            <button
-                                                className="delete-btn"
-                                                onClick={() => handleDelete(m.id)}
-                                            >
-                                                Delete
-                                            </button>
-                                            {/* <button className="delete-btn"> Delete</button> */}
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={4} style={{ textAlign: 'center' }}>
-                                        No movements found.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                )}
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
 };
 
-export default MovementLibrary;
+export default MovementLibraryWorkouts;

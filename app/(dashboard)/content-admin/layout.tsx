@@ -19,13 +19,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }, []);
 
     return (
-        <div className={`admin-layout ${collapsed ? 'collapsed' : ''}`}>
+        <div className={`admin-layout content-admin ${collapsed ? 'collapsed' : ''}`}>
             {/* <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} /> */}
             {mounted && <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />}
 
             <div className="main-area">
                 <Header onToggle={() => setCollapsed(!collapsed)} />
-                <main className="content-area">{children}</main>
+                <main className="content-area content-admin-area">{children}</main>
                 <Footer />
             </div>
         </div>

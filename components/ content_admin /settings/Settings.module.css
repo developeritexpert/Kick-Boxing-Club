@@ -124,20 +124,16 @@ button.prsnBtn span {
     padding-bottom: 43px;
 }
 .acntPreferences.mrgntp {
-    padding-left: 37px;
-    padding-right: 25px;
+    padding: 0px 7px;
 }
 .acntInfoCnt {
     display: flex;
     width: 100%;
 }
 
-.acntPreferences.mrgntp {
-    padding-left: 37px;
-}
-
 .acntInfoCnt .formGroup {
     flex: 1;
+    padding: 0px 30px;
 }
 .formGroup {
     display: flex;
@@ -151,7 +147,7 @@ button.prsnBtn span {
     margin-top: 23px;
 }
 .formSelect {
-    padding: 15px 25px;
+    padding: 9px 15px;
     border: 1px solid #0000001a;
     border-radius: 5px;
     font-size: 16px;
@@ -170,8 +166,10 @@ select#location,
 select#timezone {
     margin-right: 30px;
 }
-.formGroup.mrgnTop23 {
+.formGroup.mrgnTop23,
+.noticfrm {
     width: 50%;
+    padding: 0px 30px;
 }
 .acntInfo .checkboxGroup {
     gap: 85px;
@@ -189,16 +187,16 @@ select#timezone {
 .acntInfo select {
     appearance: none;
 }
-.acntInfo .formGroup::after {
+/* .acntInfo .formGroup::after {
     content: '';
     background-image: url('/dropdown_icon.png');
     background-repeat: no-repeat;
     width: 15px;
     height: 15px;
-    top: 61px;
+    top: 56px;
     position: absolute;
-    right: 50px;
-}
+    right: 43px;
+} */
 .acntInfo .formGroup {
     position: relative;
 }
@@ -321,8 +319,8 @@ select#timezone {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     margin-bottom: 5px;
-    padding: 12px 20px;
-    font-size: calc(var(--dynamic-font-size) * 0.75); /* ~12px default */
+    padding: 9px 18px;
+    font-size: 16px; /* ~12px default */
     font-weight: 600;
 }
 .workoutsVdo .uploadBox {
@@ -440,6 +438,82 @@ select#timezone {
     margin-top: 23px;
     margin-left: 37px;
 }
+.settingInformations .customDropdown {
+    position: relative;
+    width: 100%;
+}
+
+/* Dropdown Button */
+.settingInformations .dropdownBtn {
+    width: 100%;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 9px 25px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Dropdown List */
+.settingInformations .dropdownList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fbfbf9;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    margin-top: 8px;
+    list-style: none;
+    padding: 0;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Dropdown Items */
+.settingInformations .dropdownItem {
+    padding: 15px 25px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* Hover Effect */
+.settingInformations .dropdownItem:hover {
+    background: #f0f0ed;
+}
+
+/* Default arrow */
+.settingInformations .dropdownBtn::after {
+    content: '';
+    background-image: url('/dropdown_icon.png');
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 14px;
+    top: 61%;
+    transform: translateY(-50%); /* nice centering */
+    transition: transform 0.3s ease; /* smooth rotation */
+}
+
+/* Rotate when active/open */
+.settingInformations .active::after {
+    transform: translateY(-50%) rotate(180deg);
+    top: 42%;
+}
+/* Focus state */
+.settingInformations .dropdownBtn:focus,
+.dropdownBtn:focus-visible {
+    color: #000;
+    border-color: #000;
+    outline: none;
+}
 
 @media (max-width: 1399px) {
     .profileName h3 {
@@ -470,5 +544,156 @@ select#timezone {
     }
     .workoutsVdo h2 {
         font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+    }
+}
+@media (max-width: 767px) {
+    .profileCnt {
+        padding: 15px 15px;
+    }
+    .profileName h3 {
+        font-size: 16px;
+    }
+    .profileImg img {
+        width: 61px;
+    }
+    .profileHeart {
+        padding: 6px !important;
+
+        bottom: 0 !important;
+        left: 37px !important;
+    }
+    .prsnHd h2 {
+        font-size: 16px;
+        padding: 20px 0 20px 15px;
+        font-weight: 600;
+    }
+    .prsnHd .prsnBtn {
+        padding: 5px 9px;
+    }
+    .prsnHd .prsnBtn {
+        margin-right: 15px;
+    }
+    .prflInfoCnt {
+        padding: 15px 0 0 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+    .mrgntp {
+        margin-top: 0px;
+    }
+    .acntInfo h2,
+    .themeInfo h2 {
+        font-size: 16px;
+        padding: 15px 0 15px 15px;
+    }
+    .acntInfo .acntInfoCnt {
+        flex-direction: column;
+    }
+    .acntInfo .acntPreferences {
+        padding: 0px 15px;
+    }
+    .acntInfo .formGroup {
+        flex: 1;
+        padding: 0;
+    }
+    .acntInfo .formGroup {
+        flex-direction: column;
+        gap: 8px;
+        display: flex;
+    }
+    .acntInfo .formGroup,
+    .acntInfo .noticfrm {
+        width: 100%;
+    }
+    .acntInfo .formGroup:after {
+        top: 50px;
+        right: 20px;
+    }
+    .acntInfo .checkboxGroup {
+        margin-top: 15px;
+
+        gap: 10px;
+        flex-direction: column;
+    }
+    .formGroup.mrgnTop23,
+    .noticfrm {
+        padding: 0px 0px;
+    }
+    .themeInfo .radioGroup {
+        gap: 14px;
+        display: flex;
+        flex-direction: column;
+    }
+    .themeInfo .settingsBox {
+        padding: 0px 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    .themeInfo .customRadio input[type='radio'] {
+        width: 15px;
+        height: 15px;
+    }
+    .themeInfo .mrgnBtm8 {
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+    .settingInformations .themeInfo .groupTitle {
+        font-size: 16px;
+
+        line-height: 1.4;
+    }
+    .radioGroup span {
+        margin-left: 12px;
+    }
+    .settingGroup {
+        margin-top: 15px;
+    }
+    .themeInfo .mrgnBtm8 {
+        margin-bottom: 7px;
+    }
+    .settingInformations .themeInfo .slider {
+        width: 225px;
+    }
+    .settingsBox.themeAccnt {
+        margin-top: 0px;
+    }
+    .acntInfo,
+    .themeInfo {
+        margin-top: 40px;
+        padding-bottom: 17px;
+    }
+    .themeInfo .mrgnTop23 {
+        margin-top: 5px;
+    }
+    .workoutsVdo h2 {
+        font-size: 16px;
+    }
+    .workoutsVdo {
+        margin-top: 40px;
+    }
+    .themeInfo ._radioGroup {
+        flex-direction: column;
+        gap: 10px;
+        display: flex;
+        margin-bottom: 5px;
+    }
+    .themeInfo .customRadio input[type='radio'] {
+        width: 16px; /* Set the width of the radio button */
+        height: 16px; /* Set the height of the radio button */
+    }
+
+    /* Apply background color and size when the radio is checked */
+    .themeInfo .customRadio input[type='radio']:checked {
+        background-size: 10px 10px; /* Set the background size to 10x10px */
+    }
+    .themeInfo .mrgnBtm8 {
+        margin-bottom: 9px;
+    }
+    .timeZoneInfo {
+        margin-top: 15px;
+    }
+    .themeInfo .fontSizeLbl {
+        margin-bottom: 0px;
     }
 }
