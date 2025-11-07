@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import styles from './Settings.module.css';
 import { translations } from './translations';
+import Image from 'next/image';
 
 const Settings: React.FC = () => {
     const router = useRouter();
@@ -46,7 +47,7 @@ const Settings: React.FC = () => {
         const value = Number(e.target.value);
 
         let label = 'Medium';
-        let size = '16px';
+        let size = '15px';
         if (value <= 20) {
             label = 'extraSmall';
             size = '12px';
@@ -55,7 +56,7 @@ const Settings: React.FC = () => {
             size = '14px';
         } else if (value <= 60) {
             label = 'Medium';
-            size = '16px';
+            size = '15px';
         } else if (value <= 80) {
             label = 'Large';
             size = '18px';
@@ -161,9 +162,9 @@ const Settings: React.FC = () => {
         <div className={styles.settingInformations}>
             <div className={styles.profileCnt}>
                 <div className={styles.profileImg}>
-                    <img src="/profile.png" alt="profile-img" />
+                    <Image src="/profile.png" alt="profile-img" width={150} height={150} />
                     <span className={styles.profileHeart}>
-                        <img src="/camera_icon.png" alt="camera-icon" />
+                        <Image src="/camera_icon.png" alt="camera-icon" width={18} height={14} />
                     </span>
                 </div>
                 <div className={styles.profileName}>
@@ -177,7 +178,7 @@ const Settings: React.FC = () => {
                 <div className={styles.prsnHd}>
                     <h2>{t.personalInfo}</h2>
                     <button className={styles.prsnBtn}>
-                        <img src="/edit_icon.png" alt="edit-icon" />
+                        <Image src="/edit_icon.png" alt="edit-icon" width={16} height={17} />
                         <span>{t.edit}</span>
                     </button>
                 </div>
@@ -448,7 +449,12 @@ const Settings: React.FC = () => {
                     <input type="file" accept="video/*" id="videoUpload" />
                     <label htmlFor="videoUpload" className={styles.uploadLabel}>
                         <div className={styles.uploadIcon}>
-                            <img src="/vdo_upload_icon.png" alt="upload-icon" />
+                            <Image
+                                src="/vdo_upload_icon.png"
+                                alt="upload-icon"
+                                width={25}
+                                height={26}
+                            />
                         </div>
                         <p className={styles.wrkoutVdoPara}>
                             <span className={styles.workVdioBtn}>{t.selectToUpload}</span>

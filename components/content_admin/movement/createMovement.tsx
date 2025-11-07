@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import React, { useState } from 'react';
 import './CreateMovement.css';
-
+import Image from 'next/image';
 const CreateMovement: React.FC = () => {
     const [movementName, setMovementName] = useState('');
 
@@ -16,7 +15,7 @@ const CreateMovement: React.FC = () => {
     const handleSubmit = () => {};
 
     return (
-        <div className="movement-container content-admin-movment">
+        <div className="movement-container content-admin-crt-movment">
             <div className="movement-card">
                 <h2>Movement Details</h2>
                 <form onSubmit={handleSubmit} className="movement-form">
@@ -69,7 +68,12 @@ const CreateMovement: React.FC = () => {
                             />
                             <label htmlFor="videoUploads" className="uploadLabel">
                                 <div className="uploadIcon">
-                                    <img src="/vdo_upload_icon.png" alt="upload-icon" />
+                                    <Image
+                                        src="/vdo_upload_icon.png"
+                                        alt="upload-icon"
+                                        width={25}
+                                        height={26}
+                                    />
                                 </div>
                                 <p className="wrkoutVdoPara">
                                     <span className="workVdioBtn">Select To Upload</span>

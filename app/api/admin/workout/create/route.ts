@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     try {
         const data = await req.json();
 
-        const { name, locationId, classId, focus, movements , created_by } = data;
+        const { name, locationId, classId, focus, movements, created_by } = data;
 
         const total_duration = movements.reduce(
             (acc: number, m: MovementInput) => acc + (m.duration || 0) + (m.rest_after || 0),
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
                     total_duration,
                     location_id: locationId,
                     class_id: classId,
-                    created_by
+                    created_by,
                     // created_by: 'ed14d193-b06a-4961-a84e-d8341490abc0',
                 },
             ])

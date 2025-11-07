@@ -48,7 +48,7 @@ const SingleWorkout: React.FC = () => {
     const saveRecentWorkout = async () => {
         if (!user?.id || !workoutId) {
             console.log('Missing user or workoutId — skipping recent workout save.');
-            return
+            return;
         }
         try {
             const res = await fetch('/api/admin/recent-workouts', {
@@ -58,25 +58,24 @@ const SingleWorkout: React.FC = () => {
                     user_id: user.id,
                     workout_id: workoutId,
                 }),
-            })
+            });
 
-            const result = await res.json()
-            console.log('Recent workout API response:', result)
-        } catch(error) {
-            console.log('Error saving recent workout:', error)
+            const result = await res.json();
+            console.log('Recent workout API response:', result);
+        } catch (error) {
+            console.log('Error saving recent workout:', error);
         }
-    }
+    };
     useEffect(() => {
         saveRecentWorkout();
     }, [user?.id, workoutId]);
-
 
     const {
         isCastAvailable,
         isConnected,
         isLoading: castLoading,
         deviceName,
-        requestCastSession
+        requestCastSession,
     } = useChromecastContext();
 
     useEffect(() => {
@@ -189,7 +188,10 @@ const SingleWorkout: React.FC = () => {
                     setIsResting(false);
                     const currentWorkout = workoutRef.current;
                     const currentIdx = currentIndexRef.current;
-                    if (currentWorkout && currentIdx < currentWorkout.workout_movements.length - 1) {
+                    if (
+                        currentWorkout &&
+                        currentIdx < currentWorkout.workout_movements.length - 1
+                    ) {
                         setCurrentIndex(currentIdx + 1);
                     }
                     return 0;
@@ -301,24 +303,31 @@ const SingleWorkout: React.FC = () => {
                         onDisconnect={handleCastDisconnect}
                     />
                     {workoutComplete && (
-                        <div style={{
-                            marginTop: '20px',
-                            padding: '20px',
-                            background: 'rgba(0, 2, 2, 0.05)',
-                            borderRadius: '8px',
-                            textAlign: 'center',
-                        }}>
-                            <h3 style={{
-                                fontSize: '24px',
-                                fontWeight: '700',
-                                marginBottom: '8px',
-                            }}>
+                        <div
+                            style={{
+                                marginTop: '20px',
+                                padding: '20px',
+                                background: 'rgba(0, 2, 2, 0.05)',
+                                borderRadius: '8px',
+                                textAlign: 'center',
+                            }}
+                        >
+                            <h3
+                                style={{
+                                    fontSize: '24px',
+                                    fontWeight: '700',
+                                    marginBottom: '8px',
+                                }}
+                            >
                                 Workout Complete!
                             </h3>
-                            <p style={{
-                                fontSize: '16px',
-                            }}>
-                                Great job finishing all {workout.workout_movements.length} movements!
+                            <p
+                                style={{
+                                    fontSize: '16px',
+                                }}
+                            >
+                                Great job finishing all {workout.workout_movements.length}{' '}
+                                movements!
                             </p>
                         </div>
                     )}
@@ -382,14 +391,16 @@ const SingleWorkout: React.FC = () => {
                             title={`Video player for ${currentMovement.movements.name}`}
                         />
                     ) : (
-                        <div style={{
-                            width: '100%',
-                            height: '100%',
-                            background: '#f0f0f0',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}>
+                        <div
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                background: '#f0f0f0',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
                             <p>No video available</p>
                         </div>
                     )}
@@ -422,45 +433,54 @@ const SingleWorkout: React.FC = () => {
                     </button>
 
                     {isResting && (
-                        <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            background: 'rgba(0, 0, 0, 0.92)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '40px',
-                            color: 'white',
-                            zIndex: 10,
-                        }}>
-                            <h2 style={{
-                                fontSize: isFullscreen ? '48px' : '32px',
-                                fontWeight: '700',
-                                marginBottom: '20px',
-                                textAlign: 'center',
-                            }}>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                background: 'rgba(0, 0, 0, 0.92)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '40px',
+                                color: 'white',
+                                zIndex: 10,
+                            }}
+                        >
+                            <h2
+                                style={{
+                                    fontSize: isFullscreen ? '48px' : '32px',
+                                    fontWeight: '700',
+                                    marginBottom: '20px',
+                                    textAlign: 'center',
+                                }}
+                            >
                                 Rest Time
                             </h2>
-                            <div style={{
-                                fontSize: isFullscreen ? '120px' : '72px',
-                                fontWeight: '700',
-                                marginBottom: '20px',
-                                color: '#b40200',
-                            }}>
+                            <div
+                                style={{
+                                    fontSize: isFullscreen ? '120px' : '72px',
+                                    fontWeight: '700',
+                                    marginBottom: '20px',
+                                    color: '#b40200',
+                                }}
+                            >
                                 {restTimer}s
                             </div>
                             {currentIndex < totalMovements - 1 && (
-                                <p style={{
-                                    fontSize: isFullscreen ? '28px' : '20px',
-                                    marginBottom: '30px',
-                                    textAlign: 'center',
-                                    maxWidth: '80%',
-                                }}>
-                                    Next: {workout.workout_movements[currentIndex + 1]?.movements.name}
+                                <p
+                                    style={{
+                                        fontSize: isFullscreen ? '28px' : '20px',
+                                        marginBottom: '30px',
+                                        textAlign: 'center',
+                                        maxWidth: '80%',
+                                    }}
+                                >
+                                    Next:{' '}
+                                    {workout.workout_movements[currentIndex + 1]?.movements.name}
                                 </p>
                             )}
                             <button
@@ -487,33 +507,39 @@ const SingleWorkout: React.FC = () => {
                     )}
 
                     {workoutComplete && (
-                        <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            background: 'rgba(0, 2, 2, 0.95)',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '40px',
-                            color: 'white',
-                            zIndex: 10,
-                        }}>
-                            <h3 style={{
-                                fontSize: isFullscreen ? '48px' : '32px',
-                                fontWeight: '700',
-                                marginBottom: '16px',
-                                textAlign: 'center',
-                            }}>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                background: 'rgba(0, 2, 2, 0.95)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '40px',
+                                color: 'white',
+                                zIndex: 10,
+                            }}
+                        >
+                            <h3
+                                style={{
+                                    fontSize: isFullscreen ? '48px' : '32px',
+                                    fontWeight: '700',
+                                    marginBottom: '16px',
+                                    textAlign: 'center',
+                                }}
+                            >
                                 Workout Complete!
                             </h3>
-                            <p style={{
-                                fontSize: isFullscreen ? '24px' : '18px',
-                                textAlign: 'center',
-                            }}>
+                            <p
+                                style={{
+                                    fontSize: isFullscreen ? '24px' : '18px',
+                                    textAlign: 'center',
+                                }}
+                            >
                                 Great job finishing all {totalMovements} movements!
                             </p>
                         </div>
@@ -555,26 +581,32 @@ const SingleWorkout: React.FC = () => {
                                 {currentMovement?.duration > 0 && (
                                     <div className="meta-item">
                                         <span className="meta-label">Duration:</span>
-                                        <span className="meta-value">{currentMovement.duration}s</span>
+                                        <span className="meta-value">
+                                            {currentMovement.duration}s
+                                        </span>
                                     </div>
                                 )}
                                 {currentMovement?.rest_after > 0 && (
                                     <div className="meta-item">
                                         <span className="meta-label">Rest After:</span>
-                                        <span className="meta-value">{currentMovement.rest_after}s</span>
+                                        <span className="meta-value">
+                                            {currentMovement.rest_after}s
+                                        </span>
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        <div style={{
-                            width: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            marginTop: '24px',
-                            gap: '16px',
-                        }}>
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                marginTop: '24px',
+                                gap: '16px',
+                            }}
+                        >
                             <button
                                 onClick={goToPreviousVideo}
                                 disabled={isFirst}
@@ -594,18 +626,22 @@ const SingleWorkout: React.FC = () => {
                             </button>
 
                             <div style={{ flex: 1, maxWidth: '300px' }}>
-                                <div style={{
-                                    background: '#e0e0e0',
-                                    height: '8px',
-                                    borderRadius: '4px',
-                                    overflow: 'hidden',
-                                }}>
-                                    <div style={{
-                                        background: '#b40200',
-                                        height: '100%',
-                                        width: `${((currentIndex + 1) / totalMovements) * 100}%`,
-                                        transition: 'width 0.3s ease',
-                                    }} />
+                                <div
+                                    style={{
+                                        background: '#e0e0e0',
+                                        height: '8px',
+                                        borderRadius: '4px',
+                                        overflow: 'hidden',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            background: '#b40200',
+                                            height: '100%',
+                                            width: `${((currentIndex + 1) / totalMovements) * 100}%`,
+                                            transition: 'width 0.3s ease',
+                                        }}
+                                    />
                                 </div>
                             </div>
 
@@ -675,48 +711,6 @@ const SingleWorkout: React.FC = () => {
 };
 
 export default SingleWorkout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // components/admin/single-workout.tsx
 // 'use client';
@@ -1371,45 +1365,6 @@ export default SingleWorkout;
 
 // export default SingleWorkout;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // // components/admin/single-workout.tsx
 // // 'use client';
 
@@ -1470,10 +1425,10 @@ export default SingleWorkout;
 // //     // Debug: Log cast connection status changes only
 // //     useEffect(() => {
 // //         if (prevIsConnectedRef.current !== isConnected) {
-// //             console.log(' Cast connection changed:', { 
-// //                 wasConnected: prevIsConnectedRef.current, 
-// //                 nowConnected: isConnected, 
-// //                 deviceName 
+// //             console.log(' Cast connection changed:', {
+// //                 wasConnected: prevIsConnectedRef.current,
+// //                 nowConnected: isConnected,
+// //                 deviceName
 // //             });
 // //             prevIsConnectedRef.current = isConnected;
 // //         }
@@ -2077,4 +2032,3 @@ export default SingleWorkout;
 // // };
 
 // // export default SingleWorkout;
-

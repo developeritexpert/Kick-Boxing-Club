@@ -20,7 +20,7 @@ interface SelectedMovement extends Movement {
 
 const CreateWorkout: React.FC = () => {
     const user = useAuthStore((state) => state.user);
-    
+
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [focus, setFocus] = useState('');
@@ -242,12 +242,11 @@ const CreateWorkout: React.FC = () => {
         }
 
         let created_by = '';
-        if(user?.id){
+        if (user?.id) {
             created_by = user.id;
             console.log('workout stored by user id :');
             console.log(user.id);
         }
-
 
         setLoading(true);
         try {

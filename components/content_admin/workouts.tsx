@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './workouts.css';
-
+import Image from 'next/image';
 interface Movement {
     id: string;
     name: string;
@@ -82,7 +82,7 @@ const Workouts: React.FC = () => {
     };
 
     const handleNewWorkout = () => {
-        router.push('/admin/workouts/create');
+        router.push('/content-admin/workouts/create');
     };
 
     const filteredWorkouts = workouts.filter((workout) =>
@@ -131,11 +131,11 @@ const Workouts: React.FC = () => {
     };
 
     return (
-        <div className="workouts-container">
+        <div className="workouts-container content-admin-wrkout-contnr">
             <div className="workouts-controls">
                 <div className="search-box">
                     <span className="search-icon">
-                        <img src="/search_icon.png" alt="search icon" />
+                        <Image src="/search_icon.png" alt="search icon" width={15} height={15} />
                     </span>
                     <input
                         type="text"
@@ -172,7 +172,12 @@ const Workouts: React.FC = () => {
                                         className="workout-hrt-icn"
                                         onClick={(e) => handleHeartClick(e, workout.id)}
                                     >
-                                        <img src="/heart-icon.png" alt="heart icon" />
+                                        <Image
+                                            src="/heart-icon.png"
+                                            alt="heart icon"
+                                            width={25}
+                                            height={21}
+                                        />
                                     </span>
                                 </div>
                                 <div className="workout-duration">

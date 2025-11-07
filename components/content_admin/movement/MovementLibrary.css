@@ -4,7 +4,7 @@
     flex: 1;
     align-items: center;
     max-width: 274px;
-    padding: 14px 18px;
+    padding: 8px 18px;
     transition: border-color 0.3s;
     display: flex;
     position: relative;
@@ -16,7 +16,7 @@
     border: none;
     outline: none;
     width: 100%;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
     line-height: 1.2;
 }
@@ -30,42 +30,42 @@
     position: relative;
 }
 
-table.favourites-tbl {
+.content-admin-movemntLibrary table.favourites-tbl {
     margin-top: 30px;
     width: 100%;
 }
-table.favourites-tbl th {
+.content-admin-movemntLibrary table.favourites-tbl th {
     color: #fff;
     text-align: left;
     background: #1c1c1c;
     border: 1px solid rgba(255, 255, 255, 0.09);
-    padding: 22px 35px;
-    font-size: 16px;
+    padding: 13px;
+    font-size: 14px;
     font-weight: 700;
 }
 
-table.favourites-tbl td {
-    padding: 22px 35px;
+/* .content-admin-movemntLibrary table.favourites-tbl td {
+   
     border: 1px solid #0000001a;
     font-size: 14px;
     color: #000000;
-}
+} */
 /* table.favourites-tbl thead {
     border: 1px solid #01010117;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
 } */
-table.favourites-tbl th:first-child {
+.content-admin-movemntLibrary table.favourites-tbl th:first-child {
     border-radius: 5px 0px 0px 0px;
 }
-table.favourites-tbl th:last-child {
+.content-admin-movemntLibrary table.favourites-tbl th:last-child {
     border-radius: 0px 5px 0px 0px;
 }
-table.favourites-tbl button.view {
+.content-admin-movemntLibrary table.favourites-tbl button.view {
     background-color: #b40200;
     border: 1px solid #b40200;
     color: white;
-    padding: 10px 14px;
+    padding: 6px 10px;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -73,46 +73,59 @@ table.favourites-tbl button.view {
     cursor: pointer;
     transition: all 0.3s ease;
 }
-table.favourites-tbl button.view:hover {
-    opacity: 90%;
+.content-admin-movemntLibrary table.favourites-tbl button.view:hover {
+    background-color: white;
+    color: #b40200;
 }
-table.favourites-tbl button.view img {
+.content-admin-movemntLibrary table.favourites-tbl button.view:hover svg path {
+    fill: #b40200;
+}
+
+.content-admin-movemntLibrary table.favourites-tbl button.view img {
     width: 14px;
     height: 14px;
 }
-table.favourites-tbl button.view > div {
+.content-admin-movemntLibrary table.favourites-tbl button.view > div {
     font-size: 12px;
     line-height: 1.2;
 }
-table.favourites-tbl .fav-btn {
+.content-admin-movemntLibrary table.favourites-tbl .fav-btn {
     display: flex;
     gap: 10px;
     width: 100%;
 }
-table.favourites-tbl button.delete {
+.content-admin-movemntLibrary table.favourites-tbl button.delete {
     display: flex;
-    padding: 10px 14px;
+    padding: 6px 10px;
     border: 1px solid #0000001a;
     align-items: center;
     gap: 5px;
     border-radius: 5px;
     cursor: pointer;
 }
-table.favourites-tbl button.delete img {
+.content-admin-movemntLibrary table.favourites-tbl button.delete img {
     width: 11px;
     height: 14px;
 }
-table.favourites-tbl button.delete > div {
+.content-admin-movemntLibrary table.favourites-tbl button.delete > div {
     font-size: 12px;
     color: #000000;
 }
-table.favourites-tbl button.delete:hover {
-    opacity: 80%;
+.content-admin-movemntLibrary table.favourites-tbl button.delete:hover > div {
+    color: white;
 }
-table.favourites-tbl tbody tr:hover {
+.content-admin-movemntLibrary table.favourites-tbl button.delete:hover {
+    background: #000;
+
+    border: 1px solid white;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.delete:hover svg path {
+    fill: white;
+}
+.content-admin-movemntLibrary table.favourites-tbl tbody tr:hover {
     background-color: #f2f2f2;
 }
-table.favourites-tbl tbody tr {
+.content-admin-movemntLibrary table.favourites-tbl tbody tr {
     background-color: #fafafa; /* base background */
     transition: background-color 0.2s ease;
 }
@@ -122,21 +135,21 @@ table.favourites-tbl tbody tr {
     gap: 30px;
 }
 /* Dropdown Wrapper */
-.customDropdown {
+.content-admin-movemntLibrary .customDropdown {
     position: relative;
 }
-button.dropdownBtn {
+.content-admin-movemntLibrary button.dropdownBtn {
     width: 274px;
 }
 /* Dropdown Button */
-.dropdownBtn {
+.content-admin-movemntLibrary .dropdownBtn {
     width: 100%;
     border: 1px solid #0000001a;
     border-radius: 5px;
-    padding: 9px 15px;
+    padding: 7px 15px;
     text-align: left;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
     color: #000;
     display: flex;
     justify-content: space-between;
@@ -144,7 +157,7 @@ button.dropdownBtn {
 }
 
 /* Dropdown List */
-.dropdownList {
+.content-admin-movemntLibrary .dropdownList {
     position: absolute;
     top: 100%;
     left: 0;
@@ -160,7 +173,7 @@ button.dropdownBtn {
 }
 
 /* Dropdown Items */
-.dropdownItem {
+.content-admin-movemntLibrary .dropdownItem {
     padding: 15px 25px;
     font-size: 16px;
     color: #000;
@@ -169,12 +182,12 @@ button.dropdownBtn {
 }
 
 /* Hover Effect */
-.dropdownItem:hover {
+.content-admin-movemntLibrary .dropdownItem:hover {
     background: #f0f0ed;
 }
 
 /* Default arrow */
-.dropdownBtn::after {
+.content-admin-movemntLibrary .dropdownBtn::after {
     content: '';
     background-image: url('/dropdown_icon.png');
     background-repeat: no-repeat;
@@ -182,70 +195,49 @@ button.dropdownBtn {
     height: 15px;
     position: absolute;
     right: 11px;
-    top: 55%;
+    top: 62%;
     transform: translateY(-50%); /* nice centering */
     transition: transform 0.3s ease; /* smooth rotation */
 }
 
 /* Rotate when active/open */
-.active::after {
+.content-admin-movemntLibrary .active::after {
     transform: translateY(-50%) rotate(180deg);
     top: 38%;
 }
 /* Focus state */
-.dropdownBtn:focus,
-.dropdownBtn:focus-visible {
+.content-admin-movemntLibrary .dropdownBtn:focus,
+.content-admin-movemntLibrary .dropdownBtn:focus-visible {
     color: #000;
     border-color: #000;
     outline: none;
 }
 
-table.favourites-tbl {
+.content-admin-movemntLibrary table.favourites-tbl {
     width: 100%;
     margin-top: 30px;
     overflow-x: auto;
     white-space: nowrap;
 }
-  table.favourites-tbl button.view {
-        min-width: 71px;
-    }
-@media (max-width: 1399px) {
-    table.favourites-tbl th {
-        padding: 16px 30px;
-        font-size: 14px;
-    }
-    table.favourites-tbl td {
-        padding: 14px 30px;
-        font-size: 14px;
-    }
+
+.content-admin-movemntLibrary table.favourites-tbl td {
+    padding: 10px 13px;
+    font-size: 14px;
+    border: 1px solid #0000001a;
+    color: #000000;
 }
-/* @media(max-width:991px){
-.content-admin-movemntLibrary.recentWrkout {
-    overflow-x: auto;
+.content-admin-movemntLibrary table.favourites-tbl th:last-child {
+    border-radius: 0 5px 0 0;
+    width: 200px;
 }
-} */
 
 @media (max-width: 767px) {
-    /* .content-admin-movemntLibrary.recentWrkout {
-        overflow-x: auto; 
-        -webkit-overflow-scrolling: touch; 
-        padding: 10px; 
-    }
-
-   
-    .favourites-tbl {
-        width: 100%; 
-      
-    } */
-    table.favourites-tbl button.view {
-        min-width: 71px;
-    }
-    .cnt-admin-all-catgry {
+    .content-admin-movemntLibrary .cnt-admin-all-catgry {
         gap: 20px;
         display: flex;
         flex-direction: column;
     }
-    button.dropdownBtn {
+    .content-admin-movemntLibrary button.dropdownBtn {
         width: 274px;
         position: relative;
     }

@@ -7,7 +7,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import './CreateMovement.css';
 
 const CreateMovement: React.FC = () => {
-    const router = useRouter(); 
+    const router = useRouter();
     const user = useAuthStore((state) => state.user);
 
     const [movementName, setMovementName] = useState('');

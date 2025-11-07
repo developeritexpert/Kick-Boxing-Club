@@ -16,7 +16,9 @@ export default function Header({ onToggle }: { onToggle?: () => void }) {
                 </button>
             </div>
 
-            <div className="header-title">Welcome to Dashboard, {user?.first_name} {user?.last_name}</div>
+            <div className="header-title">
+                Welcome to Dashboard, {user?.first_name} {user?.last_name}
+            </div>
 
             <div className="header-right">
                 <img src="/logo.png" alt="Kickboxing Club" className="header-logo" />

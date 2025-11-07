@@ -38,32 +38,32 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
     currentIndex,
     onIndexChange,
     onComplete,
-    onDisconnect, 
+    onDisconnect,
 }) => {
     const {
         isConnected,
         loadMedia,
         stopCasting,
         deviceName,
-        playerState,      
-        currentTime,      
-        duration,         
-        togglePlayPause,  
-        isPlaying,  
+        playerState,
+        currentTime,
+        duration,
+        togglePlayPause,
+        isPlaying,
     } = useChromecastContext();
 
     const [isResting, setIsResting] = useState(false);
     const [restTimer, setRestTimer] = useState(0);
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const mediaRef = useRef<any>(null);
     const mediaListenerRef = useRef<any>(null);
     const currentIndexRef = useRef(currentIndex);
     const isLoadingRef = useRef(false);
     const videoEndCheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
-    
+
     const hasHandledEndRef = useRef(false);
     const lastKnownTimeRef = useRef(0);
     const stuckCountRef = useRef(0);
@@ -80,8 +80,8 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
                     console.log(' Confirmed disconnect, calling onDisconnect');
                     onDisconnect();
                 }
-            }, 2000); 
-            
+            }, 2000);
+
             return () => clearTimeout(timeout);
         }
     }, [isConnected, onDisconnect]);
@@ -105,16 +105,16 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
             console.log(' handleVideoEnd already called, ignoring duplicate');
             return;
         }
-        
+
         hasHandledEndRef.current = true;
-        
+
         const currentIdx = currentIndexRef.current;
         const currentMov = workout.workout_movements[currentIdx];
-        
+
         console.log('=== handleVideoEnd called ===');
         console.log('Current index:', currentIdx);
         console.log('Current movement:', currentMov?.movements.name);
-        
+
         if (!currentMov) {
             console.log('No current movement');
             return;
@@ -143,7 +143,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
     // to find video end
     const startVideoEndPolling = (media: any, expectedDuration: number) => {
         console.log(' Starting video end polling (duration:', expectedDuration, 's)');
-        
+
         if (videoEndCheckIntervalRef.current) {
             clearInterval(videoEndCheckIntervalRef.current);
         }
@@ -160,9 +160,21 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
             try {
                 const playerState = mediaRef.current.playerState;
                 const idleReason = mediaRef.current.idleReason;
-                const currentTime = mediaRef.current.getEstimatedTime ? mediaRef.current.getEstimatedTime() : 0;
-                
-                console.log(' Poll check - State:', playerState, 'Time:', currentTime.toFixed(1), 's/', expectedDuration, 's', 'Idle:', idleReason);
+                const currentTime = mediaRef.current.getEstimatedTime
+                    ? mediaRef.current.getEstimatedTime()
+                    : 0;
+
+                console.log(
+                    ' Poll check - State:',
+                    playerState,
+                    'Time:',
+                    currentTime.toFixed(1),
+                    's/',
+                    expectedDuration,
+                    's',
+                    'Idle:',
+                    idleReason,
+                );
 
                 if (playerState === 'IDLE' && idleReason === 'FINISHED') {
                     console.log(' Method 1: Detected IDLE + FINISHED');
@@ -182,8 +194,13 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 
                 if (currentTime > 0 && Math.abs(currentTime - lastKnownTimeRef.current) < 0.1) {
                     stuckCountRef.current++;
-                    console.log(' Video time stuck at', currentTime.toFixed(1), 's - stuck count:', stuckCountRef.current);
-                    
+                    console.log(
+                        ' Video time stuck at',
+                        currentTime.toFixed(1),
+                        's - stuck count:',
+                        stuckCountRef.current,
+                    );
+
                     if (stuckCountRef.current >= 3 && currentTime >= expectedDuration * 0.9) {
                         console.log(' Method 3: Video stuck near end, considering finished');
                         clearInterval(videoEndCheckIntervalRef.current!);
@@ -196,7 +213,6 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
                 }
 
                 lastKnownTimeRef.current = currentTime;
-
             } catch (e) {
                 console.log('Error in polling:', e);
             }
@@ -260,7 +276,14 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
                 const playerState = media.playerState;
                 const idleReason = media.idleReason;
 
-                console.log('Media listener fired - State:', playerState, 'Idle:', idleReason, 'IsAlive:', isAlive);
+                console.log(
+                    'Media listener fired - State:',
+                    playerState,
+                    'Idle:',
+                    idleReason,
+                    'IsAlive:',
+                    isAlive,
+                );
 
                 if (playerState === 'IDLE' && idleReason === 'FINISHED') {
                     console.log(' Video finished naturally - triggering handleVideoEnd');
@@ -274,7 +297,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 
                 const isPlaying = playerState === 'PLAYING' || playerState === 'BUFFERING';
                 setIsVideoPlaying(isPlaying);
-                
+
                 if (isPlaying) {
                     console.log(' Video is playing');
                 }
@@ -284,7 +307,6 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
             console.log(' Media listener attached successfully');
 
             startVideoEndPolling(media, movement.duration);
-
         } catch (error) {
             console.error(' Failed to load media:', error);
             setIsVideoPlaying(false);
@@ -342,12 +364,12 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 
     const skipRest = () => {
         console.log(' Skip rest button clicked');
-        
+
         if (timerRef.current) {
             clearInterval(timerRef.current);
             timerRef.current = null;
         }
-        
+
         setIsResting(false);
         setRestTimer(0);
         setIsLoading(false);
@@ -444,9 +466,10 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
         return null;
     }
 
-    const nextMovement = currentIndex < workout.workout_movements.length - 1
-        ? workout.workout_movements[currentIndex + 1]
-        : null;
+    const nextMovement =
+        currentIndex < workout.workout_movements.length - 1
+            ? workout.workout_movements[currentIndex + 1]
+            : null;
 
     const isFirst = currentIndex === 0;
     const isLast = currentIndex === workout.workout_movements.length - 1;
@@ -459,9 +482,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
                     <div className="cast-status-label">
                         🎥 Casting to {deviceName || 'Chromecast'}
                     </div>
-                    <div className="cast-status-title">
-                        {currentMovement.movements.name}
-                    </div>
+                    <div className="cast-status-title">{currentMovement.movements.name}</div>
                     {isLoading && (
                         <div style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
                             ⏳ Loading...
@@ -479,50 +500,73 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
             </div>
 
             {!isResting && (
-                <div style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    borderRadius: '12px',
-                    padding: '20px',
-                    marginBottom: '20px',
-                }}>
+                <div
+                    style={{
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        borderRadius: '12px',
+                        padding: '20px',
+                        marginBottom: '20px',
+                    }}
+                >
                     {/* Progress Bar */}
-                    <div style={{
-                        marginBottom: '16px',
-                    }}>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            fontSize: '12px',
-                            marginBottom: '8px',
-                            color: '#666',
-                        }}>
-                            <span>{Math.floor(currentTime / 60)}:{(Math.floor(currentTime % 60)).toString().padStart(2, '0')}</span>
-                            <span>{Math.floor(duration / 60)}:{(Math.floor(duration % 60)).toString().padStart(2, '0')}</span>
+                    <div
+                        style={{
+                            marginBottom: '16px',
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                fontSize: '12px',
+                                marginBottom: '8px',
+                                color: '#666',
+                            }}
+                        >
+                            <span>
+                                {Math.floor(currentTime / 60)}:
+                                {Math.floor(currentTime % 60)
+                                    .toString()
+                                    .padStart(2, '0')}
+                            </span>
+                            <span>
+                                {Math.floor(duration / 60)}:
+                                {Math.floor(duration % 60)
+                                    .toString()
+                                    .padStart(2, '0')}
+                            </span>
                         </div>
-                        <div style={{
-                            width: '100%',
-                            height: '6px',
-                            background: '#e0e0e0',
-                            borderRadius: '3px',
-                            overflow: 'hidden',
-                        }}>
-                            <div style={{
-                                width: duration > 0 ? `${(currentTime / duration) * 100}%` : '0%',
-                                height: '100%',
-                                background: '#b40200',
+                        <div
+                            style={{
+                                width: '100%',
+                                height: '6px',
+                                background: '#e0e0e0',
                                 borderRadius: '3px',
-                                transition: 'width 0.3s linear',
-                            }} />
+                                overflow: 'hidden',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    width:
+                                        duration > 0 ? `${(currentTime / duration) * 100}%` : '0%',
+                                    height: '100%',
+                                    background: '#b40200',
+                                    borderRadius: '3px',
+                                    transition: 'width 0.3s linear',
+                                }}
+                            />
                         </div>
                     </div>
 
                     {/* Play/Pause Button */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '16px',
-                    }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: '16px',
+                        }}
+                    >
                         <button
                             onClick={togglePlayPause}
                             disabled={isLoading}
@@ -541,7 +585,9 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
                                 transition: 'transform 0.2s',
                                 opacity: isLoading ? 0.5 : 1,
                             }}
-                            onMouseEnter={(e) => !isLoading && (e.currentTarget.style.transform = 'scale(1.1)')}
+                            onMouseEnter={(e) =>
+                                !isLoading && (e.currentTarget.style.transform = 'scale(1.1)')
+                            }
                             onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                         >
                             {isPlaying ? '⏸' : '▶'}
@@ -563,9 +609,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
                     <h2 className="cast-rest-title">Rest Time</h2>
                     <div className="cast-rest-timer">{restTimer}s</div>
                     {nextMovement && (
-                        <p className="cast-rest-next">
-                            Next: {nextMovement.movements.name}
-                        </p>
+                        <p className="cast-rest-next">Next: {nextMovement.movements.name}</p>
                     )}
                     <button onClick={skipRest} className="cast-skip-rest-btn">
                         Skip Rest →
@@ -604,16 +648,16 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
                     disabled={isFirst || isLoading}
                     className="cast-control-btn"
                     style={{
-                        opacity: (isFirst || isLoading) ? 0.6 : 1,
-                        cursor: (isFirst || isLoading) ? 'not-allowed' : 'pointer',
+                        opacity: isFirst || isLoading ? 0.6 : 1,
+                        cursor: isFirst || isLoading ? 'not-allowed' : 'pointer',
                     }}
                 >
                     ← Previous
                 </button>
 
                 {!isResting && !isLast && (
-                    <button 
-                        onClick={handleVideoEnd} 
+                    <button
+                        onClick={handleVideoEnd}
                         className="cast-control-btn cast-primary"
                         disabled={isLoading}
                         style={{
@@ -626,10 +670,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
                 )}
 
                 {!isResting && isLast && (
-                    <button 
-                        onClick={() => onComplete()} 
-                        className="cast-control-btn cast-primary"
-                    >
+                    <button onClick={() => onComplete()} className="cast-control-btn cast-primary">
                         Complete Workout
                     </button>
                 )}
@@ -639,8 +680,8 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
                     disabled={isLast || isLoading}
                     className="cast-control-btn"
                     style={{
-                        opacity: (isLast || isLoading) ? 0.6 : 1,
-                        cursor: (isLast || isLoading) ? 'not-allowed' : 'pointer',
+                        opacity: isLast || isLoading ? 0.6 : 1,
+                        cursor: isLast || isLoading ? 'not-allowed' : 'pointer',
                     }}
                 >
                     Next →
@@ -661,39 +702,6 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
         </div>
     );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // CastWorkoutPlayer.tsx
 // 'use client';
@@ -735,32 +743,32 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 //     currentIndex,
 //     onIndexChange,
 //     onComplete,
-//     onDisconnect, 
+//     onDisconnect,
 // }) => {
 //     const {
 //         isConnected,
 //         loadMedia,
 //         stopCasting,
 //         deviceName,
-//         playerState,      
-//         currentTime,      
-//         duration,         
-//         togglePlayPause,  
-//         isPlaying,  
+//         playerState,
+//         currentTime,
+//         duration,
+//         togglePlayPause,
+//         isPlaying,
 //     } = useChromecast();
 
 //     const [isResting, setIsResting] = useState(false);
 //     const [restTimer, setRestTimer] = useState(0);
 //     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 //     const [isLoading, setIsLoading] = useState(false);
-    
+
 //     const timerRef = useRef<NodeJS.Timeout | null>(null);
 //     const mediaRef = useRef<any>(null);
 //     const mediaListenerRef = useRef<any>(null);
 //     const currentIndexRef = useRef(currentIndex);
 //     const isLoadingRef = useRef(false);
 //     const videoEndCheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
-    
+
 //     const hasHandledEndRef = useRef(false);
 //     const lastKnownTimeRef = useRef(0);
 //     const stuckCountRef = useRef(0);
@@ -780,7 +788,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 //                     onDisconnect();
 //                 }
 //             }, 1000);
-            
+
 //             return () => clearTimeout(timeout);
 //         }
 //     }, [isConnected, onDisconnect]);
@@ -806,16 +814,16 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 //             console.log('⚠️ handleVideoEnd already called, ignoring duplicate');
 //             return;
 //         }
-        
+
 //         hasHandledEndRef.current = true;
-        
+
 //         const currentIdx = currentIndexRef.current;
 //         const currentMov = workout.workout_movements[currentIdx];
-        
+
 //         console.log('=== 🎬 handleVideoEnd called ===');
 //         console.log('Current index:', currentIdx);
 //         console.log('Current movement:', currentMov?.movements.name);
-        
+
 //         if (!currentMov) {
 //             console.log('No current movement');
 //             return;
@@ -844,7 +852,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 //     // Aggressive polling to detect video end
 //     const startVideoEndPolling = (media: any, expectedDuration: number) => {
 //         console.log('🔍 Starting video end polling (duration:', expectedDuration, 's)');
-        
+
 //         if (videoEndCheckIntervalRef.current) {
 //             clearInterval(videoEndCheckIntervalRef.current);
 //         }
@@ -862,7 +870,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 //                 const playerState = mediaRef.current.playerState;
 //                 const idleReason = mediaRef.current.idleReason;
 //                 const currentTime = mediaRef.current.getEstimatedTime ? mediaRef.current.getEstimatedTime() : 0;
-                
+
 //                 console.log('🔍 Poll check - State:', playerState, 'Time:', currentTime.toFixed(1), 's/', expectedDuration, 's', 'Idle:', idleReason);
 
 //                 // Method 1: Check if IDLE with FINISHED
@@ -887,7 +895,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 //                 if (currentTime > 0 && Math.abs(currentTime - lastKnownTimeRef.current) < 0.1) {
 //                     stuckCountRef.current++;
 //                     console.log('⏸️ Video time stuck at', currentTime.toFixed(1), 's - stuck count:', stuckCountRef.current);
-                    
+
 //                     if (stuckCountRef.current >= 3 && currentTime >= expectedDuration * 0.9) {
 //                         console.log('✅ Method 3: Video stuck near end, considering finished');
 //                         clearInterval(videoEndCheckIntervalRef.current!);
@@ -983,7 +991,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 
 //                 const isPlaying = playerState === 'PLAYING' || playerState === 'BUFFERING';
 //                 setIsVideoPlaying(isPlaying);
-                
+
 //                 if (isPlaying) {
 //                     console.log('▶️ Video is playing');
 //                 }
@@ -1052,12 +1060,12 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 
 //     const skipRest = () => {
 //         console.log('⏭️ Skip rest button clicked');
-        
+
 //         if (timerRef.current) {
 //             clearInterval(timerRef.current);
 //             timerRef.current = null;
 //         }
-        
+
 //         // CRITICAL: Reset ALL state flags when skipping rest
 //         setIsResting(false);
 //         setRestTimer(0);
@@ -1329,8 +1337,8 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 //                 </button>
 
 //                 {!isResting && !isLast && (
-//                     <button 
-//                         onClick={handleVideoEnd} 
+//                     <button
+//                         onClick={handleVideoEnd}
 //                         className="cast-control-btn cast-primary"
 //                         disabled={isLoading}
 //                         style={{
@@ -1343,8 +1351,8 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 //                 )}
 
 //                 {!isResting && isLast && (
-//                     <button 
-//                         onClick={() => onComplete()} 
+//                     <button
+//                         onClick={() => onComplete()}
 //                         className="cast-control-btn cast-primary"
 //                     >
 //                         Complete Workout
@@ -1378,26 +1386,6 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 //         </div>
 //     );
 // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // 'use client';
 
@@ -1455,14 +1443,14 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //     const [restTimer, setRestTimer] = useState(0);
 // //     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 // //     const [isLoading, setIsLoading] = useState(false);
-    
+
 // //     const timerRef = useRef<NodeJS.Timeout | null>(null);
 // //     const mediaRef = useRef<any>(null);
 // //     const mediaListenerRef = useRef<any>(null);
 // //     const currentIndexRef = useRef(currentIndex);
 // //     const isLoadingRef = useRef(false);
 // //     const videoEndCheckIntervalRef = useRef<NodeJS.Timeout | null>(null);
-    
+
 // //     // NEW: Refs for aggressive video end detection
 // //     const hasHandledEndRef = useRef(false);
 // //     const lastKnownTimeRef = useRef(0);
@@ -1491,16 +1479,16 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //             console.log(' handleVideoEnd already called, ignoring duplicate');
 // //             return;
 // //         }
-        
+
 // //         hasHandledEndRef.current = true;
-        
+
 // //         const currentIdx = currentIndexRef.current;
 // //         const currentMov = workout.workout_movements[currentIdx];
-        
+
 // //         console.log('=== handleVideoEnd called ===');
 // //         console.log('Current index:', currentIdx);
 // //         console.log('Current movement:', currentMov?.movements.name);
-        
+
 // //         if (!currentMov) {
 // //             console.log('No current movement');
 // //             return;
@@ -1529,7 +1517,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //     // CRITICAL: Aggressive polling to detect video end
 // //     const startVideoEndPolling = (media: any, expectedDuration: number) => {
 // //         console.log(' Starting video end polling (duration:', expectedDuration, 's)');
-        
+
 // //         // Clear any existing interval
 // //         if (videoEndCheckIntervalRef.current) {
 // //             clearInterval(videoEndCheckIntervalRef.current);
@@ -1548,7 +1536,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //                 const playerState = mediaRef.current.playerState;
 // //                 const idleReason = mediaRef.current.idleReason;
 // //                 const currentTime = mediaRef.current.getEstimatedTime ? mediaRef.current.getEstimatedTime() : 0;
-                
+
 // //                 // Log every check for debugging
 // //                 console.log(' Poll check - State:', playerState, 'Time:', currentTime.toFixed(1), 's/', expectedDuration, 's', 'Idle:', idleReason);
 
@@ -1574,7 +1562,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //                 if (currentTime > 0 && Math.abs(currentTime - lastKnownTimeRef.current) < 0.1) {
 // //                     stuckCountRef.current++;
 // //                     console.log(' Video time stuck at', currentTime.toFixed(1), 's - stuck count:', stuckCountRef.current);
-                    
+
 // //                     // If stuck for 3+ checks (6 seconds) and near the end
 // //                     if (stuckCountRef.current >= 3 && currentTime >= expectedDuration * 0.9) {
 // //                         console.log(' Method 3: Video stuck near end, considering finished');
@@ -1674,7 +1662,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //                 // Update playing state
 // //                 const isPlaying = playerState === 'PLAYING' || playerState === 'BUFFERING';
 // //                 setIsVideoPlaying(isPlaying);
-                
+
 // //                 if (isPlaying) {
 // //                     console.log('Video is playing');
 // //                 }
@@ -1772,7 +1760,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 
 // //     const handleManualNext = () => {
 // //         if (isLoading) return;
-        
+
 // //         if (timerRef.current) {
 // //             clearInterval(timerRef.current);
 // //             timerRef.current = null;
@@ -1783,7 +1771,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //         }
 // //         setIsResting(false);
 // //         setRestTimer(0);
-        
+
 // //         if (currentIndex < workout.workout_movements.length - 1) {
 // //             console.log('Manual next to:', currentIndex + 1);
 // //             onIndexChange(currentIndex + 1);
@@ -1792,7 +1780,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 
 // //     const handleManualPrevious = () => {
 // //         if (isLoading) return;
-        
+
 // //         if (timerRef.current) {
 // //             clearInterval(timerRef.current);
 // //             timerRef.current = null;
@@ -1803,7 +1791,7 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //         }
 // //         setIsResting(false);
 // //         setRestTimer(0);
-        
+
 // //         if (currentIndex > 0) {
 // //             console.log('Manual previous to:', currentIndex - 1);
 // //             onIndexChange(currentIndex - 1);
@@ -1903,8 +1891,8 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //                 </button>
 
 // //                 {!isResting && !isLast && (
-// //                     <button 
-// //                         onClick={handleVideoEnd} 
+// //                     <button
+// //                         onClick={handleVideoEnd}
 // //                         className="cast-control-btn cast-primary"
 // //                         disabled={isLoading}
 // //                         style={{
@@ -1916,8 +1904,8 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
 // //                 )}
 
 // //                 {!isResting && isLast && (
-// //                     <button 
-// //                         onClick={() => onComplete()} 
+// //                     <button
+// //                         onClick={() => onComplete()}
 // //                         className="cast-control-btn cast-primary"
 // //                     >
 // //                         Complete Workout

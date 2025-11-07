@@ -14,7 +14,7 @@ body {
 
 .profileCnt {
     border: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 37px;
+    padding: 24px 37px;
     display: flex;
     align-items: center;
     border-radius: 5px;
@@ -60,7 +60,7 @@ button.prsnBtn {
     margin-right: 25px;
     color: white;
     background-color: var(--accent-color);
-    padding: 16px 31px;
+    padding: 8px 14px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -70,7 +70,7 @@ button.prsnBtn img {
     margin-bottom: 3px;
 }
 button.prsnBtn span {
-    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px */
+    font-size: calc(var(--dynamic-font-size) * 1.2); /* ~16px */
     font-weight: 600;
 }
 .prsnHd {
@@ -78,9 +78,9 @@ button.prsnBtn span {
 }
 
 .prsnHd h2 {
-    font-size: calc(var(--dynamic-font-size) * 1.75);
+    font-size: calc(var(--dynamic-font-size) * 1.4);
     font-weight: 600;
-    padding: 30px 0px 30px 37px;
+    padding: 21px 0px 21px 37px;
 }
 .prflInfoCnt {
     padding: 25px 0px 0px 37px;
@@ -92,14 +92,14 @@ button.prsnBtn span {
 }
 
 .prflName h4 {
-    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px default */
+    font-size: calc(var(--dynamic-font-size) * 1.1); /* ~16px default */
     font-weight: 400;
     color: #000000;
     line-height: 24px;
 }
 
 .prflName h5 {
-    font-size: calc(var(--dynamic-font-size) * 1.125); /* ~18px default */
+    font-size: calc(var(--dynamic-font-size) * 1.1); /* ~18px default */
     font-weight: 600;
     line-height: 30px;
     color: #000000;
@@ -110,10 +110,10 @@ button.prsnBtn span {
 
 .acntInfo h2,
 .themeInfo h2 {
-    font-size: calc(var(--dynamic-font-size) * 1.75); /* ~28px when default */
+    font-size: calc(var(--dynamic-font-size) * 1.4); /* ~28px when default */
     font-weight: 600;
     border-bottom: 1px solid #0000001a;
-    padding: 30px 0 30px 37px;
+    padding: 21px 0px 21px 37px;
 }
 
 .acntInfo,
@@ -448,7 +448,7 @@ select#timezone {
     width: 100%;
     border: 1px solid #0000001a;
     border-radius: 5px;
-    padding: 9px 25px;
+    padding: 7px 25px;
     text-align: left;
     cursor: pointer;
     font-size: 16px;
@@ -517,14 +517,14 @@ select#timezone {
 
 @media (max-width: 1399px) {
     .profileName h3 {
-        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        font-size: calc(var(--dynamic-font-size) * 1.2); /* ~24px default */
     }
     .prflName h5 {
         font-size: calc(var(--dynamic-font-size) * 1);
     }
     .prsnHd h2 {
         padding: 19px 0 19px 37px;
-        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        font-size: calc(var(--dynamic-font-size) * 1.2); /* ~24px default */
         font-weight: 600;
     }
     button.prsnBtn {
@@ -536,14 +536,14 @@ select#timezone {
     .acntInfo h2,
     .themeInfo h2 {
         padding: 19px 0 19px 37px;
-        font-size: var(--dynamic-font-size, 16px);
+        font-size: calc(var(--dynamic-font-size) * 1.2); /* ~24px default */
     }
     .workoutLocn h2 {
         padding: 19px 0 19px 37px;
-        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        font-size: calc(var(--dynamic-font-size) * 1.2); /* ~24px default */
     }
     .workoutsVdo h2 {
-        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        font-size: calc(var(--dynamic-font-size) * 1.2); /* ~24px default */
     }
 }
 @media (max-width: 767px) {

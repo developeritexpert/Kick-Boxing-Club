@@ -1,85 +1,84 @@
-'use client'
+'use client';
 
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { useAuthStore } from '@/stores/useAuthStore'
-import toast from 'react-hot-toast'
-import './MyFavorites.css'
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/stores/useAuthStore';
+import toast from 'react-hot-toast';
+import './MyFavorites.css';
 
 interface FavoriteWorkout {
-    workout_id: string
-    workout_name: string
-    class_name: string | null
-    created_by: string | null
+    workout_id: string;
+    workout_name: string;
+    class_name: string | null;
+    created_by: string | null;
 }
 
 const MyFavorites: React.FC = () => {
-    const user = useAuthStore((state) => state.user)
-    const router = useRouter()
+    const user = useAuthStore((state) => state.user);
+    const router = useRouter();
 
-    const [favorites, setFavorites] = useState<FavoriteWorkout[]>([])
-    const [loading, setLoading] = useState(true)
-    const [searchTerm, setSearchTerm] = useState('')
-    const [error, setError] = useState<string | null>(null)
+    const [favorites, setFavorites] = useState<FavoriteWorkout[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (user?.id) fetchFavorites()
-    }, [user])
+        if (user?.id) fetchFavorites();
+    }, [user]);
 
     const fetchFavorites = async () => {
         try {
-            setLoading(true)
+            setLoading(true);
             const res = await fetch('/api/admin/favorites/list', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: user?.id }),
-            })
+            });
 
-            const result = await res.json()
+            const result = await res.json();
             if (result.success) {
-                setFavorites(result.data)
+                setFavorites(result.data);
             } else {
-                setError(result.error || 'Failed to load favorites')
+                setError(result.error || 'Failed to load favorites');
             }
         } catch (err) {
-            console.error('Error fetching favorites:', err)
-            setError('Something went wrong while fetching favorites')
+            console.error('Error fetching favorites:', err);
+            setError('Something went wrong while fetching favorites');
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     const handleViewClick = (workoutId: string) => {
-        router.push(`/admin/workouts/${workoutId}`)
-    }
+        router.push(`/admin/workouts/${workoutId}`);
+    };
 
     const handleDelete = async (workout_id: string) => {
-
         try {
             const res = await fetch('/api/admin/favorites/list', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: user?.id, workout_id }),
-            })
-            const result = await res.json()
+            });
+            const result = await res.json();
             if (result.success) {
-                toast.success('Removed from favorites')
-                setFavorites((prev) => prev.filter((f) => f.workout_id !== workout_id))
+                toast.success('Removed from favorites');
+                setFavorites((prev) => prev.filter((f) => f.workout_id !== workout_id));
             } else {
-                toast.error(result.error || 'Failed to remove workout')
+                toast.error(result.error || 'Failed to remove workout');
             }
         } catch (err) {
-            console.error('Error removing workout:', err)
-            toast.error('Something went wrong')
+            console.error('Error removing workout:', err);
+            toast.error('Something went wrong');
         }
-    }
+    };
 
     const filteredFavorites = favorites.filter((w) =>
         w.workout_name.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
+    );
 
-    if (loading) return <div className="loading-content">Loading favorites...</div>
-    if (error) return <div className="error-content">{error}</div>
+    if (loading) return <div className="loading-content">Loading favorites...</div>;
+    if (error) return <div className="error-content">{error}</div>;
 
     return (
         <div>
@@ -102,7 +101,6 @@ const MyFavorites: React.FC = () => {
                         No favorite workouts yet
                     </div>
                 </div>
-
             ) : (
                 <table className="favourites-tbl">
                     <thead>
@@ -121,11 +119,17 @@ const MyFavorites: React.FC = () => {
                                 <td>{workout.created_by || '—'}</td>
                                 <td>
                                     <div className="fav-btn">
-                                        <button className="view" onClick={() => handleViewClick(workout.workout_id)}>
+                                        <button
+                                            className="view"
+                                            onClick={() => handleViewClick(workout.workout_id)}
+                                        >
                                             <img src="/view_icon.png" alt="view-icon" />
                                             <div> View</div>
                                         </button>
-                                        <button className="delete" onClick={() => handleDelete(workout.workout_id)}>
+                                        <button
+                                            className="delete"
+                                            onClick={() => handleDelete(workout.workout_id)}
+                                        >
                                             <img src="/delete_icon.png" alt="delete-icon" />
                                             <div> Delete</div>
                                         </button>
@@ -137,27 +141,10 @@ const MyFavorites: React.FC = () => {
                 </table>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default MyFavorites
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default MyFavorites;
 
 // import React from 'react';
 // import './MyFavorites.css';
