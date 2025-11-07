@@ -117,6 +117,13 @@ table.favourites-tbl tbody tr {
     background-color: #fafafa; /* base background */
     transition: background-color 0.2s ease;
 }
+
+table.favourites-tbl {
+    width: 100%;
+    margin-top: 30px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
 @media (max-width: 1399px) {
     table.favourites-tbl th {
         padding: 16px 30px;
@@ -128,10 +135,8 @@ table.favourites-tbl tbody tr {
     }
 }
 
-
-.loading-content {
-    text-align: center;
-    padding: 40px;
-    font-size: 18px;
-    color: #666;
+@media (max-width: 767px) {
+    table.favourites-tbl button.view {
+        min-width: 71px;
+    }
 }

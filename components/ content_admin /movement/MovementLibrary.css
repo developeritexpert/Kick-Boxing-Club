@@ -1,0 +1,252 @@
+.content-admin-movemntLibrary .search-box {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    flex: 1;
+    align-items: center;
+    max-width: 274px;
+    padding: 14px 18px;
+    transition: border-color 0.3s;
+    display: flex;
+    position: relative;
+}
+
+.content-admin-movemntLibrary .search-input {
+    color: #000;
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+.content-admin-movemntLibrary .search-input::placeholder {
+    color: #000;
+}
+
+.content-admin-movemntLibrary .search-icon {
+    margin-right: 8px;
+    font-size: 16px;
+    position: relative;
+}
+
+table.favourites-tbl {
+    margin-top: 30px;
+    width: 100%;
+}
+table.favourites-tbl th {
+    color: #fff;
+    text-align: left;
+    background: #1c1c1c;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 22px 35px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+table.favourites-tbl td {
+    padding: 22px 35px;
+    border: 1px solid #0000001a;
+    font-size: 14px;
+    color: #000000;
+}
+/* table.favourites-tbl thead {
+    border: 1px solid #01010117;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+} */
+table.favourites-tbl th:first-child {
+    border-radius: 5px 0px 0px 0px;
+}
+table.favourites-tbl th:last-child {
+    border-radius: 0px 5px 0px 0px;
+}
+table.favourites-tbl button.view {
+    background-color: #b40200;
+    border: 1px solid #b40200;
+    color: white;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+table.favourites-tbl button.view:hover {
+    opacity: 90%;
+}
+table.favourites-tbl button.view img {
+    width: 14px;
+    height: 14px;
+}
+table.favourites-tbl button.view > div {
+    font-size: 12px;
+    line-height: 1.2;
+}
+table.favourites-tbl .fav-btn {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+table.favourites-tbl button.delete {
+    display: flex;
+    padding: 10px 14px;
+    border: 1px solid #0000001a;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+table.favourites-tbl button.delete img {
+    width: 11px;
+    height: 14px;
+}
+table.favourites-tbl button.delete > div {
+    font-size: 12px;
+    color: #000000;
+}
+table.favourites-tbl button.delete:hover {
+    opacity: 80%;
+}
+table.favourites-tbl tbody tr:hover {
+    background-color: #f2f2f2;
+}
+table.favourites-tbl tbody tr {
+    background-color: #fafafa; /* base background */
+    transition: background-color 0.2s ease;
+}
+
+.cnt-admin-all-catgry {
+    display: flex;
+    gap: 30px;
+}
+/* Dropdown Wrapper */
+.customDropdown {
+    position: relative;
+}
+button.dropdownBtn {
+    width: 274px;
+}
+/* Dropdown Button */
+.dropdownBtn {
+    width: 100%;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 9px 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Dropdown List */
+.dropdownList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    margin-top: 8px;
+    list-style: none;
+    padding: 0;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Dropdown Items */
+.dropdownItem {
+    padding: 15px 25px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* Hover Effect */
+.dropdownItem:hover {
+    background: #f0f0ed;
+}
+
+/* Default arrow */
+.dropdownBtn::after {
+    content: '';
+    background-image: url('/dropdown_icon.png');
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 11px;
+    top: 55%;
+    transform: translateY(-50%); /* nice centering */
+    transition: transform 0.3s ease; /* smooth rotation */
+}
+
+/* Rotate when active/open */
+.active::after {
+    transform: translateY(-50%) rotate(180deg);
+    top: 38%;
+}
+/* Focus state */
+.dropdownBtn:focus,
+.dropdownBtn:focus-visible {
+    color: #000;
+    border-color: #000;
+    outline: none;
+}
+
+table.favourites-tbl {
+    width: 100%;
+    margin-top: 30px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+  table.favourites-tbl button.view {
+        min-width: 71px;
+    }
+@media (max-width: 1399px) {
+    table.favourites-tbl th {
+        padding: 16px 30px;
+        font-size: 14px;
+    }
+    table.favourites-tbl td {
+        padding: 14px 30px;
+        font-size: 14px;
+    }
+}
+/* @media(max-width:991px){
+.content-admin-movemntLibrary.recentWrkout {
+    overflow-x: auto;
+}
+} */
+
+@media (max-width: 767px) {
+    /* .content-admin-movemntLibrary.recentWrkout {
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch; 
+        padding: 10px; 
+    }
+
+   
+    .favourites-tbl {
+        width: 100%; 
+      
+    } */
+    table.favourites-tbl button.view {
+        min-width: 71px;
+    }
+    .cnt-admin-all-catgry {
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    button.dropdownBtn {
+        width: 274px;
+        position: relative;
+    }
+}

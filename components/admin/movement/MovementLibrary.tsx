@@ -69,7 +69,7 @@ const MovementLibrary: React.FC = () => {
     };
 
     return (
-        <div className="library-container">
+        <div className="admin-library-container">
             <div className="library-header">
                 <input
                     type="text"
