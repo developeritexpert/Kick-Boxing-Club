@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAuthStore, User } from '@/stores/useAuthStore';
+import { useAuthStore } from '@/stores/useAuthStore';
 import Image from 'next/image';
 
 export default function Header({ onToggle }: { onToggle?: () => void }) {

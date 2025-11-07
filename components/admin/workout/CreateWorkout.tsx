@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useAuthStore } from '@/stores/useAuthStore';
 import './CreateWorkout.css';
 
 interface Movement {
@@ -18,6 +19,8 @@ interface SelectedMovement extends Movement {
 }
 
 const CreateWorkout: React.FC = () => {
+    const user = useAuthStore((state) => state.user);
+    
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [focus, setFocus] = useState('');
@@ -238,6 +241,14 @@ const CreateWorkout: React.FC = () => {
             return;
         }
 
+        let created_by = '';
+        if(user?.id){
+            created_by = user.id;
+            console.log('workout stored by user id :');
+            console.log(user.id);
+        }
+
+
         setLoading(true);
         try {
             const res = await fetch('/api/admin/workout/create', {
@@ -249,6 +260,7 @@ const CreateWorkout: React.FC = () => {
                     locationId,
                     classId,
                     focus,
+                    created_by,
                     movements: allMovements.map((m, index) => ({
                         id: m.id,
                         order: index + 1,
