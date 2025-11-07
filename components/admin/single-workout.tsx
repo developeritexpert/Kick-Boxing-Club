@@ -5,6 +5,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useChromecastContext } from '@/lib/context/ChromecastContext';
 import { CastWorkoutPlayer } from './chromeCast/CastWorkoutPlayer';
+import { useAuthStore } from '@/stores/useAuthStore';
 import './single-workout.css';
 
 interface MovementItem {
@@ -28,6 +29,7 @@ interface WorkoutData {
 }
 
 const SingleWorkout: React.FC = () => {
+    const user = useAuthStore((state) => state.user);
     const [workout, setWorkout] = useState<WorkoutData | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isResting, setIsResting] = useState(false);
@@ -42,6 +44,32 @@ const SingleWorkout: React.FC = () => {
     const workoutRef = useRef(workout);
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
+
+    const saveRecentWorkout = async () => {
+        if (!user?.id || !workoutId) {
+            console.log('Missing user or workoutId — skipping recent workout save.');
+            return
+        }
+        try {
+            const res = await fetch('/api/admin/recent-workouts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: user.id,
+                    workout_id: workoutId,
+                }),
+            })
+
+            const result = await res.json()
+            console.log('Recent workout API response:', result)
+        } catch(error) {
+            console.log('Error saving recent workout:', error)
+        }
+    }
+    useEffect(() => {
+        saveRecentWorkout();
+    }, [user?.id, workoutId]);
+
 
     const {
         isCastAvailable,
