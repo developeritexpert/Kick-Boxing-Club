@@ -2,9 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/stores/useAuthStore';
 import './CreateMovement.css';
 
 const CreateMovement: React.FC = () => {
+    const router = useRouter(); 
+    const user = useAuthStore((state) => state.user);
+
     const [movementName, setMovementName] = useState('');
     const [category, setCategory] = useState('');
     const [subCategory, setSubCategory] = useState('');
@@ -67,6 +72,10 @@ const CreateMovement: React.FC = () => {
         formData.append('movementName', movementName);
         formData.append('category', category);
 
+        if (user?.id) {
+            formData.append('created_by', user.id);
+        }
+
         if (subCategory) formData.append('subCategory', subCategory);
 
         // if (video) formData.append('video', video);
@@ -118,6 +127,7 @@ const CreateMovement: React.FC = () => {
         toast.success('Movement created and video uploaded!');
         setMovementName('');
         setVideo(null);
+        router.push('/admin/movement/library');
     };
 
     return (

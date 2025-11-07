@@ -11,10 +11,10 @@ export async function POST(req: Request) {
         const movementName = formData.get('movementName') as string;
         const category_id = formData.get('category') as string;
         const subCategory = formData.get('subCategory') as string | null;
-        const created_by = 'ed14d193-b06a-4961-a84e-d8341490abc0';
+        const created_by = formData.get('created_by') as string;
+        // const created_by = 'ed14d193-b06a-4961-a84e-d8341490abc0';
         const video_provider = 'cloudflare';
         const description = 'video uploaded on cloudFlare Stream';
-
         const cfReservedContainer = await CLOUDFLARE.createDirectUpload(600);
         const video_uid = cfReservedContainer.uid;
         const upload_url = cfReservedContainer.uploadURL;
