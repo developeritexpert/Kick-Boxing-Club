@@ -1,0 +1,244 @@
+.content-admin-movemntLibrary .search-box {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    flex: 1;
+    align-items: center;
+    max-width: 274px;
+    padding: 8px 18px;
+    transition: border-color 0.3s;
+    display: flex;
+    position: relative;
+}
+
+.content-admin-movemntLibrary .search-input {
+    color: #000;
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+.content-admin-movemntLibrary .search-input::placeholder {
+    color: #000;
+}
+
+.content-admin-movemntLibrary .search-icon {
+    margin-right: 8px;
+    font-size: 16px;
+    position: relative;
+}
+
+.content-admin-movemntLibrary table.favourites-tbl {
+    margin-top: 30px;
+    width: 100%;
+}
+.content-admin-movemntLibrary table.favourites-tbl th {
+    color: #fff;
+    text-align: left;
+    background: #1c1c1c;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* .content-admin-movemntLibrary table.favourites-tbl td {
+   
+    border: 1px solid #0000001a;
+    font-size: 14px;
+    color: #000000;
+} */
+/* table.favourites-tbl thead {
+    border: 1px solid #01010117;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+} */
+.content-admin-movemntLibrary table.favourites-tbl th:first-child {
+    border-radius: 5px 0px 0px 0px;
+}
+.content-admin-movemntLibrary table.favourites-tbl th:last-child {
+    border-radius: 0px 5px 0px 0px;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.view {
+    background-color: #b40200;
+    border: 1px solid #b40200;
+    color: white;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.view:hover {
+    background-color: white;
+    color: #b40200;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.view:hover svg path {
+    fill: #b40200;
+}
+
+.content-admin-movemntLibrary table.favourites-tbl button.view img {
+    width: 14px;
+    height: 14px;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.view > div {
+    font-size: 12px;
+    line-height: 1.2;
+}
+.content-admin-movemntLibrary table.favourites-tbl .fav-btn {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.delete {
+    display: flex;
+    padding: 6px 10px;
+    border: 1px solid #0000001a;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.delete img {
+    width: 11px;
+    height: 14px;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.delete > div {
+    font-size: 12px;
+    color: #000000;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.delete:hover > div {
+    color: white;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.delete:hover {
+    background: #000;
+
+    border: 1px solid white;
+}
+.content-admin-movemntLibrary table.favourites-tbl button.delete:hover svg path {
+    fill: white;
+}
+.content-admin-movemntLibrary table.favourites-tbl tbody tr:hover {
+    background-color: #f2f2f2;
+}
+.content-admin-movemntLibrary table.favourites-tbl tbody tr {
+    background-color: #fafafa; /* base background */
+    transition: background-color 0.2s ease;
+}
+
+.cnt-admin-all-catgry {
+    display: flex;
+    gap: 30px;
+}
+/* Dropdown Wrapper */
+.content-admin-movemntLibrary .customDropdown {
+    position: relative;
+}
+.content-admin-movemntLibrary button.dropdownBtn {
+    width: 274px;
+}
+/* Dropdown Button */
+.content-admin-movemntLibrary .dropdownBtn {
+    width: 100%;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 7px 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 15px;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Dropdown List */
+.content-admin-movemntLibrary .dropdownList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    margin-top: 8px;
+    list-style: none;
+    padding: 0;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Dropdown Items */
+.content-admin-movemntLibrary .dropdownItem {
+    padding: 15px 25px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* Hover Effect */
+.content-admin-movemntLibrary .dropdownItem:hover {
+    background: #f0f0ed;
+}
+
+/* Default arrow */
+.content-admin-movemntLibrary .dropdownBtn::after {
+    content: '';
+    background-image: url('/dropdown_icon.png');
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 11px;
+    top: 62%;
+    transform: translateY(-50%); /* nice centering */
+    transition: transform 0.3s ease; /* smooth rotation */
+}
+
+/* Rotate when active/open */
+.content-admin-movemntLibrary .active::after {
+    transform: translateY(-50%) rotate(180deg);
+    top: 38%;
+}
+/* Focus state */
+.content-admin-movemntLibrary .dropdownBtn:focus,
+.content-admin-movemntLibrary .dropdownBtn:focus-visible {
+    color: #000;
+    border-color: #000;
+    outline: none;
+}
+
+.content-admin-movemntLibrary table.favourites-tbl {
+    width: 100%;
+    margin-top: 30px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.content-admin-movemntLibrary table.favourites-tbl td {
+    padding: 10px 13px;
+    font-size: 14px;
+    border: 1px solid #0000001a;
+    color: #000000;
+}
+.content-admin-movemntLibrary table.favourites-tbl th:last-child {
+    border-radius: 0 5px 0 0;
+    width: 200px;
+}
+
+@media (max-width: 767px) {
+    .content-admin-movemntLibrary .cnt-admin-all-catgry {
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    .content-admin-movemntLibrary button.dropdownBtn {
+        width: 274px;
+        position: relative;
+    }
+}

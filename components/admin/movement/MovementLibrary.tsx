@@ -97,6 +97,7 @@ const MovementLibrary: React.FC = () => {
                     <table className="movement-table">
                         <thead>
                             <tr>
+                                <th>S.No</th>
                                 <th>Movement Name</th>
                                 <th>Category</th>
                                 <th>Added By</th>
@@ -105,8 +106,9 @@ const MovementLibrary: React.FC = () => {
                         </thead>
                         <tbody>
                             {filteredMovements.length > 0 ? (
-                                filteredMovements.map((m) => (
+                                filteredMovements.map((m, index) => (
                                     <tr key={m.id}>
+                                        <td>{index + 1}</td>
                                         <td>{m.name}</td>
                                         <td>{m.category}</td>
                                         <td>{m.created_by}</td>

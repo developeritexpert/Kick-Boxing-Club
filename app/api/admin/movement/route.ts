@@ -9,15 +9,15 @@ export async function GET() {
             .from('movements')
             .select(
                 `
-        id,
-        name,
-        description,
-        created_by,
-        category:category_id ( id, name ),
-        video_id,
-        thumbnail_url,
-        video_duration
-      `,
+                    id,
+                    name,
+                    description,
+                    created_by,
+                    category:category_id ( id, name ),
+                    video_id,
+                    thumbnail_url,
+                    video_duration
+                `,
             )
             .order('created_at', { ascending: false });
 

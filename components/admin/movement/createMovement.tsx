@@ -7,7 +7,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import './CreateMovement.css';
 
 const CreateMovement: React.FC = () => {
-    const router = useRouter(); 
+    const router = useRouter();
     const user = useAuthStore((state) => state.user);
 
     const [movementName, setMovementName] = useState('');
@@ -32,6 +32,13 @@ const CreateMovement: React.FC = () => {
         };
         fetchCategories();
     }, []);
+
+    useEffect(() => {
+        const selectedTag = tags.find((t) => t.id === category);
+        if (selectedTag?.name !== 'HIIT') {
+            setSubCategory('');
+        }
+    }, [category]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {

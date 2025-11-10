@@ -8,7 +8,7 @@ import styles from '../../../styles/content_admin/ContentAdminPage.module.css';
 export default function ContentAdminPage() {
     const router = useRouter();
     return (
-        <div className={styles.dashboardPage}>
+        <div className={`${styles.dashboardPage} content-admin-dsbrd`}>
             <div className={styles.pageHeaderSpacer} />
 
             <div className={styles.cardsRow}>
@@ -29,7 +29,7 @@ export default function ContentAdminPage() {
                             Total number of movement categories & subcategories
                         </div>
                     </div>
-                    <Image  src="/grid_image.png" alt="grid_image" width={52} height={52}/>
+                    <Image src="/grid_image.png" alt="grid_image" width={52} height={52} />
                 </article>
 
                 <article className={styles.card}>
@@ -40,7 +40,7 @@ export default function ContentAdminPage() {
                             Number of active videos visible to instructors
                         </div>
                     </div>
-                    <Image  src="/hand_caught.png" alt="hand_caught-img"  width={48} height={52} />
+                    <Image src="/hand_caught.png" alt="hand_caught-img" width={48} height={52} />
                 </article>
             </div>
 
@@ -61,7 +61,12 @@ export default function ContentAdminPage() {
                             <div className={styles.cardContent}>
                                 <div className={styles.row}>
                                     <div className={styles.iconRow}>
-                                        <Image src="/small_grid_icon.png" alt="grid-icon" width={12} height={12} />
+                                        <Image
+                                            src="/small_grid_icon.png"
+                                            alt="grid-icon"
+                                            width={12}
+                                            height={12}
+                                        />
                                         Class:
                                     </div>
                                     <p>Upper Body Power Session</p>
@@ -69,7 +74,12 @@ export default function ContentAdminPage() {
 
                                 <div className={styles.row}>
                                     <div className={styles.iconRow}>
-                                        <Image src="/small_tick_icon.png" alt="tick-icon" width={12} height={12} />
+                                        <Image
+                                            src="/small_tick_icon.png"
+                                            alt="tick-icon"
+                                            width={12}
+                                            height={12}
+                                        />
                                         Status:
                                     </div>
                                     <p>Published</p>
@@ -82,7 +92,12 @@ export default function ContentAdminPage() {
 
                                 <div className={styles.row}>
                                     <div className={styles.iconRow}>
-                                        <Image src="/date_icon.png" alt="date-icon" width={12} height={12}/>
+                                        <Image
+                                            src="/date_icon.png"
+                                            alt="date-icon"
+                                            width={12}
+                                            height={12}
+                                        />
                                         Date:
                                     </div>
                                     <p>Oct 21, 2025</p>
@@ -98,7 +113,12 @@ export default function ContentAdminPage() {
                             <div className={styles.cardContent}>
                                 <div className={styles.row}>
                                     <div className={styles.iconRow}>
-                                      <Image src="/small_grid_icon.png" alt="grid-icon" width={12} height={12} />
+                                        <Image
+                                            src="/small_grid_icon.png"
+                                            alt="grid-icon"
+                                            width={12}
+                                            height={12}
+                                        />
                                         Class:
                                     </div>
                                     <p>HIIT</p>
@@ -106,7 +126,12 @@ export default function ContentAdminPage() {
 
                                 <div className={styles.row}>
                                     <div className={styles.iconRow}>
-                                        <Image src="/small_tick_icon.png" alt="tick-icon" width={12} height={12} />
+                                        <Image
+                                            src="/small_tick_icon.png"
+                                            alt="tick-icon"
+                                            width={12}
+                                            height={12}
+                                        />
                                         Status:
                                     </div>
                                     <p>Draft</p>
@@ -119,7 +144,12 @@ export default function ContentAdminPage() {
 
                                 <div className={styles.row}>
                                     <div className={styles.iconRow}>
-                                         <Image src="/date_icon.png" alt="date-icon" width={12} height={12}/>
+                                        <Image
+                                            src="/date_icon.png"
+                                            alt="date-icon"
+                                            width={12}
+                                            height={12}
+                                        />
                                         Date:
                                     </div>
                                     <p>Oct 17, 2025</p>
@@ -134,7 +164,12 @@ export default function ContentAdminPage() {
                             <div className={styles.cardContent}>
                                 <div className={styles.row}>
                                     <div className={styles.iconRow}>
-                                      <Image src="/small_grid_icon.png" alt="grid-icon" width={12} height={12} />
+                                        <Image
+                                            src="/small_grid_icon.png"
+                                            alt="grid-icon"
+                                            width={12}
+                                            height={12}
+                                        />
                                         Class:
                                     </div>
                                     <p>Full Body</p>
@@ -142,7 +177,12 @@ export default function ContentAdminPage() {
 
                                 <div className={styles.row}>
                                     <div className={styles.iconRow}>
-                                           <Image src="/small_tick_icon.png" alt="tick-icon" width={12} height={12} />
+                                        <Image
+                                            src="/small_tick_icon.png"
+                                            alt="tick-icon"
+                                            width={12}
+                                            height={12}
+                                        />
                                         Status:
                                     </div>
                                     <p>Removed</p>
@@ -155,7 +195,12 @@ export default function ContentAdminPage() {
 
                                 <div className={styles.row}>
                                     <div className={styles.iconRow}>
-                                        <Image src="/date_icon.png" alt="date-icon" width={12} height={12}/>
+                                        <Image
+                                            src="/date_icon.png"
+                                            alt="date-icon"
+                                            width={12}
+                                            height={12}
+                                        />
                                         Date:
                                     </div>
                                     <p>Oct 15, 2025</p>

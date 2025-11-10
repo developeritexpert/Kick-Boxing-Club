@@ -23,12 +23,9 @@ export default function RootLayout({
                     src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"
                     strategy="beforeInteractive"
                 />
-
             </head>
             <body>
-                <ChromecastProvider>
-                    {children}
-                </ChromecastProvider>
+                <ChromecastProvider>{children}</ChromecastProvider>
 
                 {/* {children} */}
                 <Toaster position="top-right" reverseOrder={false} />

@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 
 import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
@@ -129,7 +130,12 @@ export default function ContentAdminSidebar({ collapsed, setCollapsed }: Props) 
                             <li key={m.key} className={`nav-item ${isActive ? 'active' : ''}`}>
                                 <Link href={m.href} className="nav-link">
                                     <span className="nav-icon">
-                                        <img src={m.icon} alt="home_icon" />
+                                        <Image
+                                            src={m.icon}
+                                            alt="home_icon"
+                                            width={20}
+                                            height={22}
+                                        />
                                     </span>
                                     {!collapsed && <span className="nav-label">{m.label}</span>}
                                 </Link>
@@ -141,7 +147,7 @@ export default function ContentAdminSidebar({ collapsed, setCollapsed }: Props) 
 
             <div className="sidebar-footer">
                 <button onClick={handleLogout} className="logout">
-                    <img src="/logout_icon.png" alt="logout-icon" />
+                    <Image src="/logout_icon.png" alt="logout-icon" width={18} height={23} />
                     <span className="logout-text">Logout</span>
                 </button>
             </div>

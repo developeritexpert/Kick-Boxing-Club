@@ -1,61 +1,61 @@
-'use client'
+'use client';
 
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useAuthStore } from '@/stores/useAuthStore'
-import toast from 'react-hot-toast'
-import './RecentWorkouts.css'
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/stores/useAuthStore';
+import toast from 'react-hot-toast';
+import './RecentWorkouts.css';
 
 interface RecentWorkout {
-    workout_id: string
-    workout_name: string
-    class_name: string | null
-    created_by: string | null
-    last_accessed_at: string
+    workout_id: string;
+    workout_name: string;
+    class_name: string | null;
+    created_by: string | null;
+    last_accessed_at: string;
 }
 
 const RecentWorkouts: React.FC = () => {
-    const user = useAuthStore((state) => state.user)
-    const router = useRouter()
-    const [recentWorkouts, setRecentWorkouts] = useState<RecentWorkout[]>([])
-    const [loading, setLoading] = useState(true)
-    const [searchTerm, setSearchTerm] = useState('')
+    const user = useAuthStore((state) => state.user);
+    const router = useRouter();
+    const [recentWorkouts, setRecentWorkouts] = useState<RecentWorkout[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchRecents = async () => {
             if (!user?.id) {
-                setLoading(false)
-                return 
+                setLoading(false);
+                return;
             }
 
-            console.log('Fetching recent workouts for user:', user.id)
-            setLoading(true)
+            console.log('Fetching recent workouts for user:', user.id);
+            setLoading(true);
 
             try {
                 const res = await fetch('/api/admin/recent-workouts/list', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: user.id }),
-                })
+                });
 
-                const result = await res.json()
-                console.log('Recent workouts result:', result)
+                const result = await res.json();
+                console.log('Recent workouts result:', result);
 
                 if (result.success) {
-                    setRecentWorkouts(result.data)
+                    setRecentWorkouts(result.data);
                 } else {
-                    toast.error(result.error || 'Failed to fetch recent workouts')
+                    toast.error(result.error || 'Failed to fetch recent workouts');
                 }
             } catch (err) {
-                console.error('Error fetching recents:', err)
-                toast.error('Something went wrong')
+                console.error('Error fetching recents:', err);
+                toast.error('Something went wrong');
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
+        };
 
-        fetchRecents()
-    }, [user?.id])
+        fetchRecents();
+    }, [user?.id]);
 
     const handleDelete = async (workoutId: string) => {
         try {
@@ -63,36 +63,38 @@ const RecentWorkouts: React.FC = () => {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: user?.id, workout_id: workoutId }),
-            })
+            });
 
-            const result = await res.json()
+            const result = await res.json();
             if (result.success) {
-                toast.success('Removed from recent workouts')
-                setRecentWorkouts((prev) => prev.filter((w) => w.workout_id !== workoutId))
+                toast.success('Removed from recent workouts');
+                setRecentWorkouts((prev) => prev.filter((w) => w.workout_id !== workoutId));
             } else {
-                toast.error(result.error || 'Failed to remove workout')
+                toast.error(result.error || 'Failed to remove workout');
             }
         } catch (err) {
-            console.error('Error deleting workout:', err)
-            toast.error('Something went wrong')
+            console.error('Error deleting workout:', err);
+            toast.error('Something went wrong');
         }
-    }
+    };
 
     const handleViewClick = (workoutId: string) => {
-        router.push(`/admin/workouts/${workoutId}`)
-    }
+        router.push(`/admin/workouts/${workoutId}`);
+    };
 
     const filteredWorkouts = recentWorkouts.filter((w) =>
-        w.workout_name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+        w.workout_name.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
 
     // Show loading state
     if (loading) {
         return (
             <div className="flex items-center justify-center h-[50vh]">
-                <div className="text-gray-600 text-xl font-semibold">Loading recent workouts...</div>
+                <div className="text-gray-600 text-xl font-semibold">
+                    Loading recent workouts...
+                </div>
             </div>
-        )
+        );
     }
 
     // Show empty state (no workouts at all)
@@ -103,7 +105,7 @@ const RecentWorkouts: React.FC = () => {
                     No recent workouts yet
                 </div>
             </div>
-        )
+        );
     }
 
     // Show search results empty state
@@ -128,7 +130,7 @@ const RecentWorkouts: React.FC = () => {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 
     return (
@@ -169,11 +171,17 @@ const RecentWorkouts: React.FC = () => {
                             </td>
                             <td>
                                 <div className="fav-btn">
-                                    <button className="view" onClick={() => handleViewClick(workout.workout_id)}>
+                                    <button
+                                        className="view"
+                                        onClick={() => handleViewClick(workout.workout_id)}
+                                    >
                                         <img src="/view_icon.png" alt="view-icon" />
                                         <div>View</div>
                                     </button>
-                                    <button className="delete" onClick={() => handleDelete(workout.workout_id)}>
+                                    <button
+                                        className="delete"
+                                        onClick={() => handleDelete(workout.workout_id)}
+                                    >
                                         <img src="/delete_icon.png" alt="delete-icon" />
                                         <div>Delete</div>
                                     </button>
@@ -184,34 +192,10 @@ const RecentWorkouts: React.FC = () => {
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};
 
-export default RecentWorkouts
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default RecentWorkouts;
 
 // 'use client'
 
@@ -235,11 +219,11 @@ export default RecentWorkouts
 //     const [recentWorkouts, setRecentWorkouts] = useState<RecentWorkout[]>([])
 //     const [loading, setLoading] = useState(false)
 //     const [searchTerm, setSearchTerm] = useState('')
-//     const [hasFetched, setHasFetched] = useState(false) 
+//     const [hasFetched, setHasFetched] = useState(false)
 
 //     useEffect(() => {
 //         const fetchRecents = async () => {
-//             if (!user?.id) return 
+//             if (!user?.id) return
 
 //             console.log('Fetching recent workouts for user:', user.id)
 //             setLoading(true)
@@ -263,7 +247,7 @@ export default RecentWorkouts
 //                 console.error('Error fetching recents:', err)
 //                 toast.error('Something went wrong')
 //             } finally {
-//                 setHasFetched(true) 
+//                 setHasFetched(true)
 //                 setLoading(false)
 //             }
 //         }

@@ -51,7 +51,6 @@ const Workouts: React.FC = () => {
         fetchWorkouts();
     }, []);
 
-
     useEffect(() => {
         if (user?.id) {
             fetchFavorites(user.id);
@@ -180,7 +179,7 @@ const Workouts: React.FC = () => {
                 setFavorites((prev) =>
                     prev.includes(workoutId)
                         ? prev.filter((id) => id !== workoutId)
-                        : [...prev, workoutId]
+                        : [...prev, workoutId],
                 );
             } else {
                 toast.error(result.error);
@@ -236,7 +235,11 @@ const Workouts: React.FC = () => {
                                     >
                                         {/* <img src="/heart-icon.png" alt="heart icon" /> */}
                                         <img
-                                            src={favorites.includes(workout.id) ? '/heart-filled.png' : '/heart-icon.png'}
+                                            src={
+                                                favorites.includes(workout.id)
+                                                    ? '/heart-filled.png'
+                                                    : '/heart-icon.png'
+                                            }
                                             alt="heart icon"
                                         />
                                     </span>

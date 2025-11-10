@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../../components/layout/conten_admin/Sidebar';
-import Header from '../../../components/layout/conten_admin/Header';
-import Footer from '../../../components/layout/conten_admin/Footer';
+import Sidebar from '../../../components/layout/content_admin/Sidebar';
+import Header from '../../../components/layout/content_admin/Header';
+import Footer from '../../../components/layout/content_admin/Footer';
 import '../../../styles/content_admin/dashboard.css';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

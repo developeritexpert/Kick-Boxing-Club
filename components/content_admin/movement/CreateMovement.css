@@ -1,0 +1,258 @@
+.movement-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 80px; */
+    background-color: #fafafa;
+}
+
+/* Dropdown Wrapper */
+.content-admin-crt-movment .customDropdown {
+    position: relative;
+    width: 100%;
+}
+
+/* Dropdown Button */
+.content-admin-crt-movment .dropdownBtn {
+    width: 100%;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 7px 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 15px;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Dropdown List */
+.content-admin-crt-movment .dropdownList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    margin-top: 8px;
+    list-style: none;
+    padding: 0;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Dropdown Items */
+.content-admin-crt-movment .dropdownItem {
+    padding: 15px 25px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* Hover Effect */
+.content-admin-crt-movment .dropdownItem:hover {
+    background: #f0f0ed;
+}
+
+/* Default arrow */
+.content-admin-crt-movment .dropdownBtn::after {
+    content: '';
+    background-image: url('/dropdown_icon.png');
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 15px;
+    top: 64%;
+    transform: translateY(-50%); /* nice centering */
+    transition: transform 0.3s ease; /* smooth rotation */
+}
+
+/* Rotate when active/open */
+.content-admin-crt-movment .active::after {
+    transform: translateY(-50%) rotate(180deg);
+    top: 43%;
+}
+/* Focus state */
+.content-admin-crt-movment .dropdownBtn:focus,
+.content-admin-crt-movment .dropdownBtn:focus-visible {
+    color: #000;
+    border-color: #000;
+    outline: none;
+}
+
+.content-admin-crt-movment p.wrkoutVdoPara span {
+    font-size: 14px;
+}
+
+.content-admin-crt-movment .movement-card {
+    background: #fff;
+    border-radius: 5px;
+    width: 812px;
+    padding: 22px 35px;
+    box-shadow: 0 30px 40px rgba(0, 0, 0, 0.07);
+}
+
+.content-admin-crt-movment .movement-card h2 {
+    color: #000000;
+    margin-bottom: 22px;
+    font-size: 18px;
+    font-weight: 600;
+}
+.content-admin-crt-movment .movement-form {
+    display: flex;
+    flex-direction: column;
+}
+.content-admin-crt-movment .movement-form label {
+    color: #000;
+    font-size: 15px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+.content-admin-crt-movment .category.catCtn {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.content-admin-crt-movment .movement-form input[type='text'],
+.content-admin-crt-movment .movement-form select {
+    padding: 7px 15px;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s ease;
+    color: #000;
+}
+.content-admin-crt-movment .movement-form input[type='text']::placeholder,
+.content-admin-crt-movment .movement-form select::placeholder {
+    color: #000;
+}
+
+.content-admin-crt-movment .movement-form input[type='text']:focus,
+.content-admin-crt-movment .movement-form select:focus {
+    border-color: #000;
+}
+
+.content-admin-crt-movment .workoutsVdo {
+    margin-top: 22px;
+    margin-bottom: 18px;
+}
+
+.content-admin-crt-movment .workoutsVdo h2 {
+    color: #000;
+    font-size: 18px;
+    margin-bottom: 18px;
+    font-weight: 600;
+}
+
+.content-admin-crt-movment .uploadBox {
+    text-align: center;
+    background-color: rgba(1, 1, 1, 0.01);
+    border: 1px dashed rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 25px;
+    position: relative;
+}
+.content-admin-crt-movment .workoutsVdo .videoUpload {
+    display: none;
+}
+
+.content-admin-crt-movment .workoutsVdo .uploadLabel {
+    cursor: pointer;
+    color: #777;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-admin-crt-movment .uploadIcon {
+    margin-bottom: 23px;
+}
+
+.content-admin-crt-movment .wrkoutVdoPara {
+    color: #000;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-admin-crt-movment .workVdioBtn {
+    color: #000;
+    font-size: 12px;
+    background-color: rgba(180, 2, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-bottom: 12px;
+    padding: 12px 20px;
+    font-weight: 600;
+}
+
+.content-admin-crt-movment .submit-btn {
+    background-color: #b40200;
+    border: none;
+    color: white;
+    padding: 7px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: 0.3s ease;
+    max-width: 130px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.content-admin-crt-movment .submit-btn:hover {
+    color: #b40200;
+    background: white;
+    border: 1px solid #b40200;
+}
+@media (max-width: 1099px) {
+    .content-admin-crt-movment .movement-card {
+        width: 700px;
+    }
+}
+@media (max-width: 991px) {
+    .content-admin-crt-movment .movement-card {
+        width: 600px;
+    }
+}
+@media (max-width: 891px) {
+    .content-admin-crt-movment .movement-card {
+        width: 480px;
+    }
+}
+
+@media (max-width: 767px) {
+    .content-admin-crt-movment .movement-card {
+        width: 100%;
+        padding: 15px;
+    }
+    .content-admin-crt-movment .submit-btn {
+        max-width: 92px;
+        padding: 4px 15px;
+        font-size: 16px;
+    }
+    .content-admin-crt-movment .movement-form input[type='text'],
+    .content-admin-crt-movment .movement-form select {
+        padding: 7px 15px;
+    }
+    .content-admin-crt-movment .dropdownBtn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+    .content-admin-crt-movment .dropdownBtn::after {
+        right: 14px;
+    }
+    .content-admin-crt-movment .workoutsVdo h2 {
+        font-size: 16px;
+    }
+    .content-admin-crt-movment .workoutsVdo {
+        margin-top: 10px;
+        margin-bottom: 25px;
+    }
+}

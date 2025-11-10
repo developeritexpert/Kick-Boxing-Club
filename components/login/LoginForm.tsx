@@ -61,10 +61,8 @@ export default function LoginForm() {
                     data: { user },
                 } = await supabaseClient.auth.getUser();
                 console.log('User from getUser:', user);
-                
-                
-                console.log('User from getUser:', result.user);
 
+                console.log('User from getUser:', result.user);
 
                 setUser(result.user as User);
                 toast.success('Login successful!');

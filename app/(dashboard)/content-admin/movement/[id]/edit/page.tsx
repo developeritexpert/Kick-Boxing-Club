@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
-import EditMovement from '../../../../../../components/ content_admin /movement/EditMovement';
+import EditMovement from '@/components/content_admin/movement/EditMovement';
 
 export default function EditUserPage() {
     const router = useRouter();

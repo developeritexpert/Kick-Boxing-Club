@@ -372,8 +372,8 @@ select:focus {
 }
 
 .movement-card:hover {
-    border-color: #ccc;
-    transform: translateY(-2px);
+    border-color: unset;
+    transform: unset;
 }
 
 .movement-card.selected {

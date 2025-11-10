@@ -5,16 +5,14 @@
     background: var(--page-bg);
 }
 .dashboardPage article.card img {
-    height: 52px;
+    height: 45px;
+    width: 42px;
 }
 
 .dashboardPage article.card {
     padding: 26px 23px;
 }
-.dashboardPage article.card img {
-    /* width: 70px; */
-    height: 70px;
-}
+
 .dashboardPage article.card {
     background: #fff;
     justify-content: space-between;
@@ -41,21 +39,21 @@
 }
 
 .card img {
-    height: 70px;
+    height: 52px;
 }
 
 .cardTitle {
     color: #000;
-    margin-bottom: 9px;
-    font-size: 18px;
+    margin-bottom: 7px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 1.4;
 }
 
 .cardValue {
     color: #000;
-    margin-bottom: 8px;
-    font-size: 28px;
+    margin-bottom: 7px;
+    font-size: 24px;
     font-weight: 700;
 }
 
@@ -68,7 +66,7 @@
 /* ===== Recent Activity Section ===== */
 
 .recentActivityHdg h4 {
-    font-size: 24px;
+    font-size: 20px;
     color: #000000;
     font-weight: 600;
 }
@@ -115,7 +113,7 @@
 }
 
 .row p {
-    font-size: 12px;
+    font-size: 14px;
     color: #333;
 }
 
@@ -155,11 +153,11 @@
 .btnRed {
     transition: all 0.3s ease-in-out;
     border: none;
-    padding: 8px 10px;
+    padding: 7px 10px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 /* Black Button */
@@ -190,16 +188,16 @@
         font-size: 18px;
     }
     .dashboardPage article.card img {
-        height: 52px;
+        height: 45px;
     }
     .dashboardPage article.card {
         padding: 26px 23px;
     }
     .cardValue {
-        font-size: 20px;
+        font-size: 18px;
     }
     .recentActivityHdg h4 {
-        font-size: 22px;
+        font-size: 20px;
     }
 }
 @media (max-width: 991px) {
@@ -208,7 +206,7 @@
         font-size: 15px;
     }
     .recentActivityHdg h4 {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 /* ===== Responsive ===== */
@@ -227,10 +225,12 @@
         padding: 20px 15px;
     }
     .dashboardPage article.card img {
-        height: 34px;
+        width: 43px;
+        height: 39px;
     }
     .card img {
-        height: 40px;
+        width: 43px;
+        height: 39px;
     }
     .cardTitle {
         font-size: 16px;

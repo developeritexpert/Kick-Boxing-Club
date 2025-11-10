@@ -42,9 +42,7 @@ export const ChromecastProvider: React.FC<ChromecastProviderProps> = ({ children
     const chromecastHook = useChromecast();
 
     return (
-        <ChromecastContext.Provider value={chromecastHook}>
-            {children}
-        </ChromecastContext.Provider>
+        <ChromecastContext.Provider value={chromecastHook}>{children}</ChromecastContext.Provider>
     );
 };
 
