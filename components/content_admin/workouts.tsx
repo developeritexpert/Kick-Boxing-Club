@@ -1,8 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import './workouts.css';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
+import { useAuthStore } from '@/stores/useAuthStore';
+import './workouts.css';
 interface Movement {
     id: string;
     name: string;
@@ -33,23 +35,34 @@ interface Workout {
 
 const Workouts: React.FC = () => {
     const router = useRouter();
+    const user = useAuthStore((state) => state.user);
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [activeArrow, setActiveArrow] = useState<'left' | 'right' | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [favorites, setFavorites] = useState<string[]>([]);
 
     const itemsPerPage = 6;
 
     useEffect(() => {
-        fetchWorkouts();
-    }, []);
+        if (user?.id) {
+            setLoading(true);
+            fetchWorkouts(user.id);
+        }
+    }, [user]);
 
-    const fetchWorkouts = async () => {
+    useEffect(() => {
+        if (user?.id) {
+            fetchFavorites(user.id);
+        }
+    }, [user]);
+
+    const fetchWorkouts = async (userId: string) => {
         try {
             setLoading(true);
-            const response = await fetch('/api/admin/workout');
+            const response = await fetch(`/api/content-admin/workout?userId=${userId}`);
             const result = await response.json();
 
             if (result.success && result.data) {
@@ -62,6 +75,23 @@ const Workouts: React.FC = () => {
             console.error(err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchFavorites = async (userId: string) => {
+        try {
+            const res = await fetch('/api/content-admin/workout/favorite/list', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId }),
+            });
+
+            const result = await res.json();
+            if (result.success) {
+                setFavorites(result.data || []);
+            }
+        } catch (err) {
+            console.error('Error fetching favorites:', err);
         }
     };
 
@@ -120,14 +150,46 @@ const Workouts: React.FC = () => {
     }, [filteredWorkouts, currentPage, totalPages]);
 
     const handleCardClick = (workoutId: string) => {
-        router.push(`/admin/workouts/${workoutId}`);
+        router.push(`/content-admin/workouts/${workoutId}`);
         console.log(`card : ${workoutId}`);
     };
 
-    const handleHeartClick = (e: React.MouseEvent<HTMLSpanElement>, workoutId: string) => {
+    const handleHeartClick = async (e: React.MouseEvent<HTMLSpanElement>, workoutId: string) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(`Heart : ${workoutId}`);
+        // console.log(`Heart : ${workoutId}`);
+
+        if (!user) {
+            toast.error('No user logged in');
+            console.error('No user logged in');
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/content-admin/workout/favorite', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ workout_id: workoutId, user_id: user.id }),
+            });
+
+            const result = await res.json();
+
+            if (result.success) {
+                toast.success(result.message);
+
+                setFavorites((prev) =>
+                    prev.includes(workoutId)
+                        ? prev.filter((id) => id !== workoutId)
+                        : [...prev, workoutId],
+                );
+            } else {
+                toast.error(result.error);
+                console.error(result.error);
+            }
+        } catch (err) {
+            toast.error(`Failed to favorite workout: ${err}`);
+            console.error('Failed to favorite workout:', err);
+        }
     };
 
     return (
@@ -173,7 +235,12 @@ const Workouts: React.FC = () => {
                                         onClick={(e) => handleHeartClick(e, workout.id)}
                                     >
                                         <Image
-                                            src="/heart-icon.png"
+                                            // src="/heart-icon.png"
+                                            src={
+                                                favorites.includes(workout.id)
+                                                    ? '/heart-filled.png'
+                                                    : '/heart-icon.png'
+                                            }
                                             alt="heart icon"
                                             width={25}
                                             height={21}

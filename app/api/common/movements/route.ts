@@ -1,5 +1,4 @@
 // get all movements
-
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
@@ -77,25 +76,6 @@ export async function GET() {
                 duration: m.video_duration ?? null,
             };
         });
-
-        // const formattedData = data.map((m: MovementRow) => {
-        //   const category =
-        //     Array.isArray(m.category) && m.category.length > 0
-        //       ? m.category[0].name
-        //       : m.category?.name || 'Uncategorized';
-
-        //   const user = m.created_by ? userMetaMap.get(m.created_by) : null;
-
-        //   return {
-        //     id: m.id,
-        //     name: m.name,
-        //     description: m.description,
-        //     category,
-        //     created_by: user
-        //       ? `${user.first_name ?? ''} ${user.last_name ?? ''}`.trim()
-        //       : 'Unknown',
-        //   };
-        // });
 
         return NextResponse.json(
             {

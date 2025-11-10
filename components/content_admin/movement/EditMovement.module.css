@@ -316,3 +316,9 @@
         max-width: 170px;
     }
 }
+
+.mvmntName input {
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 7px 15px;
+}

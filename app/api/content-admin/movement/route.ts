@@ -1,10 +1,18 @@
-// get all movements
-
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
+        const { searchParams } = new URL(request.url);
+        const userId = searchParams.get('userId');
+
+        if (!userId) {
+            return NextResponse.json(
+                { success: false, message: 'User ID is required' },
+                { status: 400 },
+            );
+        }
+
         const { data, error } = await supabaseAdmin
             .from('movements')
             .select(
@@ -19,6 +27,7 @@ export async function GET() {
                     video_duration
                 `,
             )
+            .eq('created_by', userId)
             .order('created_at', { ascending: false });
 
         if (error) {
@@ -31,19 +40,6 @@ export async function GET() {
                 { status: 200 },
             );
         }
-
-        const userIds = [...new Set(data.map((m) => m.created_by).filter(Boolean))];
-
-        const { data: userMetaData, error: userMetaError } = await supabaseAdmin
-            .from('user_meta')
-            .select('user_id, first_name, last_name')
-            .in('user_id', userIds);
-
-        if (userMetaError) {
-            console.error('Error fetching user meta:', userMetaError);
-        }
-
-        const userMetaMap = new Map(userMetaData?.map((u) => [u.user_id, u]) || []);
 
         type MovementRow = {
             id: string;
@@ -62,45 +58,21 @@ export async function GET() {
                     ? m.category[0].name
                     : (m.category as { id: string; name: string })?.name || 'Uncategorized';
 
-            const user = m.created_by ? userMetaMap.get(m.created_by) : null;
-
             return {
                 id: m.id,
                 name: m.name,
                 description: m.description,
                 category,
-                created_by: user
-                    ? `${user.first_name ?? ''} ${user.last_name ?? ''}`.trim()
-                    : 'Unknown',
                 video_id: m.video_id ?? null,
                 thumbnail_url: m.thumbnail_url ?? null,
                 duration: m.video_duration ?? null,
             };
         });
 
-        // const formattedData = data.map((m: MovementRow) => {
-        //   const category =
-        //     Array.isArray(m.category) && m.category.length > 0
-        //       ? m.category[0].name
-        //       : m.category?.name || 'Uncategorized';
-
-        //   const user = m.created_by ? userMetaMap.get(m.created_by) : null;
-
-        //   return {
-        //     id: m.id,
-        //     name: m.name,
-        //     description: m.description,
-        //     category,
-        //     created_by: user
-        //       ? `${user.first_name ?? ''} ${user.last_name ?? ''}`.trim()
-        //       : 'Unknown',
-        //   };
-        // });
-
         return NextResponse.json(
             {
                 success: true,
-                message: 'Movements fetched successfully',
+                message: 'User movements fetched successfully',
                 data: formattedData,
             },
             { status: 200 },

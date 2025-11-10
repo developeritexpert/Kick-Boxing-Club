@@ -1,18 +1,133 @@
 'use client';
 
-import React, { useState } from 'react';
-import './CreateMovement.css';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { useAuthStore } from '@/stores/useAuthStore';
 import Image from 'next/image';
+import './CreateMovement.css';
+
 const CreateMovement: React.FC = () => {
+    const router = useRouter();
+    const user = useAuthStore((state) => state.user);
+
     const [movementName, setMovementName] = useState('');
+    const [category, setCategory] = useState('');
+    const [subCategory, setSubCategory] = useState('');
+    const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
+    const [video, setVideo] = useState<File | null>(null);
+    const [dragActive, setDragActive] = useState(false);
 
-    // Dropdown #2 State
-    const [openCategory, setOpenCategory] = useState(false);
-    const [categoryValue, setCategoryValue] = useState('Boxing');
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await fetch('/api/common/categories');
+                const data = await res.json();
+                if (data.categories) {
+                    setTags(data.categories);
+                    setCategory(data.categories[0]?.id || '');
+                }
+            } catch (error) {
+                console.log(`Error loading categories : ${error} `);
+                toast.error('Failed to load Categories');
+            }
+        };
+        fetchCategories();
+    }, []);
 
-    const categoryOptions = ['Boxing', 'Boxing2', 'Boxing3', 'Boxing4'];
+    useEffect(() => {
+        const selectedTag = tags.find((t) => t.id === category);
+        if (selectedTag?.name !== 'HIIT') {
+            setSubCategory('');
+        }
+    }, [category]);
 
-    const handleSubmit = () => {};
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setVideo(e.target.files[0]);
+        }
+    };
+
+    const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(false);
+        const file = e.dataTransfer.files?.[0];
+        if (file && file.type.startsWith(`video/`)) {
+            setVideo(file);
+        }
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(false);
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!video) {
+            toast.error('Please select a video before submitting.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('movementName', movementName);
+        formData.append('category', category);
+        if (user?.id) {
+            formData.append('created_by', user.id);
+        }
+        if (subCategory) formData.append('subCategory', subCategory);
+
+        console.log(`form data`);
+        for (const [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
+        // api to reserve video container in claudflare
+        const res = await fetch('/api/content-admin/movement/create', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            toast.error('Something Went wrong');
+            console.log('Error from /api/admin/movement/create');
+            console.log(data.error);
+            return;
+        }
+
+        const { uploadURL } = data;
+
+        const uploadForm = new FormData();
+        uploadForm.append('file', video);
+
+        const uploadRes = await fetch(uploadURL, {
+            method: 'POST',
+            body: uploadForm,
+        });
+
+        if (!uploadRes.ok) {
+            const text = await uploadRes.text();
+            console.error('Cloudflare upload failed:', text);
+            toast.error('Video upload failed');
+            return;
+        }
+
+        toast.success('Movement created and video uploaded!');
+        setMovementName('');
+        setVideo(null);
+        router.push('/content-admin/movement/library');
+    };
 
     return (
         <div className="movement-container content-admin-crt-movment">
@@ -27,7 +142,44 @@ const CreateMovement: React.FC = () => {
                         onChange={(e) => setMovementName(e.target.value)}
                         required
                     />
-                    <div className="category catCtn">
+
+                    <label>Category</label>
+                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                        {tags.length > 0 ? (
+                            tags.map((tag) => (
+                                <option key={tag.id} value={tag.id}>
+                                    {tag.name}
+                                </option>
+                            ))
+                        ) : (
+                            <option disabled>Loading...</option>
+                        )}
+                    </select>
+
+                    {(() => {
+                        const selectedTag = tags.find((t) => t.id === category);
+                        if (selectedTag?.name === 'HIIT') {
+                            return (
+                                <>
+                                    <label>Sub-category</label>
+                                    <select
+                                        value={subCategory}
+                                        onChange={(e) => setSubCategory(e.target.value)}
+                                        required
+                                    >
+                                        <option value="">Select sub-category</option>
+                                        <option value="Upper Body">Upper Body</option>
+                                        <option value="Lower Body">Lower Body</option>
+                                        <option value="Full Body">Full Body</option>
+                                        <option value="Core">Core</option>
+                                    </select>
+                                </>
+                            );
+                        }
+                        return null;
+                    })()}
+
+                    {/* <div className="category catCtn">
                         <label htmlFor="category">Category</label>
                         <div className="customDropdown">
                             <button
@@ -55,7 +207,7 @@ const CreateMovement: React.FC = () => {
                                 </ul>
                             )}
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="workoutsVdo">
                         <h2>Upload Photos and Videos</h2>
@@ -65,8 +217,15 @@ const CreateMovement: React.FC = () => {
                                 accept="video/*"
                                 id="videoUploads"
                                 className="videoUpload"
+                                onChange={handleFileChange}
                             />
-                            <label htmlFor="videoUploads" className="uploadLabel">
+                            <label
+                                htmlFor="videoUploads"
+                                className="uploadLabel"
+                                onDrop={handleDrop}
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                            >
                                 <div className="uploadIcon">
                                     <Image
                                         src="/vdo_upload_icon.png"
@@ -80,6 +239,7 @@ const CreateMovement: React.FC = () => {
                                     <span> or drag your video here</span>
                                 </p>
                             </label>
+                            {video && <p className="file-name">{video.name}</p>}
                         </div>
                     </div>
 

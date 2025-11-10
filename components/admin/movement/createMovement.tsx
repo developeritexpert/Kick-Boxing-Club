@@ -33,6 +33,13 @@ const CreateMovement: React.FC = () => {
         fetchCategories();
     }, []);
 
+    useEffect(() => {
+        const selectedTag = tags.find((t) => t.id === category);
+        if (selectedTag?.name !== 'HIIT') {
+            setSubCategory('');
+        }
+    }, [category]);
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setVideo(e.target.files[0]);

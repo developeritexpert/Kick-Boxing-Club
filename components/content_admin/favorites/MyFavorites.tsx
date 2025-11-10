@@ -1,6 +1,10 @@
-import React from 'react';
-import './MyFavorites.css';
+'use client';
+import React, { useEffect, useState } from 'react';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import './MyFavorites.css';
+
 interface Workout {
     id: number;
     name: string;
@@ -8,7 +12,51 @@ interface Workout {
     instructor: string;
 }
 
+interface FavoriteWorkout {
+    workout_id: string;
+    workout_name: string;
+    class_name: string | null;
+    created_by: string | null;
+}
+
 const MyFavorites: React.FC = () => {
+    // const router = useRouter();
+    // const user = useAuthStore((state) => state.user);
+    // const [favorites, setFavorites] = useState<FavoriteWorkout[]>([]);
+    // const [loading, setLoading] = useState(true);
+    // const [searchTerm, setSearchTerm] = useState('');
+    // const [error, setError] = useState<string | null>(null);
+
+    // useEffect(() => {
+    //     if (user?.id) fetchFavorites();
+    // }, [user]);
+
+    // const fetchFavorites = async () => {
+    //     try {
+    //         setLoading(true);
+
+    //         const res = await fetch('/api/content-admin/favourite/list', {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({ user_id: user?.id }),
+    //         });
+
+    //         const result = await res.json();
+
+    //         if (result.success) {
+    //             setFavorites(result.data);
+    //         } else {
+    //             setError(result.error || 'Failed to load favorites');
+    //         }
+
+    //     } catch (error) {
+    //         console.log('error loading favourite workouts', error);
+
+    //     }finally{
+    //         setLoading(false);
+    //     }
+    // }
+
     const favoriteWorkouts: Workout[] = [
         { id: 1, name: 'Power HIIT Circuit', category: 'HIIT', instructor: 'John Deo' },
         { id: 2, name: 'Jab-Cross Burnout', category: 'Boxing', instructor: 'Sarah K.' },
@@ -40,7 +88,6 @@ const MyFavorites: React.FC = () => {
                     <tr>
                         <th>Workout Name</th>
                         <th>Category</th>
-
                         <th>Instructor</th>
                         <th>Action</th>
                     </tr>
