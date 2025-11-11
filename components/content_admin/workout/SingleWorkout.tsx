@@ -45,30 +45,30 @@ const SingleWorkout: React.FC = () => {
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
-    // const saveRecentWorkout = async () => {
-    //     if (!user?.id || !workoutId) {
-    //         console.log('Missing user or workoutId — skipping recent workout save.');
-    //         return;
-    //     }
-    //     try {
-    //         const res = await fetch('/api/admin/recent-workouts', {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({
-    //                 user_id: user.id,
-    //                 workout_id: workoutId,
-    //             }),
-    //         });
+    const saveRecentWorkout = async () => {
+        if (!user?.id || !workoutId) {
+            console.log('Missing user or workoutId — skipping recent workout save.');
+            return;
+        }
+        try {
+            const res = await fetch('/api/content-admin/recent-workouts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: user.id,
+                    workout_id: workoutId,
+                }),
+            });
 
-    //         const result = await res.json();
-    //         console.log('Recent workout API response:', result);
-    //     } catch (error) {
-    //         console.log('Error saving recent workout:', error);
-    //     }
-    // };
-    // useEffect(() => {
-    //     saveRecentWorkout();
-    // }, [user?.id, workoutId]);
+            const result = await res.json();
+            console.log('Recent workout API response:', result);
+        } catch (error) {
+            console.log('Error saving recent workout:', error);
+        }
+    };
+    useEffect(() => {
+        saveRecentWorkout();
+    }, [user?.id, workoutId]);
 
     const {
         isCastAvailable,
