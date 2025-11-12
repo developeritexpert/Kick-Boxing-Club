@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 export default function Header({ onToggle }: { onToggle?: () => void }) {
     const user = useAuthStore((state) => state.user);

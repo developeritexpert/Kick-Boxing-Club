@@ -110,7 +110,7 @@ export const useChromecast = () => {
                                 }
                             }
                         } catch (e) {
-                            console.log('No existing session found');
+                            console.log('No existing session found' , e);
                         }
                     },
                     (error: any) => {
@@ -236,7 +236,7 @@ export const useChromecast = () => {
                 setupMediaListeners(media);
             }
         } catch (e) {
-            console.log('No existing media');
+            console.log('No existing media' , e);
         }
 
         connectionTimeoutRef.current = setTimeout(() => {
@@ -275,7 +275,7 @@ export const useChromecast = () => {
         if (mediaListenerRef.current) {
             try {
                 media.removeUpdateListener(mediaListenerRef.current);
-            } catch (e) {}
+            } catch (e) {console.log(e);}
         }
 
         mediaListenerRef.current = (isAlive: boolean) => {

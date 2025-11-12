@@ -13,6 +13,8 @@ export async function POST(req: Request) {
         const data = await req.json();
 
         const { name, locationId, classId, focus, movements, created_by } = data;
+        console.log(focus);
+        
 
         const total_duration = movements.reduce(
             (acc: number, m: MovementInput) => acc + (m.duration || 0) + (m.rest_after || 0),

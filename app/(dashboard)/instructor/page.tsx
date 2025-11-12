@@ -3,12 +3,12 @@
 import React from 'react';
 import Image from 'next/image';
 // import { useRouter } from 'next/navigation';
-import styles from '../../../styles/content_admin/ContentAdminPage.module.css';
+import styles from '../../../styles/instructor/InstructorPage.module.css';
 
-export default function ContentAdminPage() {
+export default function InstructorPage() {
     // const router = useRouter();
     return (
-        <div className={`${styles.dashboardPage} content-admin-dsbrd`}>
+        <div className={`${styles.dashboardPage} instructor-dsbrd`}>
             <div className={styles.pageHeaderSpacer} />
 
             <div className={styles.cardsRow}>
