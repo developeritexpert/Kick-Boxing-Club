@@ -1,0 +1,671 @@
+/* --- Base Layout --- */
+
+.create-workout-container h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #000;
+}
+
+/* --- Two Column Layout --- */
+.instructor-create-workout .workout-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+    align-items: start;
+}
+
+.instructor-create-workout .left-section {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.instructor-create-workout .right-section {
+    background: #fff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    position: relative;
+    height: 100%;
+}
+
+.instructor-create-workout .right-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 23px;
+    color: #000;
+}
+
+/* --- Form Layout --- */
+.instructor-create-workout .create-workout-form {
+    flex-direction: column;
+    gap: 25px;
+    display: flex;
+}
+
+.instructor-create-workout .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.instructor-create-workout .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.instructor-create-workout .form-group label {
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+}
+.create-workout-container input,
+textarea,
+select {
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    width: 100%;
+    padding: 7px 15px;
+    font-size: 14px;
+    transition: border 0.2s;
+}
+.instructor-create-workout form.create-workout-form label {
+    margin-bottom: 10px;
+}
+.instructor-create-workout input::placeholder,
+textarea::placeholder {
+    color: #000;
+    opacity: 1;
+}
+
+.instructor-create-workout input:focus,
+textarea:focus,
+select:focus {
+    border-color: #000;
+    outline: none;
+}
+
+/* --- Focus Section --- */
+.instructor-create-workout .focus-group label {
+    margin-bottom: 0px !important;
+}
+.instructor-create-workout .focus-buttons {
+    flex-wrap: wrap;
+    gap: 15px;
+    display: flex;
+}
+.instructor-create-workout .focus-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+.instructor-create-workout .focus-btn {
+    cursor: pointer;
+    color: #000000;
+    background: #ffffff;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 7px 15px;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.instructor-create-workout .focus-btn:hover {
+    background: #fff;
+}
+
+.instructor-create-workout .focus-btn.active {
+    background: #c00;
+    color: #fff;
+    border-color: #c00;
+}
+
+/* --- Workout List Section --- */
+.instructor-create-workout .workout-list-section {
+    margin-top: 1rem;
+}
+
+.instructor-create-workout .workout-list-section h4 {
+    color: #000;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.instructor-create-workout .workout-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.instructor-create-workout .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.instructor-create-workout .workout-item {
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+/* --- Class Type Boxes --- */
+.instructor-create-workout .class-type-box {
+    background: white;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 24px;
+    margin-bottom: 1.5rem;
+}
+
+.instructor-create-workout .class-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.instructor-create-workout .class-header h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    margin: 0;
+}
+
+.instructor-create-workout .add-btn {
+    color: #fff;
+    cursor: pointer;
+    background: #c00;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 13px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.instructor-create-workout .add-btn:hover {
+    background: #a00;
+}
+
+.instructor-create-workout .movement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.instructor-create-workout .movement-item {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.instructor-create-workout .movement-item-with-controls {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.instructor-create-workout .movement-name {
+    flex: 1;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.instructor-create-workout .movement-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.instructor-create-workout .arrow-btn,
+.remove-btn {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+    color: #333;
+    padding: 0;
+}
+
+.instructor-create-workout .arrow-btn:hover:not(:disabled),
+.remove-btn:hover {
+    background: #e8e8e8;
+    border-color: #bbb;
+}
+
+.instructor-create-workout .arrow-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.instructor-create-workout .remove-btn {
+    color: #c00;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.instructor-create-workout .remove-btn:hover {
+    background: #ffe0e0;
+    border-color: #c00;
+}
+
+.instructor-create-workout .empty-text {
+    color: #999;
+    font-size: 0.9rem;
+    font-style: italic;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* --- Modal Popup --- */
+.instructor-create-workout .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 2rem;
+}
+
+.instructor-create-workout .modal-content {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.instructor-create-workout .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.instructor-create-workout .modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111;
+    margin: 0;
+}
+
+.instructor-create-workout .close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #666;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.instructor-create-workout .close-btn:hover {
+    background: #f0f0f0;
+    color: #000;
+}
+
+.instructor-create-workout .modal-body {
+    padding: 2rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.instructor-create-workout .movements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.instructor-create-workout .create-workout-container .movement-card {
+    border: 2px solid #eee;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.instructor-create-workout .movement-card.selected {
+    border-color: #c00;
+    background-color: #fff1f1;
+}
+
+.instructor-create-workout .movement-thumb {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+}
+
+.instructor-create-workout .movement-card p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.instructor-create-workout .movement-card small {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.instructor-create-workout .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid #eee;
+}
+
+.instructor-create-workout .form-group.focus-group {
+    flex-direction: column;
+    gap: 18px;
+}
+/* --- Button Group --- */
+.instructor-create-workout .button-group {
+    justify-content: center;
+    gap: 25px;
+    margin-top: 30px;
+
+    display: flex;
+}
+.instructor-create-workout .btn {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    min-width: 101px;
+    padding: 8px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.instructor-create-workout .btn.cancel {
+    background: #000;
+    color: #fff;
+    border: 1px solid transparent;
+}
+
+.instructor-create-workout .btn.create {
+    background: #b40200;
+    color: #fff;
+}
+
+.instructor-create-workout .btn.create:hover:not(:disabled) {
+    color: #b40200;
+    background: white;
+    border: 1px solid #b40200;
+}
+
+.instructor-create-workout .btn.cancel:hover {
+    background-color: white;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.instructor-create-workout .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Dropdown Wrapper */
+.instructor-create-workout .customDropdown {
+    position: relative;
+    width: 100%;
+}
+
+/* Dropdown Button */
+.instructor-create-workout .dropdownBtn {
+    width: 100%;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 7px 15px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 15px;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.instructor-create-workout .focus-btn:hover {
+    opacity: 0.9; /* Change opacity on hover */
+}
+
+/* Dropdown List */
+.instructor-create-workout .dropdownList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    margin-top: 8px;
+    list-style: none;
+    padding: 0;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Dropdown Items */
+.instructor-create-workout .dropdownItem {
+    padding: 15px 25px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* Hover Effect */
+.instructor-create-workout .dropdownItem:hover {
+    background: #f0f0ed;
+}
+
+/* Default arrow */
+.instructor-create-workout .dropdownBtn::after {
+    content: '';
+    background-image: url('/dropdown_icon.png');
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 15px;
+    top: 61%;
+    transform: translateY(-50%); /* nice centering */
+    transition: transform 0.3s ease; /* smooth rotation */
+}
+
+/* Rotate when active/open */
+.instructor-create-workout .active::after {
+    transform: translateY(-50%) rotate(180deg);
+    top: 50%;
+}
+/* Focus state */
+.instructor-create-workout .dropdownBtn:focus,
+.instructor-create-workout .dropdownBtn:focus-visible {
+    color: #000;
+    border-color: #000;
+    outline: none;
+}
+/* --- Responsive Design --- */
+@media (max-width: 1399px) {
+    .instructor-create-workout .class-header h4 {
+        color: #000;
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .instructor-create-workout .create-workout-container h2 {
+        margin-bottom: 20px;
+        font-size: 17px;
+    }
+    .instructor-create-workout .form-group label {
+        font-size: 16px;
+    }
+    .instructor-create-workout .right-section h3 {
+        margin-bottom: 18px;
+        font-size: 16px;
+    }
+}
+@media (max-width: 1024px) {
+    .instructor-create-workout .workout-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .instructor-create-workout .right-section {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .instructor-create-workout .class-type-box {
+        background: white;
+        border: 1px solid #0000001a;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        padding: 22px;
+    }
+
+    .instructor-create-workout .create-workout-container h2 {
+        margin-bottom: 18px;
+        font-size: 18px;
+    }
+    .instructor-create-workout .form-group label {
+        color: #000;
+        font-size: 56px;
+        font-weight: 600;
+    }
+    form.create-workout-form label {
+        margin-bottom: 1px;
+    }
+    .instructor-create-workout .create-workout-container input,
+    textarea,
+    select {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .instructor-create-workout .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .instructor-create-workout .movements-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.75rem;
+    }
+    .instructor-create-workout .workout-list-section {
+        margin-top: 0px;
+    }
+    .instructor-create-workout .focus-buttons {
+        gap: 12px;
+    }
+    .instructor-create-workout .left-section {
+        background: #fff;
+        border-radius: 16px;
+        padding: 17px 15px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    .instructor-create-workout .right-section h3 {
+        color: #000;
+        margin-bottom: 18px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .instructor-create-workout .focus-btn {
+        padding: 6px 16px;
+        font-size: 0.85rem;
+    }
+
+    /* .button-group {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .btn {
+        width: 100%;
+    } */
+
+    .instructor-create-workout .modal-overlay {
+        padding: 1rem;
+    }
+
+    .instructor-create-workout .modal-content {
+        max-height: 90vh;
+    }
+
+    .instructor-create-workout .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 1.5rem;
+    }
+    .instructor-create-workout .dropdownBtn {
+        padding: 10px 10px;
+        font-size: 14px;
+    }
+    .instructor-create-workout .dropdownBtn:after {
+        right: 14px;
+        transform: translateY(-50%);
+    }
+    .instructor-create-workout .form-group.focus-group {
+        flex-direction: column;
+        align-items: unset;
+        gap: 8px;
+    }
+}
+@media (max-width: 575px) {
+    .instructor-create-workout .btn {
+        min-width: 100px;
+        padding: 8px 15px;
+    }
+    .instructor-create-workout .add-btn {
+        padding: 5px 8px;
+    }
+    .instructor-create-workout .button-group {
+        gap: 45px;
+    }
+}

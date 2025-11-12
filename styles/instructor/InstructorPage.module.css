@@ -1,0 +1,279 @@
+/* ===== Page Layout ===== */
+
+.dashboardPage {
+    width: 100%;
+    background: var(--page-bg);
+}
+.dashboardPage article.card img {
+    height: 45px;
+    width: 42px;
+}
+
+.dashboardPage article.card {
+    padding: 26px 23px;
+}
+
+.dashboardPage article.card {
+    background: #fff;
+    justify-content: space-between;
+    padding: 40px 30px;
+    display: flex;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+}
+
+/* space for sticky header */
+.pageHeaderSpacer {
+    display: none;
+}
+
+/* ===== Cards Row ===== */
+.cardsRow,
+.recentCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+.recentCards {
+    margin-top: 30px;
+}
+
+.card img {
+    height: 52px;
+}
+
+.cardTitle {
+    color: #000;
+    margin-bottom: 7px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.cardValue {
+    color: #000;
+    margin-bottom: 7px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.cardSub {
+    font-size: 14px;
+    color: #000;
+    max-width: 170px;
+}
+
+/* ===== Recent Activity Section ===== */
+
+.recentActivityHdg h4 {
+    font-size: 20px;
+    color: #000000;
+    font-weight: 600;
+}
+
+.recentActivityHdg {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+/* Activity Card */
+.recentActivityCard {
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    background: #fff;
+    flex-direction: column;
+    gap: 8px;
+    padding: 28px 24px;
+    display: flex;
+}
+/* Activity Card */
+.recentActivityCard h4 {
+    font-size: 18px;
+    color: #b40200;
+    margin-bottom: 15px;
+}
+
+.cardInner h4 {
+    font-size: 18px;
+    color: var(--accent-red);
+}
+
+/* rows inside card */
+.cardContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.row {
+    display: flex;
+    gap: 12px;
+}
+
+.row p {
+    font-size: 14px;
+    color: #333;
+}
+
+.iconRow {
+    align-items: center;
+    gap: 6px;
+    display: flex;
+    font-size: 14px;
+    color: #000000;
+    width: 100%;
+    max-width: 90px;
+}
+
+.iconRow img {
+    width: 12px;
+    height: 12px;
+}
+
+/* ===== Buttons ===== */
+.panelActions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Generic button */
+.btn {
+    transition: all 0.3s ease-in-out;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.btnBlack,
+.btnRed {
+    transition: all 0.3s ease-in-out;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* Black Button */
+.btnBlack {
+    background: #000;
+    color: #fff;
+    border: 1px solid transparent;
+}
+.btnBlack:hover {
+    background: #fff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+/* Red Button */
+.btnRed {
+    background: var(--accent-red);
+    color: #fff;
+    border: 1px solid transparent;
+}
+.btnRed:hover {
+    background: #fff;
+    color: var(--accent-red);
+    border: 1px solid var(--accent-red);
+}
+@media (max-width: 1399px) {
+    .recentActivityCard h4 {
+        font-size: 18px;
+    }
+    .dashboardPage article.card img {
+        height: 45px;
+    }
+    .dashboardPage article.card {
+        padding: 26px 23px;
+    }
+    .cardValue {
+        font-size: 18px;
+    }
+    .recentActivityHdg h4 {
+        font-size: 20px;
+    }
+}
+@media (max-width: 991px) {
+    .btnBlack,
+    .btnRed {
+        font-size: 15px;
+    }
+    .recentActivityHdg h4 {
+        font-size: 18px;
+    }
+}
+/* ===== Responsive ===== */
+@media (max-width: 767px) {
+    /* .panelActions .btnBlack{
+        max-width:200px
+    }
+       .panelActions .btnRed{
+        max-width:200px
+    } */
+    .recentActivityCard h4 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+    .dashboardPage article.card {
+        padding: 20px 15px;
+    }
+    .dashboardPage article.card img {
+        width: 43px;
+        height: 39px;
+    }
+    .card img {
+        width: 43px;
+        height: 39px;
+    }
+    .cardTitle {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    .cardValue {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    /* .panelActions {
+        flex-direction: column;
+        gap: 10px;
+        display: flex;
+    } */
+    /* .recentActivityHdg {
+        align-items: unset;
+        margin-top: 20px;
+        flex-direction: column;
+    } */
+    /* .recentActivityHdg h4 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    } */
+}
+@media (max-width: 575px) {
+    .panelActions {
+        flex-direction: column;
+        gap: 10px;
+        display: flex;
+    }
+    .recentActivityHdg {
+        align-items: unset;
+        margin-top: 20px;
+        flex-direction: column;
+    }
+    .recentActivityHdg h4 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+    .panelActions .btnBlack {
+        max-width: 200px;
+    }
+    .panelActions .btnRed {
+        max-width: 200px;
+    }
+}

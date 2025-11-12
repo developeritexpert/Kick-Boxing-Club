@@ -77,7 +77,7 @@ export async function DELETE(req: Request) {
                 { status: 400 },
             );
         }
-        const { data, error } = await supabaseAdmin
+        const { error } = await supabaseAdmin
             .from('workout_favorites')
             .delete()
             .match({ user_id, workout_id });

@@ -50,7 +50,8 @@ const SingleWorkout: React.FC = () => {
             return;
         }
         try {
-            const res = await fetch('/api/content-admin/recent-workouts', {
+            // const res = await fetch('/api/content-admin/recent-workouts', {
+            const res = await fetch('/api/instructor/recent-workouts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -144,6 +145,7 @@ const SingleWorkout: React.FC = () => {
         const fetchWorkout = async () => {
             try {
                 setLoading(true);
+                // const res = await fetch(`/api/content-admin/workout/${workoutId}`);
                 const res = await fetch(`/api/content-admin/workout/${workoutId}`);
                 if (!res.ok) throw new Error('Failed to load workout');
                 const data: WorkoutData = await res.json();

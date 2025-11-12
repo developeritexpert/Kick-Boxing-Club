@@ -15,12 +15,6 @@ interface RecentWorkout {
     last_accessed_at: string;
 }
 
-interface Workout {
-    id: number;
-    name: string;
-    category: string;
-    date: string;
-}
 
 const RecentWorkouts: React.FC = () => {
     const router = useRouter();
@@ -40,7 +34,7 @@ const RecentWorkouts: React.FC = () => {
             setLoading(true);
 
             try {
-                const res = await fetch('/api/content-admin/recent-workouts/list', {
+                const res = await fetch('/api/instructor/recent-workouts/list', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: user.id }),
@@ -67,7 +61,7 @@ const RecentWorkouts: React.FC = () => {
 
     const handleDelete = async (workoutId: string) => {
         try {
-            const res = await fetch('/api/content-admin/recent-workouts', {
+            const res = await fetch('/api/instructor/recent-workouts', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ user_id: user?.id, workout_id: workoutId }),
@@ -119,7 +113,7 @@ const RecentWorkouts: React.FC = () => {
     // Show search results empty state
     if (!filteredWorkouts.length) {
         return (
-            <div className='content-admin-recnt-workout'>
+            <div className='instructor-recnt-workout'>
                 <div className="search-box">
                     <span className="search-icon">
                         <img src="/search_icon.png" alt="search icon" />
@@ -141,8 +135,9 @@ const RecentWorkouts: React.FC = () => {
         );
     }
 
+
     return (
-        <div className="recentWrkout content-admin-recnt-workout">
+        <div className="recentWrkout instructor-recnt-workout">
             <div className="search-box">
                 <span className="search-icon">
                     <Image src="/search_icon.png" alt="search icon" width={15} height={15} />
