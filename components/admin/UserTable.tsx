@@ -48,9 +48,9 @@ export default function UserTable() {
     const getAssignedRoleText = (role: User['role']) => {
         switch (role) {
             case 'admin':
-                return 'Full access: Manage users, content, classes, payments';
+                return 'Full access: Manage users, content, classes';
             case 'content_admin':
-                return 'Manage workouts, upload videos, moderate comments';
+                return 'Manage workouts, upload videos';
             case 'instructor':
                 return 'Conduct classes, track member progress';
             default:
@@ -84,6 +84,10 @@ export default function UserTable() {
         }
     };
 
+    const formatRole = (role: string) => {
+        return role.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    };
+
     if (loading) return <p>Loading users...</p>;
     if (error) return <p className="error">Error: {error}</p>;
 
@@ -112,7 +116,7 @@ export default function UserTable() {
                                 </div>
                             </td>
                             <td>{user.email}</td>
-                            <td>{user.role}</td>
+                            <td>{formatRole(user.role)}</td>
                             <td>{getAssignedRoleText(user.role)}</td>
                             <td>
                                 {/* <button className="edit-btn">Edit</button> */}
