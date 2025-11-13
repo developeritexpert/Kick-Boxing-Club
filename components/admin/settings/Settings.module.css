@@ -1,0 +1,474 @@
+/* html[data-theme='dark'] {
+    --layout-bg: #ffffff; 
+    --text-color: #fff;
+}
+
+html[data-theme='light'] {
+    --bg-color: #fff;
+    --text-color: #000;
+}
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+} */
+
+.profileCnt {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 37px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+
+span.profileHeart {
+    position: absolute;
+    bottom: 0;
+    left: 93px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    padding: 9px;
+}
+
+.profileImg {
+    position: relative;
+}
+.profileName {
+    margin-left: 30px;
+}
+.profileName h3 {
+    font-size: calc(var(--dynamic-font-size) * 1.6);
+    font-weight: 600;
+}
+.profileName p {
+    font-size: calc(var(--dynamic-font-size) * 0.875);
+    font-weight: 400;
+}
+
+.personInfo {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 37px;
+    padding-bottom: 43px;
+}
+.prsnHd {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+button.prsnBtn {
+    margin-right: 25px;
+    color: white;
+    background-color: var(--accent-color);
+    padding: 16px 31px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 5px;
+}
+button.prsnBtn img {
+    margin-bottom: 3px;
+}
+button.prsnBtn span {
+    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px */
+    font-weight: 600;
+}
+.prsnHd {
+    border-bottom: 1px solid #0000001a;
+}
+
+.prsnHd h2 {
+    font-size: calc(var(--dynamic-font-size) * 1.75);
+    font-weight: 600;
+    padding: 30px 0px 30px 37px;
+}
+.prflInfoCnt {
+    padding: 25px 0px 0px 37px;
+    display: flex;
+}
+
+.prflName {
+    flex: 1;
+}
+
+.prflName h4 {
+    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px default */
+    font-weight: 400;
+    color: #000000;
+    line-height: 24px;
+}
+
+.prflName h5 {
+    font-size: calc(var(--dynamic-font-size) * 1.125); /* ~18px default */
+    font-weight: 600;
+    line-height: 30px;
+    color: #000000;
+}
+.mrgntp {
+    margin-top: 25px;
+}
+
+.acntInfo h2,
+.themeInfo h2 {
+    font-size: calc(var(--dynamic-font-size) * 1.75); /* ~28px when default */
+    font-weight: 600;
+    border-bottom: 1px solid #0000001a;
+    padding: 30px 0 30px 37px;
+}
+
+.acntInfo,
+.themeInfo {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 37px;
+    padding-bottom: 43px;
+}
+.acntPreferences.mrgntp {
+    padding-left: 37px;
+    padding-right: 25px;
+}
+.acntInfoCnt {
+    display: flex;
+    width: 100%;
+}
+
+.acntPreferences.mrgntp {
+    padding-left: 37px;
+}
+
+.acntInfoCnt .formGroup {
+    flex: 1;
+}
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.acntInfo .formGroup label {
+    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px */
+}
+.mrgnTop23 {
+    margin-top: 23px;
+}
+.formSelect {
+    padding: 15px 25px;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #000000;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.formSelect:focus {
+    border-color: black;
+    outline: none;
+}
+
+.acntInfo select#language,
+select#location,
+select#timezone {
+    margin-right: 30px;
+}
+.formGroup.mrgnTop23 {
+    width: 50%;
+}
+.acntInfo .checkboxGroup {
+    gap: 85px;
+    display: flex;
+    margin-top: 15px;
+}
+.settingsBox {
+    padding-left: 37px;
+    display: flex;
+}
+.settingGroup {
+    flex: 1;
+}
+
+.acntInfo select {
+    appearance: none;
+}
+.acntInfo .formGroup::after {
+    content: '';
+    background-image: url('/dropdown_icon.png');
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    top: 61px;
+    position: absolute;
+    right: 50px;
+}
+.acntInfo .formGroup {
+    position: relative;
+}
+
+.acntInfo .customCheckbox input[type='checkbox'] {
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #0000001a;
+    border-radius: 2px;
+    margin-right: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.acntInfo .customCheckbox input[type='checkbox']:checked {
+    background-image: url('/tick_checkout_icon.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #0000001a;
+}
+
+.acntInfo label.customCheckbox {
+    display: flex;
+    align-items: center;
+}
+.themeInfo label.groupTitle {
+    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px */
+    color: black;
+    line-height: 1.2;
+}
+.mt8 {
+    margin-top: 8px;
+}
+.settingsBox.themeAccnt {
+    margin-top: 55px;
+}
+.radioGroup {
+    display: flex;
+    gap: 20px;
+}
+.radioGroup span {
+    margin-left: 7px;
+}
+
+.themeInfo .customRadio input[type='radio'] {
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #0000001a;
+}
+.mrgnLeft8 {
+    margin-left: 8px;
+}
+
+.themeInfo .customRadio input[type='radio']:checked {
+    background-image: url('/elipse_icon_new.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid #b40200;
+}
+.themeInfo label.customRadio {
+    align-items: center;
+    display: flex;
+}
+
+.themeInfo .layoutBox.active {
+    width: 125px;
+    height: 100px;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 10px;
+    gap: 15px;
+}
+.layoutBox .redBar,
+.layoutBox .grayBox {
+    width: 35px;
+    height: 80px;
+    border-radius: 5px;
+    background-color: #e4e4e4;
+}
+
+.colorSwatch {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    border-radius: 2px;
+    cursor: pointer;
+    margin-right: 8px;
+    display: inline-block;
+}
+
+.bgRed {
+    background: #b40200;
+}
+.bgBlack {
+    background: black;
+}
+.bgBlue {
+    background: blue;
+}
+.themeInfo .colorOptions.mt8 {
+    display: flex;
+}
+.workoutsVdo h2 {
+    color: #000;
+    font-size: calc(var(--dynamic-font-size) * 1.75); /* ~28px when default */
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.workoutsVdo {
+    margin-bottom: 18px;
+    margin-top: 52px;
+}
+.workoutsVdo span.workVdioBtn {
+    background-color: #b4020005;
+    color: #000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 12px 20px;
+    font-size: calc(var(--dynamic-font-size) * 0.75); /* ~12px default */
+    font-weight: 600;
+}
+.workoutsVdo .uploadBox {
+    text-align: center;
+    background-color: #01010103;
+    border: 1px dashed #0000001a;
+    border-radius: 5px;
+    padding: 25px;
+    position: relative;
+}
+.workoutsVdo p.wrkoutVdoPara {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+}
+.workoutsVdo .uploadIcon {
+    margin-bottom: 23px;
+    font-size: calc(var(--dynamic-font-size) * 1.56); /* ~25px default */
+}
+.workoutsVdo .uploadLabel {
+    cursor: pointer;
+    color: #777;
+    flex-direction: column;
+    align-items: center;
+    font-size: calc(var(--dynamic-font-size) * 0.875); /* ~14px default */
+    display: flex;
+}
+.workoutsVdo input {
+    display: none;
+}
+.mrgnBtm8 {
+    margin-bottom: 8px;
+    display: inline-block;
+}
+.mrgnRight30 {
+    margin-right: 30px;
+}
+
+.colorSwatch input[type='radio'] {
+    appearance: none;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    margin-right: 8px;
+}
+
+.colorSwatch input[type='radio']:checked {
+    border: 2px solid white;
+    outline: 2px solid green;
+}
+
+.themeInfo .slider {
+    appearance: none;
+    --slider-progress: 50%;
+    width: 300px;
+    height: 4px;
+    border-radius: 1px;
+    /* ✅ Slider progress & background controlled by CSS variables */
+    background: linear-gradient(
+        to right,
+        var(--accent-color, #b40200) var(--slider-progress),
+        rgba(0, 0, 0, 0.1) var(--slider-progress)
+    );
+    outline: none;
+    margin-right: 16px;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+}
+
+.themeInfo .slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: var(--accent-color, #b40200);
+    cursor: pointer;
+    background-repeat: no-repeat;
+}
+
+.themeInfo .slider::-moz-range-thumb {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: var(--accent-color, #b40200);
+    cursor: pointer;
+}
+.themeInfo .slider::-moz-range-track {
+    height: 12px;
+    border-radius: 8px;
+    background: transparent;
+}
+.themeInfo .slider::-moz-rangeprogress {
+    height: 12px;
+    border-radius: 8px;
+    background: var(--accent-color, #b40200);
+}
+
+.workoutLocn h2 {
+    font-size: calc(var(--dynamic-font-size) * 1.75); /* ~28px default */
+    font-weight: 600;
+    border-bottom: 1px solid #0000001a;
+    padding: 30px 0 30px 37px;
+}
+.workoutLocn {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 37px;
+    padding-bottom: 23px;
+}
+.innerWrkoutLocn {
+    display: flex;
+    margin-top: 23px;
+    margin-left: 37px;
+}
+
+@media (max-width: 1399px) {
+    .profileName h3 {
+        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+    }
+    .prflName h5 {
+        font-size: calc(var(--dynamic-font-size) * 1);
+    }
+    .prsnHd h2 {
+        padding: 19px 0 19px 37px;
+        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        font-weight: 600;
+    }
+    button.prsnBtn {
+        padding: 8px 12px;
+    }
+    button.prsnBtn span {
+        font-size: calc(var(--dynamic-font-size) * 0.94); /* ~15px default */
+    }
+    .acntInfo h2,
+    .themeInfo h2 {
+        padding: 19px 0 19px 37px;
+        font-size: var(--dynamic-font-size, 16px);
+    }
+    .workoutLocn h2 {
+        padding: 19px 0 19px 37px;
+        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+    }
+    .workoutsVdo h2 {
+        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+    }
+}
