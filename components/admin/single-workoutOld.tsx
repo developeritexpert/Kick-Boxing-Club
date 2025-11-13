@@ -5,7 +5,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useChromecastContext } from '@/lib/context/ChromecastContext';
 import { CastWorkoutPlayer } from './chromeCast/CastWorkoutPlayer';
-import { AppleWorkoutPlayer } from './apple/AppleWorkoutPlayer';
 import { useAuthStore } from '@/stores/useAuthStore';
 import './single-workout.css';
 
@@ -39,32 +38,12 @@ const SingleWorkout: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [isAppleDevice, setIsAppleDevice] = useState(false);
     const { workoutId } = useParams();
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const currentIndexRef = useRef(currentIndex);
     const workoutRef = useRef(workout);
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
-
-    // Detect Apple device
-    useEffect(() => {
-        const userAgent = navigator.userAgent;
-        const platform = navigator.platform;
-        const isIOS = /iPad|iPhone|iPod/.test(userAgent) || 
-                      (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        const isMacOS = /Macintosh|MacIntel|MacPPC|Mac68K/.test(platform);
-        
-        setIsAppleDevice(isIOS || isMacOS);
-    }, []);
-
-    const {
-        isCastAvailable,
-        isConnected,
-        isLoading: castLoading,
-        deviceName,
-        requestCastSession,
-    } = useChromecastContext();
 
     const saveRecentWorkout = async () => {
         if (!user?.id || !workoutId) {
@@ -80,25 +59,30 @@ const SingleWorkout: React.FC = () => {
                     workout_id: workoutId,
                 }),
             });
+
             const result = await res.json();
             console.log('Recent workout API response:', result);
         } catch (error) {
             console.log('Error saving recent workout:', error);
         }
     };
-
     useEffect(() => {
         saveRecentWorkout();
     }, [user?.id, workoutId]);
+
+    const {
+        isCastAvailable,
+        isConnected,
+        isLoading: castLoading,
+        deviceName,
+        requestCastSession,
+    } = useChromecastContext();
 
     useEffect(() => {
         currentIndexRef.current = currentIndex;
     }, [currentIndex]);
 
     useEffect(() => {
-        // Only set up iframe message handler for non-Apple devices
-        if (isAppleDevice) return;
-
         const handleMessage = (event: MessageEvent) => {
             if (event.origin !== 'https://iframe.videodelivery.net') {
                 return;
@@ -116,30 +100,29 @@ const SingleWorkout: React.FC = () => {
         return () => {
             window.removeEventListener('message', handleMessage);
         };
-    }, [currentIndex, workout, isAppleDevice]);
+    }, [currentIndex, workout]);
 
     useEffect(() => {
         workoutRef.current = workout;
     }, [workout]);
 
     useEffect(() => {
-        // Fullscreen handling only for non-Apple devices
-        if (isAppleDevice) return;
-
         const handleFullscreenChange = () => {
             setIsFullscreen(!!document.fullscreenElement);
         };
+
         document.addEventListener('fullscreenchange', handleFullscreenChange);
         document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
         document.addEventListener('mozfullscreenchange', handleFullscreenChange);
         document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
         return () => {
             document.removeEventListener('fullscreenchange', handleFullscreenChange);
             document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
             document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
             document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
         };
-    }, [isAppleDevice]);
+    }, []);
 
     const toggleFullscreen = () => {
         const elem = videoContainerRef.current;
@@ -174,6 +157,7 @@ const SingleWorkout: React.FC = () => {
                 setLoading(false);
             }
         };
+
         fetchWorkout();
     }, [workoutId]);
 
@@ -190,8 +174,10 @@ const SingleWorkout: React.FC = () => {
             goToNextVideo();
             return;
         }
+
         setIsResting(true);
         setRestTimer(restSeconds);
+
         timerRef.current = setInterval(() => {
             setRestTimer((prev) => {
                 if (prev <= 1) {
@@ -199,20 +185,15 @@ const SingleWorkout: React.FC = () => {
                         clearInterval(timerRef.current);
                         timerRef.current = null;
                     }
-                    
-                    // Use setTimeout to avoid state updates during render
-                    setTimeout(() => {
-                        setIsResting(false);
-                        const currentWorkout = workoutRef.current;
-                        const currentIdx = currentIndexRef.current;
-                        if (
-                            currentWorkout &&
-                            currentIdx < currentWorkout.workout_movements.length - 1
-                        ) {
-                            setCurrentIndex(currentIdx + 1);
-                        }
-                    }, 0);
-                    
+                    setIsResting(false);
+                    const currentWorkout = workoutRef.current;
+                    const currentIdx = currentIndexRef.current;
+                    if (
+                        currentWorkout &&
+                        currentIdx < currentWorkout.workout_movements.length - 1
+                    ) {
+                        setCurrentIndex(currentIdx + 1);
+                    }
                     return 0;
                 }
                 return prev - 1;
@@ -223,10 +204,12 @@ const SingleWorkout: React.FC = () => {
     const handleVideoEnd = () => {
         const current = workout?.workout_movements[currentIndex];
         if (!current) return;
+
         if (!workout || currentIndex >= workout.workout_movements.length - 1) {
             setWorkoutComplete(true);
             return;
         }
+
         startRestPeriod(current.rest_after);
     };
 
@@ -267,12 +250,12 @@ const SingleWorkout: React.FC = () => {
     };
 
     const handleCastClick = async () => {
-        console.log('🎥 Cast button clicked');
+        console.log(' Cast button clicked');
         await requestCastSession();
     };
 
     const handleCastDisconnect = () => {
-        console.log('📴 Cast disconnected handler called');
+        console.log(' Cast disconnected handler called');
     };
 
     if (loading) {
@@ -305,24 +288,9 @@ const SingleWorkout: React.FC = () => {
         );
     }
 
-    // Render Apple player for Apple devices
-    if (isAppleDevice) {
-        console.log('🍎 Rendering Apple device player');
-        return (
-            <div className="single-workout-container">
-                <AppleWorkoutPlayer
-                    workout={workout}
-                    currentIndex={currentIndex}
-                    onIndexChange={setCurrentIndex}
-                    onComplete={() => setWorkoutComplete(true)}
-                />
-            </div>
-        );
-    }
-
     // Render Cast Player when connected
     if (isConnected) {
-        console.log('📺 Rendering CastWorkoutPlayer');
+        console.log(' Rendering CastWorkoutPlayer');
         return (
             <div className="single-workout-container">
                 <div className="workout-card">
@@ -368,16 +336,15 @@ const SingleWorkout: React.FC = () => {
         );
     }
 
-    // Regular player for non-Apple devices when not connected to Cast
-    console.log('💻 Rendering regular player');
+    // Regular player when not connected
+    console.log(' Rendering regular player');
     const currentMovement = workout.workout_movements[currentIndex];
     const isFirst = currentIndex === 0;
     const isLast = currentIndex === workout.workout_movements.length - 1;
     const totalMovements = workout.workout_movements.length;
 
     const getIframeSrc = (videoId: string) => {
-        // For non-Apple devices, hide controls and use playsinline
-        return `https://iframe.videodelivery.net/${videoId}?autoplay=true&controls=1&playsinline=1`;
+        return `https://iframe.videodelivery.net/${videoId}?autoplay=true&controls=true`;
     };
 
     return (
@@ -744,3 +711,4 @@ const SingleWorkout: React.FC = () => {
 };
 
 export default SingleWorkout;
+
