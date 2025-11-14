@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { useRouter } from 'next/navigation';
 import './CreateWorkout.css';
 
 interface Movement {
@@ -20,6 +21,7 @@ interface SelectedMovement extends Movement {
 
 const CreateWorkout: React.FC = () => {
     const user = useAuthStore((state) => state.user);
+    const router = useRouter();
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -220,8 +222,8 @@ const CreateWorkout: React.FC = () => {
         // setLocation('');
         // setworkoutClass('');
         // ==================
-        setLocations([]);
-        setClasses([]);
+        // setLocations([]);
+        // setClasses([]);
         setLocationId('');
         setClassId('');
     };
@@ -291,6 +293,7 @@ const CreateWorkout: React.FC = () => {
 
             toast.success('Workout created successfully!');
             handleCancel();
+            router.push('/admin/workouts');
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Something went wrong';
             toast.error(message);

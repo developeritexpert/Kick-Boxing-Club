@@ -70,19 +70,38 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
     const handleSidebar = () => {
         setCollapsed(!collapsed);
     };
+    // const handleLogout = async () => {
+    //     try {
+    //         await supabaseClient.auth.signOut();
+
+    //         clearUser();
+
+    //         document.cookie = `sb-access-token=; path=/; max-age=0`;
+
+    //         toast.success('Logged out successfully!');
+    //         router.push('/');
+    //     } catch (err) {
+    //         console.error('Logout failed:', err);
+    //         toast.error('Failed to logout!');
+    //     }
+    // };
+
     const handleLogout = async () => {
         try {
-            await supabaseClient.auth.signOut();
+            document.cookie = 'sb-access-token=; path=/; max-age=0';
+            document.cookie = 'sb-refresh-token=; path=/; max-age=0';
+            document.cookie = 'user-role=; path=/; max-age=0';
+
+            const logoutResult = await fetch('/api/auth/logout', { method: 'POST' });
+            console.log(`logoutResult`);
+            console.log(logoutResult);
 
             clearUser();
-
-            document.cookie = `sb-access-token=; path=/; max-age=0`;
-
             toast.success('Logged out successfully!');
             router.push('/');
-        } catch (err) {
-            console.error('Logout failed:', err);
-            toast.error('Failed to logout!');
+            router.refresh();
+        } catch (error) {
+            toast.error('Logout failed');
         }
     };
 

@@ -24,13 +24,13 @@ const CreateMovement: React.FC = () => {
             try {
                 setIsLoadingCategories(true);
                 const res: Response = await fetch('/api/common/categories');
-                
+
                 if (!res.ok) {
                     throw new Error('Failed to fetch categories');
                 }
-                
+
                 const data: { categories?: { id: string; name: string }[] } = await res.json();
-                
+
                 if (data.categories && data.categories.length > 0) {
                     setTags(data.categories);
                     setCategory(data.categories[0]?.id || '');
@@ -44,7 +44,7 @@ const CreateMovement: React.FC = () => {
                 setIsLoadingCategories(false);
             }
         };
-        
+
         fetchCategories();
     }, []);
 
@@ -59,12 +59,12 @@ const CreateMovement: React.FC = () => {
         if (e.target.files && e.target.files[0]) {
             const file: File = e.target.files[0];
 
-            const maxSize: number = 500 * 1024 * 1024; 
+            const maxSize: number = 500 * 1024 * 1024;
             if (file.size > maxSize) {
                 toast.error('File size must be less than 500MB');
                 return;
             }
-            
+
             setVideo(file);
         }
     };
@@ -73,24 +73,24 @@ const CreateMovement: React.FC = () => {
         e.preventDefault();
         e.stopPropagation();
         setDragActive(false);
-        
+
         const file: File | undefined = e.dataTransfer.files?.[0];
-        
+
         if (!file) {
             return;
         }
-        
+
         if (!file.type.startsWith('video/')) {
             toast.error('Please upload a video file');
             return;
         }
-        
-        const maxSize: number = 500 * 1024 * 1024; 
+
+        const maxSize: number = 500 * 1024 * 1024;
         if (file.size > maxSize) {
             toast.error('File size must be less than 500MB');
             return;
         }
-        
+
         setVideo(file);
     };
 
@@ -123,7 +123,6 @@ const CreateMovement: React.FC = () => {
             return;
         }
 
-
         if (!category) {
             toast.error('Please select a category.');
             return;
@@ -138,7 +137,6 @@ const CreateMovement: React.FC = () => {
         setIsLoading(true);
 
         try {
-
             const formData: FormData = new FormData();
             formData.append('movementName', movementName.trim());
             formData.append('category', category);
@@ -168,7 +166,6 @@ const CreateMovement: React.FC = () => {
                 throw new Error('No upload URL received from server');
             }
 
-
             const uploadForm: FormData = new FormData();
             uploadForm.append('file', video);
 
@@ -183,18 +180,16 @@ const CreateMovement: React.FC = () => {
                 throw new Error('Video upload to Cloudflare failed');
             }
 
-
-            toast.success('Movement created and video uploaded successfully!'); 
+            toast.success('Movement created and video uploaded successfully!');
 
             setMovementName('');
             setVideo(null);
             setSubCategory('');
-            
+
             router.push('/admin/movement/library');
-            
         } catch (err) {
             console.error('Error creating movement:', err);
-            
+
             if (err instanceof Error) {
                 toast.error(err.message || 'Something went wrong');
             } else {
@@ -205,7 +200,9 @@ const CreateMovement: React.FC = () => {
         }
     };
 
-    const selectedTag: { id: string; name: string } | undefined = tags.find((t) => t.id === category);
+    const selectedTag: { id: string; name: string } | undefined = tags.find(
+        (t) => t.id === category,
+    );
     const showSubCategory: boolean = selectedTag?.name === 'HIIT';
 
     return (
@@ -219,16 +216,20 @@ const CreateMovement: React.FC = () => {
                         type="text"
                         placeholder="Enter movement name"
                         value={movementName}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMovementName(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setMovementName(e.target.value)
+                        }
                         disabled={isLoading}
                         required
                     />
 
                     <label htmlFor="category">Category</label>
-                    <select 
+                    <select
                         id="category"
-                        value={category} 
-                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategory(e.target.value)}
+                        value={category}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                            setCategory(e.target.value)
+                        }
                         disabled={isLoading || isLoadingCategories}
                         required
                     >
@@ -251,7 +252,9 @@ const CreateMovement: React.FC = () => {
                             <select
                                 id="subCategory"
                                 value={subCategory}
-                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSubCategory(e.target.value)}
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                                    setSubCategory(e.target.value)
+                                }
                                 disabled={isLoading}
                                 required
                             >
@@ -294,8 +297,8 @@ const CreateMovement: React.FC = () => {
                         )}
                     </div>
 
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         className="submit-btn"
                         disabled={isLoading || isLoadingCategories}
                     >
@@ -309,26 +312,7 @@ const CreateMovement: React.FC = () => {
 
 export default CreateMovement;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// old code 
+// old code
 // 'use client';
 
 // import React, { useEffect, useState } from 'react';

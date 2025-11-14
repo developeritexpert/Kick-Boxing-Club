@@ -1,6 +1,6 @@
 // components/admin/single-workout.tsx
 'use client';
-    
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useChromecastContext } from '@/lib/context/ChromecastContext';
@@ -711,4 +711,3 @@ const SingleWorkout: React.FC = () => {
 };
 
 export default SingleWorkout;
-

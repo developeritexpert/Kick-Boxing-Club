@@ -49,14 +49,12 @@ const MyFavorites: React.FC = () => {
             } else {
                 setError(result.error || 'Failed to load favorites');
             }
-
         } catch (error) {
             console.log('error loading favourite workouts', error);
-
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     const handleViewClick = (workoutId: string) => {
         router.push(`/content-admin/workouts/${workoutId}`);
@@ -109,7 +107,6 @@ const MyFavorites: React.FC = () => {
 
     return (
         <div className="content-admin-fav">
-
             <div className="search-box">
                 <span className="search-icon">
                     <Image src="/search_icon.png" alt="search icon" width={15} height={15} />
@@ -123,7 +120,6 @@ const MyFavorites: React.FC = () => {
                 />
             </div>
 
-
             {filteredFavorites.length === 0 ? (
                 <div className="flex items-center justify-center h-[50vh]">
                     <div className="text-gray-500 text-2xl font-semibold  px-8 py-6 rounded-2xl ">
@@ -131,7 +127,6 @@ const MyFavorites: React.FC = () => {
                     </div>
                 </div>
             ) : (
-
                 <table className="favourites-tbl">
                     <thead>
                         <tr>
@@ -149,7 +144,10 @@ const MyFavorites: React.FC = () => {
                                 <td>{workout.created_by || '—'}</td>
                                 <td>
                                     <div className="fav-btn">
-                                        <button className="view" onClick={()=> handleViewClick(workout.workout_id)} >
+                                        <button
+                                            className="view"
+                                            onClick={() => handleViewClick(workout.workout_id)}
+                                        >
                                             <svg
                                                 width="16"
                                                 height="16"
@@ -173,7 +171,10 @@ const MyFavorites: React.FC = () => {
 
                                             <div> View</div>
                                         </button>
-                                        <button className="delete" onClick={()=>handleDelete(workout.workout_id)} >
+                                        <button
+                                            className="delete"
+                                            onClick={() => handleDelete(workout.workout_id)}
+                                        >
                                             <svg
                                                 width="12"
                                                 height="15"
@@ -198,7 +199,6 @@ const MyFavorites: React.FC = () => {
                     </tbody>
                 </table>
             )}
-
         </div>
     );
 };

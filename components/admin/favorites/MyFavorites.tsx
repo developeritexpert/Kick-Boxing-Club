@@ -98,7 +98,9 @@ const MyFavorites: React.FC = () => {
             {filteredFavorites.length === 0 ? (
                 <div className="flex items-center justify-center h-[50vh]">
                     <div className="text-gray-500 text-2xl font-semibold  px-8 py-6 rounded-2xl ">
-                        No favorite workouts yet
+                        No workouts found matching &quot;
+                        {searchTerm.length > 30 ? searchTerm.substring(0, 30) + '...' : searchTerm}
+                        &quot;
                     </div>
                 </div>
             ) : (
@@ -114,7 +116,12 @@ const MyFavorites: React.FC = () => {
                     <tbody>
                         {filteredFavorites.map((workout) => (
                             <tr key={workout.workout_id}>
-                                <td>{workout.workout_name}</td>
+                                <td>
+                                    {/* {workout.workout_name} */}
+                                    {workout.workout_name.length > 40
+                                        ? workout.workout_name.substring(0, 40) + '...'
+                                        : workout.workout_name}
+                                </td>
                                 <td>{workout.class_name || '—'}</td>
                                 <td>{workout.created_by || '—'}</td>
                                 <td>

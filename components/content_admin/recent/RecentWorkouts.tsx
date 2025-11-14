@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -119,7 +119,7 @@ const RecentWorkouts: React.FC = () => {
     // Show search results empty state
     if (!filteredWorkouts.length) {
         return (
-            <div className='content-admin-recnt-workout'>
+            <div className="content-admin-recnt-workout">
                 <div className="search-box">
                     <span className="search-icon">
                         <img src="/search_icon.png" alt="search icon" />
@@ -179,7 +179,10 @@ const RecentWorkouts: React.FC = () => {
 
                             <td>
                                 <div className="fav-btn">
-                                    <button className="view" onClick={() => handleViewClick(workout.workout_id)}>
+                                    <button
+                                        className="view"
+                                        onClick={() => handleViewClick(workout.workout_id)}
+                                    >
                                         <svg
                                             width="16"
                                             height="16"
@@ -203,7 +206,10 @@ const RecentWorkouts: React.FC = () => {
 
                                         <div> View</div>
                                     </button>
-                                    <button className="delete" onClick={() => handleDelete(workout.workout_id)} >
+                                    <button
+                                        className="delete"
+                                        onClick={() => handleDelete(workout.workout_id)}
+                                    >
                                         <svg
                                             width="12"
                                             height="15"

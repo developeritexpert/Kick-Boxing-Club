@@ -13,7 +13,10 @@ export default function EditUserPage() {
         <div className="user-management-container">
             <div className="table-header">
                 <h2>Edit Movement</h2>
-                <button className="add-user-btn" onClick={() => router.push('/admin/movement/library')}>
+                <button
+                    className="add-user-btn"
+                    onClick={() => router.push('/admin/movement/library')}
+                >
                     ← Back
                 </button>
             </div>
