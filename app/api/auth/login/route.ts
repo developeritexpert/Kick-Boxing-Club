@@ -1,3 +1,4 @@
+// login route
 import { NextResponse } from 'next/server';
 import { supabaseClient } from '@/lib/supabaseClient';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
@@ -55,8 +56,25 @@ export async function POST(req: Request) {
             refresh_token,
         });
 
+        // if (authData.session?.access_token) {
+        //     res.cookies.set('sb-access-token', authData.session.access_token, {
+        //         httpOnly: true,
+        //         path: '/',
+        //         sameSite: 'lax',
+        //         secure: process.env.NODE_ENV === 'production',
+        //     });
+        // }
+
         if (authData.session?.access_token) {
             res.cookies.set('sb-access-token', authData.session.access_token, {
+                httpOnly: true,
+                path: '/',
+                sameSite: 'lax',
+                secure: process.env.NODE_ENV === 'production',
+            });
+
+            // Add this cookie for role-based access control
+            res.cookies.set('user-role', metaData.role, {
                 httpOnly: true,
                 path: '/',
                 sameSite: 'lax',

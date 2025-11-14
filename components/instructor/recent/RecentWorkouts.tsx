@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,6 @@ interface RecentWorkout {
     created_by: string | null;
     last_accessed_at: string;
 }
-
 
 const RecentWorkouts: React.FC = () => {
     const router = useRouter();
@@ -113,7 +112,7 @@ const RecentWorkouts: React.FC = () => {
     // Show search results empty state
     if (!filteredWorkouts.length) {
         return (
-            <div className='instructor-recnt-workout'>
+            <div className="instructor-recnt-workout">
                 <div className="search-box">
                     <span className="search-icon">
                         <img src="/search_icon.png" alt="search icon" />
@@ -134,7 +133,6 @@ const RecentWorkouts: React.FC = () => {
             </div>
         );
     }
-
 
     return (
         <div className="recentWrkout instructor-recnt-workout">
@@ -174,7 +172,10 @@ const RecentWorkouts: React.FC = () => {
 
                             <td>
                                 <div className="fav-btn">
-                                    <button className="view" onClick={() => handleViewClick(workout.workout_id)}>
+                                    <button
+                                        className="view"
+                                        onClick={() => handleViewClick(workout.workout_id)}
+                                    >
                                         <svg
                                             width="16"
                                             height="16"
@@ -198,7 +199,10 @@ const RecentWorkouts: React.FC = () => {
 
                                         <div> View</div>
                                     </button>
-                                    <button className="delete" onClick={() => handleDelete(workout.workout_id)} >
+                                    <button
+                                        className="delete"
+                                        onClick={() => handleDelete(workout.workout_id)}
+                                    >
                                         <svg
                                             width="12"
                                             height="15"

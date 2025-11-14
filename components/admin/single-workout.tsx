@@ -1,6 +1,6 @@
 // components/admin/single-workout.tsx
 'use client';
-    
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useChromecastContext } from '@/lib/context/ChromecastContext';
@@ -51,10 +51,11 @@ const SingleWorkout: React.FC = () => {
     useEffect(() => {
         const userAgent = navigator.userAgent;
         const platform = navigator.platform;
-        const isIOS = /iPad|iPhone|iPod/.test(userAgent) || 
-                      (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        const isIOS =
+            /iPad|iPhone|iPod/.test(userAgent) ||
+            (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
         const isMacOS = /Macintosh|MacIntel|MacPPC|Mac68K/.test(platform);
-        
+
         setIsAppleDevice(isIOS || isMacOS);
     }, []);
 
@@ -199,7 +200,7 @@ const SingleWorkout: React.FC = () => {
                         clearInterval(timerRef.current);
                         timerRef.current = null;
                     }
-                    
+
                     // Use setTimeout to avoid state updates during render
                     setTimeout(() => {
                         setIsResting(false);
@@ -212,7 +213,7 @@ const SingleWorkout: React.FC = () => {
                             setCurrentIndex(currentIdx + 1);
                         }
                     }, 0);
-                    
+
                     return 0;
                 }
                 return prev - 1;
@@ -326,7 +327,12 @@ const SingleWorkout: React.FC = () => {
         return (
             <div className="single-workout-container">
                 <div className="workout-card">
-                    <h1 className="workout-title">{workout.name}</h1>
+                    <h1 className="workout-title">
+                        {/* {workout.name} */}
+                        {workout.name.length > 30
+                            ? workout.name.substring(0, 30) + '...'
+                            : workout.name}
+                    </h1>
                     <CastWorkoutPlayer
                         workout={workout}
                         currentIndex={currentIndex}
@@ -384,7 +390,12 @@ const SingleWorkout: React.FC = () => {
         <div className="single-workout-container">
             <div className="workout-card">
                 <div style={{ width: '100%', marginBottom: '20px' }}>
-                    <h1 className="workout-title">{workout.name}</h1>
+                    <h1 className="workout-title">
+                        {/* {workout.name} */}
+                        {workout.name.length > 30
+                            ? workout.name.substring(0, 50) + '...'
+                            : workout.name}
+                    </h1>
                     <div className="workout-meta">
                         <div className="meta-item">
                             <span className="meta-label">Movement:</span>
@@ -583,7 +594,12 @@ const SingleWorkout: React.FC = () => {
                     <>
                         <div style={{ width: '100%', marginTop: '16px' }}>
                             <div className="casting-cnt">
-                                <h2 className="workout-title">{currentMovement?.movements.name}</h2>
+                                <h2 className="workout-title">
+                                    {/* {currentMovement?.movements.name} */}
+                                    {currentMovement?.movements.name.length > 30
+                                        ? currentMovement?.movements.name.substring(0, 30) + '...'
+                                        : currentMovement?.movements.name}
+                                </h2>
                                 {isCastAvailable && (
                                     <button
                                         onClick={handleCastClick}

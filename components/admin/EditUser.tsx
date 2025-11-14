@@ -161,9 +161,7 @@ export default function EditUserPage() {
         fetchUser();
     }, [userId, router]);
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ): void => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         const { name, value } = e.target;
         const fieldName = name as keyof UserFormData;
 
@@ -287,7 +285,6 @@ export default function EditUserPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="edit-user-form">
-
                 <div className="form-grid">
                     <div className="form-group">
                         <label htmlFor="first_name">
@@ -408,40 +405,13 @@ export default function EditUserPage() {
                 {hasChanges && !saving && (
                     <div className="unsaved-changes-notice">
                         <span className="notice-icon"></span>
-                        You have unsaved changes, Click update if you want to keep them. 
+                        You have unsaved changes, Click update if you want to keep them.
                     </div>
                 )}
             </form>
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // old code without validations
 // 'use client';

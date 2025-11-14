@@ -85,7 +85,10 @@ export default function UserTable() {
     };
 
     const formatRole = (role: string) => {
-        return role.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        return role
+            .split('_')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     };
 
     if (loading) return <p>Loading users...</p>;

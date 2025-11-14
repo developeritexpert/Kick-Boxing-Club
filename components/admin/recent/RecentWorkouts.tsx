@@ -126,7 +126,9 @@ const RecentWorkouts: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-center h-[40vh]">
                     <div className="text-gray-500 text-xl font-semibold">
-                        No workouts found matching &quot;{searchTerm}&quot;
+                        No workouts found matching &quot;
+                        {searchTerm.length > 30 ? searchTerm.substring(0, 30) + '...' : searchTerm}
+                        &quot;
                     </div>
                 </div>
             </div>
@@ -160,7 +162,12 @@ const RecentWorkouts: React.FC = () => {
                 <tbody>
                     {filteredWorkouts.map((workout) => (
                         <tr key={workout.workout_id}>
-                            <td>{workout.workout_name}</td>
+                            <td>
+                                {/* {workout.workout_name} */}
+                                {workout.workout_name.length > 40
+                                    ? workout.workout_name.substring(0, 40) + '...'
+                                    : workout.workout_name}
+                            </td>
                             <td>{workout.class_name || '-'}</td>
                             <td>
                                 {new Date(workout.last_accessed_at).toLocaleDateString('en-IN', {

@@ -39,7 +39,9 @@ export default function AdminPage() {
                 <div className="graph-placeholder">[Graph Placeholder]</div>
 
                 <div className="panel-actions">
-                    <button className="btn btn-black">Manage Access Levels</button>
+                    <button className="btn btn-black" onClick={() => router.push('/admin/users')}>
+                        Manage Access Levels
+                    </button>
                     <button className="btn btn-red" onClick={() => router.push('/admin/users/add')}>
                         Add New Role
                     </button>

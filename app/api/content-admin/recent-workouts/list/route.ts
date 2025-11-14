@@ -14,7 +14,7 @@ export async function POST(req: Request) {
             .from('recent_workouts')
             .select('workout_id, last_accessed_at')
             .eq('user_id', user_id)
-            .order('last_accessed_at', { ascending: false }); 
+            .order('last_accessed_at', { ascending: false });
 
         if (recentError) throw recentError;
         if (!recents?.length) {

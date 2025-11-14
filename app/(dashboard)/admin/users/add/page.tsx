@@ -33,7 +33,7 @@ const VALIDATION = {
 
 export default function AddUserPage() {
     const router = useRouter();
-    
+
     const [form, setForm] = useState<UserForm>({
         first_name: '',
         last_name: '',
@@ -110,7 +110,7 @@ export default function AddUserPage() {
     // Validate all fields
     const validateForm = (): boolean => {
         const newErrors: ValidationErrors = {};
-        
+
         (Object.keys(form) as Array<keyof UserForm>).forEach((key) => {
             if (key !== 'role') {
                 const error = validateField(key, form[key]);
@@ -127,7 +127,7 @@ export default function AddUserPage() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
         const { name, value } = e.target;
         const fieldName = name as keyof UserForm;
-        
+
         // Apply max length limits
         let limitedValue = value;
         if (fieldName === 'first_name' || fieldName === 'last_name') {
@@ -137,9 +137,9 @@ export default function AddUserPage() {
         } else if (fieldName === 'password') {
             limitedValue = value.slice(0, VALIDATION.PASSWORD_MAX_LENGTH);
         }
-        
+
         setForm((prev) => ({ ...prev, [fieldName]: limitedValue }));
-        
+
         // Clear error for this field when user starts typing
         if (errors[fieldName as keyof ValidationErrors]) {
             setErrors((prev) => ({ ...prev, [fieldName]: undefined }));
@@ -149,7 +149,7 @@ export default function AddUserPage() {
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
         const { name, value } = e.target;
         const error = validateField(name as keyof UserForm, value);
-        
+
         if (error) {
             setErrors((prev) => ({ ...prev, [name]: error }));
         }
@@ -157,7 +157,7 @@ export default function AddUserPage() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        
+
         // Validate form
         if (!validateForm()) {
             toast.error('Please fix all validation errors');
@@ -299,7 +299,8 @@ export default function AddUserPage() {
                         </span>
                     )}
                     <small className="field-hint">
-                        Min {VALIDATION.PASSWORD_MIN_LENGTH} characters with uppercase, lowercase & number
+                        Min {VALIDATION.PASSWORD_MIN_LENGTH} characters with uppercase, lowercase &
+                        number
                     </small>
                 </div>
 
@@ -307,10 +308,10 @@ export default function AddUserPage() {
                     <label htmlFor="role">
                         Role <span className="required">*</span>
                     </label>
-                    <select 
+                    <select
                         id="role"
-                        name="role" 
-                        value={form.role} 
+                        name="role"
+                        value={form.role}
                         onChange={handleChange}
                         disabled={loading}
                     >
@@ -321,19 +322,15 @@ export default function AddUserPage() {
                 </div>
 
                 <div className="form-actions full-width">
-                    <button 
-                        type="button" 
-                        className="btn cancel" 
+                    <button
+                        type="button"
+                        className="btn cancel"
                         onClick={handleCancel}
                         disabled={loading}
                     >
                         ✕ Cancel
                     </button>
-                    <button 
-                        type="submit" 
-                        className="btn save" 
-                        disabled={loading}
-                    >
+                    <button type="submit" className="btn save" disabled={loading}>
                         {loading ? (
                             <>
                                 <span className="spinner"></span>
@@ -348,29 +345,6 @@ export default function AddUserPage() {
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // old code without validations
 // 'use client';

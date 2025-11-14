@@ -32,7 +32,7 @@ type UploadResponse = {
     error?: string;
 };
 
-export default function EditMovementPage(){
+export default function EditMovementPage() {
     const router = useRouter();
     const params = useParams<{ id: string }>();
     const momentId: string = params.id;
@@ -164,7 +164,7 @@ export default function EditMovementPage(){
                     `/api/admin/movement/${momentId}?upload=true`,
                     {
                         method: 'PUT',
-                    }
+                    },
                 );
 
                 if (!uploadRes.ok) {
@@ -424,8 +424,9 @@ export default function EditMovementPage(){
                             />
                             <label
                                 htmlFor="videoUpload"
-                                className={`upload-label ${dragActive ? 'drag-active' : ''} ${saving ? 'disabled' : ''
-                                    }`}
+                                className={`upload-label ${dragActive ? 'drag-active' : ''} ${
+                                    saving ? 'disabled' : ''
+                                }`}
                                 onDrop={handleDrop}
                                 onDragOver={handleDragOver}
                                 onDragLeave={handleDragLeave}
@@ -463,33 +464,6 @@ export default function EditMovementPage(){
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 'use client';
 
@@ -681,7 +655,7 @@ export default function EditMovementPage(){
 //             const data = await res.json();
 
 //             if (res.ok) {
-//                 toast.success('Movement deleted!'); 
+//                 toast.success('Movement deleted!');
 //                 router.push('/admin/movement/library');
 //                 // setMovements((prev) => prev.filter((m) => m.id !== id));
 //             } else {

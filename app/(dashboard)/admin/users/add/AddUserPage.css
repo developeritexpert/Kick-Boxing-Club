@@ -75,7 +75,6 @@
     font-weight: 500;
 }
 
-
 .error-message {
     color: #ef4444;
     font-size: 0.875rem;
@@ -106,5 +105,7 @@
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
