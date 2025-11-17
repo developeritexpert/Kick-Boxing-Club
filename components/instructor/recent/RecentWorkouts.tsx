@@ -151,6 +151,7 @@ const RecentWorkouts: React.FC = () => {
             <table className="favourites-tbl">
                 <thead>
                     <tr>
+                        <th>S.No</th>
                         <th>Workout Name</th>
                         <th>Class</th>
                         <th>Last Accessed</th>
@@ -158,8 +159,9 @@ const RecentWorkouts: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredWorkouts.map((workout) => (
+                    {filteredWorkouts.map((workout , index) => (
                         <tr key={workout.workout_id}>
+                            <td>{index + 1}</td>
                             <td>{workout.workout_name}</td>
                             <td>{workout.class_name || '-'}</td>
                             <td>

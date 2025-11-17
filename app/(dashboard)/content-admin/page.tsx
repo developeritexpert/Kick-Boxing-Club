@@ -48,10 +48,10 @@ export default function ContentAdminPage() {
                 <div className={styles.recentActivityHdg}>
                     <h4>Recent Activity</h4>
 
-                    <div className={styles.panelActions}>
+                    {/* <div className={styles.panelActions}>
                         <button className={styles.btnBlack}>Manage Access Levels</button>
                         <button className={styles.btnRed}>Add New Role</button>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className={styles.recentCards}>

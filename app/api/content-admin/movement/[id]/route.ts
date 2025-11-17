@@ -118,6 +118,31 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
     if (!id) return NextResponse.json({ error: 'Movement ID required' }, { status: 400 });
 
     try {
+        // movement alredy in use 
+        const { data: usage, error: usageError } = await supabaseAdmin
+            .from('workout_movements')
+            .select('id')
+            .eq('movement_id', id)
+            .limit(1);
+
+        if (usageError) {
+            console.error('Error checking movement usage:', usageError);
+            return NextResponse.json(
+                { error: 'Failed to check if movement is in use.' },
+                { status: 500 },
+            );
+        }
+
+        if (usage && usage.length > 0) {
+            return NextResponse.json(
+                {
+                    error: 'This movement is already used in a workout and cannot be deleted.',
+                    code: 'MOVEMENT_IN_USE',
+                },
+                { status: 409 },
+            );
+        }
+        
         const { data: existing, error: fetchError } = await supabaseAdmin
             .from('movements')
             .select('id, video_id')

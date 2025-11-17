@@ -130,6 +130,7 @@ const MyFavorites: React.FC = () => {
                 <table className="favourites-tbl">
                     <thead>
                         <tr>
+                            <th>S.No</th>                            
                             <th>Workout Name</th>
                             <th>Class</th>
                             <th>Created By</th>
@@ -137,8 +138,9 @@ const MyFavorites: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredFavorites.map((workout) => (
+                        {filteredFavorites.map((workout, index) => (
                             <tr key={workout.workout_id}>
+                                <td>{index + 1}</td>
                                 <td>{workout.workout_name}</td>
                                 <td>{workout.class_name || '—'}</td>
                                 <td>{workout.created_by || '—'}</td>
