@@ -118,8 +118,8 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
             error instanceof Error
                 ? error.message
                 : typeof error === 'object'
-                  ? JSON.stringify(error)
-                  : String(error);
+                    ? JSON.stringify(error)
+                    : String(error);
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
@@ -219,23 +219,33 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
 
     if (!id) return NextResponse.json({ error: 'Movement ID required' }, { status: 400 });
 
-    // try {
-    //     const { error } = await supabaseAdmin.from('movements').delete().eq('id', id);
-
-    //     if (error) throw error;
-
-    //     return NextResponse.json(
-    //         { status: 'ok', message: 'Movement deleted successfully' },
-    //         { status: 200 },
-    //     );
-    // } catch (error) {
-    //     return NextResponse.json(
-    //         { error: error instanceof Error ? error.message : String(error) },
-    //         { status: 500 },
-    //     );
-    // }
-
     try {
+        // movement alredy in use 
+        const { data: usage, error: usageError } = await supabaseAdmin
+            .from('workout_movements')
+            .select('id')
+            .eq('movement_id', id)
+            .limit(1);
+
+        if (usageError) {
+            console.error('Error checking movement usage:', usageError);
+            return NextResponse.json(
+                { error: 'Failed to check if movement is in use.' },
+                { status: 500 },
+            );
+        }
+
+        if (usage && usage.length > 0) {
+            return NextResponse.json(
+                {
+                    error: 'This movement is already used in a workout and cannot be deleted.',
+                    code: 'MOVEMENT_IN_USE',
+                },
+                { status: 409 },
+            );
+        }
+
+        // delete process if movement is not in use
         const { data: existing, error: fetchError } = await supabaseAdmin
             .from('movements')
             .select('id, video_id')

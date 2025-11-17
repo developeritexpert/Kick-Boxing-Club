@@ -1,4 +1,4 @@
-// login route
+// login api route
 import { NextResponse } from 'next/server';
 import { supabaseClient } from '@/lib/supabaseClient';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
