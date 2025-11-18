@@ -4,6 +4,8 @@ import Script from 'next/script';
 import { ChromecastProvider } from '@/lib/context/ChromecastContext';
 import './globals.css';
 
+import { SessionProvider } from '@/components/SessionProvider';
+
 export const metadata: Metadata = {
     title: 'Kick Boxing Club Fitness',
     description: 'Kick Boxing Club Fitness',
@@ -25,7 +27,9 @@ export default function RootLayout({
                 />
             </head>
             <body>
-                <ChromecastProvider>{children}</ChromecastProvider>
+                <SessionProvider>
+                    <ChromecastProvider>{children}</ChromecastProvider>
+                </SessionProvider>
 
                 {/* {children} */}
                 <Toaster position="top-right" reverseOrder={false} />
