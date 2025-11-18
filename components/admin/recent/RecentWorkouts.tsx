@@ -20,42 +20,41 @@ const RecentWorkouts: React.FC = () => {
     const [recentWorkouts, setRecentWorkouts] = useState<RecentWorkout[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [error, setError] = useState<string | null>(null);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     useEffect(() => {
-        const fetchRecents = async () => {
-            if (!user?.id) {
-                setLoading(false);
-                return;
-            }
+        if (user?.id) fetchRecents();
+    }, [user]);
 
-            console.log('Fetching recent workouts for user:', user.id);
+    const fetchRecents = async () => {
+        try {
             setLoading(true);
+            const res = await fetch('/api/admin/recent-workouts/list', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: user?.id }),
+            });
 
-            try {
-                const res = await fetch('/api/admin/recent-workouts/list', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: user.id }),
-                });
-
-                const result = await res.json();
-                console.log('Recent workouts result:', result);
-
-                if (result.success) {
-                    setRecentWorkouts(result.data);
-                } else {
-                    toast.error(result.error || 'Failed to fetch recent workouts');
-                }
-            } catch (err) {
-                console.error('Error fetching recents:', err);
-                toast.error('Something went wrong');
-            } finally {
-                setLoading(false);
+            const result = await res.json();
+            if (result.success) {
+                setRecentWorkouts(result.data);
+            } else {
+                setError(result.error || 'Failed to load recent workouts');
             }
-        };
+        } catch (err) {
+            console.error('Error fetching recents:', err);
+            setError('Something went wrong while fetching recent workouts');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        fetchRecents();
-    }, [user?.id]);
+    const handleViewClick = (workoutId: string) => {
+        router.push(`/admin/workouts/${workoutId}`);
+    };
 
     const handleDelete = async (workoutId: string) => {
         try {
@@ -78,62 +77,39 @@ const RecentWorkouts: React.FC = () => {
         }
     };
 
-    const handleViewClick = (workoutId: string) => {
-        router.push(`/admin/workouts/${workoutId}`);
-    };
-
     const filteredWorkouts = recentWorkouts.filter((w) =>
         w.workout_name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
-    // Show loading state
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-[50vh]">
-                <div className="text-gray-600 text-xl font-semibold">
-                    Loading recent workouts...
-                </div>
-            </div>
-        );
-    }
+    // Pagination calculations
+    const totalPages = Math.ceil(filteredWorkouts.length / itemsPerPage);
+    const indexOfLastMovement = currentPage * itemsPerPage;
+    const indexOfFirstMovement = indexOfLastMovement - itemsPerPage;
+    const currentWorkouts = filteredWorkouts.slice(indexOfFirstMovement, indexOfLastMovement);
 
-    // Show empty state (no workouts at all)
-    if (!recentWorkouts.length) {
-        return (
-            <div className="flex items-center justify-center h-[50vh]">
-                <div className="text-gray-500 text-2xl font-semibold px-8 py-6 rounded-2xl bg-gray-50 shadow-sm">
-                    No recent workouts yet
-                </div>
-            </div>
-        );
-    }
+    // Reset to page 1 when search changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
 
-    // Show search results empty state
-    if (!filteredWorkouts.length) {
-        return (
-            <div>
-                <div className="search-box">
-                    <span className="search-icon">
-                        <img src="/search_icon.png" alt="search icon" />
-                    </span>
-                    <input
-                        type="text"
-                        placeholder="Search workouts..."
-                        className="search-input"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-                <div className="flex items-center justify-center h-[40vh]">
-                    <div className="text-gray-500 text-xl font-semibold">
-                        No workouts found matching &quot;
-                        {searchTerm.length > 30 ? searchTerm.substring(0, 30) + '...' : searchTerm}
-                        &quot;
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handlePrevious = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    if (loading) return <div className="loading-content">Loading recent workouts...</div>;
+    if (error) return <div className="error-content">{error}</div>;
 
     return (
         <div>
@@ -150,119 +126,197 @@ const RecentWorkouts: React.FC = () => {
                 />
             </div>
 
-            <table className="favourites-tbl">
-                <thead>
-                    <tr>
-                        <th>S.No</th>
-                        <th>Workout Name</th>
-                        <th>Class</th>
-                        <th>Last Accessed</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredWorkouts.map((workout , index) => (
-                        <tr key={workout.workout_id}>
-                            <td>{ index + 1 }</td>
-                            <td>
-                                {/* {workout.workout_name} */}
-                                {workout.workout_name.length > 40
-                                    ? workout.workout_name.substring(0, 40) + '...'
-                                    : workout.workout_name}
-                            </td>
-                            <td>{workout.class_name || '-'}</td>
-                            <td>
-                                {new Date(workout.last_accessed_at).toLocaleDateString('en-IN', {
-                                    day: 'numeric',
-                                    month: 'short',
-                                    year: 'numeric',
-                                })}
-                            </td>
-                            <td>
-                                <div className="fav-btn">
-                                    <button
-                                        className="view"
-                                        onClick={() => handleViewClick(workout.workout_id)}
-                                    >
-                                        <img src="/view_icon.png" alt="view-icon" />
-                                        <div>View</div>
-                                    </button>
-                                    <button
-                                        className="delete"
-                                        onClick={() => handleDelete(workout.workout_id)}
-                                    >
-                                        <img src="/delete_icon.png" alt="delete-icon" />
-                                        <div>Delete</div>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <div>
+                {currentWorkouts.length === 0 ? (
+                    <div className="flex items-center justify-center h-[50vh]">
+                        <div className="text-gray-500 text-2xl font-semibold px-8 py-6 rounded-2xl">
+                            {recentWorkouts.length === 0 
+                                ? 'No recent workouts yet'
+                                : `No workouts found matching "${searchTerm.length > 30 ? searchTerm.substring(0, 30) + '...' : searchTerm}"`
+                            }
+                        </div>
+                    </div>
+                ) : (
+                    <table className="favourites-tbl">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Workout Name</th>
+                                <th>Class</th>
+                                <th>Last Accessed</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentWorkouts.map((workout, index) => (
+                                <tr key={workout.workout_id}>
+                                    <td>{indexOfFirstMovement + index + 1}</td>
+                                    <td>
+                                        {workout.workout_name.length > 40
+                                            ? workout.workout_name.substring(0, 40) + '...'
+                                            : workout.workout_name}
+                                    </td>
+                                    <td>{workout.class_name || '—'}</td>
+                                    <td>
+                                        {new Date(workout.last_accessed_at).toLocaleDateString('en-IN', {
+                                            day: 'numeric',
+                                            month: 'short',
+                                            year: 'numeric',
+                                        })}
+                                    </td>
+                                    <td>
+                                        <div className="fav-btn">
+                                            <button
+                                                className="view"
+                                                onClick={() => handleViewClick(workout.workout_id)}
+                                            >
+                                                <img src="/view_icon.png" alt="view-icon" />
+                                                <div>View</div>
+                                            </button>
+                                            <button
+                                                className="delete"
+                                                onClick={() => handleDelete(workout.workout_id)}
+                                            >
+                                                <img src="/delete_icon.png" alt="delete-icon" />
+                                                <div>Delete</div>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+
+            {/* Pagination Controls */}
+            {!loading && totalPages > 1 && (
+                <div className="pagination">
+                    <button
+                        onClick={handlePrevious}
+                        disabled={currentPage === 1}
+                        className="pagination-btn"
+                    >
+                        Previous
+                    </button>
+
+                    <div className="pagination-numbers">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                            <button
+                                key={pageNumber}
+                                onClick={() => handlePageChange(pageNumber)}
+                                className={`pagination-number ${
+                                    currentPage === pageNumber ? 'active' : ''
+                                }`}
+                            >
+                                {pageNumber}
+                            </button>
+                        ))}
+                    </div>
+
+                    <button
+                        onClick={handleNext}
+                        disabled={currentPage === totalPages}
+                        className="pagination-btn"
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
+
+            {/* Optional: Show current page info */}
+            {!loading && totalPages > 1 && (
+                <div className="pagination-info">
+                    Showing {indexOfFirstMovement + 1} to {Math.min(indexOfLastMovement, filteredWorkouts.length)} of {filteredWorkouts.length} workouts
+                </div>
+            )}
         </div>
     );
 };
 
 export default RecentWorkouts;
 
-// 'use client'
 
-// import React, { useEffect, useState } from 'react'
-// import { useRouter } from 'next/navigation'
-// import { useAuthStore } from '@/stores/useAuthStore'
-// import toast from 'react-hot-toast'
-// import './RecentWorkouts.css'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// without pagination 
+// 'use client';
+
+// import React, { useEffect, useState } from 'react';
+// import { useRouter } from 'next/navigation';
+// import { useAuthStore } from '@/stores/useAuthStore';
+// import toast from 'react-hot-toast';
+// import './RecentWorkouts.css';
 
 // interface RecentWorkout {
-//     workout_id: string
-//     workout_name: string
-//     class_name: string | null
-//     created_by: string | null
-//     last_accessed_at: string
+//     workout_id: string;
+//     workout_name: string;
+//     class_name: string | null;
+//     created_by: string | null;
+//     last_accessed_at: string;
 // }
 
 // const RecentWorkouts: React.FC = () => {
-//     const user = useAuthStore((state) => state.user)
-//     const router = useRouter()
-//     const [recentWorkouts, setRecentWorkouts] = useState<RecentWorkout[]>([])
-//     const [loading, setLoading] = useState(false)
-//     const [searchTerm, setSearchTerm] = useState('')
-//     const [hasFetched, setHasFetched] = useState(false)
+//     const user = useAuthStore((state) => state.user);
+//     const router = useRouter();
+//     const [recentWorkouts, setRecentWorkouts] = useState<RecentWorkout[]>([]);
+//     const [loading, setLoading] = useState(true);
+//     const [searchTerm, setSearchTerm] = useState('');
 
 //     useEffect(() => {
 //         const fetchRecents = async () => {
-//             if (!user?.id) return
+//             if (!user?.id) {
+//                 setLoading(false);
+//                 return;
+//             }
 
-//             console.log('Fetching recent workouts for user:', user.id)
-//             setLoading(true)
+//             console.log('Fetching recent workouts for user:', user.id);
+//             setLoading(true);
 
 //             try {
 //                 const res = await fetch('/api/admin/recent-workouts/list', {
 //                     method: 'POST',
 //                     headers: { 'Content-Type': 'application/json' },
 //                     body: JSON.stringify({ user_id: user.id }),
-//                 })
+//                 });
 
-//                 const result = await res.json()
-//                 console.log('Recent workouts result:', result)
+//                 const result = await res.json();
+//                 console.log('Recent workouts result:', result);
 
 //                 if (result.success) {
-//                     setRecentWorkouts(result.data)
+//                     setRecentWorkouts(result.data);
 //                 } else {
-//                     toast.error(result.error || 'Failed to fetch recent workouts')
+//                     toast.error(result.error || 'Failed to fetch recent workouts');
 //                 }
 //             } catch (err) {
-//                 console.error('Error fetching recents:', err)
-//                 toast.error('Something went wrong')
+//                 console.error('Error fetching recents:', err);
+//                 toast.error('Something went wrong');
 //             } finally {
-//                 setHasFetched(true)
-//                 setLoading(false)
+//                 setLoading(false);
 //             }
-//         }
+//         };
 
-//         fetchRecents()
-//     }, [user?.id])
+//         fetchRecents();
+//     }, [user?.id]);
 
 //     const handleDelete = async (workoutId: string) => {
 //         try {
@@ -270,53 +324,76 @@ export default RecentWorkouts;
 //                 method: 'DELETE',
 //                 headers: { 'Content-Type': 'application/json' },
 //                 body: JSON.stringify({ user_id: user?.id, workout_id: workoutId }),
-//             })
+//             });
 
-//             const result = await res.json()
+//             const result = await res.json();
 //             if (result.success) {
-//                 toast.success('Removed from recent workouts')
-//                 setRecentWorkouts((prev) => prev.filter((w) => w.workout_id !== workoutId))
+//                 toast.success('Removed from recent workouts');
+//                 setRecentWorkouts((prev) => prev.filter((w) => w.workout_id !== workoutId));
 //             } else {
-//                 toast.error(result.error || 'Failed to remove workout')
+//                 toast.error(result.error || 'Failed to remove workout');
 //             }
 //         } catch (err) {
-//             console.error('Error deleting workout:', err)
-//             toast.error('Something went wrong')
+//             console.error('Error deleting workout:', err);
+//             toast.error('Something went wrong');
 //         }
-//     }
+//     };
 
 //     const handleViewClick = (workoutId: string) => {
-//         router.push(`/admin/workouts/${workoutId}`)
-//     }
+//         router.push(`/admin/workouts/${workoutId}`);
+//     };
 
 //     const filteredWorkouts = recentWorkouts.filter((w) =>
-//         w.workout_name.toLowerCase().includes(searchTerm.toLowerCase())
-//     )
+//         w.workout_name.toLowerCase().includes(searchTerm.toLowerCase()),
+//     );
 
-//     // if (!user?.id && !hasFetched) {
-//     //     return (
-//     //         <div className="flex items-center justify-center h-[50vh]">
-//     //             <div className="text-gray-500 text-xl font-semibold">Loading recent workouts...</div>
-//     //         </div>
-//     //     )
-//     // }
-
-//     if ( (!user?.id && !hasFetched) || loading) {
+//     // Show loading state
+//     if (loading) {
 //         return (
 //             <div className="flex items-center justify-center h-[50vh]">
-//                 <div className="text-gray-600 text-xl font-semibold">Loading recent workouts...</div>
+//                 <div className="text-gray-600 text-xl font-semibold">
+//                     Loading recent workouts...
+//                 </div>
 //             </div>
-//         )
+//         );
 //     }
 
-//     if (hasFetched && !filteredWorkouts.length) {
+//     // Show empty state (no workouts at all)
+//     if (!recentWorkouts.length) {
 //         return (
 //             <div className="flex items-center justify-center h-[50vh]">
 //                 <div className="text-gray-500 text-2xl font-semibold px-8 py-6 rounded-2xl bg-gray-50 shadow-sm">
 //                     No recent workouts yet
 //                 </div>
 //             </div>
-//         )
+//         );
+//     }
+
+//     // Show search results empty state
+//     if (!filteredWorkouts.length) {
+//         return (
+//             <div>
+//                 <div className="search-box">
+//                     <span className="search-icon">
+//                         <img src="/search_icon.png" alt="search icon" />
+//                     </span>
+//                     <input
+//                         type="text"
+//                         placeholder="Search workouts..."
+//                         className="search-input"
+//                         value={searchTerm}
+//                         onChange={(e) => setSearchTerm(e.target.value)}
+//                     />
+//                 </div>
+//                 <div className="flex items-center justify-center h-[40vh]">
+//                     <div className="text-gray-500 text-xl font-semibold">
+//                         No workouts found matching &quot;
+//                         {searchTerm.length > 30 ? searchTerm.substring(0, 30) + '...' : searchTerm}
+//                         &quot;
+//                     </div>
+//                 </div>
+//             </div>
+//         );
 //     }
 
 //     return (
@@ -337,6 +414,7 @@ export default RecentWorkouts;
 //             <table className="favourites-tbl">
 //                 <thead>
 //                     <tr>
+//                         <th>S.No</th>
 //                         <th>Workout Name</th>
 //                         <th>Class</th>
 //                         <th>Last Accessed</th>
@@ -344,9 +422,15 @@ export default RecentWorkouts;
 //                     </tr>
 //                 </thead>
 //                 <tbody>
-//                     {filteredWorkouts.map((workout) => (
+//                     {filteredWorkouts.map((workout , index) => (
 //                         <tr key={workout.workout_id}>
-//                             <td>{workout.workout_name}</td>
+//                             <td>{ index + 1 }</td>
+//                             <td>
+//                                 {/* {workout.workout_name} */}
+//                                 {workout.workout_name.length > 40
+//                                     ? workout.workout_name.substring(0, 40) + '...'
+//                                     : workout.workout_name}
+//                             </td>
 //                             <td>{workout.class_name || '-'}</td>
 //                             <td>
 //                                 {new Date(workout.last_accessed_at).toLocaleDateString('en-IN', {
@@ -357,11 +441,17 @@ export default RecentWorkouts;
 //                             </td>
 //                             <td>
 //                                 <div className="fav-btn">
-//                                     <button className="view" onClick={() => handleViewClick(workout.workout_id)}>
+//                                     <button
+//                                         className="view"
+//                                         onClick={() => handleViewClick(workout.workout_id)}
+//                                     >
 //                                         <img src="/view_icon.png" alt="view-icon" />
 //                                         <div>View</div>
 //                                     </button>
-//                                     <button className="delete" onClick={() => handleDelete(workout.workout_id)}>
+//                                     <button
+//                                         className="delete"
+//                                         onClick={() => handleDelete(workout.workout_id)}
+//                                     >
 //                                         <img src="/delete_icon.png" alt="delete-icon" />
 //                                         <div>Delete</div>
 //                                     </button>
@@ -372,7 +462,8 @@ export default RecentWorkouts;
 //                 </tbody>
 //             </table>
 //         </div>
-//     )
-// }
+//     );
+// };
 
-// export default RecentWorkouts
+// export default RecentWorkouts;
+

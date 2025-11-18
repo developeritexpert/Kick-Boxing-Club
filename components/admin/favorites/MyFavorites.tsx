@@ -22,6 +22,9 @@ const MyFavorites: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState<string | null>(null);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
     useEffect(() => {
         if (user?.id) fetchFavorites();
     }, [user]);
@@ -77,6 +80,33 @@ const MyFavorites: React.FC = () => {
         w.workout_name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
+    // Pagination calculations
+    const totalPages = Math.ceil(filteredFavorites.length / itemsPerPage);
+    const indexOfLastMovement = currentPage * itemsPerPage;
+    const indexOfFirstMovement = indexOfLastMovement - itemsPerPage;
+    const currentFavorites = filteredFavorites.slice(indexOfFirstMovement, indexOfLastMovement);
+
+    // Reset to page 1 when search or filter changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handlePrevious = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
     if (loading) return <div className="loading-content">Loading favorites...</div>;
     if (error) return <div className="error-content">{error}</div>;
 
@@ -95,60 +125,106 @@ const MyFavorites: React.FC = () => {
                 />
             </div>
 
-            {filteredFavorites.length === 0 ? (
-                <div className="flex items-center justify-center h-[50vh]">
-                    <div className="text-gray-500 text-2xl font-semibold  px-8 py-6 rounded-2xl ">
-                        No workouts found matching &quot;
-                        {searchTerm.length > 30 ? searchTerm.substring(0, 30) + '...' : searchTerm}
-                        &quot;
+            <div>
+                {currentFavorites.length === 0 ? (
+                    <div className="flex items-center justify-center h-[50vh]">
+                        <div className="text-gray-500 text-2xl font-semibold  px-8 py-6 rounded-2xl ">
+                            No workouts found matching &quot;
+                            {searchTerm.length > 30 ? searchTerm.substring(0, 30) + '...' : searchTerm}
+                            &quot;
+                        </div>
                     </div>
-                </div>
-            ) : (
-                <table className="favourites-tbl">
-                    <thead>
-                        <tr>
-                            <th>S.No</th>
-                            <th>Workout Name</th>
-                            <th>Class</th>
-                            <th>Created By</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredFavorites.map((workout , index) => (
-                            <tr key={workout.workout_id}>
-                                <td>{ index + 1 }</td>
-                                <td>
-                                    {/* {workout.workout_name} */}
-                                    {workout.workout_name.length > 40
-                                        ? workout.workout_name.substring(0, 40) + '...'
-                                        : workout.workout_name}
-                                </td>
-                                <td>{workout.class_name || '—'}</td>
-                                <td>{workout.created_by || '—'}</td>
-                                <td>
-                                    <div className="fav-btn">
-                                        <button
-                                            className="view"
-                                            onClick={() => handleViewClick(workout.workout_id)}
-                                        >
-                                            <img src="/view_icon.png" alt="view-icon" />
-                                            <div> View</div>
-                                        </button>
-                                        <button
-                                            className="delete"
-                                            onClick={() => handleDelete(workout.workout_id)}
-                                        >
-                                            <img src="/delete_icon.png" alt="delete-icon" />
-                                            <div> Delete</div>
-                                        </button>
-                                    </div>
-                                </td>
+                ) : (
+                    <table className="favourites-tbl">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Workout Name</th>
+                                <th>Class</th>
+                                <th>Created By</th>
+                                <th>Action</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            {currentFavorites.map((workout, index) => (
+                                <tr key={workout.workout_id}>
+                                    <td>{index + 1}</td>
+                                    <td>
+                                        {/* {workout.workout_name} */}
+                                        {workout.workout_name.length > 40
+                                            ? workout.workout_name.substring(0, 40) + '...'
+                                            : workout.workout_name}
+                                    </td>
+                                    <td>{workout.class_name || '—'}</td>
+                                    <td>{workout.created_by || '—'}</td>
+                                    <td>
+                                        <div className="fav-btn">
+                                            <button
+                                                className="view"
+                                                onClick={() => handleViewClick(workout.workout_id)}
+                                            >
+                                                <img src="/view_icon.png" alt="view-icon" />
+                                                <div> View</div>
+                                            </button>
+                                            <button
+                                                className="delete"
+                                                onClick={() => handleDelete(workout.workout_id)}
+                                            >
+                                                <img src="/delete_icon.png" alt="delete-icon" />
+                                                <div> Delete</div>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+
+            {/* Pagination Controls */}
+            {!loading && totalPages > 1 && (
+                <div className="pagination">
+                    <button
+                        onClick={handlePrevious}
+                        disabled={currentPage === 1}
+                        className="pagination-btn"
+                    >
+                        Previous
+                    </button>
+
+                    <div className="pagination-numbers">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                            <button
+                                key={pageNumber}
+                                onClick={() => handlePageChange(pageNumber)}
+                                className={`pagination-number ${
+                                    currentPage === pageNumber ? 'active' : ''
+                                }`}
+                            >
+                                {pageNumber}
+                            </button>
                         ))}
-                    </tbody>
-                </table>
+                    </div>
+
+                    <button
+                        onClick={handleNext}
+                        disabled={currentPage === totalPages}
+                        className="pagination-btn"
+                    >
+                        Next
+                    </button>
+                </div>
             )}
+
+            {/* Optional: Show current page info */}
+            {!loading && totalPages > 1 && (
+                <div className="pagination-info">
+                    Showing {indexOfFirstMovement + 1} to {Math.min(indexOfLastMovement, filteredFavorites.length)} of {filteredFavorites.length} movements
+                </div>
+            )}
+
+
         </div>
     );
 };
