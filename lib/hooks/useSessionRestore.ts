@@ -1,33 +1,56 @@
 // hooks/useSessionRestore.ts
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { supabaseClient } from '@/lib/supabaseClient';
 
 export function useSessionRestore() {
     const setUser = useAuthStore((state) => state.setUser);
     const clearUser = useAuthStore((state) => state.clearUser);
+    const hasRestored = useRef(false);
 
     useEffect(() => {
         const restoreSession = async () => {
+            // Prevent multiple restoration attempts
+            if (hasRestored.current) return;
+            hasRestored.current = true;
+
             try {
-                // Get current session from Supabase
+                // First, try to restore from cookies via API
+                const response = await fetch('/api/auth/me', {
+                    credentials: 'include',
+                });
+                
+                if (response.ok) {
+                    const userData = await response.json();
+                    setUser(userData.user);
+                    console.log('Session restored from cookies:', userData.user);
+                    
+                    // Set the session in Supabase client for subsequent requests
+                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    if (!session) {
+                        // If API says we're logged in but Supabase doesn't have session,
+                        // trigger a refresh
+                        await supabaseClient.auth.refreshSession();
+                    }
+                    return;
+                }
+
+                // If API call fails, try Supabase session
                 const { data: { session } } = await supabaseClient.auth.getSession();
                 
                 if (session) {
-                    // Verify the session is still valid
+                    // Try to get user with existing session
                     const { data: { user }, error } = await supabaseClient.auth.getUser();
                     
                     if (user && !error) {
                         // Fetch user metadata
-                        const response = await fetch('/api/auth/me');
-                        if (response.ok) {
-                            const userData = await response.json();
+                        const metaResponse = await fetch('/api/auth/me');
+                        if (metaResponse.ok) {
+                            const userData = await metaResponse.json();
                             setUser(userData.user);
-                            console.log(`use session restore userData.user`);
-                            console.log(userData.user);
-                            
+                            console.log('Session restored from Supabase:', userData.user);
                         }
                     } else {
                         // Session invalid, clear everything
@@ -35,7 +58,8 @@ export function useSessionRestore() {
                         await supabaseClient.auth.signOut();
                     }
                 } else {
-                    // No session found
+                    // No session found anywhere
+                    console.log('No session found');
                     clearUser();
                 }
             } catch (error) {
@@ -49,6 +73,8 @@ export function useSessionRestore() {
         // Listen for auth state changes
         const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(
             async (event, session) => {
+                console.log('Auth state change:', event);
+                
                 if (event === 'SIGNED_OUT') {
                     clearUser();
                 } else if (event === 'SIGNED_IN' && session) {
@@ -59,8 +85,13 @@ export function useSessionRestore() {
                         setUser(userData.user);
                     }
                 } else if (event === 'TOKEN_REFRESHED' && session) {
-                    // Update token but keep user data
-                    console.log('Token refreshed');
+                    console.log('Token refreshed successfully');
+                    // Optionally refetch user data to ensure it's current
+                    const response = await fetch('/api/auth/me');
+                    if (response.ok) {
+                        const userData = await response.json();
+                        setUser(userData.user);
+                    }
                 }
             }
         );
@@ -70,3 +101,95 @@ export function useSessionRestore() {
         };
     }, [setUser, clearUser]);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// user null after 1 day
+// // hooks/useSessionRestore.ts
+// 'use client';
+
+// import { useEffect } from 'react';
+// import { useAuthStore } from '@/stores/useAuthStore';
+// import { supabaseClient } from '@/lib/supabaseClient';
+
+// export function useSessionRestore() {
+//     const setUser = useAuthStore((state) => state.setUser);
+//     const clearUser = useAuthStore((state) => state.clearUser);
+
+//     useEffect(() => {
+//         const restoreSession = async () => {
+//             try {
+//                 // Get current session from Supabase
+//                 const { data: { session } } = await supabaseClient.auth.getSession();
+                
+//                 if (session) {
+//                     // Verify the session is still valid
+//                     const { data: { user }, error } = await supabaseClient.auth.getUser();
+                    
+//                     if (user && !error) {
+//                         // Fetch user metadata
+//                         const response = await fetch('/api/auth/me');
+//                         if (response.ok) {
+//                             const userData = await response.json();
+//                             setUser(userData.user);
+//                             console.log(`use session restore userData.user`);
+//                             console.log(userData.user);
+                            
+//                         }
+//                     } else {
+//                         // Session invalid, clear everything
+//                         clearUser();
+//                         await supabaseClient.auth.signOut();
+//                     }
+//                 } else {
+//                     // No session found
+//                     clearUser();
+//                 }
+//             } catch (error) {
+//                 console.error('Error restoring session:', error);
+//                 clearUser();
+//             }
+//         };
+
+//         restoreSession();
+
+//         // Listen for auth state changes
+//         const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(
+//             async (event, session) => {
+//                 if (event === 'SIGNED_OUT') {
+//                     clearUser();
+//                 } else if (event === 'SIGNED_IN' && session) {
+//                     // Fetch fresh user data
+//                     const response = await fetch('/api/auth/me');
+//                     if (response.ok) {
+//                         const userData = await response.json();
+//                         setUser(userData.user);
+//                     }
+//                 } else if (event === 'TOKEN_REFRESHED' && session) {
+//                     // Update token but keep user data
+//                     console.log('Token refreshed');
+//                 }
+//             }
+//         );
+
+//         return () => {
+//             subscription.unsubscribe();
+//         };
+//     }, [setUser, clearUser]);
+// }
