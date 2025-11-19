@@ -46,16 +46,33 @@ const SingleWorkout: React.FC = () => {
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
-    // Detect Apple device
+    // Detect all Apple device
+    // useEffect(() => {
+    //     const userAgent = navigator.userAgent;
+    //     const platform = navigator.platform;
+    //     const isIOS =
+    //         /iPad|iPhone|iPod/.test(userAgent) ||
+    //         (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    //     const isMacOS = /Macintosh|MacIntel|MacPPC|Mac68K/.test(platform);
+
+    //     setIsAppleDevice(isIOS || isMacOS);
+    // }, []);
+
+    // Detect Apple device except chrome on macOS
     useEffect(() => {
         const userAgent = navigator.userAgent;
         const platform = navigator.platform;
+
         const isIOS =
             /iPad|iPhone|iPod/.test(userAgent) ||
             (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        const isMacOS = /Macintosh|MacIntel|MacPPC|Mac68K/.test(platform);
 
-        setIsAppleDevice(isIOS || isMacOS);
+        const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
+
+        const isMacOS = /Macintosh|MacIntel|MacPPC|Mac68K/.test(platform);
+        const needsApplePlayer = isIOS || (isMacOS && isSafari);
+
+        setIsAppleDevice(needsApplePlayer);
     }, []);
 
     const {

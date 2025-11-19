@@ -17,17 +17,26 @@ export async function GET() {
             });
 
             if (error || !data.session) {
+                console.log('error refreshSession');
+                console.log(error);
+
+                console.log('data.session refreshSession');
+                console.log(data.session);
+
                 return NextResponse.json({ error: 'Session expired' }, { status: 401 });
             }
+
+            console.log(`data.session.access_token`);
+            console.log(data.session.access_token);
 
             accessToken = data.session.access_token;
 
             // Update cookies with new tokens
             const res = await getUserData(accessToken);
-            
+
             if (res.ok) {
                 const rememberMe = cookieStore.get('remember-me')?.value === 'true';
-                
+
                 res.cookies.set('sb-access-token', data.session.access_token, {
                     httpOnly: true,
                     path: '/',
@@ -51,6 +60,8 @@ export async function GET() {
         }
 
         if (!accessToken) {
+            console.log(`no access token`);
+            
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
         }
 
@@ -64,8 +75,17 @@ export async function GET() {
 }
 
 async function getUserData(accessToken: string) {
+    console.log(`getUserData accessToken`);
+    console.log(accessToken);
+    
     // Verify the token and get user from Supabase
     const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(accessToken);
+
+    console.log('error getUserData');
+    console.log(authError);
+
+    console.log('data getUserData');
+    console.log(user);
 
     if (authError || !user) {
         return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
