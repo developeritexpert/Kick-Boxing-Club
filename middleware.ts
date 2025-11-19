@@ -30,7 +30,7 @@ export async function middleware(request: NextRequest) {
 
     if (!accessToken || !userRole) {
         // console.log(' No token or role - redirecting to login');
-        const loginUrl = new URL('/login', request.url);
+        const loginUrl = new URL('/', request.url);
         loginUrl.searchParams.set('redirect', pathname);
         return NextResponse.redirect(loginUrl);
     }

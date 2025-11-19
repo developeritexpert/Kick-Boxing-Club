@@ -80,7 +80,7 @@ const RecentWorkouts: React.FC = () => {
     };
 
     const handleViewClick = (workoutId: string) => {
-        router.push(`/admin/workouts/${workoutId}`);
+        router.push(`/instructor/workouts/${workoutId}`);
     };
 
     const filteredWorkouts = recentWorkouts.filter((w) =>
