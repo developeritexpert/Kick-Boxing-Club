@@ -28,6 +28,9 @@ const MyFavorites: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState<string | null>(null);
 
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const itemsPerPage = 10;
+
     useEffect(() => {
         if (user?.id) fetchFavorites();
     }, [user]);
@@ -86,6 +89,33 @@ const MyFavorites: React.FC = () => {
     const filteredFavorites = favorites.filter((w) =>
         w.workout_name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
+
+    // // Pagination calculations
+    // const totalPages = Math.ceil(filteredFavorites.length / itemsPerPage);
+    // const indexOfLastMovement = currentPage * itemsPerPage;
+    // const indexOfFirstMovement = indexOfLastMovement - itemsPerPage;
+    // const currentFavorites = filteredFavorites.slice(indexOfFirstMovement, indexOfLastMovement);
+
+    // // Reset to page 1 when search or filter changes
+    // useEffect(() => {
+    //     setCurrentPage(1);
+    // }, [searchTerm]);
+
+    // const handlePageChange = (pageNumber: number) => {
+    //     setCurrentPage(pageNumber);
+    // };
+
+    // const handlePrevious = () => {
+    //     if (currentPage > 1) {
+    //         setCurrentPage(currentPage - 1);
+    //     }
+    // };
+
+    // const handleNext = () => {
+    //     if (currentPage < totalPages) {
+    //         setCurrentPage(currentPage + 1);
+    //     }
+    // };
 
     if (loading) return <div className="loading-content">Loading favorites...</div>;
     if (error) return <div className="error-content">{error}</div>;
