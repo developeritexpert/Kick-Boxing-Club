@@ -106,7 +106,7 @@ const MovementLibraryWorkouts: React.FC = () => {
             if (res.status === 409 || data?.code === 'MOVEMENT_IN_USE') {
                 toast.error(
                     data.error ||
-                        'This movement is already used in a workout and cannot be deleted.',
+                    'This movement is already used in a workout and cannot be deleted.',
                 );
                 return;
             }
@@ -171,7 +171,10 @@ const MovementLibraryWorkouts: React.FC = () => {
 
             <div className="table-wrapper">
                 {loading ? (
-                    <p style={{ textAlign: 'center', padding: '20px' }}>Loading movements...</p>
+                    // <p style={{ textAlign: 'center', padding: '20px' }}>Loading movements...</p>
+                    <div className="spinner-wrapper">
+                        <div className="spinner-large"></div>
+                    </div>
                 ) : (
                     <table className="favourites-tbl">
                         <thead>
@@ -266,9 +269,8 @@ const MovementLibraryWorkouts: React.FC = () => {
                             <button
                                 key={pageNumber}
                                 onClick={() => handlePageChange(pageNumber)}
-                                className={`pagination-number ${
-                                    currentPage === pageNumber ? 'active' : ''
-                                }`}
+                                className={`pagination-number ${currentPage === pageNumber ? 'active' : ''
+                                    }`}
                             >
                                 {pageNumber}
                             </button>

@@ -117,7 +117,14 @@ const MyFavorites: React.FC = () => {
         }
     };
 
-    if (loading) return <div className="loading-content">Loading favorites...</div>;
+    if (loading) {
+        return (
+            <div className="spinner-wrapper">
+                <div className="spinner-large"></div>
+            </div>
+        );
+    }
+
     if (error) return <div className="error-content">{error}</div>;
 
     return (

@@ -119,10 +119,8 @@ const RecentWorkouts: React.FC = () => {
     // Show loading state
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-[50vh]">
-                <div className="text-gray-600 text-xl font-semibold">
-                    Loading recent workouts...
-                </div>
+            <div className="spinner-wrapper">
+                <div className="spinner-large"></div>
             </div>
         );
     }
@@ -256,9 +254,8 @@ const RecentWorkouts: React.FC = () => {
                                     <button
                                         key={pageNumber}
                                         onClick={() => handlePageChange(pageNumber)}
-                                        className={`pagination-number ${
-                                            currentPage === pageNumber ? 'active' : ''
-                                        }`}
+                                        className={`pagination-number ${currentPage === pageNumber ? 'active' : ''
+                                            }`}
                                     >
                                         {pageNumber}
                                     </button>
