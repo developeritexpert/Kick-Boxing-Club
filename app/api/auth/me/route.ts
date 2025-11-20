@@ -61,7 +61,7 @@ export async function GET() {
 
         if (!accessToken) {
             console.log(`no access token`);
-            
+
             return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
         }
 
@@ -77,7 +77,7 @@ export async function GET() {
 async function getUserData(accessToken: string) {
     console.log(`getUserData accessToken`);
     console.log(accessToken);
-    
+
     // Verify the token and get user from Supabase
     const {
         data: { user },

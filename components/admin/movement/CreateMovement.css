@@ -261,3 +261,8 @@
         margin-bottom: 25px;
     }
 }
+@media (max-width: 575px) {
+    .admin-crt-movment .movement-card h2 {
+        margin-bottom: 0px;
+    }
+}

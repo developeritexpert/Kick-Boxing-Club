@@ -7,10 +7,7 @@ export async function POST(req: Request) {
         const { userId } = await req.json();
 
         if (!userId) {
-            return NextResponse.json(
-                { success: false, error: 'Missing userId' },
-                { status: 400 }
-            );
+            return NextResponse.json({ success: false, error: 'Missing userId' }, { status: 400 });
         }
 
         const { data: recents, error: recentError } = await supabaseAdmin
@@ -60,9 +57,6 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: true, data: result });
     } catch (error: any) {
         console.error('Error fetching recent workouts:', error);
-        return NextResponse.json(
-            { success: false, error: error.message },
-            { status: 500 }
-        );
+        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 }

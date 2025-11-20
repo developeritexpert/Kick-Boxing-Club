@@ -3,6 +3,6 @@
 import React from 'react';
 import MovementLibrary from '@/components/admin/movement/MovementLibrary';
 
-export default function WorkoutsPage() {
+export default function MovementLibraryWorkoutsPage() {
     return <MovementLibrary />;
 }

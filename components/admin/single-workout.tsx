@@ -325,7 +325,8 @@ const SingleWorkout: React.FC = () => {
                     <p style={{ color: '#b40200', fontSize: '16px', fontWeight: '600' }}>
                         ⚠️ Your Safari version is too old to play these workout videos.
                         <br />
-                        Please update Safari to version 15 or later, or use the latest version of Chrome.
+                        Please update Safari to version 15 or later, or use the latest version of
+                        Chrome.
                     </p>
                 </div>
             </div>
@@ -794,38 +795,7 @@ const SingleWorkout: React.FC = () => {
 
 export default SingleWorkout;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// previous code in main branch 
+// previous code in main branch
 // // components/admin/single-workout.tsx
 // 'use client';
 
@@ -917,7 +887,6 @@ export default SingleWorkout;
 
 //     //     setIsAppleDevice(needsApplePlayer);
 //     // }, []);
-
 
 //     useEffect(() => {
 //         console.log('detecting device');

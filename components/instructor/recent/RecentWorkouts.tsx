@@ -177,11 +177,14 @@ const RecentWorkouts: React.FC = () => {
                                     <td>{workout.workout_name}</td>
                                     <td>{workout.class_name || '-'}</td>
                                     <td>
-                                        {new Date(workout.last_accessed_at).toLocaleDateString('en-IN', {
-                                            day: 'numeric',
-                                            month: 'short',
-                                            year: 'numeric',
-                                        })}
+                                        {new Date(workout.last_accessed_at).toLocaleDateString(
+                                            'en-IN',
+                                            {
+                                                day: 'numeric',
+                                                month: 'short',
+                                                year: 'numeric',
+                                            },
+                                        )}
                                     </td>
                                     <td>
                                         <div className="fav-btn">
@@ -250,16 +253,19 @@ const RecentWorkouts: React.FC = () => {
                             </button>
 
                             <div className="pagination-numbers">
-                                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
-                                    <button
-                                        key={pageNumber}
-                                        onClick={() => handlePageChange(pageNumber)}
-                                        className={`pagination-number ${currentPage === pageNumber ? 'active' : ''
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                                    (pageNumber) => (
+                                        <button
+                                            key={pageNumber}
+                                            onClick={() => handlePageChange(pageNumber)}
+                                            className={`pagination-number ${
+                                                currentPage === pageNumber ? 'active' : ''
                                             }`}
-                                    >
-                                        {pageNumber}
-                                    </button>
-                                ))}
+                                        >
+                                            {pageNumber}
+                                        </button>
+                                    ),
+                                )}
                             </div>
 
                             <button
@@ -275,7 +281,9 @@ const RecentWorkouts: React.FC = () => {
                     {/* Pagination Info */}
                     {totalPages > 1 && (
                         <div className="pagination-info">
-                            Showing {indexOfFirstWorkout + 1} to {Math.min(indexOfLastWorkout, filteredWorkouts.length)} of {filteredWorkouts.length} workouts
+                            Showing {indexOfFirstWorkout + 1} to{' '}
+                            {Math.min(indexOfLastWorkout, filteredWorkouts.length)} of{' '}
+                            {filteredWorkouts.length} workouts
                         </div>
                     )}
                 </>
@@ -286,36 +294,7 @@ const RecentWorkouts: React.FC = () => {
 
 export default RecentWorkouts;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// code without pagination 
+// code without pagination
 // 'use client';
 
 // import React, { useEffect, useState } from 'react';

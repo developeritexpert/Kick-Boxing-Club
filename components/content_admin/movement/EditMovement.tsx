@@ -199,9 +199,7 @@ const EditMovementPage: React.FC = () => {
                 <div className={styles.spinnerLarge}></div>
             </div>
         );
-
     }
-
 
     if (!movement) return <p>Movement not found</p>;
 

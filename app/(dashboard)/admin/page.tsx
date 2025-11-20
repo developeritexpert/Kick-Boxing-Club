@@ -10,13 +10,13 @@ export default function AdminPage() {
             title: 'Upper Body Workouts',
             value: '25+',
             sub: 'Arms, shoulders, and chest strength.',
-            img: '/running.jpg',
+            img: '/running.png',
         },
         {
             title: 'Lower Body Workouts',
             value: '20+',
             sub: 'Legs, glutes, and core stability.',
-            img: '/sitting.jpg',
+            img: '/sitting.png',
         },
         {
             title: 'Full Body Workouts',
