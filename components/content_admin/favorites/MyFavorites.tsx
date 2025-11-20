@@ -114,7 +114,14 @@ const MyFavorites: React.FC = () => {
         }
     };
 
-    if (loading) return <div className="loading-content">Loading favorites...</div>;
+    // if (loading) return <div className="loading-content">Loading favorites...</div>;
+    if (loading) {
+        return (
+            <div className="spinner-wrapper">
+                <div className="spinner-large"></div>
+            </div>
+        );
+    }
     if (error) return <div className="error-content">{error}</div>;
 
     // const favoriteWorkouts: Workout[] = [
@@ -250,9 +257,8 @@ const MyFavorites: React.FC = () => {
                             <button
                                 key={pageNumber}
                                 onClick={() => handlePageChange(pageNumber)}
-                                className={`pagination-number ${
-                                    currentPage === pageNumber ? 'active' : ''
-                                }`}
+                                className={`pagination-number ${currentPage === pageNumber ? 'active' : ''
+                                    }`}
                             >
                                 {pageNumber}
                             </button>
