@@ -390,8 +390,12 @@ const Settings: React.FC = () => {
             <div className={styles.workoutLocn}>
                 <h2>Workout Information</h2>
                 <div className={styles.innerWrkoutLocn}>
-                    <button className={styles.prsnBtn} onClick={handleAddLocation}>+ Location</button>
-                    <button className={styles.prsnBtn} onClick={handleAddClass}>+ Class</button>
+                    <button className={styles.prsnBtn} onClick={handleAddLocation}>
+                        + Location
+                    </button>
+                    <button className={styles.prsnBtn} onClick={handleAddClass}>
+                        + Class
+                    </button>
                 </div>
             </div>
 

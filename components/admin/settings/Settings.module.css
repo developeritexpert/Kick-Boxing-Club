@@ -568,9 +568,9 @@ select#timezone {
         font-size: 15px;
     }
     .profileName p {
-    font-size: 14px;
-    font-weight: 400;
-}
+        font-size: 14px;
+        font-weight: 400;
+    }
     .profileImg {
         width: 100px;
     }

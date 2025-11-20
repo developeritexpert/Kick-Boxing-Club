@@ -127,7 +127,7 @@ export default function ContentAdminPage() {
 
     const handleRecentClick = (id: string) => {
         router.push(`/content-admin/workouts/${id}`);
-    }
+    };
 
     return (
         <div className={`${styles.dashboardPage} content-admin-dsbrd`}>
@@ -187,7 +187,11 @@ export default function ContentAdminPage() {
                     {recentWorkouts.length > 0 ? (
                         recentWorkouts.map((workout) => (
                             <div key={workout.workout_id} className={styles.recentActivityCard}>
-                                <div className={styles.crd} onClick={() => handleRecentClick(workout.workout_id)} style={{ cursor: 'pointer' }}>
+                                <div
+                                    className={styles.crd}
+                                    onClick={() => handleRecentClick(workout.workout_id)}
+                                    style={{ cursor: 'pointer' }}
+                                >
                                     <h4>{workout.workout_name}</h4>
                                     <div className={styles.cardContent}>
                                         <div className={styles.row}>
@@ -242,54 +246,6 @@ export default function ContentAdminPage() {
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 'use client';
 

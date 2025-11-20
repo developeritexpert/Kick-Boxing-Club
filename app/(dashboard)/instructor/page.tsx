@@ -1,7 +1,7 @@
-// instructor dashboard page 
+// instructor dashboard page
 'use client';
 
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styles from '../../../styles/instructor/InstructorPage.module.css';
@@ -26,118 +26,120 @@ export default function InstructorPage() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-            if (!user?.id) return;
-            let isCancelled = false;
-    
-            async function fetchDashboardStats() {
-                setLoading(true);
-                setError(null);
-                try {
-                    const res = await fetch('/api/common/dashboard/stats', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ userId: user?.id }),
-                    });
-                    const data = await res.json();
-                    if (!res.ok || !data.success) {
-                        throw new Error(data.message || 'Failed to fetch dashboard stats');
-                    }
-    
-                    if (!isCancelled) {
-                        setMovementCount(data.data?.movementCount ?? 0);
-                        setWorkoutCount(data.data?.workoutCount ?? 0);
-                    }
-                } catch (err: any) {
-                    console.error('Error fetching dashboard stats:', err);
-                    if (!isCancelled) {
-                        setError(err.message || 'Error fetching dashboard stats');
-                        setMovementCount(null);
-                        setWorkoutCount(null);
-                    }
-                } finally {
-                    if (!isCancelled) {
-                        setLoading(false);
-                    }
+        if (!user?.id) return;
+        let isCancelled = false;
+
+        async function fetchDashboardStats() {
+            setLoading(true);
+            setError(null);
+            try {
+                const res = await fetch('/api/common/dashboard/stats', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: user?.id }),
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    throw new Error(data.message || 'Failed to fetch dashboard stats');
+                }
+
+                if (!isCancelled) {
+                    setMovementCount(data.data?.movementCount ?? 0);
+                    setWorkoutCount(data.data?.workoutCount ?? 0);
+                }
+            } catch (err: any) {
+                console.error('Error fetching dashboard stats:', err);
+                if (!isCancelled) {
+                    setError(err.message || 'Error fetching dashboard stats');
+                    setMovementCount(null);
+                    setWorkoutCount(null);
+                }
+            } finally {
+                if (!isCancelled) {
+                    setLoading(false);
                 }
             }
-    
-            async function fetchRecentWorkouts() {
-                try {
-                    const res = await fetch('/api/common/dashboard/recent', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ userId: user?.id }),
-                    });
-                    const data = await res.json();
-                    if (!res.ok || !data.success) {
-                        throw new Error(data.message || 'Failed to fetch recent workouts');
-                    }
-    
-                    if (!isCancelled) {
-                        setRecentWorkouts(data.data || []);
-                    }
-                } catch (err: any) {
-                    console.error('Error fetching recent workouts:', err);
-                    if (!isCancelled) {
-                        setRecentWorkouts([]);
-                    }
-                }
-            }
-    
-            fetchDashboardStats();
-            fetchRecentWorkouts();
-    
-            return () => {
-                isCancelled = true;
-            };
-        }, [user?.id]);
-    
-        const renderValue = (value: number | null) => {
-            if (loading) return '...';
-            if (error) return '--';
-            return value ?? 0;
-        };
-    
-        const getStatusIcon = (status: string) => {
-            if (status === 'Published') {
-                return '/small_tick_icon.png';
-            }
-            return '/small_tick_icon.png'; // Default icon
-        };
-    
-        const formatDate = (dateString: string) => {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-            });
-        };
-    
-        const handleWorkoutsCardClick = () => {
-            router.push(`/instructor/workouts`);
-        };
-    
-        const handleMovementCardClick = () => {
-            router.push(`/instructor/movement/library`);
-        };
-    
-        const handleRecentClick = (id: string) => {
-            router.push(`/instructor/workouts/${id}`);
         }
+
+        async function fetchRecentWorkouts() {
+            try {
+                const res = await fetch('/api/common/dashboard/recent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: user?.id }),
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    throw new Error(data.message || 'Failed to fetch recent workouts');
+                }
+
+                if (!isCancelled) {
+                    setRecentWorkouts(data.data || []);
+                }
+            } catch (err: any) {
+                console.error('Error fetching recent workouts:', err);
+                if (!isCancelled) {
+                    setRecentWorkouts([]);
+                }
+            }
+        }
+
+        fetchDashboardStats();
+        fetchRecentWorkouts();
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [user?.id]);
+
+    const renderValue = (value: number | null) => {
+        if (loading) return '...';
+        if (error) return '--';
+        return value ?? 0;
+    };
+
+    const getStatusIcon = (status: string) => {
+        if (status === 'Published') {
+            return '/small_tick_icon.png';
+        }
+        return '/small_tick_icon.png'; // Default icon
+    };
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
+    };
+
+    const handleWorkoutsCardClick = () => {
+        router.push(`/instructor/workouts`);
+    };
+
+    const handleMovementCardClick = () => {
+        router.push(`/instructor/movement/library`);
+    };
+
+    const handleRecentClick = (id: string) => {
+        router.push(`/instructor/workouts/${id}`);
+    };
 
     return (
         <div className={`${styles.dashboardPage} instructor-dsbrd`}>
             <div className={styles.pageHeaderSpacer} />
 
             <div className={styles.cardsRow}>
-                <article className={styles.card}
-                onClick={handleWorkoutsCardClick}
-                    style={{ cursor: 'pointer' }}>
+                <article
+                    className={styles.card}
+                    onClick={handleWorkoutsCardClick}
+                    style={{ cursor: 'pointer' }}
+                >
                     <div>
                         <div className={styles.cardTitle}>Total Workouts</div>
                         <div className={styles.cardValue}>{renderValue(workoutCount)}</div>
@@ -146,8 +148,11 @@ export default function InstructorPage() {
                     <Image src="/computer_image.png" alt="computer-img" width={57} height={52} />
                 </article>
 
-                <article className={styles.card} onClick={handleWorkoutsCardClick}
-                    style={{ cursor: 'pointer' }}>
+                <article
+                    className={styles.card}
+                    onClick={handleWorkoutsCardClick}
+                    style={{ cursor: 'pointer' }}
+                >
                     <div>
                         <div className={styles.cardTitle}>Total Movements</div>
                         <div className={styles.cardValue}>{renderValue(movementCount)}</div>
@@ -158,8 +163,11 @@ export default function InstructorPage() {
                     <Image src="/grid_image.png" alt="grid_image" width={52} height={52} />
                 </article>
 
-                <article className={styles.card} onClick={handleWorkoutsCardClick}
-                    style={{ cursor: 'pointer' }}>
+                <article
+                    className={styles.card}
+                    onClick={handleWorkoutsCardClick}
+                    style={{ cursor: 'pointer' }}
+                >
                     <div>
                         <div className={styles.cardTitle}>Published Videos</div>
                         <div className={styles.cardValue}>{renderValue(movementCount)}</div>
@@ -180,7 +188,11 @@ export default function InstructorPage() {
                     {recentWorkouts.length > 0 ? (
                         recentWorkouts.map((workout) => (
                             <div key={workout.workout_id} className={styles.recentActivityCard}>
-                                <div className={styles.crd} onClick={() => handleRecentClick(workout.workout_id)} style={{ cursor: 'pointer' }}>
+                                <div
+                                    className={styles.crd}
+                                    onClick={() => handleRecentClick(workout.workout_id)}
+                                    style={{ cursor: 'pointer' }}
+                                >
                                     <h4>{workout.workout_name}</h4>
                                     <div className={styles.cardContent}>
                                         <div className={styles.row}>

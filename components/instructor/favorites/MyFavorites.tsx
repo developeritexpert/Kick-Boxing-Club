@@ -240,8 +240,9 @@ const MyFavorites: React.FC = () => {
                             <button
                                 key={pageNumber}
                                 onClick={() => handlePageChange(pageNumber)}
-                                className={`pagination-number ${currentPage === pageNumber ? 'active' : ''
-                                    }`}
+                                className={`pagination-number ${
+                                    currentPage === pageNumber ? 'active' : ''
+                                }`}
                             >
                                 {pageNumber}
                             </button>
@@ -261,7 +262,9 @@ const MyFavorites: React.FC = () => {
             {/* Optional: Show current page info */}
             {!loading && totalPages > 1 && (
                 <div className="pagination-info">
-                    Showing {indexOfFirstMovement + 1} to {Math.min(indexOfLastMovement, filteredFavorites.length)} of {filteredFavorites.length} movements
+                    Showing {indexOfFirstMovement + 1} to{' '}
+                    {Math.min(indexOfLastMovement, filteredFavorites.length)} of{' '}
+                    {filteredFavorites.length} movements
                 </div>
             )}
         </div>

@@ -323,7 +323,6 @@
     padding: 7px 15px;
 }
 
-
 .spinnerWrapper {
     min-height: 60vh;
     display: flex;
@@ -333,11 +332,11 @@
 .spinnerLarge {
     width: 48px;
     height: 48px;
-    border: 4px solid #e5e7eb;      
-    border-top-color: #b40200;       
+    border: 4px solid #e5e7eb;
+    border-top-color: #b40200;
     border-radius: 50%;
     animation: spinnerRotate 0.8s linear infinite;
-    margin: 0 auto;                  
+    margin: 0 auto;
 }
 
 @keyframes spinnerRotate {

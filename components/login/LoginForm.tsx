@@ -75,6 +75,10 @@ export default function LoginForm() {
         }
     };
 
+    const handleForgetPassword = () => {
+        router.push(`/auth/forgot-password`);
+    };
+
     return (
         <div className="login-container">
             <div className="login-box">
@@ -137,9 +141,12 @@ export default function LoginForm() {
                         {isSubmitting ? 'Logging in...' : 'Login'}
                     </button>
                 </form>
-                <a href="#" className="forgot-password" onClick={(e) => e.preventDefault()}>
+                {/* <a href="#" className="forgot-password" onClick={(e) => e.preventDefault()}>
                     Forgot Password?
-                </a>
+                </a> */}
+                <div className="forgot-password" onClick={handleForgetPassword}>
+                    Forgot Password?
+                </div>
             </div>
             <div className="login-footer">© Copyright Kickboxing Club. All Rights Reserved</div>
         </div>
