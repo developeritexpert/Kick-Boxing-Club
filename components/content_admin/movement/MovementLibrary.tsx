@@ -26,6 +26,9 @@ const MovementLibraryWorkouts: React.FC = () => {
     const [openCategory, setOpenCategory] = useState(false);
     const [categoryValue, setCategoryValue] = useState('ALL');
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
     useEffect(() => {
         if (user?.id) {
             setLoading(true);
@@ -59,6 +62,33 @@ const MovementLibraryWorkouts: React.FC = () => {
             m.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
             (categoryValue === 'ALL' || m.category === categoryValue),
     );
+
+    // Pagination calculations
+    const totalPages = Math.ceil(filteredMovements.length / itemsPerPage);
+    const indexOfLastMovement = currentPage * itemsPerPage;
+    const indexOfFirstMovement = indexOfLastMovement - itemsPerPage;
+    const currentMovements = filteredMovements.slice(indexOfFirstMovement, indexOfLastMovement);
+
+    // Reset to page 1 when search or filter changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, categoryValue]);
+
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handlePrevious = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this movement?')) return;
@@ -153,8 +183,8 @@ const MovementLibraryWorkouts: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredMovements.length > 0 ? (
-                                filteredMovements.map((movement, index) => (
+                            {currentMovements.length > 0 ? (
+                                currentMovements.map((movement, index) => (
                                     <tr key={movement.id}>
                                         <td>{index + 1}</td>
                                         <td>{movement.name}</td>
@@ -219,6 +249,49 @@ const MovementLibraryWorkouts: React.FC = () => {
                     </table>
                 )}
             </div>
+
+            {/* Pagination Controls */}
+            {!loading && totalPages > 1 && (
+                <div className="pagination">
+                    <button
+                        onClick={handlePrevious}
+                        disabled={currentPage === 1}
+                        className="pagination-btn"
+                    >
+                        Previous
+                    </button>
+
+                    <div className="pagination-numbers">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                            <button
+                                key={pageNumber}
+                                onClick={() => handlePageChange(pageNumber)}
+                                className={`pagination-number ${
+                                    currentPage === pageNumber ? 'active' : ''
+                                }`}
+                            >
+                                {pageNumber}
+                            </button>
+                        ))}
+                    </div>
+
+                    <button
+                        onClick={handleNext}
+                        disabled={currentPage === totalPages}
+                        className="pagination-btn"
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
+
+            {/* Optional: Show current page info */}
+            {!loading && totalPages > 1 && (
+                <div className="pagination-info">
+                    Showing {indexOfFirstMovement + 1} to {Math.min(indexOfLastMovement, filteredMovements.length)} of {filteredMovements.length} movements
+                </div>
+            )}
+
         </div>
     );
 };
