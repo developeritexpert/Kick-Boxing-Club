@@ -63,11 +63,13 @@ aside.sidebar.collapsed button.logout {
 }
 
 .sidebar-top {
-    padding: 18px 36px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    display: flex;
     align-items: center;
     gap: 10px;
+    padding: 18px 36px 0px 36px;
+    display: flex;
+    position: -webkit-sticky;
+    position: sticky;
 }
 
 /* brand */
@@ -78,11 +80,12 @@ aside.sidebar.collapsed button.logout {
     display: flex;
     border-bottom: 1px solid #ffffff4d;
     padding-bottom: 15px;
+    /* margin-bottom:10px; */
 }
 aside.sidebar.collapsed .sidebar-top {
     /* border-bottom: none; */
     /* display: none; */
-    padding:0px;
+    padding: 0px;
 }
 aside.sidebar.collapsed .sidebar-top,
 aside.sidebar.collapsed .sidebar-brand {
@@ -95,7 +98,7 @@ aside.sidebar.collapsed .sidebar-brand {
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-top: 10px
+    margin-top: 10px;
 }
 .hamburger {
     cursor: pointer;
@@ -114,6 +117,8 @@ aside.sidebar.collapsed .sidebar-brand {
 .admin-pnl .sidebar-nav {
     /* padding-top: 20px; */
     flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
 }
 
 .admin-pnl .sidebar-nav ul {
@@ -154,7 +159,7 @@ aside.sidebar.collapsed .sidebar-brand {
     border-top-left-radius: 55px;
     border-bottom-left-radius: 55px;
 }
-.admin-pnl  .nav-item.active .nav-link {
+.admin-pnl .nav-item.active .nav-link {
     background: var(--accent-red);
     color: #fff;
     font-weight: 600;
@@ -176,10 +181,11 @@ aside.sidebar.collapsed .sidebar-brand {
 /* footer area in sidebar */
 .admin-pnl .sidebar-footer {
     padding: 16px 56px;
+    position: sticky;
 }
 /*new code for admin */
 .admin-pnl .collapsed .sidebar-footer {
-    padding: 16px 0px;
+    padding: 0px 0px 5px 0px;
 }
 .admin-pnl .logout {
     color: #fff;
@@ -190,10 +196,13 @@ aside.sidebar.collapsed .sidebar-brand {
     justify-content: center;
     gap: 10px;
     width: 100%;
-    margin-top: 20px;
-    padding: 12px 0;
+    padding: 8px 0;
     display: flex;
 }
+/* .admin-pnl .collapsed .logout {
+   
+    padding: 12px 0;
+} */
 .admin-pnl .logout:hover {
     opacity: 0.7;
 }
@@ -234,10 +243,11 @@ aside.sidebar.collapsed button.logout span {
     height: 100px;
     display: block;
     margin-right: 12px;
+    cursor: pointer;
 }
 
 /* centered title */
-.header-title {
+/* .header-title {
     text-align: center;
     flex: 1;
     font-size: 16px;
@@ -245,6 +255,17 @@ aside.sidebar.collapsed button.logout span {
     font-weight: 600;
     height: 85px;
     margin-top: 50px;
+} */
+.header-title {
+    text-align: left;
+    color: #111;
+    flex: 1;
+    height: 85px;
+    /* margin-top: 50px; */
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
 }
 
 /* right logo */
@@ -254,9 +275,10 @@ aside.sidebar.collapsed button.logout span {
 }
 
 .header-logo {
-    height: 36px;
+    max-height: 48px;
     object-fit: contain;
-    max-height: 36px;
+    /* max-height: 36px;
+*/
 }
 
 /* content area */
@@ -399,7 +421,6 @@ header.dashboard-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
 }
 
 .add-user-btn {
@@ -513,8 +534,13 @@ header.dashboard-header {
     }
 }
 @media (max-width: 767px) {
-    .header-title{
-        font-size:12px;
+    .header-logo {
+        object-fit: contain;
+        max-height: 40px;
+    }
+    .header-title {
+        margin-top: 0px;
+        height: unset;
     }
     /*new code for admin */
     .admin-pnl .sidebar {
@@ -527,7 +553,7 @@ header.dashboard-header {
         left: 0;
         transform: translateX(0); /* visible */
         transition: transform 0.35s ease; /* smooth */
-        height:100vh;
+        height: 100vh;
     }
     /*new code for admin */
     .admin-pnl.collapsed .sidebar {
@@ -553,10 +579,8 @@ header.dashboard-header {
         padding: 28px 15px;
     }
     .nav-item:hover .nav-link {
-    
-    background: transparent;
-    
-}
+        background: transparent;
+    }
 }
 @media (max-width: 575px) {
     .admin-pnl .dashboard-page article.card img {
@@ -582,6 +606,9 @@ header.dashboard-header {
     .admin-dsbr .btn-black,
     .admin-dsbr .btn-red {
         padding: 5px 7px;
+        font-size: 14px;
+    }
+    .header-title {
         font-size: 14px;
     }
 }

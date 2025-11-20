@@ -2,145 +2,145 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import styles from './Settings.module.css';
-import { translations } from './translations';
-
+// import { translations } from './translations';
+import Image from 'next/image';
 const Settings: React.FC = () => {
     const router = useRouter();
-    const [lang, setLang] = useState('en');
-    const [theme, setTheme] = useState('system');
+    // const [lang, setLang] = useState('en');
+    // const [theme, setTheme] = useState('system');
 
-    const t = translations[lang] || translations['en'];
-    const [value, setValue] = useState(50);
-    const [fontSize, setFontSize] = useState('Medium');
-    const birthDate = new Date('2001-10-16');
+    // const t = translations[lang] || translations['en'];
+    // const [value, setValue] = useState(50);
+    // const [fontSize, setFontSize] = useState('Medium');
+    // const birthDate = new Date('2001-10-16');
 
-    const formattedDOB = new Intl.DateTimeFormat(lang, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    }).format(birthDate);
+    // const formattedDOB = new Intl.DateTimeFormat(lang, {
+    //     year: 'numeric',
+    //     month: 'long',
+    //     day: 'numeric',
+    // }).format(birthDate);
 
-    const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedTheme = e.target.value;
-        console.log('selected theme', selectedTheme);
-        setTheme(selectedTheme);
-        document.documentElement.setAttribute('data-theme', selectedTheme);
-    };
+    // const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const selectedTheme = e.target.value;
+    //     console.log('selected theme', selectedTheme);
+    //     setTheme(selectedTheme);
+    //     document.documentElement.setAttribute('data-theme', selectedTheme);
+    // };
 
-    const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = Number(e.target.value);
+    // const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const value = Number(e.target.value);
 
-        let label = 'Medium';
-        let size = '16px';
-        if (value <= 20) {
-            label = 'extraSmall';
-            size = '12px';
-        } else if (value <= 40) {
-            label = 'Small';
-            size = '14px';
-        } else if (value <= 60) {
-            label = 'Medium';
-            size = '16px';
-        } else if (value <= 80) {
-            label = 'Large';
-            size = '18px';
-        } else {
-            label = 'extraLarge';
-            size = '20px';
-        }
+    //     let label = 'Medium';
+    //     let size = '16px';
+    //     if (value <= 20) {
+    //         label = 'extraSmall';
+    //         size = '12px';
+    //     } else if (value <= 40) {
+    //         label = 'Small';
+    //         size = '14px';
+    //     } else if (value <= 60) {
+    //         label = 'Medium';
+    //         size = '16px';
+    //     } else if (value <= 80) {
+    //         label = 'Large';
+    //         size = '18px';
+    //     } else {
+    //         label = 'extraLarge';
+    //         size = '20px';
+    //     }
 
-        setFontSize(label);
-        document.documentElement.style.setProperty('--dynamic-font-size', size);
-        // Save everything to localStorage
-        localStorage.setItem('font-size', size);
-        localStorage.setItem('font-size-label', label);
-        localStorage.setItem('font-size-value', String(value));
-        localStorage.setItem('slider-value', String(value));
-    };
+    //     setFontSize(label);
+    //     document.documentElement.style.setProperty('--dynamic-font-size', size);
+    //     // Save everything to localStorage
+    //     localStorage.setItem('font-size', size);
+    //     localStorage.setItem('font-size-label', label);
+    //     localStorage.setItem('font-size-value', String(value));
+    //     localStorage.setItem('slider-value', String(value));
+    // };
 
-    const handleAccentChange = (color) => {
-        document.documentElement.style.setProperty('--accent-color', color);
-        //    Save to localStorage
-        localStorage.setItem('accent-color', color);
-    };
+    // const handleAccentChange = (color) => {
+    //     document.documentElement.style.setProperty('--accent-color', color);
+    //     //    Save to localStorage
+    //     localStorage.setItem('accent-color', color);
+    // };
 
-    const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selected = e.target.value;
-        console.log('selected', selected);
-        setLang(selected);
+    // const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    //     const selected = e.target.value;
+    //     console.log('selected', selected);
+    //     setLang(selected);
 
-        localStorage.setItem('language', selected);
-    };
+    //     localStorage.setItem('language', selected);
+    // };
 
-    useEffect(() => {
-        if (theme === 'system') {
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light';
-            document.documentElement.setAttribute('data-theme', systemTheme);
-        }
-        const storedLang = localStorage.getItem('language') || 'en';
-        setLang(storedLang);
-    }, []);
+    // useEffect(() => {
+    //     if (theme === 'system') {
+    //         const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+    //             ? 'dark'
+    //             : 'light';
+    //         document.documentElement.setAttribute('data-theme', systemTheme);
+    //     }
+    //     const storedLang = localStorage.getItem('language') || 'en';
+    //     setLang(storedLang);
+    // }, []);
 
-    useEffect(() => {
-        // Set initial accent color when settings page loads
-        //restore  font-size
-        const storedSize = localStorage.getItem('font-size');
-        const storedLabel = localStorage.getItem('font-size-label');
-        const storedValue = localStorage.getItem('font-size-value');
-        if (storedSize && storedLabel && storedValue) {
-            document.documentElement.style.setProperty('--dynamic-font-size', storedSize);
-            setFontSize(storedLabel);
-            setValue(Number(storedValue));
-        } else {
-            document.documentElement.style.setProperty('--dynamic-font-size', '16px');
-        }
-        //Load stored accent color
-        const storedAccent = localStorage.getItem('accent-color');
-        const radios = document.querySelectorAll<HTMLInputElement>("input[name='accent']");
+    // useEffect(() => {
+    //     // Set initial accent color when settings page loads
+    //     //restore  font-size
+    //     const storedSize = localStorage.getItem('font-size');
+    //     const storedLabel = localStorage.getItem('font-size-label');
+    //     const storedValue = localStorage.getItem('font-size-value');
+    //     if (storedSize && storedLabel && storedValue) {
+    //         document.documentElement.style.setProperty('--dynamic-font-size', storedSize);
+    //         setFontSize(storedLabel);
+    //         setValue(Number(storedValue));
+    //     } else {
+    //         document.documentElement.style.setProperty('--dynamic-font-size', '16px');
+    //     }
+    //     //Load stored accent color
+    //     const storedAccent = localStorage.getItem('accent-color');
+    //     const radios = document.querySelectorAll<HTMLInputElement>("input[name='accent']");
 
-        if (storedAccent) {
-            document.documentElement.style.setProperty('--accent-color', storedAccent);
+    //     if (storedAccent) {
+    //         document.documentElement.style.setProperty('--accent-color', storedAccent);
 
-            //  Match correct radio after reload
-            radios.forEach((radio) => {
-                radio.checked = radio.value === storedAccent;
-            });
-        } else {
-            document.documentElement.style.setProperty('--accent-color', '#B40200');
-        }
-    }, []);
+    //         //  Match correct radio after reload
+    //         radios.forEach((radio) => {
+    //             radio.checked = radio.value === storedAccent;
+    //         });
+    //     } else {
+    //         document.documentElement.style.setProperty('--accent-color', '#B40200');
+    //     }
+    // }, []);
 
-    useEffect(() => {
-        const slider = document.getElementById('r1') as HTMLInputElement | null;
-        if (!slider) return;
-        // Load saved slider value
-        const savedValue = localStorage.getItem('slider-value');
-        if (savedValue) {
-            slider.value = savedValue;
-            setValue(Number(savedValue));
-        }
+    // useEffect(() => {
+    //     const slider = document.getElementById('r1') as HTMLInputElement | null;
+    //     if (!slider) return;
+    //     // Load saved slider value
+    //     const savedValue = localStorage.getItem('slider-value');
+    //     if (savedValue) {
+    //         slider.value = savedValue;
+    //         setValue(Number(savedValue));
+    //     }
 
-        function updateSliderUI(el: HTMLInputElement) {
-            const min = Number(el.min) || 0;
-            const max = Number(el.max) || 100;
-            const val = Number(el.value);
-            const pct = ((val - min) / (max - min)) * 100;
+    //     function updateSliderUI(el: HTMLInputElement) {
+    //         const min = Number(el.min) || 0;
+    //         const max = Number(el.max) || 100;
+    //         const val = Number(el.value);
+    //         const pct = ((val - min) / (max - min)) * 100;
 
-            el.style.setProperty('--slider-progress', `${pct}%`);
-        }
+    //         el.style.setProperty('--slider-progress', `${pct}%`);
+    //     }
 
-        updateSliderUI(slider);
+    //     updateSliderUI(slider);
 
-        const handler = () => updateSliderUI(slider);
+    //     const handler = () => updateSliderUI(slider);
 
-        slider.addEventListener('input', handler);
+    //     slider.addEventListener('input', handler);
 
-        return () => {
-            slider.removeEventListener('input', handler);
-        };
-    }, []);
+    //     return () => {
+    //         slider.removeEventListener('input', handler);
+    //     };
+    // }, []);
 
     const handleAddLocation = () => {
         router.push('/admin/location/addLocation');
@@ -156,21 +156,21 @@ const Settings: React.FC = () => {
         <div className="admin-setting-cntner">
             <div className={styles.profileCnt}>
                 <div className={styles.profileImg}>
-                    <img src="/profile.png" alt="profile-img" />
+                    <Image src="/profile.png" alt="profile-img" width={120} height={120} />
                     <span className={styles.profileHeart}>
-                        <img src="/camera_icon.png" alt="camera-icon" />
+                        <Image src="/camera_icon.png" alt="camera-icon" width={18} height={14} />
                     </span>
                 </div>
                 <div className={styles.profileName}>
-                    <h3>{t.userName}</h3>
-                    <p>{t.participate}</p>
-                    <p>{t.locationText}</p>
+                    <h3>John Doe</h3>
+                    <p>Participate</p>
+                    <p>Leeds, United Kingdom</p>
                 </div>
             </div>
 
             <div className={styles.personInfo}>
                 <div className={styles.prsnHd}>
-                    <h2>{t.personalInfo}</h2>
+                    <h2>Personal Information</h2>
                     <button className={styles.prsnBtn}>
                         <svg
                             width="15"
@@ -186,41 +186,41 @@ const Settings: React.FC = () => {
                                 strokeWidth="0.1"
                             ></path>
                         </svg>
-                        <span>{t.edit}</span>
+                        <span>Edit</span>
                     </button>
                 </div>
 
                 <div className={styles.prflInfoCnt}>
                     <div className={styles.prflName}>
-                        <h4>{t.firstName}</h4>
-                        <h5>{t.lastNameValue}</h5>
+                        <h4>First Name</h4>
+                        <h5>John</h5>
                     </div>
                     <div className={styles.prflName}>
-                        <h4>{t.lastName}</h4>
-                        <h5>{t.firstNameValue}</h5>
+                        <h4>Last Name</h4>
+                        <h5>Doe</h5>
                     </div>
                     <div className={styles.prflName}>
-                        <h4>{t.email}</h4>
-                        <h5>{t.emailValue}</h5>
+                        <h4>Email Address</h4>
+                        <h5>email@gmail.com</h5>
                     </div>
                 </div>
 
                 <div className={`${styles.prflInfoCnt} ${styles.mrgntp}`}>
                     <div className={styles.prflName}>
-                        <h4>{t.phone}</h4>
+                        <h4>Phone Numbe</h4>
                         <h5>(+62)821 525-9583</h5>
                     </div>
                     <div className={styles.prflName}>
-                        <h4>{t.role}</h4>
-                        <h5>{t.participate}</h5>
+                        <h4>User Role</h4>
+                        <h5>Participate</h5>
                     </div>
                     <div className={styles.prflName}>
-                        <h4>{t.dob}</h4>
-                        <h5>{formattedDOB}</h5>
+                        <h4>Date of birth</h4>
+                        <h5>October 16, 2001</h5>
                     </div>
                 </div>
             </div>
-
+            {/* 
             <div className={styles.acntInfo}>
                 <h2>{t.accountPreferences}</h2>
 
@@ -285,9 +285,9 @@ const Settings: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className={styles.themeInfo}>
+            {/* <div className={styles.themeInfo}>
                 <h2>{t.themeAndDisplay}</h2>
 
                 <div className={`${styles.settingsBox} ${styles.mrgnTop23}`}>
@@ -385,32 +385,32 @@ const Settings: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className={styles.workoutLocn}>
-                <h2>{t.workoutInformation}</h2>
+                <h2>Workout Information</h2>
                 <div className={styles.innerWrkoutLocn}>
-                    <button className={styles.prsnBtn} onClick={handleAddLocation}>
-                        {' '}
-                        {t.addLocation}
-                    </button>
-                    <button className={styles.prsnBtn} onClick={handleAddClass}>
-                        {t.addClass}
-                    </button>
+                    <button className={styles.prsnBtn} onClick={handleAddLocation}>+ Location</button>
+                    <button className={styles.prsnBtn} onClick={handleAddClass}>+ Class</button>
                 </div>
             </div>
 
             <div className={styles.workoutsVdo}>
-                <h2>{t.uploadHeading}</h2>
+                <h2>Upload Photos and Videos for Workout</h2>
                 <div className={styles.uploadBox}>
                     <input type="file" accept="video/*" id="videoUpload" />
                     <label htmlFor="videoUpload" className={styles.uploadLabel}>
                         <div className={styles.uploadIcon}>
-                            <img src="/vdo_upload_icon.png" alt="upload-icon" />
+                            <Image
+                                src="/vdo_upload_icon.png"
+                                alt="upload-icon"
+                                width={25}
+                                height={26}
+                            />
                         </div>
                         <p className={styles.wrkoutVdoPara}>
-                            <span className={styles.workVdioBtn}>{t.selectToUpload}</span>
-                            <span> {t.orDragVideo}</span>
+                            <span className={styles.workVdioBtn}>Select to Upload</span>
+                            <span>or drag your video here</span>
                         </p>
                     </label>
                 </div>

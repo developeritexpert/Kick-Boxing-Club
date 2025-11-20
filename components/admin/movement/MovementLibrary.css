@@ -89,6 +89,13 @@
     font-size: 14px;
     font-weight: 700;
 }
+.admin-library-container .movement-table th:first-child {
+    border-radius: 5px 0 0;
+}
+.admin-library-container .movement-table th:last-child {
+    border-radius: 0 5px 0 0;
+    width: 200px;
+}
 
 .admin-library-container .movement-table thead {
     background-color: #111;
@@ -271,4 +278,31 @@
 }
 .admin-library-container button.delete:hover svg path {
     fill: white;
+}
+.admin-library-container .table-container {
+    overflow-x: auto;
+    width: 100%;
+}
+
+@media (max-width: 575px) {
+    .library-header {
+        align-items: unset;
+        margin-bottom: 0px;
+        flex-direction: column;
+    }
+    .admin-library-container .search-box {
+        max-width: 227px;
+    }
+    .admin-library-container .category-filter {
+        width: 227px;
+    }
+    .admin-library-container .pagination-btn {
+        padding: 4px 10px;
+    }
+    .admin-library-container .pagination-number {
+        padding: 4px 10px;
+    }
+    .admin-library-container .pagination-numbers {
+        gap: 8px;
+    }
 }

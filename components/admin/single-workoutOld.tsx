@@ -91,7 +91,6 @@
 //     //     setIsAppleDevice(needsApplePlayer);
 //     // }, []);
 
-
 //     useEffect(() => {
 //         console.log('detecting device');
 
@@ -827,76 +826,6 @@
 // };
 
 // export default SingleWorkout;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // single-workout.tsx  (backup code only work for chrome browser)
 // 'use client';

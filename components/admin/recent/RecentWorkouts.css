@@ -213,6 +213,10 @@
     font-size: 14px;
     color: black;
 }
+.admin-recnt-wrkout .tble-scrolble {
+    overflow-x: auto;
+    width: 100%;
+}
 @media (max-width: 767px) {
     .admin-recnt-wrkout table.favourites-tbl button.view {
         min-width: 71px;

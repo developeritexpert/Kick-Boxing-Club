@@ -14,7 +14,7 @@ body {
 
 .profileCnt {
     border: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 37px;
+    padding: 15px 17px;
     display: flex;
     align-items: center;
     border-radius: 5px;
@@ -28,6 +28,12 @@ span.profileHeart {
     border-radius: 50px;
     padding: 9px;
 }
+span.profileHeart img {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+}
 
 .profileImg {
     position: relative;
@@ -36,19 +42,19 @@ span.profileHeart {
     margin-left: 30px;
 }
 .profileName h3 {
-    font-size: calc(var(--dynamic-font-size) * 1.6);
+    font-size: 16px;
     font-weight: 600;
 }
 .profileName p {
-    font-size: calc(var(--dynamic-font-size) * 0.875);
+    font-size: 16;
     font-weight: 400;
 }
 
 .personInfo {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    margin-top: 37px;
-    padding-bottom: 43px;
+    margin-top: 25px;
+    padding-bottom: 19px;
 }
 .prsnHd {
     display: flex;
@@ -59,8 +65,8 @@ span.profileHeart {
 button.prsnBtn {
     margin-right: 25px;
     color: white;
-    background-color: var(--accent-color);
-    padding: 16px 31px;
+    background-color: #b40200;
+    padding: 6px 15px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -79,13 +85,14 @@ button.prsnBtn span {
 }
 
 .prsnHd h2 {
-    font-size: calc(var(--dynamic-font-size) * 1.75);
+    font-size: 20px;
     font-weight: 600;
     padding: 30px 0px 30px 37px;
 }
 .prflInfoCnt {
-    padding: 25px 0px 0px 37px;
+    padding: 22px 0 0 17px;
     display: flex;
+    margin-top: 2px !important;
 }
 
 .prflName {
@@ -93,14 +100,14 @@ button.prsnBtn span {
 }
 
 .prflName h4 {
-    font-size: calc(var(--dynamic-font-size) * 1); /* ~16px default */
+    font-size: 16px; /* ~16px default */
     font-weight: 400;
     color: #000000;
     line-height: 24px;
 }
 
 .prflName h5 {
-    font-size: calc(var(--dynamic-font-size) * 1.125); /* ~18px default */
+    font-size: 16px; /* ~18px default */
     font-weight: 600;
     line-height: 30px;
     color: #000000;
@@ -314,7 +321,7 @@ select#timezone {
 }
 .workoutsVdo {
     margin-bottom: 18px;
-    margin-top: 52px;
+    margin-top: 25px;
 }
 .workoutsVdo span.workVdioBtn {
     background-color: #b4020005;
@@ -387,7 +394,7 @@ select#timezone {
     /* ✅ Slider progress & background controlled by CSS variables */
     background: linear-gradient(
         to right,
-        var(--accent-color, #b40200) var(--slider-progress),
+        #b40200 var(--slider-progress),
         rgba(0, 0, 0, 0.1) var(--slider-progress)
     );
     outline: none;
@@ -401,7 +408,7 @@ select#timezone {
     width: 17px;
     height: 17px;
     border-radius: 50%;
-    background: var(--accent-color, #b40200);
+    background: #b40200;
     cursor: pointer;
     background-repeat: no-repeat;
 }
@@ -410,7 +417,7 @@ select#timezone {
     width: 17px;
     height: 17px;
     border-radius: 50%;
-    background: var(--accent-color, #b40200);
+    background: #b40200;
     cursor: pointer;
 }
 .themeInfo .slider::-moz-range-track {
@@ -421,20 +428,20 @@ select#timezone {
 .themeInfo .slider::-moz-rangeprogress {
     height: 12px;
     border-radius: 8px;
-    background: var(--accent-color, #b40200);
+    background: #b40200;
 }
 
 .workoutLocn h2 {
-    font-size: calc(var(--dynamic-font-size) * 1.75); /* ~28px default */
+    font-size: 18px; /* ~28px default */
     font-weight: 600;
     border-bottom: 1px solid #0000001a;
-    padding: 30px 0 30px 37px;
+    padding: 15px 0 15px 17px;
 }
 .workoutLocn {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    margin-top: 37px;
-    padding-bottom: 23px;
+    margin-top: 25px;
+    padding-bottom: 24px;
 }
 .workoutLocn .prsnBtn:hover {
     background: #b71c1c;
@@ -442,7 +449,7 @@ select#timezone {
 .innerWrkoutLocn {
     display: flex;
     margin-top: 23px;
-    margin-left: 37px;
+    margin-left: 17px;
 }
 
 .personInfo button {
@@ -510,32 +517,99 @@ select#timezone {
 
 @media (max-width: 1399px) {
     .profileName h3 {
-        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        font-size: 20px;
     }
     .prflName h5 {
-        font-size: calc(var(--dynamic-font-size) * 1);
+        font-size: 16px;
     }
     .prsnHd h2 {
-        padding: 19px 0 19px 37px;
-        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        padding: 15px 0 15px 17px;
+        font-size: 18px;
         font-weight: 600;
     }
-    button.prsnBtn {
-        padding: 8px 12px;
+    button.Settings-module__wCPJ7a__prsnBtn {
+        padding: 4px 7px;
     }
     button.prsnBtn span {
-        font-size: calc(var(--dynamic-font-size) * 0.94); /* ~15px default */
+        font-size: 15px; /* ~15px default */
     }
     .acntInfo h2,
     .themeInfo h2 {
         padding: 19px 0 19px 37px;
-        font-size: var(--dynamic-font-size, 16px);
+        font-size: 16px;
     }
     .workoutLocn h2 {
-        padding: 19px 0 19px 37px;
-        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        padding: 15px 0 15px 17px;
+
+        font-size: 18px; /* ~24px default */
     }
     .workoutsVdo h2 {
-        font-size: calc(var(--dynamic-font-size) * 1.5); /* ~24px default */
+        font-size: 18px; /* ~24px default */
+    }
+}
+@media (max-width: 767px) {
+    .prflInfoCnt {
+        flex-direction: column;
+    }
+    .prflName {
+        flex: 1;
+        margin-bottom: 18px;
+    }
+    .prflInfoCnt {
+        padding: 8px 0 0 17px;
+        margin-top: 0px !important;
+    }
+    .profileName h3 {
+        font-size: 16px;
+    }
+}
+@media (max-width: 575px) {
+    .prflName h5 {
+        font-size: 15px;
+    }
+    .profileName p {
+    font-size: 14px;
+    font-weight: 400;
+}
+    .profileImg {
+        width: 100px;
+    }
+    span.profileHeart {
+        padding: 6px;
+
+        left: 65px;
+    }
+    span.profileHeart img {
+        width: unset;
+        min-width: 14px;
+        height: 14px;
+        min-height: unset;
+    }
+    .prsnHd h2 {
+        padding: 13px 0 13px 13px;
+        font-size: 16px;
+    }
+    .personInfo button {
+        padding: 3px 9px;
+        font-size: 14px;
+        margin-right: 8px !important;
+    }
+    .workoutLocn h2 {
+        padding: 11px 0 11px 17px;
+        font-size: 16px;
+    }
+    .workoutLocn {
+        padding-bottom: 17px;
+    }
+    .workoutsVdo h2 {
+        font-size: 16px;
+    }
+    .workoutsVdo span.workVdioBtn {
+        margin-bottom: 10px;
+        padding: 5px 15px;
+        font-size: 14px;
+    }
+    .workoutsVdo .uploadBox {
+        padding: 16px;
     }
 }

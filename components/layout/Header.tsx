@@ -17,7 +17,7 @@ export default function AdminHeader({ onToggle }: { onToggle?: () => void }) {
             </div>
 
             <div className="header-title">
-                Welcome to Dashboard, {user?.first_name} {user?.last_name}
+                {user?.first_name} {user?.last_name}
             </div>
 
             <div className="header-right">

@@ -3,11 +3,27 @@
     border-collapse: collapse;
     font-size: 14px;
 }
-.admin-pnl .user-management-container .user-table th,
-.admin-pnl .user-management-container .user-table td {
-    padding: 12px;
-    border: 1px solid #e0e0e0;
+.admin-pnl .user-management-container .user-table th {
+    color: #fff;
     text-align: left;
+    background: #1c1c1c;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 700;
+}
+.admin-pnl .user-management-container .user-table td {
+    color: #000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 13px;
+    font-size: 14px;
+}
+.admin-pnl .user-management-container th:first-child {
+    border-radius: 5px 0 0;
+}
+.admin-pnl .user-management-container th:last-child {
+    border-radius: 0 5px 0 0;
+    width: 200px;
 }
 .admin-pnl .user-management-container .user-name {
     display: flex;
@@ -99,7 +115,6 @@
     white-space: nowrap;
     width: 100%;
     margin-top: 30px;
-    overflow-x: auto;
 }
 .user-management-container .add-user-btn {
     color: #fff;
@@ -176,4 +191,40 @@
 }
 .user-management-container button.delete:hover svg path {
     fill: white;
+}
+.user-management-container .tble-scrolble {
+    overflow-x: auto;
+    width: 100%;
+}
+.admin-pnl .user-management-container .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* .admin-pnl .user-management-container .user-table th,
+.admin-pnl .user-management-container .user-table td {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+} */
+@media (max-width: 575px) {
+    .admin-pnl .user-management-container .table-header h2 {
+        font-size: 15px;
+    }
+    .user-management-container .add-user-btn {
+        padding: 4px 13px;
+    }
+    .admin-pnl .user-management-container .pagination-number {
+        border-radius: 5px;
+        padding: 4px 10px;
+    }
+    .admin-pnl .user-management-container .pagination-btn {
+        padding: 4px 10px;
+    }
+    .admin-pnl .user-management-container .pagination-numbers {
+        gap: 9px;
+    }
+    .admin-pnl .user-management-container .pagination-info {
+        margin-top: 14px;
+    }
 }

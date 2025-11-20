@@ -49,10 +49,10 @@
 
 .movement-management-container .catCtn label {
     font-size: 16px;
-    font-weight:600;
+    font-weight: 600;
 }
-.admin-pnl  .edt-mngment-cnt .table-header{
-justify-content:end;
+.admin-pnl .edt-mngment-cnt .table-header {
+    justify-content: end;
 }
 .movement-management-container .cateSel {
     color: #000;

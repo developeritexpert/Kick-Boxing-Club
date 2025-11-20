@@ -31,24 +31,24 @@
 //                                     var BigIntPolyfill = function(value) {
 //                                         var n = Number(value);
 //                                         var obj = Object.create(null);
-                                        
+
 //                                         obj.valueOf = function() { return n; };
-//                                         obj.toString = function(radix) { 
-//                                             return n.toString(radix || 10); 
+//                                         obj.toString = function(radix) {
+//                                             return n.toString(radix || 10);
 //                                         };
-//                                         obj.toLocaleString = function() { 
-//                                             return n.toLocaleString(); 
+//                                         obj.toLocaleString = function() {
+//                                             return n.toLocaleString();
 //                                         };
-                                        
+
 //                                         return obj;
 //                                     };
-                                    
+
 //                                     // Set on both window and global
 //                                     window.BigInt = BigIntPolyfill;
 //                                     if (typeof global !== 'undefined') {
 //                                         global.BigInt = BigIntPolyfill;
 //                                     }
-                                    
+
 //                                     console.log('BigInt polyfill active for Safari 13');
 //                                 }
 //                             })();
@@ -70,13 +70,6 @@
 //         </html>
 //     );
 // }
-
-
-
-
-
-
-
 
 // code in main branch
 import type { Metadata } from 'next';

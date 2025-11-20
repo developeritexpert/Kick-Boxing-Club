@@ -24,8 +24,8 @@ const menu = [
     {
         key: 'users',
         label: 'User Management',
-        icon: '/create_management_icon.png',
-        alt: 'create-library-icon',
+        icon: '/User Management.png',
+        alt: 'User Management-icon',
         href: '/admin/users',
     },
     // { key: 'workouts', label: 'Workout Library', icon: '📚', href: '/admin/workouts' },
@@ -74,7 +74,7 @@ const menu = [
     // { key: "builder", label: "Workout Builder", icon: "🧩", href: "/admin/builder" },
     {
         key: 'settings',
-        label: 'Setting',
+        label: 'Settings',
         icon: '/setting_icon.png',
         alt: 'setting_icon',
         href: '/admin/settings',
@@ -127,10 +127,13 @@ export default function AdminSidebar({ collapsed, setCollapsed }: Props) {
     };
 
     if (!mounted) return null;
-    const handleSidebar = () => {
-        setCollapsed(!collapsed);
-    };
 
+    const handleSidebar = () => {
+        if (window.innerWidth <= 768) {
+            // Only mobile
+            setCollapsed(true);
+        }
+    };
     return (
         <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`} aria-label="Sidebar">
             <div className="sidebar-top">
@@ -139,14 +142,18 @@ export default function AdminSidebar({ collapsed, setCollapsed }: Props) {
                         ☰
                     </div> */}
                     {!collapsed && <div className="brand-text">All Locations</div>}
-                      {collapsed && <div className="brand-logo">
-                        <Image src="/KickboxingLogo.png" alt="kickboxing-logo" width={33} height={33} />
-                        </div>}
-                       
+                    {collapsed && (
+                        <div className="brand-logo">
+                            <Image
+                                src="/KickboxingLogo.png"
+                                alt="kickboxing-logo"
+                                width={33}
+                                height={33}
+                            />
+                        </div>
+                    )}
                 </div>
-               
-                    
-              
+
                 <div className="close_btn" onClick={handleSidebar}>
                     <img src="/new_close.png" alt="close-img" />
                 </div>
@@ -159,7 +166,11 @@ export default function AdminSidebar({ collapsed, setCollapsed }: Props) {
                             m.href === '/admin' ? pathname === '/admin' : pathname === m.href;
 
                         return (
-                            <li key={m.key} className={`nav-item ${isActive ? 'active' : ''}`}>
+                            <li
+                                key={m.key}
+                                className={`nav-item ${isActive ? 'active' : ''}`}
+                                onClick={handleSidebar}
+                            >
                                 <Link href={m.href} className="nav-link">
                                     <span className="nav-icon">
                                         <Image
