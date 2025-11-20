@@ -1,6 +1,6 @@
 // zustand store
 import { create } from 'zustand';
-import { persist, createJSONStorage , PersistStorage } from 'zustand/middleware';
+import { persist, createJSONStorage, PersistStorage } from 'zustand/middleware';
 
 export interface User {
     id: string;
@@ -17,15 +17,16 @@ interface AuthState {
     clearUser: () => void;
 }
 
-const getStorage = () : PersistStorage<AuthState> | undefined => {
+const getStorage = (): PersistStorage<AuthState> | undefined => {
     if (typeof window === 'undefined') return undefined;
-    
-    const rememberMe = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('remember-me='))
-        ?.split('=')[1] === 'true';
-    
-    return createJSONStorage<AuthState>(() => rememberMe ? localStorage : sessionStorage);
+
+    const rememberMe =
+        document.cookie
+            .split('; ')
+            .find((row) => row.startsWith('remember-me='))
+            ?.split('=')[1] === 'true';
+
+    return createJSONStorage<AuthState>(() => (rememberMe ? localStorage : sessionStorage));
 };
 
 export const useAuthStore = create(
@@ -41,35 +42,6 @@ export const useAuthStore = create(
         },
     ),
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { create } from 'zustand';
 // import { persist, createJSONStorage ,PersistStorage } from 'zustand/middleware';
@@ -91,12 +63,12 @@ export const useAuthStore = create(
 
 // const getStorage = (): PersistStorage<AuthState> | undefined => {
 //     if (typeof window === 'undefined') return undefined;
-    
+
 //     const rememberMe = document.cookie
 //         .split('; ')
 //         .find(row => row.startsWith('remember-me='))
 //         ?.split('=')[1] === 'true';
-    
+
 //     return createJSONStorage<AuthState>(() => rememberMe ? localStorage : sessionStorage);
 // };
 
@@ -113,37 +85,6 @@ export const useAuthStore = create(
 //         },
 //     ),
 // );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // zustand (original )
 

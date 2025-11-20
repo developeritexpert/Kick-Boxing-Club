@@ -1,36 +1,27 @@
-.user-table-container {
-    overflow-x: auto;
-    margin-top: 20px;
-}
-
-.user-table {
+.admin-pnl .user-management-container .user-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
 }
-
-.user-table th,
-.user-table td {
+.admin-pnl .user-management-container .user-table th,
+.admin-pnl .user-management-container .user-table td {
     padding: 12px;
     border: 1px solid #e0e0e0;
     text-align: left;
 }
-
-.user-name {
+.admin-pnl .user-management-container .user-name {
     display: flex;
     align-items: center;
     gap: 0.75rem;
 }
-
-.avatar-placeholder {
+.admin-pnl .user-management-container .avatar-placeholder {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     background-color: #ccc;
 }
-
-.edit-btn,
-.delete-btn {
+.admin-pnl .user-management-container .edit-btn,
+.admin-pnl .user-management-container .delete-btn {
     padding: 6px 10px;
     margin-right: 6px;
     font-size: 13px;
@@ -38,27 +29,24 @@
     cursor: pointer;
     border-radius: 4px;
 }
-
-.edit-btn {
+.admin-pnl .user-management-container .edit-btn {
     background-color: #000;
     color: white;
 }
-
-.delete-btn {
+.admin-pnl .user-management-container .delete-btn {
     background-color: #d60000;
     color: white;
 }
 
 /* Pagination styles */
-.pagination {
+.admin-pnl .user-management-container .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 30px;
 }
-
-.pagination-btn {
+.admin-pnl .user-management-container .pagination-btn {
     padding: 8px 16px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -67,22 +55,18 @@
     font-size: 14px;
     transition: all 0.3s;
 }
-
-.pagination-btn:hover:not(:disabled) {
+.admin-pnl .user-management-container .pagination-btn:hover:not(:disabled) {
     background-color: #f0f0f0;
 }
-
-.pagination-btn:disabled {
+.admin-pnl .user-management-container .pagination-btn:disabled {
     cursor: not-allowed;
     opacity: 0.5;
 }
-
-.pagination-numbers {
+.admin-pnl .user-management-container .pagination-numbers {
     display: flex;
     gap: 5px;
 }
-
-.pagination-number {
+.admin-pnl .user-management-container .pagination-number {
     padding: 8px 12px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -91,20 +75,105 @@
     font-size: 14px;
     transition: all 0.3s;
 }
-
-.pagination-number:hover {
+.admin-pnl .user-management-container .pagination-number:hover {
     background-color: #f0f0f0;
 }
-
-.pagination-number.active {
+.admin-pnl .user-management-container .pagination-number.active {
     background-color: #b40200;
     color: white;
     border-color: #b40200;
 }
-
-.pagination-info {
+.admin-pnl .user-management-container .pagination-info {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 25px;
     font-size: 14px;
-    color: #666;
+    color: black;
+}
+.admin-pnl .user-management-container .table-header h2 {
+    color: #000;
+
+    font-size: 17px;
+    font-weight: 600;
+}
+.user-management-container .user-table {
+    white-space: nowrap;
+    width: 100%;
+    margin-top: 30px;
+    overflow-x: auto;
+}
+.user-management-container .add-user-btn {
+    color: #fff;
+    cursor: pointer;
+    background: #b40200;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 13px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.user-management-container .add-user-btn:hover {
+    background: #b71c1c;
+}
+
+.user-management-container button.view {
+    background-color: #b40200;
+    border: 1px solid #b40200;
+    color: white;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.user-management-container button.view:hover {
+    background-color: white;
+    color: #b40200;
+}
+.user-management-container button.view:hover svg path {
+    fill: #b40200;
+}
+
+.user-management-container button.view img {
+    width: 14px;
+    height: 14px;
+}
+.user-management-container button.view > div {
+    font-size: 12px;
+    line-height: 1.2;
+}
+.user-management-container .fav-btn {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+.user-management-container button.delete {
+    display: flex;
+    padding: 6px 10px;
+    border: 1px solid #0000001a;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.user-management-container button.delete img {
+    width: 11px;
+    height: 14px;
+}
+.user-management-container button.delete > div {
+    font-size: 12px;
+    color: #000000;
+}
+.user-management-container button.delete:hover > div {
+    color: white;
+}
+.user-management-container button.delete:hover {
+    background: #000;
+
+    border: 1px solid white;
+}
+.user-management-container button.delete:hover svg path {
+    fill: white;
 }

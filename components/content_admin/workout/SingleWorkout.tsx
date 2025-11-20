@@ -760,13 +760,6 @@ const SingleWorkout: React.FC = () => {
 
 export default SingleWorkout;
 
-
-
-
-
-
-
-
 // without air play
 // 'use client';
 

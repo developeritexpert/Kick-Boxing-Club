@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/useAuthStore';
 import './CreateMovement.css';
+import Image from 'next/image';
 
 const CreateMovement: React.FC = () => {
     const router = useRouter();
@@ -206,7 +207,7 @@ const CreateMovement: React.FC = () => {
     const showSubCategory: boolean = selectedTag?.name === 'HIIT';
 
     return (
-        <div className="movement-container">
+        <div className="movement-container admin-crt-movment">
             <div className="movement-card">
                 <h2>Movement Details</h2>
                 <form onSubmit={handleSubmit} className="movement-form">
@@ -267,7 +268,9 @@ const CreateMovement: React.FC = () => {
                         </>
                     )}
 
-                    <label htmlFor="videoUpload">Upload Video</label>
+                    <label htmlFor="videoUpload" className="upld-video">
+                        Upload Video
+                    </label>
                     <div className="upload-box">
                         <input
                             type="file"
@@ -283,11 +286,17 @@ const CreateMovement: React.FC = () => {
                             onDragOver={handleDragOver}
                             onDragLeave={handleDragLeave}
                         >
-                            <div className="upload-icon">⬆️</div>
-                            <p>
-                                Select to Upload
-                                <br />
-                                or drag your video here
+                            <div className="uploadIcon">
+                                <Image
+                                    src="/vdo_upload_icon.png"
+                                    alt="upload-icon"
+                                    width={25}
+                                    height={26}
+                                />
+                            </div>
+                            <p className="wrkoutVdoPara">
+                                <span className="workVdioBtn">Select To Upload</span>
+                                <span> or drag your video here</span>
                             </p>
                         </label>
                         {video && (

@@ -1,101 +1,344 @@
 .movement-management-container {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    max-width: 900px;
-    margin: 0 auto;
+    border-radius: 5px;
+    padding-bottom: 43px;
 }
 
-.edit-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.edit-header h2 {
-    font-size: 1.5rem;
+.movement-management-container .hdr {
+    padding: 13px 0 13px 37px;
+    border: 1px solid #0000001a;
+    font-size: 19px;
     font-weight: 600;
-    color: #111;
+}
+.movement-management-container .inside-frm-grid {
+    padding: 25px 19px 43px 19px;
+    border: 1px solid #0000001a;
+}
+.movement-management-container .sbcategory {
+    width: 50%;
+    margin-top: 20px;
 }
 
-.edit-movement-form {
+.movement-management-container .editMvmntCntnt {
+    display: flex;
+    width: 100%;
+}
+
+.movement-management-container .catCtn {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    flex: 1;
+    gap: 15px;
+    position: relative;
+    padding: 0px 18px;
 }
 
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+/* .catCtn::after {
+    content: '';
+    background-image: url('/dropdown_icon.png');
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 61px;
+    right: 50px;
+} */
+
+.movement-management-container .catCtn select {
+    appearance: none;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
+.movement-management-container .catCtn label {
+    font-size: 16px;
+    font-weight:600;
+}
+.admin-pnl  .edt-mngment-cnt .table-header{
+justify-content:end;
+}
+.movement-management-container .cateSel {
+    color: #000;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 15px 25px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+    background-color: #fbfbf9;
 }
 
-.form-group.full-width {
-    grid-column: span 2;
+.movement-management-container .cateSel:focus {
+    border-color: #000;
+    outline: none;
 }
 
-label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: #333;
+.movement-management-container .subcategory {
+    margin-top: 26px;
+    width: 50%;
 }
 
-input,
-select {
-    padding: 0.6rem 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 0.95rem;
+.movement-management-container .workoutsVdo {
+    margin-top: 52px;
+    margin-bottom: 18px;
 }
 
-.upload-box {
-    border: 2px dashed #ccc;
-    border-radius: 8px;
+.movement-management-container .workoutsVdo > label {
+    color: #000;
+    font-size: 17px;
+    margin-bottom: 18px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.movement-management-container .uploadBox {
     text-align: center;
-    padding: 1.5rem;
-    color: #666;
-    background: #f9f9f9;
+    background-color: rgba(1, 1, 1, 0.01);
+    border: 1px dashed rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 25px;
     position: relative;
 }
-
-.upload-box input[type='file'] {
+.movement-management-container .workoutsVdo .videoUpload {
     display: none;
 }
 
-.form-actions {
+.movement-management-container .uploadLabel {
+    cursor: pointer;
+    color: #777;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.movement-management-container .uploadIcon {
+    margin-bottom: 23px;
+}
+
+.movement-management-container .wrkoutVdoPara {
+    color: #000;
+    display: flex;
+    flex-direction: column;
+}
+
+.movement-management-container .workVdioBtn {
+    color: #000;
+    font-size: 13px;
+    background-color: rgba(180, 2, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-bottom: 12px;
+    padding: 12px 20px;
+    font-weight: 600;
+}
+
+.movement-management-container .deltBtn {
+}
+
+/* Buttons shared style */
+.movement-management-container .btnBlack {
+    background: #000;
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-weight: 600;
+}
+
+.user-management-container .btnRed {
+    background: #b40200;
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-weight: 600;
+}
+
+.movement-management-container .btnRed:hover {
+    color: #b40200;
+    border: 1px solid #b40200;
+    background-color: white;
+}
+.movement-management-container .btnBlack:hover {
+    color: #000;
+    border: 1px solid #000;
+    background-color: white;
+}
+
+.movement-management-container .cateSel option {
+    background-color: #fbfbf9;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+}
+
+.movement-management-container .cateSel option:hover {
+    background-color: #000;
+    color: white;
+}
+
+/* For Safari/Chrome specific tweak */
+.movement-management-container .cateSel:focus option:checked {
+    background-color: #fbfbf9;
+    color: #b40200;
+}
+
+/* Dropdown Wrapper */
+.movement-management-container .customDropdown {
+    position: relative;
+    width: 100%;
+}
+.movement-management-container .mvnmentLibraryBtns {
     display: flex;
     justify-content: space-between;
-    margin-top: 2rem;
+    margin-top: 27px;
 }
 
-.del-btn {
-    background: #000;
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 6px;
-    font-weight: 500;
+/* Dropdown Button */
+.movement-management-container .dropdownBtn {
+    width: 100%;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 7px 25px;
+    text-align: left;
     cursor: pointer;
+    font-size: 15px;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.save-btn {
-    background: #d72626;
-    color: white;
-    padding: 0.6rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    font-weight: 500;
+/* Dropdown List */
+.movement-management-container .dropdownList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fbfbf9;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    margin-top: 8px;
+    list-style: none;
+    padding: 0;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Dropdown Items */
+.movement-management-container .dropdownItem {
+    padding: 15px 25px;
+    font-size: 15px;
+    color: #000;
     cursor: pointer;
+    transition: background 0.2s;
 }
 
-.save-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+/* Hover Effect */
+.movement-management-container .dropdownItem:hover {
+    background: #f0f0ed;
+}
+
+/* Default arrow */
+.movement-management-container .dropdownBtn::after {
+    content: '';
+    background-image: url('/dropdown_icon.png');
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 16px;
+    top: 64%;
+    transform: translateY(-50%); /* nice centering */
+    transition: transform 0.3s ease; /* smooth rotation */
+}
+
+/* Rotate when active/open */
+.movement-management-container .active::after {
+    transform: translateY(-50%) rotate(180deg);
+    top: 39%;
+}
+/* Focus state */
+.movement-management-container .dropdownBtn:focus,
+.movement-management-container .dropdownBtn:focus-visible {
+    color: #000;
+    border-color: #000;
+    outline: none;
+}
+.movement-management-container .mvmntName input,
+.movement-management-container .mvmntName select {
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 7px 15px;
+    color: black;
+}
+.movement-management-container .mvmntName input::placeholder {
+    color: black;
+}
+
+.movement-management-container .mvmntName input:focus,
+.movement-management-container .mvmntName select:focus {
+    border: 1px solid #000;
+    outline: none;
+}
+
+@media (max-width: 1399px) {
+    .movement-management-container .hdr {
+        padding: 13px 0 13px 37px;
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 767px) {
+    .movement-management-container .subcategory {
+        width: 100%;
+    }
+
+    .movement-management-container .editMvmntCntnt {
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .movement-management-container .hdr {
+        padding: 14px 0 12px 18px;
+        font-size: 20px;
+    }
+
+    .movement-management-container c .editMvmbt {
+        margin-top: 20px;
+        padding: 0px 0px;
+    }
+
+    .movement-management-container .deltBtn {
+        margin-top: 15px;
+    }
+    .movementLibrarySec .dropdownBtn {
+        padding: 10px 14px;
+    }
+    .movement-management-container .dropdownBtn:after {
+        right: 15px;
+    }
+    .movement-management-container .editMvmntCntnt {
+        flex-direction: column;
+        gap: 25px;
+    }
+    .movement-management-container .MovementLibrary .catCtn {
+        flex-direction: column;
+        flex: 1;
+        gap: 9px;
+        padding: 0 18px;
+        display: flex;
+        position: relative;
+    }
+}
+@media (max-width: 575px) {
+    .movement-management-container .mvnmentLibraryBtns {
+        flex-direction: column;
+    }
+    .movement-management-container .mvnmentLibraryBtns button {
+        max-width: 170px;
+    }
 }

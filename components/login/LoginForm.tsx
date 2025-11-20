@@ -146,39 +146,7 @@ export default function LoginForm() {
     );
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// original without remember me 
+// original without remember me
 // // login form
 // 'use client';
 

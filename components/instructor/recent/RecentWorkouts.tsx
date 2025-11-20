@@ -159,7 +159,7 @@ const RecentWorkouts: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredWorkouts.map((workout , index) => (
+                    {filteredWorkouts.map((workout, index) => (
                         <tr key={workout.workout_id}>
                             <td>{index + 1}</td>
                             <td>{workout.workout_name}</td>

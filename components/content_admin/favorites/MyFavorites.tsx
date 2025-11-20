@@ -130,7 +130,7 @@ const MyFavorites: React.FC = () => {
                 <table className="favourites-tbl">
                     <thead>
                         <tr>
-                            <th>S.No</th>                            
+                            <th>S.No</th>
                             <th>Workout Name</th>
                             <th>Class</th>
                             <th>Created By</th>

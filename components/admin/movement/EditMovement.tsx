@@ -343,124 +343,134 @@ export default function EditMovementPage() {
     const showSubCategory: boolean = selectedTag?.name === 'HIIT';
 
     return (
-        <div className="movement-management-container">
-            <div className="edit-header">
-                <h2>Edit Movement</h2>
-            </div>
+        <div className="admin-mvment-mngmnt">
+            <div className="movement-management-container">
+                <div className=" hdr">
+                    <h2>Edit Movement</h2>
+                </div>
 
-            <form onSubmit={handleSubmit} className="edit-movement-form">
-                <div className="form-grid">
-                    <div className="form-group">
-                        <label htmlFor="movementName">Movement Name</label>
-                        <input
-                            id="movementName"
-                            type="text"
-                            value={name}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                setName(e.target.value)
-                            }
+                <form onSubmit={handleSubmit} className="edit-movement-form">
+                    <div className="form-grid ">
+                        <div className="inside-frm-grid">
+                            <div className="editMvmbt">
+                                <div className="editMvmntCntnt">
+                                    <div className="form-group mvmntName catCtn">
+                                        <label htmlFor="movementName">Movement Name</label>
+                                        <input
+                                            id="movementName"
+                                            type="text"
+                                            value={name}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                                setName(e.target.value)
+                                            }
+                                            disabled={saving}
+                                            required
+                                            placeholder="Enter movement name"
+                                        />
+                                    </div>
+
+                                    <div className="form-group mvmntName catCtn">
+                                        <label htmlFor="category">Category</label>
+                                        <select
+                                            id="category"
+                                            value={category}
+                                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                                                const selected: string = e.target.value;
+                                                setCategory(selected);
+                                            }}
+                                            disabled={saving || isLoadingCategories}
+                                            required
+                                        >
+                                            {isLoadingCategories ? (
+                                                <option disabled>Loading categories...</option>
+                                            ) : tags.length > 0 ? (
+                                                tags.map((tag: Category) => (
+                                                    <option key={tag.id} value={tag.id}>
+                                                        {tag.name}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>No categories available</option>
+                                            )}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {showSubCategory && (
+                                <div className="form-group mvmntName catCtn sbcategory">
+                                    <label htmlFor="subCategory">Sub-category</label>
+                                    <select
+                                        id="subCategory"
+                                        value={subCategory}
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                                            setSubCategory(e.target.value)
+                                        }
+                                        disabled={saving}
+                                        required
+                                    >
+                                        <option value="">Select sub-category</option>
+                                        <option value="Upper Body">Upper Body</option>
+                                        <option value="Lower Body">Lower Body</option>
+                                        <option value="Full Body">Full Body</option>
+                                        <option value="Core">Core</option>
+                                    </select>
+                                </div>
+                            )}
+                        </div>
+                        <div className="form-group full-width workoutsVdo ">
+                            <label htmlFor="videoUpload">Upload New Video (Optional)</label>
+                            <div className="uploadBox">
+                                <input
+                                    type="file"
+                                    accept="video/*"
+                                    id="videoUpload"
+                                    onChange={handleFileChange}
+                                    disabled={saving}
+                                    className="videoUpload"
+                                />
+                                <label
+                                    htmlFor="videoUpload"
+                                    className={`uploadLabel ${dragActive ? 'drag-active' : ''} ${
+                                        saving ? 'disabled' : ''
+                                    }`}
+                                    onDrop={handleDrop}
+                                    onDragOver={handleDragOver}
+                                    onDragLeave={handleDragLeave}
+                                >
+                                    <div className="uploadIcon">
+                                        <img alt="upload-icon" src="/vdo_upload_icon.png" />
+                                    </div>
+                                    <p className="wrkoutVdoPara">
+                                        <span className="workVdioBtn">Select to Upload</span>
+
+                                        <span>or drag your video here</span>
+                                    </p>
+                                </label>
+                                {media && (
+                                    <p className="file-name">
+                                        {media.name} ({(media.size / (1024 * 1024)).toFixed(2)} MB)
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="form-actions mvnmentLibraryBtns">
+                        <button
+                            type="button"
+                            className="deltBtn btnBlack "
+                            onClick={handleDelete}
                             disabled={saving}
-                            required
-                            placeholder="Enter movement name"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="category">Category</label>
-                        <select
-                            id="category"
-                            value={category}
-                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                                const selected: string = e.target.value;
-                                setCategory(selected);
-                            }}
-                            disabled={saving || isLoadingCategories}
-                            required
                         >
-                            {isLoadingCategories ? (
-                                <option disabled>Loading categories...</option>
-                            ) : tags.length > 0 ? (
-                                tags.map((tag: Category) => (
-                                    <option key={tag.id} value={tag.id}>
-                                        {tag.name}
-                                    </option>
-                                ))
-                            ) : (
-                                <option disabled>No categories available</option>
-                            )}
-                        </select>
+                            Delete Movement
+                        </button>
+                        <button type="submit" className="save-btn btnRed deltBtn" disabled={saving}>
+                            {saving ? 'Saving...' : 'Save Changes'}
+                        </button>
                     </div>
-
-                    {showSubCategory && (
-                        <div className="form-group">
-                            <label htmlFor="subCategory">Sub-category</label>
-                            <select
-                                id="subCategory"
-                                value={subCategory}
-                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                                    setSubCategory(e.target.value)
-                                }
-                                disabled={saving}
-                                required
-                            >
-                                <option value="">Select sub-category</option>
-                                <option value="Upper Body">Upper Body</option>
-                                <option value="Lower Body">Lower Body</option>
-                                <option value="Full Body">Full Body</option>
-                                <option value="Core">Core</option>
-                            </select>
-                        </div>
-                    )}
-
-                    <div className="form-group full-width">
-                        <label htmlFor="videoUpload">Upload New Video (Optional)</label>
-                        <div className="upload-box">
-                            <input
-                                type="file"
-                                accept="video/*"
-                                id="videoUpload"
-                                onChange={handleFileChange}
-                                disabled={saving}
-                            />
-                            <label
-                                htmlFor="videoUpload"
-                                className={`upload-label ${dragActive ? 'drag-active' : ''} ${
-                                    saving ? 'disabled' : ''
-                                }`}
-                                onDrop={handleDrop}
-                                onDragOver={handleDragOver}
-                                onDragLeave={handleDragLeave}
-                            >
-                                <div className="upload-icon">⬆️</div>
-                                <p>
-                                    Select to Upload
-                                    <br />
-                                    or drag your video here
-                                </p>
-                            </label>
-                            {media && (
-                                <p className="file-name">
-                                    {media.name} ({(media.size / (1024 * 1024)).toFixed(2)} MB)
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="form-actions">
-                    <button
-                        type="button"
-                        className="del-btn"
-                        onClick={handleDelete}
-                        disabled={saving}
-                    >
-                        Delete Movement
-                    </button>
-                    <button type="submit" className="save-btn" disabled={saving}>
-                        {saving ? 'Saving...' : 'Save Changes'}
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     );
 }

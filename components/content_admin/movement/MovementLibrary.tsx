@@ -74,7 +74,10 @@ const MovementLibraryWorkouts: React.FC = () => {
             }
 
             if (res.status === 409 || data?.code === 'MOVEMENT_IN_USE') {
-                toast.error(data.error || 'This movement is already used in a workout and cannot be deleted.');
+                toast.error(
+                    data.error ||
+                        'This movement is already used in a workout and cannot be deleted.',
+                );
                 return;
             }
 
@@ -82,8 +85,7 @@ const MovementLibraryWorkouts: React.FC = () => {
         } catch (err) {
             if (err instanceof Error) {
                 toast.error(err.message);
-            }
-            else {
+            } else {
                 toast.error('Something went wrong while deleting movement.');
             }
         }

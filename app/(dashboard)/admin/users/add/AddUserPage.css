@@ -1,99 +1,130 @@
 /* AddUserPage.css */
 
 .add-user-container {
-    padding: 2rem;
+    padding: 0px 2rem;
     max-width: 1000px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
 }
 
-.page-title {
-    font-size: 24px;
+.add-user-container .page-title {
+    margin-bottom: 20px;
+    font-size: 18px;
     font-weight: 600;
-    margin-bottom: 0.25rem;
 }
 
-.page-subtitle {
-    color: #666;
-    margin-bottom: 2rem;
+.add-user-container .page-subtitle {
+    color: black;
+    margin-bottom: 20px;
 }
 
-.form-grid {
+.add-user-container .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
 }
 
-.form-group {
+.add-user-container .form-group {
     display: flex;
     flex-direction: column;
 }
 
-.form-group label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
-.form-group input,
-.form-group select {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.add-user-container .form-group label {
+    font-weight: 600;
+    margin-bottom: 10px;
     font-size: 14px;
 }
 
-.full-width {
+.add-user-container .label {
+    color: black;
+}
+.add-user-container .form-group input,
+.add-user-container .form-group select {
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: black;
+}
+.add-user-container .form-group input::placeholder,
+.add-user-container .form-group select::placeholder {
+    color: black;
+}
+.add-user-container .form-group input:focus,
+.add-user-container .form-group select:focus {
+    border: 1px solid black;
+    outline: none;
+    color: black;
+}
+
+.add-user-container .full-width select {
+    width: 48%;
+}
+
+.add-user-container .full-width {
     grid-column: 1 / -1;
 }
 
-.form-actions {
+.add-user-container .form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
     margin-top: 1rem;
 }
 
-.btn {
-    padding: 0.6rem 1.5rem;
+.add-user-container .btn {
+    padding: 7px 10px;
     font-size: 14px;
-    border: none;
+
     cursor: pointer;
     border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.4s;
+    font-weight: 600;
 }
 
-.btn.cancel {
+.add-user-container .btn.cancel {
     background-color: #000;
     color: #fff;
 }
-
-.btn.save {
-    background-color: #d60000;
-    color: #fff;
+.add-user-container .btn.cancel:hover {
+    color: #000;
+    background-color: white;
+    border: 1px solid black;
 }
 
-.message {
+.add-user-container .btn.save {
+    background-color: #b40200;
+    color: #fff;
+}
+.add-user-container .btn.save:hover {
+    background-color: white;
+    color: #b40200;
+    border: 1px solid #b40200;
+}
+.add-user-container .message {
     margin-top: 1rem;
     font-weight: 500;
 }
 
-.error-message {
+.add-user-container .error-message {
     color: #ef4444;
     font-size: 0.875rem;
     margin-top: 0.25rem;
     display: block;
 }
 
-.required {
+.add-user-container .required {
     color: #ef4444;
 }
 
-.field-hint {
+.add-user-container .field-hint {
     display: block;
     color: #6b7280;
     font-size: 0.875rem;
     margin-top: 0.25rem;
 }
 
-.spinner {
+.add-user-container .spinner {
     display: inline-block;
     width: 14px;
     height: 14px;

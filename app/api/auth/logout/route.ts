@@ -9,18 +9,13 @@ export async function POST() {
         await supabaseClient.auth.signOut();
 
         const response = NextResponse.json({ status: 'ok' });
-        
-        const cookieStore = await cookies();
-        
-        // Clear all auth-related cookies
-        const cookiesToClear = [
-            'sb-access-token',
-            'sb-refresh-token',
-            'user-role',
-            'remember-me'
-        ];
 
-        cookiesToClear.forEach(cookieName => {
+        const cookieStore = await cookies();
+
+        // Clear all auth-related cookies
+        const cookiesToClear = ['sb-access-token', 'sb-refresh-token', 'user-role', 'remember-me'];
+
+        cookiesToClear.forEach((cookieName) => {
             if (cookieStore.has(cookieName)) {
                 response.cookies.delete(cookieName);
             }
@@ -35,8 +30,7 @@ export async function POST() {
     }
 }
 
-
-// user null after one day 
+// user null after one day
 // import { NextResponse } from 'next/server';
 // import { supabaseClient } from '@/lib/supabaseClient';
 
@@ -61,16 +55,6 @@ export async function POST() {
 //         );
 //     }
 // }
-
-
-
-
-
-
-
-
-
-
 
 // // logout api (original)
 // import { NextResponse } from 'next/server';

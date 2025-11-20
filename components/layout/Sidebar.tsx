@@ -81,7 +81,7 @@ const menu = [
     },
 ];
 
-export default function ContentAdminSidebar({ collapsed, setCollapsed }: Props) {
+export default function AdminSidebar({ collapsed, setCollapsed }: Props) {
     const [mounted, setMounted] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
@@ -127,6 +127,9 @@ export default function ContentAdminSidebar({ collapsed, setCollapsed }: Props) 
     };
 
     if (!mounted) return null;
+    const handleSidebar = () => {
+        setCollapsed(!collapsed);
+    };
 
     return (
         <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`} aria-label="Sidebar">
@@ -136,6 +139,16 @@ export default function ContentAdminSidebar({ collapsed, setCollapsed }: Props) 
                         ☰
                     </div> */}
                     {!collapsed && <div className="brand-text">All Locations</div>}
+                      {collapsed && <div className="brand-logo">
+                        <Image src="/KickboxingLogo.png" alt="kickboxing-logo" width={33} height={33} />
+                        </div>}
+                       
+                </div>
+               
+                    
+              
+                <div className="close_btn" onClick={handleSidebar}>
+                    <img src="/new_close.png" alt="close-img" />
                 </div>
             </div>
 

@@ -31,10 +31,11 @@
     height: auto;
 }
 
-.workout-title {
+.single-workout-container .workout-title {
     color: #000000;
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 7px;
 }
 
 .workout-meta {

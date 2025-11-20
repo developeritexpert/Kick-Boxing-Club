@@ -13,10 +13,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     useEffect(() => {
         setMounted(true);
+        if (window.innerWidth < 768) {
+            setCollapsed(true);
+        }
     }, []);
 
     return (
-        <div className={`admin-layout ${collapsed ? 'collapsed' : ''}`}>
+        <div className={`admin-pnl admin-layout  ${collapsed ? 'collapsed' : ''}`}>
             {/* <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} /> */}
             {mounted && <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />}
 

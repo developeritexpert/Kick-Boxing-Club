@@ -118,7 +118,7 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
     if (!id) return NextResponse.json({ error: 'Movement ID required' }, { status: 400 });
 
     try {
-        // movement alredy in use 
+        // movement alredy in use
         const { data: usage, error: usageError } = await supabaseAdmin
             .from('workout_movements')
             .select('id')
@@ -142,7 +142,7 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
                 { status: 409 },
             );
         }
-        
+
         const { data: existing, error: fetchError } = await supabaseAdmin
             .from('movements')
             .select('id, video_id')

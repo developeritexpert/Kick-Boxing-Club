@@ -276,9 +276,9 @@ export default function EditUserPage() {
     }
 
     return (
-        <div className="user-management-container">
+        <div className="user-management-containr">
             <div className="page-header">
-                <h2 className="page-title">Edit User</h2>
+                {/* <h2 className="page-title">Edit User</h2> */}
                 <p className="page-subtitle">
                     Update user information for {user.first_name} {user.last_name}
                 </p>

@@ -21,14 +21,16 @@ export function useSessionRestore() {
                 const response = await fetch('/api/auth/me', {
                     credentials: 'include',
                 });
-                
+
                 if (response.ok) {
                     const userData = await response.json();
                     setUser(userData.user);
                     console.log('Session restored from cookies:', userData.user);
-                    
+
                     // Set the session in Supabase client for subsequent requests
-                    const { data: { session } } = await supabaseClient.auth.getSession();
+                    const {
+                        data: { session },
+                    } = await supabaseClient.auth.getSession();
                     if (!session) {
                         // If API says we're logged in but Supabase doesn't have session,
                         // trigger a refresh
@@ -38,12 +40,17 @@ export function useSessionRestore() {
                 }
 
                 // If API call fails, try Supabase session
-                const { data: { session } } = await supabaseClient.auth.getSession();
-                
+                const {
+                    data: { session },
+                } = await supabaseClient.auth.getSession();
+
                 if (session) {
                     // Try to get user with existing session
-                    const { data: { user }, error } = await supabaseClient.auth.getUser();
-                    
+                    const {
+                        data: { user },
+                        error,
+                    } = await supabaseClient.auth.getUser();
+
                     if (user && !error) {
                         // Fetch user metadata
                         const metaResponse = await fetch('/api/auth/me');
@@ -71,54 +78,36 @@ export function useSessionRestore() {
         restoreSession();
 
         // Listen for auth state changes
-        const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(
-            async (event, session) => {
-                console.log('Auth state change:', event);
-                
-                if (event === 'SIGNED_OUT') {
-                    clearUser();
-                } else if (event === 'SIGNED_IN' && session) {
-                    // Fetch fresh user data
-                    const response = await fetch('/api/auth/me');
-                    if (response.ok) {
-                        const userData = await response.json();
-                        setUser(userData.user);
-                    }
-                } else if (event === 'TOKEN_REFRESHED' && session) {
-                    console.log('Token refreshed successfully');
-                    // Optionally refetch user data to ensure it's current
-                    const response = await fetch('/api/auth/me');
-                    if (response.ok) {
-                        const userData = await response.json();
-                        setUser(userData.user);
-                    }
+        const {
+            data: { subscription },
+        } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
+            console.log('Auth state change:', event);
+
+            if (event === 'SIGNED_OUT') {
+                clearUser();
+            } else if (event === 'SIGNED_IN' && session) {
+                // Fetch fresh user data
+                const response = await fetch('/api/auth/me');
+                if (response.ok) {
+                    const userData = await response.json();
+                    setUser(userData.user);
+                }
+            } else if (event === 'TOKEN_REFRESHED' && session) {
+                console.log('Token refreshed successfully');
+                // Optionally refetch user data to ensure it's current
+                const response = await fetch('/api/auth/me');
+                if (response.ok) {
+                    const userData = await response.json();
+                    setUser(userData.user);
                 }
             }
-        );
+        });
 
         return () => {
             subscription.unsubscribe();
         };
     }, [setUser, clearUser]);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // user null after 1 day
 // // hooks/useSessionRestore.ts
@@ -137,11 +126,11 @@ export function useSessionRestore() {
 //             try {
 //                 // Get current session from Supabase
 //                 const { data: { session } } = await supabaseClient.auth.getSession();
-                
+
 //                 if (session) {
 //                     // Verify the session is still valid
 //                     const { data: { user }, error } = await supabaseClient.auth.getUser();
-                    
+
 //                     if (user && !error) {
 //                         // Fetch user metadata
 //                         const response = await fetch('/api/auth/me');
@@ -150,7 +139,7 @@ export function useSessionRestore() {
 //                             setUser(userData.user);
 //                             console.log(`use session restore userData.user`);
 //                             console.log(userData.user);
-                            
+
 //                         }
 //                     } else {
 //                         // Session invalid, clear everything

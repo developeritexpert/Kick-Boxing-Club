@@ -24,10 +24,10 @@ export async function GET() {
 
             // Update cookies with new tokens
             const res = await getUserData(accessToken);
-            
+
             if (res.ok) {
                 const rememberMe = cookieStore.get('remember-me')?.value === 'true';
-                
+
                 res.cookies.set('sb-access-token', data.session.access_token, {
                     httpOnly: true,
                     path: '/',
@@ -65,7 +65,10 @@ export async function GET() {
 
 async function getUserData(accessToken: string) {
     // Verify the token and get user from Supabase
-    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(accessToken);
+    const {
+        data: { user },
+        error: authError,
+    } = await supabaseAdmin.auth.getUser(accessToken);
 
     if (authError || !user) {
         return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -95,37 +98,6 @@ async function getUserData(accessToken: string) {
         },
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // user null after 1 day
 // // app/api/auth/me/route.ts

@@ -760,39 +760,7 @@ const SingleWorkout: React.FC = () => {
 
 export default SingleWorkout;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// without air play 
+// without air play
 // 'use client';
 
 // import React, { useEffect, useState, useRef } from 'react';
