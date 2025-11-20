@@ -79,7 +79,10 @@ async function getUserData(accessToken: string) {
     console.log(accessToken);
     
     // Verify the token and get user from Supabase
-    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(accessToken);
+    const {
+        data: { user },
+        error: authError,
+    } = await supabaseAdmin.auth.getUser(accessToken);
 
     console.log('error getUserData');
     console.log(authError);
@@ -115,37 +118,6 @@ async function getUserData(accessToken: string) {
         },
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // user null after 1 day
 // // app/api/auth/me/route.ts

@@ -544,7 +544,7 @@ aside.sidebar.collapsed button.logout {
         width: 18px;
         height: 18px;
     }
-    .content-admin .collapsed .sidebar {
+    .content-admin.collapsed .sidebar {
         transform: translateX(-100%);
     }
     .content-admin .header-title {

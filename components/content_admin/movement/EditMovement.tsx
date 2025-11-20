@@ -192,7 +192,17 @@ const EditMovementPage: React.FC = () => {
         setDragActive(false);
     };
 
-    if (loading) return <p>Loading movement...</p>;
+    // if (loading) return <p>Loading movement...</p>;
+    if (loading) {
+        return (
+            <div className={styles.spinnerWrapper}>
+                <div className={styles.spinnerLarge}></div>
+            </div>
+        );
+
+    }
+
+
     if (!movement) return <p>Movement not found</p>;
 
     const selectedTag = tags.find((t) => t.id === category);

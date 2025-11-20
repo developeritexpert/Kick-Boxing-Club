@@ -83,12 +83,16 @@ export async function POST(req: Request) {
         }
 
         if (authData.session?.refresh_token) {
-            res.cookies.set('sb-refresh-token', authData.session.refresh_token, refreshTokenOptions);
+            res.cookies.set(
+                'sb-refresh-token',
+                authData.session.refresh_token,
+                refreshTokenOptions,
+            );
         }
 
         // Set role cookie with same expiration as refresh token
         res.cookies.set('user-role', metaData.role, refreshTokenOptions);
-        
+
         // Set rememberMe flag
         res.cookies.set('remember-me', rememberMe ? 'true' : 'false', rememberMeOptions);
 
@@ -101,42 +105,7 @@ export async function POST(req: Request) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// user null after 1 day 
-
-
-
+// user null after 1 day
 
 // // login api route
 // import { NextResponse } from 'next/server';
@@ -205,7 +174,7 @@ export async function POST(req: Request) {
 
 //             // Add role cookie with same expiration
 //             res.cookies.set('user-role', metaData.role, cookieOptions);
-            
+
 //             // Add rememberMe flag cookie
 //             res.cookies.set('remember-me', rememberMe ? 'true' : 'false', cookieOptions);
 //         }
@@ -218,45 +187,6 @@ export async function POST(req: Request) {
 //         );
 //     }
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // login api route (original)
 // import { NextResponse } from 'next/server';

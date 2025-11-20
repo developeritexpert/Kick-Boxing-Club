@@ -277,10 +277,8 @@ const SingleWorkout: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="single-workout-container">
-                <div className="workout-card">
-                    <p>Loading workout...</p>
-                </div>
+            <div className="spinner-wrapper">
+                <div className="spinner-large"></div>
             </div>
         );
     }
@@ -760,39 +758,7 @@ const SingleWorkout: React.FC = () => {
 
 export default SingleWorkout;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// without air play 
+// without air play
 // 'use client';
 
 // import React, { useEffect, useState, useRef } from 'react';

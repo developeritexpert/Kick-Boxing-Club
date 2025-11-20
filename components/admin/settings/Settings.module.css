@@ -65,6 +65,7 @@ button.prsnBtn {
     align-items: center;
     gap: 6px;
     border-radius: 5px;
+    cursor: pointer;
 }
 button.prsnBtn img {
     margin-bottom: 3px;
@@ -322,7 +323,7 @@ select#timezone {
     border-radius: 5px;
     margin-bottom: 5px;
     padding: 12px 20px;
-    font-size: calc(var(--dynamic-font-size) * 0.75); /* ~12px default */
+    font-size: 14px; /* ~12px default */
     font-weight: 600;
 }
 .workoutsVdo .uploadBox {
@@ -435,11 +436,77 @@ select#timezone {
     margin-top: 37px;
     padding-bottom: 23px;
 }
+.workoutLocn .prsnBtn:hover {
+    background: #b71c1c;
+}
 .innerWrkoutLocn {
     display: flex;
     margin-top: 23px;
     margin-left: 37px;
 }
+
+.personInfo button {
+    background-color: #b40200;
+    border: 1px solid #b40200;
+    color: white;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.personInfo button:hover {
+    background-color: white;
+    color: #b40200;
+}
+.personInfo button:hover svg path {
+    fill: #b40200;
+}
+
+.personInfo button img {
+    width: 14px;
+    height: 14px;
+}
+.personInfo button > div {
+    font-size: 12px;
+    line-height: 1.2;
+}
+.personInfo .fav-btn {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+/* 
+.personInfo button.delete {
+    display: flex;
+    padding: 6px 10px;
+    border: 1px solid #0000001a;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.personInfo  button.delete img {
+    width: 11px;
+    height: 14px;
+}
+.personInfo  button.delete > div {
+    font-size: 12px;
+    color: #000000;
+}
+.user-management-container button.delete:hover > div {
+    color: white;
+}
+.user-management-container button.delete:hover {
+    background: #000;
+
+    border: 1px solid white;
+}
+.user-management-container button.delete:hover svg path {
+    fill: white;
+} */
 
 @media (max-width: 1399px) {
     .profileName h3 {

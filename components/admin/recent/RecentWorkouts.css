@@ -1,15 +1,15 @@
-.search-box {
+.admin-recnt-wrkout .search-box {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     flex: 1;
     align-items: center;
-    max-width: 330px;
-    padding: 14px 18px;
+    max-width: 274px;
+    padding: 9px 15px;
     transition: border-color 0.3s;
     display: flex;
     position: relative;
 }
-.search-input {
+.admin-recnt-wrkout .search-input {
     color: #000;
     background: none;
     border: none;
@@ -19,23 +19,21 @@
     font-weight: 400;
     line-height: 1.2;
 }
-.search-input::placeholder {
+.admin-recnt-wrkout .search-input::placeholder {
     color: #000;
 }
-.search-box {
-    max-width: 274px;
-}
-.search-icon {
+
+.admin-recnt-wrkout .search-icon {
     margin-right: 8px;
     font-size: 16px;
     position: relative;
 }
 
-table.favourites-tbl {
+.admin-recnt-wrkout table.favourites-tbl {
     margin-top: 30px;
     width: 100%;
 }
-table.favourites-tbl th {
+.admin-recnt-wrkout table.favourites-tbl th {
     color: #fff;
     text-align: left;
     background: #1c1c1c;
@@ -45,7 +43,7 @@ table.favourites-tbl th {
     font-weight: 700;
 }
 
-table.favourites-tbl td {
+.admin-recnt-wrkout table.favourites-tbl td {
     padding: 22px 35px;
     border: 1px solid #0000001a;
     font-size: 14px;
@@ -56,17 +54,17 @@ table.favourites-tbl td {
     border-radius: 5px 5px 0 0;
     overflow: hidden;
 } */
-table.favourites-tbl th:first-child {
+.admin-recnt-wrkout table.favourites-tbl th:first-child {
     border-radius: 5px 0px 0px 0px;
 }
-table.favourites-tbl th:last-child {
+.admin-recnt-wrkout table.favourites-tbl th:last-child {
     border-radius: 0px 5px 0px 0px;
 }
-table.favourites-tbl button.view {
+.admin-recnt-wrkout table.favourites-tbl button.view {
     background-color: #b40200;
     border: 1px solid #b40200;
     color: white;
-    padding: 10px 14px;
+    padding: 6px 10px;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -74,78 +72,105 @@ table.favourites-tbl button.view {
     cursor: pointer;
     transition: all 0.3s ease;
 }
-table.favourites-tbl button.view:hover {
-    opacity: 90%;
+.admin-recnt-wrkout table.favourites-tbl button.view:hover {
+    background-color: white;
+    color: #b40200;
 }
-table.favourites-tbl button.view img {
+.admin-recnt-wrkout table.favourites-tbl button.view:hover svg path {
+    stroke: #b40200;
+}
+.admin-recnt-wrkout table.favourites-tbl button.view img {
     width: 14px;
     height: 14px;
 }
-table.favourites-tbl button.view > div {
+.admin-recnt-wrkout table.favourites-tbl button.view > div {
     font-size: 12px;
     line-height: 1.2;
 }
-table.favourites-tbl .fav-btn {
+.admin-recnt-wrkout table.favourites-tbl .fav-btn {
     display: flex;
     gap: 10px;
     width: 100%;
 }
-table.favourites-tbl button.delete {
+.admin-recnt-wrkout table.favourites-tbl button.delete {
     display: flex;
-    padding: 10px 14px;
+    padding: 6px 10px;
     border: 1px solid #0000001a;
     align-items: center;
     gap: 5px;
     border-radius: 5px;
     cursor: pointer;
 }
-table.favourites-tbl button.delete img {
+.admin-recnt-wrkout table.favourites-tbl button.delete img {
     width: 11px;
     height: 14px;
 }
-table.favourites-tbl button.delete > div {
+.admin-recnt-wrkout table.favourites-tbl button.delete > div {
     font-size: 12px;
     color: #000000;
 }
-table.favourites-tbl button.delete:hover {
-    opacity: 80%;
+.admin-recnt-wrkout table.favourites-tbl button.delete:hover {
+    background: #000;
+
+    border: 1px solid white;
 }
-table.favourites-tbl tbody tr:hover {
+.admin-recnt-wrkout table.favourites-tbl button.delete:hover > div {
+    color: white;
+}
+.admin-recnt-wrkout table.favourites-tbl button.delete:hover svg path {
+    fill: white;
+}
+.admin-recnt-wrkout table.favourites-tbl tbody tr:hover {
     background-color: #f2f2f2;
 }
-table.favourites-tbl tbody tr {
+.admin-recnt-wrkout table.favourites-tbl tbody tr {
     background-color: #fafafa; /* base background */
     transition: background-color 0.2s ease;
 }
-@media (max-width: 1399px) {
-    table.favourites-tbl th {
-        padding: 16px 30px;
+
+.admin-recnt-wrkout table.favourites-tbl {
+    width: 100%;
+    margin-top: 30px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+/* .admin-recnt-wrkout  table.favourites-tbl button.view {
+        min-width: 71px;
+    } */
+.admin-recnt-wrkout table.favourites-tbl th {
+    padding: 13px;
+    font-size: 14px;
+}
+.admin-recnt-wrkout table.favourites-tbl td {
+    padding: 10px 13px;
+    font-size: 14px;
+    border: 1px solid #0000001a;
+    color: #000000;
+}
+.admin-recnt-wrkout table.favourites-tbl th:last-child {
+    border-radius: 0 5px 0 0;
+    width: 200px;
+}
+
+/* @media (max-width: 1399px) {
+  .admin-recnt-wrkout   table.favourites-tbl th {
+        padding: 12px 30px;
         font-size: 14px;
     }
-    table.favourites-tbl td {
+  .admin-recnt-wrkout   table.favourites-tbl td {
         padding: 14px 30px;
         font-size: 14px;
     }
-}
-
-.loading-content {
-    text-align: center;
-    padding: 40px;
-    font-size: 18px;
-    color: #666;
-}
-
-
+} */
 /* Pagination styles */
-.pagination {
+.admin-pnl .admin-recnt-wrkout .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 30px;
 }
-
-.pagination-btn {
+.admin-pnl .admin-recnt-wrkout .pagination-btn {
     padding: 8px 16px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -154,22 +179,18 @@ table.favourites-tbl tbody tr {
     font-size: 14px;
     transition: all 0.3s;
 }
-
-.pagination-btn:hover:not(:disabled) {
+.admin-pnl .admin-recnt-wrkout .pagination-btn:hover:not(:disabled) {
     background-color: #f0f0f0;
 }
-
-.pagination-btn:disabled {
+.admin-pnl .admin-recnt-wrkout .pagination-btn:disabled {
     cursor: not-allowed;
     opacity: 0.5;
 }
-
-.pagination-numbers {
+.admin-pnl .admin-recnt-wrkout .pagination-numbers {
     display: flex;
     gap: 5px;
 }
-
-.pagination-number {
+.admin-recnt-wrkout .pagination-number {
     padding: 8px 12px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -178,20 +199,22 @@ table.favourites-tbl tbody tr {
     font-size: 14px;
     transition: all 0.3s;
 }
-
-.pagination-number:hover {
+.admin-pnl.admin-recnt-wrkout .pagination-number:hover {
     background-color: #f0f0f0;
 }
-
-.pagination-number.active {
+.admin-pnl .admin-recnt-wrkout .pagination-number.active {
     background-color: #b40200;
     color: white;
     border-color: #b40200;
 }
-
-.pagination-info {
+.admin-pnl .admin-recnt-wrkout .pagination-info {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 25px;
     font-size: 14px;
-    color: #666;
+    color: black;
+}
+@media (max-width: 767px) {
+    .admin-recnt-wrkout table.favourites-tbl button.view {
+        min-width: 71px;
+    }
 }

@@ -1,8 +1,8 @@
-.library-container {
+/* .library-container {
     background-color: #fafafa;
     padding: 40px;
     min-height: calc(100vh - 80px);
-}
+} */
 
 .library-header {
     display: flex;
@@ -12,39 +12,55 @@
     margin-bottom: 25px;
 }
 
+.admin-library-container .search-box {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    flex: 1;
+    align-items: center;
+    max-width: 274px;
+    padding: 8px 18px;
+    transition: border-color 0.3s;
+    display: flex;
+    position: relative;
+}
 .admin-library-container .search-input {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    width: 250px;
-    font-size: 14px;
+    color: #000;
+    background: none;
+    border: none;
     outline: none;
-    transition: 0.3s ease;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+.admin-library-container .search-input::placeholder {
+    color: #000;
 }
 
-.search-input:focus {
-    border-color: #e30d1a;
+.admin-library-container .search-icon {
+    margin-right: 8px;
+    font-size: 16px;
+    position: relative;
 }
 
-.category-filter {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    background-color: white;
+.admin-library-container .category-filter {
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background: none;
     font-size: 14px;
     outline: none;
     cursor: pointer;
     width: 150px;
 }
 
-.table-container {
+.admin-library-container .table-container {
     background-color: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 
-.loading {
+.admin-library-container .loading {
     height: 35px;
     padding-left: 10px;
     text-align: left;
@@ -52,33 +68,54 @@
     margin-top: 15px;
 }
 
-.movement-table {
+.admin-library-container .movement-table {
+    white-space: nowrap;
     width: 100%;
-    border-collapse: collapse;
+    margin-top: 30px;
+    overflow-x: auto;
+}
+.movement-table td {
+    color: #000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 13px;
+    font-size: 14px;
+}
+.admin-library-container .movement-table th {
+    color: #fff;
+    text-align: left;
+    background: #1c1c1c;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 700;
 }
 
-.movement-table thead {
+.admin-library-container .movement-table thead {
     background-color: #111;
     color: #fff;
 }
 
-.movement-table th,
-.movement-table td {
-    padding: 14px 20px;
-    text-align: left;
-    font-size: 14px;
+.movement-table tr {
+    background-color: #fafafa;
+    transition: background-color 0.2s;
 }
 
-.movement-table tbody tr:nth-child(even) {
+.admin-library-container .movement-table tr {
+    color: #000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 13px;
+    font-size: 14px;
+}
+.admin-library-container .movement-table tbody tr:nth-child(even) {
     background-color: #f8f8f8;
 }
 
-.movement-table tbody tr:hover {
+.admin-library-container .movement-table tbody tr:hover {
     background-color: #f1f1f1;
 }
 
-.edit-btn,
-.delete-btn {
+.admin-library-container .edit-btn,
+.admin-library-container .delete-btn {
     padding: 6px 14px;
     margin-right: 8px;
     border: none;
@@ -91,27 +128,31 @@
     gap: 4px;
 }
 
-.edit-btn {
+.admin-library-container .edit-btn {
     background-color: #d81c0e;
     color: white;
 }
 
-.edit-btn:hover {
+.admin-library-container .movement-table th:last-child {
+    width: 190px;
+}
+
+.admin-library-container .edit-btn:hover {
     background-color: #b2160c;
 }
 
-.delete-btn {
+.admin-library-container .delete-btn {
     background-color: #efefef;
     color: #333;
     border: 1px solid #ccc;
 }
 
-.delete-btn:hover {
+.admin-library-container .delete-btn:hover {
     background-color: #ddd;
 }
 
 /* Pagination styles */
-.pagination {
+.admin-library-container .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,7 +160,7 @@
     margin-top: 20px;
 }
 
-.pagination-btn {
+.admin-library-container .pagination-btn {
     padding: 8px 16px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -129,21 +170,21 @@
     transition: all 0.3s;
 }
 
-.pagination-btn:hover:not(:disabled) {
+.admin-library-container .pagination-btn:hover:not(:disabled) {
     background-color: #f0f0f0;
 }
 
-.pagination-btn:disabled {
+.admin-library-container .pagination-btn:disabled {
     cursor: not-allowed;
     opacity: 0.5;
 }
 
-.pagination-numbers {
+.admin-library-container .pagination-numbers {
     display: flex;
     gap: 5px;
 }
 
-.pagination-number {
+.admin-library-container .pagination-number {
     padding: 8px 12px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -153,19 +194,81 @@
     transition: all 0.3s;
 }
 
-.pagination-number:hover {
+.admin-library-container .pagination-number:hover {
     background-color: #f0f0f0;
 }
 
-.pagination-number.active {
+.admin-library-container .pagination-number.active {
     background-color: #b40200;
     color: white;
     border-color: #b40200;
 }
 
-.pagination-info {
+.admin-library-container .pagination-info {
     text-align: center;
     margin-top: 10px;
     font-size: 14px;
-    color: #666;
+    color: black;
+}
+
+.admin-library-container button.view {
+    background-color: #b40200;
+    border: 1px solid #b40200;
+    color: white;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.admin-library-container button.view:hover {
+    background-color: white;
+    color: #b40200;
+}
+.admin-library-container button.view:hover svg path {
+    fill: #b40200;
+}
+
+.admin-library-container button.view img {
+    width: 14px;
+    height: 14px;
+}
+.admin-library-container button.view > div {
+    font-size: 12px;
+    line-height: 1.2;
+}
+.admin-library-container .fav-btn {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+.admin-library-container button.delete {
+    display: flex;
+    padding: 6px 10px;
+    border: 1px solid #0000001a;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.admin-library-container button.delete img {
+    width: 11px;
+    height: 14px;
+}
+.admin-library-container button.delete > div {
+    font-size: 12px;
+    color: #000000;
+}
+.admin-library-container button.delete:hover > div {
+    color: white;
+}
+.admin-library-container button.delete:hover {
+    background: #000;
+
+    border: 1px solid white;
+}
+.admin-library-container button.delete:hover svg path {
+    fill: white;
 }

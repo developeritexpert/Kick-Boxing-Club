@@ -10,9 +10,9 @@ import EditMovement from '@/components/admin/movement/EditMovement';
 export default function EditUserPage() {
     const router = useRouter();
     return (
-        <div className="user-management-container">
+        <div className="user-management-container edt-mngment-cnt">
             <div className="table-header">
-                <h2>Edit Movement</h2>
+                {/* <h2>Edit Movement</h2> */}
                 <button
                     className="add-user-btn"
                     onClick={() => router.push('/admin/movement/library')}

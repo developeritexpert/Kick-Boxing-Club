@@ -64,10 +64,13 @@
 }
 
 .btn.save {
-    background-color: #d60000;
+    background-color: #b40200;
     color: #fff;
 }
-
+.btn.save {
+    background-color: white;
+    color: #b40200;
+}
 .message {
     margin-top: 1rem;
     font-weight: 500;
