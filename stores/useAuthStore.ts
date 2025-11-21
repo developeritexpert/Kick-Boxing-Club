@@ -9,6 +9,7 @@ export interface User {
     last_name: string | null;
     phone: string | null;
     role: string;
+    profile_image_url: string | null;
 }
 
 interface AuthState {

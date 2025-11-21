@@ -108,7 +108,14 @@ const RecentWorkouts: React.FC = () => {
         }
     };
 
-    if (loading) return <div className="loading-content">Loading recent workouts...</div>;
+    // if (loading) return <div className="loading-content">Loading recent workouts...</div>;
+    if (loading) {
+        return (
+            <div className="spinner-wrapper">
+                <div className="spinner-large"></div>
+            </div>
+        );
+    }
     if (error) return <div className="error-content">{error}</div>;
 
     return (

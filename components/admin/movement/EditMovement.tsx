@@ -324,9 +324,14 @@ export default function EditMovementPage() {
     };
 
     if (loading) {
+        // return (
+        //     <div className="movement-management-container">
+        //         <p>Loading movement...</p>
+        //     </div>
+        // );
         return (
-            <div className="movement-management-container">
-                <p>Loading movement...</p>
+            <div className="spinner-wrapper">
+                <div className="spinner-large"></div>
             </div>
         );
     }

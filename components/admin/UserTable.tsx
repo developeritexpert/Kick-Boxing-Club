@@ -114,7 +114,15 @@ export default function UserTable() {
         }
     };
 
-    if (loading) return <p>Loading users...</p>;
+    // if (loading) return <p>Loading users...</p>;
+    if (loading) {
+        return (
+            <div className="spinner-wrapper">
+                <div className="spinner-large"></div>
+            </div>
+        );
+    }
+
     if (error) return <p className="error">Error: {error}</p>;
 
     return (

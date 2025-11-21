@@ -1,0 +1,34 @@
+.profileImgContainer {
+    position: relative;
+}
+
+.profileImg {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.profileHeart {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.profileHeart:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.profileHeart:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
