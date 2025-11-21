@@ -248,11 +248,15 @@ export default function EditUserPage() {
     // Loading state
     if (loading) {
         return (
-            <div className="user-management-container">
-                <div className="loading-state">
-                    <div className="spinner-large"></div>
-                    <p>Loading user data...</p>
-                </div>
+            // <div className="user-management-container">
+            //     <div className="loading-state">
+            //         <div className="spinner-large"></div>
+            //         <p>Loading user data...</p>
+            //     </div>
+            // </div>
+
+            <div className="spinner-wrapper">
+                <div className="spinner-large"></div>
             </div>
         );
     }

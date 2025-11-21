@@ -107,7 +107,16 @@ const MyFavorites: React.FC = () => {
         }
     };
 
-    if (loading) return <div className="loading-content">Loading favorites...</div>;
+    // if (loading) return <div className="loading-content">Loading favorites...</div>;
+
+    if (loading) {
+        return (
+            <div className="spinner-wrapper">
+                <div className="spinner-large"></div>
+            </div>
+        );
+    }
+    
     if (error) return <div className="error-content">{error}</div>;
 
     return (
@@ -150,7 +159,7 @@ const MyFavorites: React.FC = () => {
                         <tbody>
                             {currentFavorites.map((workout, index) => (
                                 <tr key={workout.workout_id}>
-                                    <td>{index + 1}</td>
+                                    <td>{indexOfFirstMovement + index + 1}</td>
                                     <td>
                                         {/* {workout.workout_name} */}
                                         {workout.workout_name.length > 40

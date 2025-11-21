@@ -99,6 +99,7 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 7px;
+    width: 100%;
 }
 
 .workouts-container .workout-title {
@@ -375,5 +376,27 @@
     .workouts-container .add-workout-btn {
         width: 100%;
         text-align: center;
+    }
+}
+
+.spinner-wrapper {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.spinner-large {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #b40200;
+    border-radius: 50%;
+    animation: spinner-rotate 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spinner-rotate {
+    to {
+        transform: rotate(360deg);
     }
 }

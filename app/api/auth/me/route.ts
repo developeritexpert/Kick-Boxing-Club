@@ -97,7 +97,7 @@ async function getUserData(accessToken: string) {
     // Fetch user metadata
     const { data: metaData, error: metaError } = await supabaseAdmin
         .from('user_meta')
-        .select('first_name, last_name, role, phone')
+        .select('first_name, last_name, role, phone, profile_image_url')
         .eq('user_id', user.id)
         .single();
 
@@ -115,6 +115,7 @@ async function getUserData(accessToken: string) {
             last_name: metaData.last_name || null,
             phone: metaData.phone || null,
             role: metaData.role || null,
+            profile_image_url: metaData.profile_image_url || null,
         },
     });
 }
