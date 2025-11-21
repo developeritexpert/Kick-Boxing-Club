@@ -24,8 +24,8 @@ const menu = [
     {
         key: 'users',
         label: 'User Management',
-        icon: '/User Management.png',
-        alt: 'User Management-icon',
+        icon: '/userManagement.png',
+        alt: 'User Management Icon',
         href: '/admin/users',
     },
     // { key: 'workouts', label: 'Workout Library', icon: '📚', href: '/admin/workouts' },
