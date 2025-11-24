@@ -41,7 +41,7 @@ const Settings: React.FC = () => {
         if (user?.id) {
             router.push(`/admin/users/${user.id}/edit`);
         } else {
-            toast.error('failed to detect login');
+            toast.error('Failed to detect login');
             router.push('/');
         }
     };
@@ -54,6 +54,11 @@ const Settings: React.FC = () => {
             setUser({ ...user, profile_image_url: newImageUrl });
         }
     };
+
+    const handleUpload = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        router.push('/admin/movement/create');
+    }
 
     return (
         <div className="admin-setting-cntner">
@@ -138,10 +143,10 @@ const Settings: React.FC = () => {
                 </div>
             </div>
 
-            <div className={styles.workoutsVdo}>
-                <h2>Upload Photos and Videos for Workout</h2>
+            <div className={styles.workoutsVdo} onClick={(e) => handleUpload(e)}>
+                <h2>Upload Videos for Workout</h2>
                 <div className={styles.uploadBox}>
-                    <input type="file" accept="video/*" id="videoUpload" />
+                    {/* <input type="file" accept="video/*" id="videoUpload" disabled/> */}
                     <label htmlFor="videoUpload" className={styles.uploadLabel}>
                         <div className={styles.uploadIcon}>
                             <Image

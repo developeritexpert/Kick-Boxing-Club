@@ -54,32 +54,32 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ userId:
 }
 
 // DELETE user by ID
-export async function DELETE(req: NextRequest, context: { params: Promise<{ userId: string }> }) {
-    const { userId } = await context.params;
+// export async function DELETE(req: NextRequest, context: { params: Promise<{ userId: string }> }) {
+//     const { userId } = await context.params;
 
-    if (!userId) return NextResponse.json({ error: 'User ID required' }, { status: 400 });
+//     if (!userId) return NextResponse.json({ error: 'User ID required' }, { status: 400 });
 
-    try {
-        // Delete user metadata
-        const { error: metaError } = await supabaseAdmin
-            .from('user_meta')
-            .delete()
-            .eq('user_id', userId);
+//     try {
+//         // Delete user metadata
+//         const { error: metaError } = await supabaseAdmin
+//             .from('user_meta')
+//             .delete()
+//             .eq('user_id', userId);
 
-        if (metaError) throw metaError;
+//         if (metaError) throw metaError;
 
-        // Delete Supabase auth user
-        const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(userId);
-        if (authError) console.error('Error deleting auth user:', authError);
+//         // Delete Supabase auth user
+//         const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(userId);
+//         if (authError) console.error('Error deleting auth user:', authError);
 
-        return NextResponse.json(
-            { status: 'ok', message: 'User deleted successfully' },
-            { status: 200 },
-        );
-    } catch (error) {
-        return NextResponse.json(
-            { error: error instanceof Error ? error.message : String(error) },
-            { status: 500 },
-        );
-    }
-}
+//         return NextResponse.json(
+//             { status: 'ok', message: 'User deleted successfully' },
+//             { status: 200 },
+//         );
+//     } catch (error) {
+//         return NextResponse.json(
+//             { error: error instanceof Error ? error.message : String(error) },
+//             { status: 500 },
+//         );
+//     }
+// }
