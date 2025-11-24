@@ -132,7 +132,6 @@
 .instructor-fav table.favourites-tbl {
     width: 100%;
     margin-top: 30px;
-    overflow-x: auto;
     white-space: nowrap;
 }
 .instructor-fav table.favourites-tbl td {
@@ -167,8 +166,16 @@
         font-size: 14px;
     }
 } */
+    .instructor-fav .tble-scrolble {
+    overflow-x: auto;
+    width: 100%;
+}
+
 
 @media (max-width: 767px) {
+    .instructor-fav .search-box {
+    max-width: 100%;
+}
     .instructor-fav table.favourites-tbl button.view {
         min-width: 71px;
     }

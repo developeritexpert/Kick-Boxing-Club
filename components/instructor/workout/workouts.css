@@ -99,6 +99,7 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 9px;
+    width:100%;
 }
 
 .instructor-wrkout-contnr .workout-title {
@@ -284,7 +285,43 @@
     transition: all .2s;
 } */
 /* Responsive Design */
+
+ .instructor-wrkout-contnr .spinner-wrapper {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+ .instructor-wrkout-contnr  .spinner-large {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #b40200;
+    border-radius: 50%;
+    animation: spinner-rotate 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spinner-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+@media(max-width:991px){
+     .instructor-wrkout-contnr  .workouts-grid {
+    grid-template-columns: repeat(2, 1fr);
+
+}
+}
 @media (max-width: 768px) {
+    
+    .instructor-wrkout-contnr .workouts-grid {
+   
+    gap: 20px;
+  
+}
     .instructor-wrkout-contnr .workouts-header {
         flex-direction: column;
         align-items: stretch;
@@ -319,17 +356,21 @@
     }
 }
 @media (max-width: 575px) {
+    .instructor-wrkout-contnr .search-box {
+    max-width: 100%;
+}
     .instructor-wrkout-contnr .workouts-controls {
-        justify-content: unser;
+        justify-content: unset;
         align-items: unset;
         gap: 15px;
         margin-bottom: 30px;
         display: flex;
         flex-direction: column;
     }
-    .instructor-wrkout-contnr button.add-workout-btn {
-        max-width: 180px;
-    }
+.instructor-wrkout-contnr button.add-workout-btn {
+    max-width: 190px;
+    margin: auto;
+}
     .instructor-wrkout-contnr .add-workout-btn {
         padding: 6px 15px;
         font-size: 15px;
@@ -347,9 +388,9 @@
     }
 }
 @media (max-width: 480px) {
-    .workouts-container {
+    /* .workouts-container {
         padding: 15px;
-    }
+    } */
 
     /* .workout-header {
         flex-direction: column;
@@ -363,27 +404,5 @@
     .instructor-wrkout-contnr .add-workout-btn {
         width: 100%;
         text-align: center;
-    }
-}
-
-.spinner-wrapper {
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.spinner-large {
-    width: 48px;
-    height: 48px;
-    border: 4px solid #e5e7eb;
-    border-top-color: #b40200;
-    border-radius: 50%;
-    animation: spinner-rotate 0.8s linear infinite;
-    margin: 0 auto;
-}
-
-@keyframes spinner-rotate {
-    to {
-        transform: rotate(360deg);
     }
 }

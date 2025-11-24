@@ -18,7 +18,7 @@ export default function Header({ onToggle }: { onToggle?: () => void }) {
 
             {/* <div className="header-title">Welcome to Dashboard, John Does!</div> */}
             <div className="header-title">
-                Welcome to Dashboard, {user?.first_name} {user?.last_name}
+              {user?.first_name} {user?.last_name}
             </div>
 
             <div className="header-right">

@@ -354,7 +354,7 @@ select:focus {
     gap: 1rem;
 }
 
-.instructor-create-workout .create-workout-container .movement-card {
+.instructor-create-workout  .movement-card {
     border: 2px solid #eee;
     border-radius: 12px;
     padding: 12px;
@@ -540,13 +540,11 @@ select:focus {
         font-size: 16px;
         font-weight: 600;
     }
-    .instructor-create-workout .create-workout-container h2 {
+    .instructor-create-workout  h2 {
         margin-bottom: 20px;
         font-size: 17px;
     }
-    .instructor-create-workout .form-group label {
-        font-size: 16px;
-    }
+  
     .instructor-create-workout .right-section h3 {
         margin-bottom: 18px;
         font-size: 16px;
@@ -571,19 +569,15 @@ select:focus {
         padding: 22px;
     }
 
-    .instructor-create-workout .create-workout-container h2 {
+    .instructor-create-workout  h2 {
         margin-bottom: 18px;
         font-size: 18px;
     }
-    .instructor-create-workout .form-group label {
-        color: #000;
-        font-size: 56px;
-        font-weight: 600;
-    }
+  
     form.create-workout-form label {
         margin-bottom: 1px;
     }
-    .instructor-create-workout .create-workout-container input,
+    .instructor-create-workout  input,
     textarea,
     select {
         padding: 10px;
@@ -656,6 +650,11 @@ select:focus {
         align-items: unset;
         gap: 8px;
     }
+    .instructor-create-workout .right-section {
+
+    padding: 17px 15px;
+
+}
 }
 @media (max-width: 575px) {
     .instructor-create-workout .btn {
