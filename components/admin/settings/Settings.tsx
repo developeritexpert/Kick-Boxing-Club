@@ -41,7 +41,7 @@ const Settings: React.FC = () => {
         if (user?.id) {
             router.push(`/admin/users/${user.id}/edit`);
         } else {
-            toast.error('failed to detect login');
+            toast.error('Failed to detect login');
             router.push('/');
         }
     };

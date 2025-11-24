@@ -27,7 +27,7 @@ const MovementLibraryWorkouts: React.FC = () => {
     const [categoryValue, setCategoryValue] = useState('ALL');
 
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 2;
+    const itemsPerPage = 10;
 
     useEffect(() => {
         if (user?.id) {
