@@ -131,7 +131,7 @@
 .instructor-recnt-workout table.favourites-tbl {
     width: 100%;
     margin-top: 30px;
-    overflow-x: auto;
+
     white-space: nowrap;
 }
 /* .instructor-recnt-workout table.favourites-tbl button.view {
@@ -163,11 +163,6 @@
     }
 } */
 
-@media (max-width: 767px) {
-    .instructor-recnt-workout table.favourites-tbl button.view {
-        min-width: 71px;
-    }
-}
 /* Pagination styles */
 .pagination {
     display: flex;
@@ -228,13 +223,13 @@
     color: #666;
 }
 
-.spinner-wrapper {
+.instructor-recnt-workout .spinner-wrapper {
     min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.spinner-large {
+.instructor-recnt-workout .spinner-large {
     width: 48px;
     height: 48px;
     border: 4px solid #e5e7eb;
@@ -247,5 +242,19 @@
 @keyframes spinner-rotate {
     to {
         transform: rotate(360deg);
+    }
+}
+
+.instructor-recnt-workout .tble-scrolble {
+    overflow-x: auto;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    .instructor-recnt-workout .search-box {
+        max-width: 100%;
+    }
+    .instructor-recnt-workout table.favourites-tbl button.view {
+        min-width: 71px;
     }
 }

@@ -68,7 +68,7 @@ aside.sidebar.collapsed button.logout {
 /* ===== Layout (container) ===== */
 .instructor {
     background: var(--page-bg);
-    height: 100vh;
+    height: 100dvh;
     font-family: Inter, Arial, Helvetica, sans-serif;
     display: flex;
     overflow: hidden;
@@ -80,7 +80,7 @@ aside.sidebar.collapsed button.logout {
     background: var(--sidebar-bg);
     color: #fff;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100dvh;
     transition: width 0.26s;
     display: flex;
     position: relative;
@@ -100,11 +100,11 @@ aside.sidebar.collapsed button.logout {
 }
 
 .instructor .sidebar-top {
-    padding: 18px 36px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    display: flex;
     align-items: center;
     gap: 10px;
+    padding: 18px 36px 10px;
+    display: flex;
 }
 
 /* brand */
@@ -116,10 +116,13 @@ aside.sidebar.collapsed button.logout {
     border-bottom: 1px solid #ffffff4d;
     padding-bottom: 15px;
 }
-.instructor aside.sidebar.collapsed .sidebar-top,
+/* .instructor aside.sidebar.collapsed .sidebar-top,
 .instructor aside.sidebar.collapsed .sidebar-brand {
     border-bottom: none;
     display: none;
+} */
+aside.sidebar.collapsed .sidebar-top {
+    padding: 0 0 10px;
 }
 .instructor .hamburger {
     cursor: pointer;
@@ -138,6 +141,7 @@ aside.sidebar.collapsed button.logout {
 .instructor .sidebar-nav {
     /* padding-top: 20px; */
     flex: 1;
+    overflow-y: auto;
 }
 
 .instructor .sidebar-nav ul {
@@ -202,23 +206,28 @@ aside.sidebar.collapsed button.logout {
 
 /* footer area in sidebar */
 .instructor .sidebar-footer {
-    padding: 16px 56px;
-    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    justify-content: center;
+    width: 100%;
+    padding: 15px 0;
+    display: flex;
+    position: -webkit-sticky;
+    position: sticky;
 }
 
 .instructor .logout {
     color: #fff;
     cursor: pointer;
-    background: #ffffff0d;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 5px;
-    width: 100%;
-    padding: 12px 0px;
-    display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 20px;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 8px 14px;
+    display: flex;
 }
+
 .instructor .logout:hover {
     opacity: 0.7;
 }
@@ -235,7 +244,7 @@ aside.sidebar.collapsed button.logout {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100dvh;
     width: calc(100% - 240px);
 }
 
@@ -252,24 +261,18 @@ aside.sidebar.collapsed button.logout {
 
 /* header: left toggle (mobile) */
 .instructor .header-toggle {
-    /* display: none; */
-    background: none;
-    border: none;
-    font-size: 18px;
-    height: 100px;
-    display: block;
+    cursor: pointer;
     margin-right: 12px;
+    font-size: 18px;
 }
 
 /* centered title */
 .instructor .header-title {
-    text-align: center;
+    text-align: left;
+    color: #000;
     flex: 1;
     font-size: 16px;
-    color: #111;
     font-weight: 600;
-    height: 85px;
-    margin-top: 50px;
 }
 
 /* right logo */
@@ -279,9 +282,8 @@ aside.sidebar.collapsed button.logout {
 }
 
 .instructor .header-logo {
-    height: 36px;
     object-fit: contain;
-    max-height: 36px;
+    width: 256px;
 }
 
 /* content area */
@@ -475,6 +477,16 @@ aside.sidebar.collapsed button.logout {
 .instructor .close_btn {
     display: none;
 }
+.instructor  .brand-logo {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+}
+input::placeholder{
+     color:#666 !important;
+}
 /* ===== Responsive behavior ===== */
 
 @media (max-width: 1399px) {
@@ -493,28 +505,30 @@ aside.sidebar.collapsed button.logout {
 
 @media (max-width: 980px) {
     /* .admin-layout { flex-direction: column; } */
-    .instructor .sidebar {
+    /* .instructor .sidebar {
         position: relative;
         width: 240px;
         height: auto;
     }
     .instructor .collapsed .sidebar {
         width: 80px;
-    }
-    .instructor .dashboard-header {
-        padding: 12px 14px;
-    }
-    .instructor .header-toggle {
-        display: block;
-        margin-right: 12px;
-    }
-    .instructor .header-title {
-        text-align: left;
-        padding-left: 8px;
-    }
+    } */
+
+   
+  
 }
 
 @media (max-width: 767px) {
+    .instructor .header-toggle {
+
+    font-size: 24px;
+}
+
+ .instructor .content-area {
+  
+    padding: 15px;
+  
+}
     .instructor .main-area {
         width: 100%;
     }
@@ -526,13 +540,13 @@ aside.sidebar.collapsed button.logout {
     }
 
     .instructor .sidebar {
+        z-index: 10;
         width: 240px;
-        height: auto;
+        height: 100dvh;
+        transition: transform 0.35s;
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 10;
-        transition: transform 0.35s ease;
     }
     .instructor .close_btn {
         display: block;
@@ -544,12 +558,21 @@ aside.sidebar.collapsed button.logout {
         width: 18px;
         height: 18px;
     }
-    .instructor .collapsed .sidebar {
+    .instructor .close_btn {
+        display: block;
+        position: absolute;
+        top: 16px;
+        right: 15px;
+    }
+
+    .instructor.collapsed .sidebar {
+        transition: transform 0.15s;
         transform: translateX(-100%);
     }
+/* 
     .instructor .header-title {
         font-size: 12px;
-    }
+    } */
 
     .instructor .panel-actions {
         gap: 10px;
@@ -559,4 +582,27 @@ aside.sidebar.collapsed button.logout {
     .instructor .content-area {
         padding: 15px;
     }
+         .instructor  .pagination .pagination-btn {
+    padding: 4px 10px;
+}
+    .instructor   .pagination .pagination-numbers {
+    gap:8px;
+}
+    .instructor  .pagination .pagination-number{
+  
+    padding: 4px 10px;
+}
+.instructor .nav-item:hover .nav-link {
+    color: #fff; 
+background: unset;
+ border-top-left-radius:unset;
+    border-bottom-left-radius: unset;
+}
+
+}
+@media (max-width: 575px) {
+    .instructor .header-logo {
+        width: 170px;
+    }
+
 }

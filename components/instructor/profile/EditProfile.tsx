@@ -156,7 +156,7 @@ export default function EditUserPage() {
         const fetchUser = async (): Promise<void> => {
             if (!userId) {
                 toast.error('Invalid user ID');
-                router.push('/content-admin/settings');
+                router.push('/instructor/settings');
                 return;
             }
 
@@ -181,7 +181,7 @@ export default function EditUserPage() {
             } catch (err: unknown) {
                 const errorMessage = err instanceof Error ? err.message : 'Failed to load user';
                 toast.error(errorMessage);
-                router.push('/content-admin/settings');
+                router.push('/instructor/settings');
             } finally {
                 setLoading(false);
             }
@@ -258,7 +258,7 @@ export default function EditUserPage() {
             setHasChanges(false);
             // Navigate to users page after short delay
             setTimeout(() => {
-                router.push('/content-admin/settings');
+                router.push('/instructor/settings');
             }, 1000);
         } catch (err: unknown) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to update user';
@@ -269,7 +269,7 @@ export default function EditUserPage() {
     };
 
     const handleCancel = (): void => {
-        router.push('/content-admin/settings');
+        router.push('/instructor/settings');
     };
 
     // Loading state
@@ -291,7 +291,7 @@ export default function EditUserPage() {
                     <button
                         type="button"
                         className="btn-primary"
-                        onClick={() => router.push('/content-admin/settings')}
+                        onClick={() => router.push('/instructor/settings')}
                     >
                         ← Back to Users
                     </button>
