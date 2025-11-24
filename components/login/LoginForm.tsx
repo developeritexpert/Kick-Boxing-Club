@@ -24,6 +24,7 @@ export default function LoginForm() {
     const setUser = useAuthStore((state) => state.setUser);
     const user = useAuthStore((state) => state.user);
     const [rememberMe, setRememberMe] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -106,13 +107,24 @@ export default function LoginForm() {
                         )}
                     </div>
 
-                    <div>
+                    <div className="password-input-wrapper">
                         <input
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             placeholder="Password"
                             {...register('password')}
                             className={errors.password ? 'error' : ''}
                         />
+                        <button
+                            type="button"
+                            className="password-toggle-btn"
+                            onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? 'Hide password' : 'Show password'}
+                        >
+                            <img
+                                src={showPassword ? '/eye-open.svg' : '/eye-close.svg'}
+                                alt={showPassword ? 'Hide' : 'Show'}
+                            />
+                        </button>
                         {errors.password && (
                             <p
                                 style={{
@@ -141,9 +153,6 @@ export default function LoginForm() {
                         {isSubmitting ? 'Logging in...' : 'Login'}
                     </button>
                 </form>
-                {/* <a href="#" className="forgot-password" onClick={(e) => e.preventDefault()}>
-                    Forgot Password?
-                </a> */}
                 <div className="forgot-password" onClick={handleForgetPassword}>
                     Forgot Password?
                 </div>
@@ -153,8 +162,46 @@ export default function LoginForm() {
     );
 }
 
-// original without remember me
-// // login form
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // old login form
 // 'use client';
 
 // import { useState, useEffect } from 'react';
@@ -203,7 +250,7 @@ export default function LoginForm() {
 //             const res = await fetch(API_ROUTES.LOGIN, {
 //                 method: 'POST',
 //                 headers: { 'Content-Type': 'application/json' },
-//                 body: JSON.stringify(data),
+//                 body: JSON.stringify({ ...data, rememberMe }),
 //             });
 
 //             const result = await res.json();
@@ -229,6 +276,10 @@ export default function LoginForm() {
 //         } catch {
 //             toast.error('Something went wrong');
 //         }
+//     };
+
+//     const handleForgetPassword = () => {
+//         router.push(`/auth/forgot-password`);
 //     };
 
 //     return (
@@ -293,9 +344,12 @@ export default function LoginForm() {
 //                         {isSubmitting ? 'Logging in...' : 'Login'}
 //                     </button>
 //                 </form>
-//                 <a href="#" className="forgot-password" onClick={(e) => e.preventDefault()}>
+//                 {/* <a href="#" className="forgot-password" onClick={(e) => e.preventDefault()}>
 //                     Forgot Password?
-//                 </a>
+//                 </a> */}
+//                 <div className="forgot-password" onClick={handleForgetPassword}>
+//                     Forgot Password?
+//                 </div>
 //             </div>
 //             <div className="login-footer">© Copyright Kickboxing Club. All Rights Reserved</div>
 //         </div>

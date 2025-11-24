@@ -34,14 +34,6 @@ export const updateUserProfileImage = async (
     imageUrl: string
 ): Promise<void> => {
     try {
-
-        console.log(`imageUrl`);
-        console.log(imageUrl);
-
-        console.log(`userId`);
-        console.log(userId);
-               
-
         const { error } = await supabaseClient
             .from('user_meta')
             .update({ profile_image_url: imageUrl })
