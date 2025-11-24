@@ -263,7 +263,7 @@
     }
     .recentActivityHdg {
         align-items: unset;
-        margin-top: 20px;
+        margin-top: 30px;
         flex-direction: column;
     }
     .recentActivityHdg h4 {
@@ -276,4 +276,7 @@
     .panelActions .btnRed {
         max-width: 200px;
     }
+    .recentCards {
+    margin-top: 8px;
+}
 }

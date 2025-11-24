@@ -20,7 +20,7 @@
     line-height: 1.2;
 }
 .content-admin-fav .search-input::placeholder {
-    color: #000;
+    color: #666;
 }
 .content-admin-fav .search-box {
     max-width: 274px;
@@ -132,7 +132,7 @@
 .content-admin-fav table.favourites-tbl {
     width: 100%;
     margin-top: 30px;
-    overflow-x: auto;
+   
     white-space: nowrap;
 }
 .content-admin-fav table.favourites-tbl td {
@@ -167,15 +167,8 @@
         font-size: 14px;
     }
 } */
-
-@media (max-width: 767px) {
-    .content-admin-fav table.favourites-tbl button.view {
-        min-width: 71px;
-    }
-}
-
-/* Pagination styles */
-.pagination {
+ /* Pagination styles */
+.content-admin-fav .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -183,7 +176,7 @@
     margin-top: 20px;
 }
 
-.pagination-btn {
+.content-admin-fav .pagination-btn {
     padding: 8px 16px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -193,21 +186,25 @@
     transition: all 0.3s;
 }
 
-.pagination-btn:hover:not(:disabled) {
+
+.content-admin-fav  .pagination-btn:hover:not(:disabled) {
     background-color: #f0f0f0;
 }
 
-.pagination-btn:disabled {
+
+.content-admin-fav .pagination-btn:disabled {
     cursor: not-allowed;
     opacity: 0.5;
 }
 
-.pagination-numbers {
+
+.content-admin-fav .pagination-numbers {
     display: flex;
     gap: 5px;
 }
 
-.pagination-number {
+
+.content-admin-fav .pagination-number {
     padding: 8px 12px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -217,30 +214,35 @@
     transition: all 0.3s;
 }
 
-.pagination-number:hover {
+
+.content-admin-fav .pagination-number:hover {
     background-color: #f0f0f0;
 }
 
-.pagination-number.active {
+
+.content-admin-fav .pagination-number.active {
     background-color: #b40200;
     color: white;
     border-color: #b40200;
 }
 
-.pagination-info {
+
+.content-admin-fav .pagination-info {
     text-align: center;
     margin-top: 10px;
     font-size: 14px;
     color: #666;
 }
 
-.spinner-wrapper {
+
+.content-admin-fav .spinner-wrapper {
     min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.spinner-large {
+
+.content-admin-fav .spinner-large {
     width: 48px;
     height: 48px;
     border: 4px solid #e5e7eb;
@@ -249,9 +251,25 @@
     animation: spinner-rotate 0.8s linear infinite;
     margin: 0 auto;
 }
+ .content-admin-fav    .tble-scrolble{
+            overflow-x:auto;
+             width: 100%;
+         }
+
 
 @keyframes spinner-rotate {
     to {
         transform: rotate(360deg);
     }
 }
+
+
+@media (max-width: 767px) {
+    .content-admin-fav table.favourites-tbl button.view {
+        min-width: 71px;
+    }
+    .content-admin-fav .search-box{
+        max-width: 100%;
+    }
+}
+

@@ -157,7 +157,7 @@ const MyFavorites: React.FC = () => {
                 />
             </div>
 
-            <div>
+            <div className="tble-scrolble">
                 {currentFavorites.length === 0 ? (
                     <div className="flex items-center justify-center h-[50vh]">
                         <div className="text-gray-500 text-2xl font-semibold  px-8 py-6 rounded-2xl ">

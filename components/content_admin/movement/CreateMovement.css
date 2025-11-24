@@ -98,7 +98,6 @@
 
 .content-admin-crt-movment .movement-card h2 {
     color: #000000;
-    margin-bottom: 22px;
     font-size: 18px;
     font-weight: 600;
 }
@@ -108,8 +107,9 @@
 }
 .content-admin-crt-movment .movement-form label {
     color: #000;
+    margin-top: 20px;
+    margin-bottom: 15px;
     font-size: 15px;
-    margin-bottom: 10px;
     display: inline-block;
 }
 .content-admin-crt-movment .category.catCtn {
@@ -129,7 +129,7 @@
 }
 .content-admin-crt-movment .movement-form input[type='text']::placeholder,
 .content-admin-crt-movment .movement-form select::placeholder {
-    color: #000;
+    color: #666;
 }
 
 .content-admin-crt-movment .movement-form input[type='text']:focus,
@@ -192,18 +192,16 @@
 }
 
 .content-admin-crt-movment .submit-btn {
-    background-color: #b40200;
-    border: none;
-    color: white;
-    padding: 7px 20px;
-    border-radius: 5px;
+    color: #fff;
     cursor: pointer;
-    font-weight: 600;
+    background-color: #b40200;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    max-width: 117px;
+    padding: 6px 4px;
     font-size: 16px;
-    transition: 0.3s ease;
-    max-width: 130px;
-    border: 1px solid transparent;
-    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+    transition: all .3s ease-in-out;
 }
 
 .content-admin-crt-movment .submit-btn:hover {
@@ -211,6 +209,7 @@
     background: white;
     border: 1px solid #b40200;
 }
+
 @media (max-width: 1099px) {
     .content-admin-crt-movment .movement-card {
         width: 700px;
@@ -252,7 +251,7 @@
         font-size: 16px;
     }
     .content-admin-crt-movment .workoutsVdo {
-        margin-top: 10px;
+        margin-top: 20px;
         margin-bottom: 25px;
     }
 }
