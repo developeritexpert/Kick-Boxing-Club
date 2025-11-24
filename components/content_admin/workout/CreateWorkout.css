@@ -77,8 +77,8 @@ select {
 }
 .content-admin-create-workout input::placeholder,
 textarea::placeholder {
-    color: #000;
-    opacity: 1;
+    color: #666;
+    
 }
 
 .content-admin-create-workout input:focus,
@@ -371,6 +371,18 @@ select:focus {
     border-color: #c00;
     background-color: #fff1f1;
 }
+.content-admin-create-workout  .movement-card {
+    text-align: center;
+    cursor: pointer;
+    background: #fff;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+    transition: all .2s;
+    display: flex;
+}
 
 .content-admin-create-workout .movement-thumb {
     width: 100%;
@@ -571,15 +583,15 @@ select:focus {
         padding: 22px;
     }
 
-    .content-admin-create-workout .create-workout-container h2 {
+    .content-admin-create-workout  h2 {
         margin-bottom: 18px;
         font-size: 18px;
     }
-    .content-admin-create-workout .form-group label {
+    /* .content-admin-create-workout .form-group label {
         color: #000;
         font-size: 56px;
         font-weight: 600;
-    }
+    } */
     form.create-workout-form label {
         margin-bottom: 1px;
     }

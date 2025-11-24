@@ -159,7 +159,8 @@ const RecentWorkouts: React.FC = () => {
                     </div>
                 </div>
             ) : (
-                <>
+                <>  
+                <div className="tble-scrolble">
                     <table className="favourites-tbl">
                         <thead>
                             <tr>
@@ -240,6 +241,7 @@ const RecentWorkouts: React.FC = () => {
                             ))}
                         </tbody>
                     </table>
+                    </div>
 
                     {/* Pagination Controls */}
                     {totalPages > 1 && (

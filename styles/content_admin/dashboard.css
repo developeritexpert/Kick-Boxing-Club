@@ -68,7 +68,7 @@ aside.sidebar.collapsed button.logout {
 /* ===== Layout (container) ===== */
 .content-admin {
     background: var(--page-bg);
-    height: 100vh;
+    height: 100dvh;
     font-family: Inter, Arial, Helvetica, sans-serif;
     display: flex;
     overflow: hidden;
@@ -80,7 +80,7 @@ aside.sidebar.collapsed button.logout {
     background: var(--sidebar-bg);
     color: #fff;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100dvh;
     transition: width 0.26s;
     display: flex;
     position: relative;
@@ -100,7 +100,7 @@ aside.sidebar.collapsed button.logout {
 }
 
 .content-admin .sidebar-top {
-    padding: 18px 36px;
+  padding: 18px 36px 10px 36px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.02);
     display: flex;
     align-items: center;
@@ -109,17 +109,28 @@ aside.sidebar.collapsed button.logout {
 
 /* brand */
 .content-admin .sidebar-brand {
-    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     align-items: center;
     width: 100%;
+    padding: 0px 0px 15px 0;
     display: flex;
-    border-bottom: 1px solid #ffffff4d;
-    padding-bottom: 15px;
 }
-.content-admin aside.sidebar.collapsed .sidebar-top,
-.content-admin aside.sidebar.collapsed .sidebar-brand {
+
+/* .content-admin aside.sidebar.collapsed .sidebar-top{
     border-bottom: none;
     display: none;
+} */
+aside.sidebar.collapsed .sidebar-top {
+    /* border-bottom: none; */
+    /* display: none; */
+    padding: 0 0 10px;
+}
+.brand-logo {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
 }
 .content-admin .hamburger {
     cursor: pointer;
@@ -138,6 +149,7 @@ aside.sidebar.collapsed button.logout {
 .content-admin .sidebar-nav {
     /* padding-top: 20px; */
     flex: 1;
+    overflow-y: auto;
 }
 
 .content-admin .sidebar-nav ul {
@@ -202,22 +214,30 @@ aside.sidebar.collapsed button.logout {
 
 /* footer area in sidebar */
 .content-admin .sidebar-footer {
-    padding: 16px 56px;
-    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    display: flex;
+    width: 100%;
+
+    justify-content: center;
+    position: sticky;
+    padding: 15px 0px;
 }
 
+aside.sidebar.collapsed button.logout {
+    background: none;
+    border: none;
+    padding: 16px 0;
+}
 .content-admin .logout {
     color: #fff;
     cursor: pointer;
-    background: #ffffff0d;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 5px;
-    width: 100%;
-    padding: 12px 0px;
-    display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 20px;
+    width: fit-content;
+    padding: 8px 14px;
+    display: flex;
 }
 .content-admin .logout:hover {
     opacity: 0.7;
@@ -235,7 +255,7 @@ aside.sidebar.collapsed button.logout {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100dvh;
     width: calc(100% - 240px);
 }
 
@@ -248,28 +268,24 @@ aside.sidebar.collapsed button.logout {
     padding: 0 22px;
     border-bottom: 1px solid #eee;
     justify-content: space-between;
+
 }
 
 /* header: left toggle (mobile) */
 .content-admin .header-toggle {
     /* display: none; */
-    background: none;
-    border: none;
     font-size: 18px;
-    height: 100px;
-    display: block;
     margin-right: 12px;
+    cursor:pointer;
 }
 
 /* centered title */
 .content-admin .header-title {
-    text-align: center;
+    text-align: left;
     flex: 1;
     font-size: 16px;
-    color: #111;
+    color: #000;
     font-weight: 600;
-    height: 85px;
-    margin-top: 50px;
 }
 
 /* right logo */
@@ -279,11 +295,9 @@ aside.sidebar.collapsed button.logout {
 }
 
 .content-admin .header-logo {
-    height: 36px;
     object-fit: contain;
-    max-height: 36px;
+     width:256px;
 }
-
 /* content area */
 .content-admin .content-area {
     padding: 30px 30px;
@@ -380,19 +394,48 @@ aside.sidebar.collapsed button.logout {
 }
 
 .content-admin .add-user-btn {
-    background-color: #d32f2f; /* Red */
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    font-size: 14px;
-    border-radius: 4px;
+    color: #fff;
     cursor: pointer;
-    transition: background 0.3s ease;
+    background-color: #b40200;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 16px;
+    transition: background 0.3s;
+    font-weight: 600;
+    border: 1px solid transparent;
 }
 
-.content-admin .add-user-btn:hover {
-    background-color: #b71c1c;
+.content-admin .editmvment .add-user-btn {
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    background-color: rgb(180, 2, 0);
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    padding: 3px 13px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
 }
+
+.content-admin .editmvment .add-user-btn:hover {
+    background-color: white;
+    color: #b40200;
+    border: 1px solid #b40200;
+}
+.content-admin .editmvment .add-user-btn svg {
+    width: 8px;
+}
+.content-admin .editmvment .add-user-btn:hover svg path {
+    stroke: #b40200;
+}
+/* .content-admin .add-user-btn:hover {
+    background-color: #b71c1c;
+} */
 
 .content-admin .user-table-container {
     overflow-x: auto;
@@ -508,13 +551,20 @@ aside.sidebar.collapsed button.logout {
         display: block;
         margin-right: 12px;
     }
-    .content-admin .header-title {
+    /* .content-admin .header-title {
         text-align: left;
         padding-left: 8px;
-    }
+    } */
 }
 
 @media (max-width: 767px) {
+  
+    .content-admin .nav-item:hover .nav-link {
+    background: unset;
+    color: #fff;
+    border-top-left-radius: unset;
+    border-bottom-left-radius: unset;
+}
     .content-admin .main-area {
         width: 100%;
     }
@@ -527,7 +577,7 @@ aside.sidebar.collapsed button.logout {
 
     .content-admin .sidebar {
         width: 240px;
-        height: auto;
+        height: 100dvh;
         position: fixed;
         top: 0;
         left: 0;
@@ -546,9 +596,13 @@ aside.sidebar.collapsed button.logout {
     }
     .content-admin.collapsed .sidebar {
         transform: translateX(-100%);
+        transition: transform 0.15s ease;
     }
-    .content-admin .header-title {
+    /* .content-admin .header-title {
         font-size: 12px;
+    } */
+    .content-admin .header-toggle {
+        font-size: 20px;
     }
 
     .content-admin .panel-actions {
@@ -559,4 +613,25 @@ aside.sidebar.collapsed button.logout {
     .content-admin .content-area {
         padding: 15px;
     }
+    .content-admin .header-toggle {
+        font-size: 20px;
+    }
+}
+
+@media(max-width:575px){
+      .content-admin .header-logo {
+        /* max-height: 32px; */
+        width:140px;
+    }
+
+     .content-admin  .pagination .pagination-btn {
+    padding: 4px 10px;
+}
+ .content-admin  .pagination .pagination-numbers {
+    gap:8px;
+}
+ .content-admin  .pagination .pagination-number{
+  
+    padding: 4px 10px;
+}
 }

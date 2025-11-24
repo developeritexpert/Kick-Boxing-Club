@@ -10,7 +10,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ userId:
     try {
         const { data, error } = await supabaseAdmin
             .from('user_meta')
-            .select('user_id, first_name, last_name, role, email')
+            .select('user_id, first_name, last_name, role, email, phone')
             .eq('user_id', userId)
             .single();
 

@@ -13,6 +13,7 @@ interface User {
     last_name: string;
     role: UserRole;
     email: string;
+    phone: string;
 }
 
 interface UserFormData {
@@ -20,12 +21,14 @@ interface UserFormData {
     last_name: string;
     email: string;
     role: UserRole;
+    phone: string;
 }
 
 interface ValidationErrors {
     first_name?: string;
     last_name?: string;
     email?: string;
+    phone?: string;
 }
 
 // Validation constants
@@ -33,6 +36,8 @@ const VALIDATION = {
     NAME_MIN_LENGTH: 2,
     NAME_MAX_LENGTH: 50,
     EMAIL_MAX_LENGTH: 100,
+    PHONE_MAX_LENGTH: 10,
+    PHONE_MIN_LENGTH: 10,
 } as const;
 
 export default function EditUserPage() {
@@ -49,6 +54,7 @@ export default function EditUserPage() {
         last_name: '',
         email: '',
         role: 'instructor',
+        phone: '',
     });
 
     const [errors, setErrors] = useState<ValidationErrors>({});
@@ -58,6 +64,12 @@ export default function EditUserPage() {
     const isValidEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+    };
+
+    const isValidPhoneNumber = (phone: string): boolean => {
+        // Only digits, exactly 10 characters
+        const phoneRegex = /^[0-9]{10}$/;
+        return phoneRegex.test(phone);
     };
 
     // Validate individual field
@@ -90,6 +102,20 @@ export default function EditUserPage() {
                     return 'Please enter a valid email address';
                 }
                 break;
+            case 'phone':
+                if (!value) {
+                    return 'Phone Number is required';
+                }
+                if (value.length < VALIDATION.PHONE_MIN_LENGTH) {
+                    return `Must be at least ${VALIDATION.PHONE_MIN_LENGTH} characters`;
+                }
+                if (value.length > VALIDATION.PHONE_MAX_LENGTH) {
+                    return `Must be at least ${VALIDATION.PHONE_MAX_LENGTH} characters`;
+                }
+                if (!isValidPhoneNumber(value)) {
+                    return 'Must be a correct phone number';
+                }
+                break;
         }
         return undefined;
     };
@@ -120,7 +146,8 @@ export default function EditUserPage() {
             updated.first_name !== user.first_name ||
             updated.last_name !== user.last_name ||
             updated.email !== user.email ||
-            updated.role !== user.role;
+            updated.role !== user.role ||
+            updated.phone !== user.phone;
 
         setHasChanges(changed);
     };
@@ -148,6 +175,7 @@ export default function EditUserPage() {
                     last_name: userData.last_name,
                     email: userData.email || '',
                     role: userData.role,
+                    phone: userData.phone,
                 });
             } catch (err: unknown) {
                 const errorMessage = err instanceof Error ? err.message : 'Failed to load user';
@@ -171,6 +199,8 @@ export default function EditUserPage() {
             limitedValue = value.slice(0, VALIDATION.NAME_MAX_LENGTH);
         } else if (fieldName === 'email') {
             limitedValue = value.slice(0, VALIDATION.EMAIL_MAX_LENGTH);
+        } else if (fieldName === 'phone') {
+            limitedValue = value.slice(0, VALIDATION.PHONE_MAX_LENGTH);
         }
 
         const updatedData = { [fieldName]: limitedValue };
@@ -236,24 +266,12 @@ export default function EditUserPage() {
     };
 
     const handleCancel = (): void => {
-        // if (hasChanges) {
-        //     const confirmed = window.confirm(
-        //         'You have unsaved changes. Are you sure you want to leave?'
-        //     );
-        //     if (!confirmed) return;
-        // }
         router.push('/admin/users');
     };
 
     // Loading state
     if (loading) {
         return (
-            // <div className="user-management-container">
-            //     <div className="loading-state">
-            //         <div className="spinner-large"></div>
-            //         <p>Loading user data...</p>
-            //     </div>
-            // </div>
 
             <div className="spinner-wrapper">
                 <div className="spinner-large"></div>
@@ -349,7 +367,7 @@ export default function EditUserPage() {
                             value={formData.email}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            disabled={saving}
+                            disabled
                             maxLength={VALIDATION.EMAIL_MAX_LENGTH}
                             placeholder="user@example.com"
                             aria-invalid={!!errors.email}
@@ -378,7 +396,33 @@ export default function EditUserPage() {
                             <option value="admin">Admin</option>
                         </select>
                     </div>
+
+
+                    <div className="form-group">
+                        <label htmlFor="phone">
+                            Phone Number <span className="required">*</span>
+                        </label>
+                        <input
+                            id="phone"
+                            name="phone"
+                            type="text"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            disabled={saving}
+                            maxLength={VALIDATION.PHONE_MAX_LENGTH}
+                            placeholder="Enter Phone Number"
+                            aria-invalid={!!errors.phone}
+                            aria-describedby={errors.phone ? 'phone-error' : undefined}
+                        />
+                        {errors.phone && (
+                            <span id="phone-error" className="error-message">
+                                {errors.phone}
+                            </span>
+                        )}
+                    </div>
                 </div>
+
 
                 <div className="form-actions">
                     <button

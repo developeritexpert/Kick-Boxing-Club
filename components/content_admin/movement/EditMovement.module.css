@@ -16,12 +16,12 @@
     margin-top: 25px;
 }
 
-.editMvmntCntnt {
+.movementLibrarySec .editMvmntCntnt {
     display: flex;
     width: 100%;
 }
 
-.catCtn {
+.movementLibrarySec .catCtn {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -41,15 +41,15 @@
     right: 50px;
 } */
 
-.catCtn select {
+.movementLibrarySec .catCtn select {
     appearance: none;
 }
 
-.catCtn label {
+.movementLibrarySec .catCtn label {
     font-size: 16px;
 }
 
-.cateSel {
+.movementLibrarySec .cateSel {
     color: #000;
     cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -60,29 +60,29 @@
     background-color: #fbfbf9;
 }
 
-.cateSel:focus {
+.movementLibrarySec .cateSel:focus {
     border-color: #000;
     outline: none;
 }
 
-.subcategory {
+.movementLibrarySec .subcategory {
     margin-top: 26px;
     width: 50%;
 }
 
-.workoutsVdo {
+.movementLibrarySec .workoutsVdo {
     margin-top: 52px;
     margin-bottom: 18px;
 }
 
-.workoutsVdo h2 {
+.movementLibrarySec .workoutsVdo h2 {
     color: #000;
     font-size: 18px;
     margin-bottom: 18px;
     font-weight: 600;
 }
 
-.uploadBox {
+.movementLibrarySec .uploadBox {
     text-align: center;
     background-color: rgba(1, 1, 1, 0.01);
     border: 1px dashed rgba(0, 0, 0, 0.1);
@@ -90,11 +90,11 @@
     padding: 25px;
     position: relative;
 }
-.workoutsVdo .videoUpload {
+.movementLibrarySec .workoutsVdo .videoUpload {
     display: none;
 }
 
-.uploadLabel {
+.movementLibrarySec .uploadLabel {
     cursor: pointer;
     color: #777;
     font-size: 13px;
@@ -103,17 +103,17 @@
     align-items: center;
 }
 
-.uploadIcon {
+.movementLibrarySec .uploadIcon {
     margin-bottom: 23px;
 }
 
-.wrkoutVdoPara {
+.movementLibrarySec .wrkoutVdoPara {
     color: #000;
     display: flex;
     flex-direction: column;
 }
 
-.workVdioBtn {
+.movementLibrarySec .workVdioBtn {
     color: #000;
     font-size: 13px;
     background-color: rgba(180, 2, 0, 0.02);
@@ -124,71 +124,76 @@
     font-weight: 600;
 }
 
-.deltBtn {
+/* .movementLibrarySec .deltBtn {
     margin-top: 42px;
-}
+} */
 
 /* Buttons shared style */
-.btnBlack {
+.movementLibrarySec .btnBlack {
     background: #000;
-    color: #fff;
-    padding: 10px 18px;
+   padding: 7px 13px;
     font-size: 16px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     border: 1px solid transparent;
+       font-weight: 600;
+       color:white;
+ 
 }
-.btnRed {
+.movementLibrarySec .btnRed {
     background: #b40200;
     color: #fff;
-    padding: 10px 18px;
+    padding: 7px 13px;
     font-size: 16px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     border: 1px solid transparent;
+    font-weight: 600;
 }
-.btnRed:hover {
+
+.movementLibrarySec .btnRed:hover {
     color: #b40200;
     border: 1px solid #b40200;
     background-color: white;
 }
-.btnBlack:hover {
+.movementLibrarySec .btnBlack:hover {
     color: #000;
     border: 1px solid #000;
     background-color: white;
 }
 
-.cateSel option {
+.movementLibrarySec .cateSel option {
     background-color: #fbfbf9;
     border: 1px solid #0000001a;
     border-radius: 5px;
 }
 
-.cateSel option:hover {
+.movementLibrarySec .cateSel option:hover {
     background-color: #000;
     color: white;
 }
 
 /* For Safari/Chrome specific tweak */
-.cateSel:focus option:checked {
+.movementLibrarySec .cateSel:focus option:checked {
     background-color: #fbfbf9;
     color: #b40200;
 }
 
 /* Dropdown Wrapper */
-.customDropdown {
+.movementLibrarySec .customDropdown {
     position: relative;
     width: 100%;
 }
 .mvnmentLibraryBtns {
     display: flex;
     justify-content: space-between;
+    margin-top:30px;
 }
 
 /* Dropdown Button */
-.dropdownBtn {
+.movementLibrarySec .dropdownBtn {
     width: 100%;
     border: 1px solid #0000001a;
     border-radius: 5px;
@@ -202,8 +207,9 @@
     align-items: center;
 }
 
+
 /* Dropdown List */
-.dropdownList {
+.movementLibrarySec .dropdownList {
     position: absolute;
     top: 100%;
     left: 0;
@@ -219,7 +225,7 @@
 }
 
 /* Dropdown Items */
-.dropdownItem {
+.movementLibrarySec .dropdownItem {
     padding: 15px 25px;
     font-size: 15px;
     color: #000;
@@ -228,12 +234,12 @@
 }
 
 /* Hover Effect */
-.dropdownItem:hover {
+.movementLibrarySec .dropdownItem:hover {
     background: #f0f0ed;
 }
 
 /* Default arrow */
-.dropdownBtn::after {
+.movementLibrarySec .dropdownBtn::after {
     content: '';
     background-image: url('/dropdown_icon.png');
     background-repeat: no-repeat;
@@ -247,16 +253,52 @@
 }
 
 /* Rotate when active/open */
-.active::after {
+.movementLibrarySec .active::after {
     transform: translateY(-50%) rotate(180deg);
     top: 39%;
 }
 /* Focus state */
-.dropdownBtn:focus,
-.dropdownBtn:focus-visible {
+.movementLibrarySec .dropdownBtn:focus,
+.movementLibrarySec .dropdownBtn:focus-visible {
     color: #000;
     border-color: #000;
     outline: none;
+}
+
+.movementLibrarySec .mvmntName input {
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    padding: 7px 15px;
+     color: black;
+}
+.movementLibrarySec .mvmntName input:focus {
+    outline: none;
+    border: 1px solid black;
+}
+.movementLibrarySec .mvmntName input::placeholder {
+    color: #666;
+}
+
+.movementLibrarySec .spinnerWrapper {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.movementLibrarySec .spinnerLarge {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #b40200;
+    border-radius: 50%;
+    animation: spinnerRotate 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spinnerRotate {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 1399px) {
@@ -314,33 +356,5 @@
     }
     .mvnmentLibraryBtns button {
         max-width: 170px;
-    }
-}
-
-.mvmntName input {
-    border: 1px solid #0000001a;
-    border-radius: 5px;
-    padding: 7px 15px;
-}
-
-.spinnerWrapper {
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.spinnerLarge {
-    width: 48px;
-    height: 48px;
-    border: 4px solid #e5e7eb;
-    border-top-color: #b40200;
-    border-radius: 50%;
-    animation: spinnerRotate 0.8s linear infinite;
-    margin: 0 auto;
-}
-
-@keyframes spinnerRotate {
-    to {
-        transform: rotate(360deg);
     }
 }

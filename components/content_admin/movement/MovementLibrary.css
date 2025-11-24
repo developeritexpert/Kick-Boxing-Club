@@ -21,7 +21,7 @@
     line-height: 1.2;
 }
 .content-admin-movemntLibrary .search-input::placeholder {
-    color: #000;
+    color: #666;
 }
 
 .content-admin-movemntLibrary .search-icon {
@@ -216,7 +216,7 @@
 .content-admin-movemntLibrary table.favourites-tbl {
     width: 100%;
     margin-top: 30px;
-    overflow-x: auto;
+    /* overflow-x: auto; */
     white-space: nowrap;
 }
 
@@ -230,21 +230,12 @@
     border-radius: 0 5px 0 0;
     width: 200px;
 }
-
-@media (max-width: 767px) {
-    .content-admin-movemntLibrary .cnt-admin-all-catgry {
-        gap: 20px;
-        display: flex;
-        flex-direction: column;
-    }
-    .content-admin-movemntLibrary button.dropdownBtn {
-        width: 274px;
-        position: relative;
-    }
+.content-admin-movemntLibrary  .table-wrapper {
+    overflow-x:auto ;
+      width: 100%;
 }
-
 /* Pagination styles */
-.pagination {
+.content-admin-movemntLibrary .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -252,7 +243,7 @@
     margin-top: 20px;
 }
 
-.pagination-btn {
+.content-admin-movemntLibrary .pagination-btn {
     padding: 8px 16px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -262,21 +253,21 @@
     transition: all 0.3s;
 }
 
-.pagination-btn:hover:not(:disabled) {
+.content-admin-movemntLibrary .pagination-btn:hover:not(:disabled) {
     background-color: #f0f0f0;
 }
 
-.pagination-btn:disabled {
+.content-admin-movemntLibrary .pagination-btn:disabled {
     cursor: not-allowed;
     opacity: 0.5;
 }
 
-.pagination-numbers {
+.content-admin-movemntLibrary .pagination-numbers {
     display: flex;
     gap: 5px;
 }
 
-.pagination-number {
+.content-admin-movemntLibrary .pagination-number {
     padding: 8px 12px;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -286,30 +277,30 @@
     transition: all 0.3s;
 }
 
-.pagination-number:hover {
+.content-admin-movemntLibrary .pagination-number:hover {
     background-color: #f0f0f0;
 }
 
-.pagination-number.active {
+.content-admin-movemntLibrary .pagination-number.active {
     background-color: #b40200;
     color: white;
     border-color: #b40200;
 }
 
-.pagination-info {
+.content-admin-movemntLibrary .pagination-info {
     text-align: center;
     margin-top: 10px;
     font-size: 14px;
     color: #666;
 }
 
-.spinner-wrapper {
+.content-admin-movemntLibrary .spinner-wrapper {
     min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.spinner-large {
+.content-admin-movemntLibrary .spinner-large {
     width: 48px;
     height: 48px;
     border: 4px solid #e5e7eb;
@@ -323,4 +314,32 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+@media (max-width: 767px) {
+    /* .content-admin-movemntLibrary .cnt-admin-all-catgry {
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+    } */
+    .content-admin-movemntLibrary button.dropdownBtn {
+        width: 274px;
+        position: relative;
+    }
+}
+
+@media(max-width:575px){
+       .content-admin-movemntLibrary  .search-box {
+        max-width: 100%;
+        
+    }
+    .content-admin-movemntLibrary button.dropdownBtn {
+    width: 100%;
+    position: relative;
+    margin: auto;
+}
+.content-admin-movemntLibrary .cnt-admin-all-catgry {
+    flex-direction: column;
+   gap:20px;
+}
 }
