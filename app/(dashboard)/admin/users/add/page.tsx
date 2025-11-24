@@ -13,6 +13,7 @@ interface UserForm {
     email: string;
     password: string;
     role: UserRole;
+    phone: string;
 }
 
 interface ValidationErrors {
@@ -20,6 +21,7 @@ interface ValidationErrors {
     last_name?: string;
     email?: string;
     password?: string;
+    phone?: string;
 }
 
 // Validation constants
@@ -29,6 +31,8 @@ const VALIDATION = {
     EMAIL_MAX_LENGTH: 100,
     PASSWORD_MIN_LENGTH: 8,
     PASSWORD_MAX_LENGTH: 128,
+    PHONE_MAX_LENGTH: 10,
+    PHONE_MIN_LENGTH: 10,
 } as const;
 
 export default function AddUserPage() {
@@ -40,6 +44,7 @@ export default function AddUserPage() {
         email: '',
         password: '',
         role: 'instructor',
+        phone: '',
     });
 
     const [errors, setErrors] = useState<ValidationErrors>({});
@@ -56,6 +61,12 @@ export default function AddUserPage() {
         // At least 8 chars, 1 uppercase, 1 lowercase, 1 number
         const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
         return strongPasswordRegex.test(password);
+    };
+
+    const isValidPhoneNumber = (phone: string): boolean => {
+        // Only digits, exactly 10 characters
+        const phoneRegex = /^[0-9]{10}$/;
+        return phoneRegex.test(phone);
     };
 
     // Validate individual field
@@ -103,6 +114,20 @@ export default function AddUserPage() {
                     return 'Must contain uppercase, lowercase, and number';
                 }
                 break;
+            case 'phone':
+                if(!value) {
+                    return 'Phone Number is required';
+                }
+                if(value.length < VALIDATION.PHONE_MIN_LENGTH){
+                    return `Must be at least ${VALIDATION.PHONE_MIN_LENGTH} characters`;
+                }
+                if(value.length > VALIDATION.PHONE_MAX_LENGTH){
+                    return `Must be at least ${VALIDATION.PHONE_MAX_LENGTH} characters`;
+                }
+                if (!isValidPhoneNumber(value)) {
+                    return 'Must be a correct phone number';
+                }
+                break;
         }
         return undefined;
     };
@@ -136,6 +161,8 @@ export default function AddUserPage() {
             limitedValue = value.slice(0, VALIDATION.EMAIL_MAX_LENGTH);
         } else if (fieldName === 'password') {
             limitedValue = value.slice(0, VALIDATION.PASSWORD_MAX_LENGTH);
+        } else if (fieldName === 'phone') {
+            limitedValue = value.slice(0, VALIDATION.PHONE_MAX_LENGTH);
         }
 
         setForm((prev) => ({ ...prev, [fieldName]: limitedValue }));
@@ -160,7 +187,7 @@ export default function AddUserPage() {
 
         // Validate form
         if (!validateForm()) {
-            toast.error('Please fix all validation errors');
+            toast.error('Please fulfill valid data ');
             return;
         }
 
@@ -304,7 +331,7 @@ export default function AddUserPage() {
                     </small>
                 </div>
 
-                <div className="form-group full-width">
+                <div className="form-group ">
                     <label htmlFor="role">
                         Role <span className="required">*</span>
                     </label>
@@ -319,6 +346,30 @@ export default function AddUserPage() {
                         <option value="content_admin">Content Admin</option>
                         <option value="admin">Admin</option>
                     </select>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="phone">
+                        Phone Number <span className="required">*</span>
+                    </label>
+                    <input
+                        id="phone"
+                        name="phone"
+                        type="text"
+                        value={form.phone}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        disabled={loading}
+                        maxLength={VALIDATION.PHONE_MAX_LENGTH}
+                        placeholder="Enter Phone number"
+                        aria-invalid={!!errors.phone}
+                        aria-describedby={errors.phone ? 'phone-error' : undefined}
+                    />
+                    {errors.phone && (
+                        <span id="pgone-error" className="error-message">
+                            {errors.phone}
+                        </span>
+                    )}
                 </div>
 
                 <div className="form-actions full-width">

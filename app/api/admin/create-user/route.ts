@@ -3,9 +3,9 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function POST(req: Request) {
     const body = await req.json();
-    const { first_name, last_name, email, password, role } = body;
+    const { first_name, last_name, email, password, role , phone } = body;
 
-    if (!first_name || !last_name || !email || !password || !role) {
+    if (!first_name || !last_name || !email || !password || !role || !phone) {
         return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 });
     }
 
@@ -14,11 +14,13 @@ export async function POST(req: Request) {
             await supabaseAdmin.auth.admin.createUser({
                 email,
                 password,
+                phone,
                 email_confirm: true,
                 user_metadata: {
                     role,
                     first_name,
                     last_name,
+                    phone,
                 },
             });
 
@@ -38,6 +40,7 @@ export async function POST(req: Request) {
                 last_name,
                 email,
                 role,
+                phone,
             },
         ]);
 
