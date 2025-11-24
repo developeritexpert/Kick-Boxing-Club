@@ -1,161 +1,55 @@
 'use client';
-// import React, { useEffect, useState } from 'react';
-// import { useRouter, usePathname } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { useAuthStore } from '@/stores/useAuthStore';
+import ProfileImageUpload from '@/components/profile/ProfileImageUpload';
+// import Image from 'next/image';
 import styles from './Settings.module.css';
-// import { translations } from './translations';
-import Image from 'next/image';
+
 const Settings: React.FC = () => {
-    // const router = useRouter();
-    // const [lang, setLang] = useState('en');
-    // const [theme, setTheme] = useState('system');
 
-    // const t = translations[lang] || translations['en'];
-    // const [value, setValue] = useState(50);
-    // const [fontSize, setFontSize] = useState('Medium');
-    // const birthDate = new Date('2001-10-16');
+    const user = useAuthStore((state) => state.user);
+    const setUser = useAuthStore((state) => state.setUser);
+    const router = useRouter();
 
-    // const formattedDOB = new Intl.DateTimeFormat(lang, {
-    //     year: 'numeric',
-    //     month: 'long',
-    //     day: 'numeric',
-    // }).format(birthDate);
+    const [profileImageUrl, setProfileImageUrl] = useState<string | null>(user?.profile_image_url || null);
 
-    // const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const selectedTheme = e.target.value;
-    //     console.log('selected theme', selectedTheme);
-    //     setTheme(selectedTheme);
-    //     document.documentElement.setAttribute('data-theme', selectedTheme);
-    // };
+    useEffect(() => {
+        if (user?.profile_image_url) {
+            setProfileImageUrl(user.profile_image_url);
+        }
+    }, [user?.profile_image_url]);
 
-    // const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const value = Number(e.target.value);
 
-    //     let label = 'Medium';
-    //     let size = '16px';
-    //     if (value <= 20) {
-    //         label = 'extraSmall';
-    //         size = '12px';
-    //     } else if (value <= 40) {
-    //         label = 'Small';
-    //         size = '14px';
-    //     } else if (value <= 60) {
-    //         label = 'Medium';
-    //         size = '16px';
-    //     } else if (value <= 80) {
-    //         label = 'Large';
-    //         size = '18px';
-    //     } else {
-    //         label = 'extraLarge';
-    //         size = '20px';
-    //     }
+    const capitalizeFirstLetter = (str?: string | null) => {
+        if (!str) return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
 
-    //     setFontSize(label);
-    //     document.documentElement.style.setProperty('--dynamic-font-size', size);
-    //     // Save everything to localStorage
-    //     localStorage.setItem('font-size', size);
-    //     localStorage.setItem('font-size-label', label);
-    //     localStorage.setItem('font-size-value', String(value));
-    //     localStorage.setItem('slider-value', String(value));
-    // };
+    const handleEdit = () => {
+        if (user?.id) {
+            // alert('working on it');
+            router.push(`/instructor/profile-update/${user.id}`);
+        } else {
+            toast.error('Failed to detect login')
+            router.push('/');
+        }
+    }
 
-    // const handleAccentChange = (color) => {
-    //     document.documentElement.style.setProperty('--accent-color', color);
-    //     //    Save to localStorage
-    //     localStorage.setItem('accent-color', color);
-    // };
+    const handleImageUpdate = (newImageUrl: string) => {
+        setProfileImageUrl(newImageUrl);
 
-    // const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //     const selected = e.target.value;
-    //     console.log('selected', selected);
-    //     setLang(selected);
+        if (user) {
+            setUser({ ...user, profile_image_url: newImageUrl });
+        }
+    }
 
-    //     localStorage.setItem('language', selected);
-    // };
-
-    // useEffect(() => {
-    //     if (theme === 'system') {
-    //         const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
-    //             ? 'dark'
-    //             : 'light';
-    //         document.documentElement.setAttribute('data-theme', systemTheme);
-    //     }
-    //     const storedLang = localStorage.getItem('language') || 'en';
-    //     setLang(storedLang);
-    // }, []);
-
-    // useEffect(() => {
-    //     // Set initial accent color when settings page loads
-    //     //restore  font-size
-    //     const storedSize = localStorage.getItem('font-size');
-    //     const storedLabel = localStorage.getItem('font-size-label');
-    //     const storedValue = localStorage.getItem('font-size-value');
-    //     if (storedSize && storedLabel && storedValue) {
-    //         document.documentElement.style.setProperty('--dynamic-font-size', storedSize);
-    //         setFontSize(storedLabel);
-    //         setValue(Number(storedValue));
-    //     } else {
-    //         document.documentElement.style.setProperty('--dynamic-font-size', '16px');
-    //     }
-    //     //Load stored accent color
-    //     const storedAccent = localStorage.getItem('accent-color');
-    //     const radios = document.querySelectorAll<HTMLInputElement>("input[name='accent']");
-
-    //     if (storedAccent) {
-    //         document.documentElement.style.setProperty('--accent-color', storedAccent);
-
-    //         //  Match correct radio after reload
-    //         radios.forEach((radio) => {
-    //             radio.checked = radio.value === storedAccent;
-    //         });
-    //     } else {
-    //         document.documentElement.style.setProperty('--accent-color', '#B40200');
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     const slider = document.getElementById('r1') as HTMLInputElement | null;
-    //     if (!slider) return;
-    //     // Load saved slider value
-    //     const savedValue = localStorage.getItem('slider-value');
-    //     if (savedValue) {
-    //         slider.value = savedValue;
-    //         setValue(Number(savedValue));
-    //     }
-
-    //     function updateSliderUI(el: HTMLInputElement) {
-    //         const min = Number(el.min) || 0;
-    //         const max = Number(el.max) || 100;
-    //         const val = Number(el.value);
-    //         const pct = ((val - min) / (max - min)) * 100;
-
-    //         el.style.setProperty('--slider-progress', `${pct}%`);
-    //     }
-
-    //     updateSliderUI(slider);
-
-    //     const handler = () => updateSliderUI(slider);
-
-    //     slider.addEventListener('input', handler);
-
-    //     return () => {
-    //         slider.removeEventListener('input', handler);
-    //     };
-    // }, []);
-
-    // const handleAddLocation = () => {
-    //     router.push('/admin/location/addLocation');
-    //     router.refresh();
-    // };
-
-    // const handleAddClass = () => {
-    //     router.push('/admin/class/addClass');
-    //     router.refresh();
-    // };
 
     return (
         <div className="instructor-setting-cntner">
             <div className={styles.profileCnt}>
-                <div className={styles.profileImg}>
+                {/* <div className={styles.profileImg}>
                     <Image src="/profile.png" alt="profile-img" width={120} height={120} />
                     <span className={styles.profileHeart}>
                         <Image src="/camera_icon.png" alt="camera-icon" width={18} height={14} />
@@ -165,13 +59,28 @@ const Settings: React.FC = () => {
                     <h3>John Doe</h3>
                     <p>Participate</p>
                     <p>Leeds, United Kingdom</p>
+                </div> */}
+
+                {user?.id && (
+                    <ProfileImageUpload
+                        userId={user.id}
+                        currentImageUrl={profileImageUrl}
+                        onImageUpdate={handleImageUpdate}
+                    />
+                )}
+                <div className={styles.profileName}>
+                    <h3>
+                        {capitalizeFirstLetter(user?.first_name)} {capitalizeFirstLetter(user?.last_name)}
+                    </h3>
+                    <p>{capitalizeFirstLetter(user?.role)}</p>
                 </div>
+
             </div>
 
             <div className={styles.personInfo}>
                 <div className={styles.prsnHd}>
                     <h2>Personal Information</h2>
-                    <button className={styles.prsnBtn}>
+                    <button className={styles.prsnBtn} onClick={handleEdit} >
                         <svg
                             width="15"
                             height="15"
@@ -193,232 +102,33 @@ const Settings: React.FC = () => {
                 <div className={styles.prflInfoCnt}>
                     <div className={styles.prflName}>
                         <h4>First Name</h4>
-                        <h5>John</h5>
+                        <h5>{capitalizeFirstLetter(user?.first_name)}</h5>
                     </div>
                     <div className={styles.prflName}>
                         <h4>Last Name</h4>
-                        <h5>Doe</h5>
+                        <h5>{capitalizeFirstLetter(user?.last_name)}</h5>
                     </div>
                     <div className={styles.prflName}>
                         <h4>Email Address</h4>
-                        <h5>email@gmail.com</h5>
+                        <h5>{user?.email}</h5>
                     </div>
                 </div>
 
                 <div className={`${styles.prflInfoCnt} ${styles.mrgntp}`}>
                     <div className={styles.prflName}>
                         <h4>Phone Number</h4>
-                        <h5>(+62)821 525-9583</h5>
+                        <h5>{user?.phone || '---'}</h5>
                     </div>
                     <div className={styles.prflName}>
                         <h4>User Role</h4>
-                        <h5>Participate</h5>
+                        <h5>{capitalizeFirstLetter(user?.role)}</h5>
                     </div>
                     <div className={styles.prflName}>
                         <h4>Date of birth</h4>
-                        <h5>October 16, 2001</h5>
+                        <h5>---</h5>
                     </div>
                 </div>
             </div>
-            {/* 
-            <div className={styles.acntInfo}>
-                <h2>{t.accountPreferences}</h2>
-
-                <div className={`${styles.acntPreferences} ${styles.mrgntp}`}>
-                    <div className={`${styles.acntInfoCnt} ${styles.mrgnTop23}`}>
-                        <div className={`${styles.formGroup}`}>
-                            <label htmlFor="language">{t.language}</label>
-                            <select
-                                id="language"
-                                value={lang}
-                                className={`${styles.formSelect} ${styles.mrgnRight30}`}
-                                onChange={handleLanguageChange}
-                            >
-                                <option value="en">{t.english}</option>
-                                <option value="hi">{t.hindi}</option>
-                                <option value="es">{t.spanish}</option>
-                                <option value="fr">{t.french}</option>
-                            </select>
-                        </div>
-
-                        <div className={`${styles.formGroup}`}>
-                            <label htmlFor="timezone">{t.timezone}</label>
-                            <select
-                                id="timezone"
-                                className={`${styles.formSelect} ${styles.mrgnRight30}`}
-                            >
-                                <option>{t.default}</option>
-                                <option>{t.india}</option>
-                                <option>{t.london}</option>
-                                <option>{t.newYork}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className={`${styles.formGroup} ${styles.mrgnTop23}`}>
-                        <label htmlFor="location">{t.locationText}</label>
-                        <select
-                            id="location"
-                            className={`${styles.formSelect} ${styles.mrgnRight30}`}
-                        >
-                            <option>{t.chooseLocation}</option>
-                            <option>{t.india}</option>
-                            <option>{t.unitedStates}</option>
-                            <option>{t.unitedKingdom}</option>
-                            <option>{t.canada}</option>
-                        </select>
-                    </div>
-
-                    <div className={`${styles.checkbxFrm} ${styles.mrgnTop23}`}>
-                        <label htmlFor="notifications">{t.notificationPref}</label>
-                        <div className={styles.checkboxGroup}>
-                            <label className={styles.customCheckbox}>
-                                <input type="checkbox" defaultChecked />
-                                <span className={styles.checkmark}></span>
-                                {t.email}
-                            </label>
-                            <label className={styles.customCheckbox}>
-                                <input type="checkbox" defaultChecked />
-                                <span className={styles.checkmark}></span>
-                                {t.sms}
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-
-            {/* <div className={styles.themeInfo}>
-                <h2>{t.themeAndDisplay}</h2>
-
-                <div className={`${styles.settingsBox} ${styles.mrgnTop23}`}>
-                    <div className={styles.settingGroup}>
-                        <label className={`${styles.groupTitle} ${styles.mrgnBtm8}`}>
-                            {t.themeMode}
-                        </label>
-                        <div className={styles.radioGroup}>
-                            <label className={styles.customRadio}>
-                                <input
-                                    type="radio"
-                                    name="theme"
-                                    value="light"
-                                    checked={theme === 'light'}
-                                    onChange={handleThemeChange}
-                                />
-                                <span className={styles.radioBox}>{t.lightMode}</span>
-                            </label>
-                            <label className={styles.customRadio}>
-                                <input
-                                    type="radio"
-                                    name="theme"
-                                    value="dark"
-                                    checked={theme === 'dark'}
-                                    onChange={handleThemeChange}
-                                />
-                                <span className={styles.radioBox}>{t.darkMode}</span>
-                            </label>
-                            <label className={styles.customRadio}>
-                                <input
-                                    type="radio"
-                                    name="theme"
-                                    value="system"
-                                    checked={theme === 'system'}
-                                    onChange={handleThemeChange}
-                                />
-                                <span className={styles.radioBox}>{t.systemMode}</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div className={styles.settingGroup}>
-                        <label className={`${styles.groupTitle} ${styles.mrgnBtm8}`}>
-                            {t.fontSize}
-                        </label>
-                        <div className={styles.sliderGroup}>
-                            <input
-                                id="r1"
-                                type="range"
-                                className={styles.slider}
-                                min="0"
-                                max="100"
-                                value={value}
-                                onChange={(e) => {
-                                    handleSliderChange(e);
-                                    setValue(Number(e.target.value));
-                                }}
-                            />
-                            <span>{t[fontSize.toLowerCase()]}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={`${styles.settingsBox} ${styles.themeAccnt}`}>
-                    <div className={styles.settingGroup}>
-                        <label className={`${styles.groupTitle} ${styles.mrgnBtm8}`}>
-                            {t.accentColor}
-                        </label>
-                        <div className={styles.colorOptions}>
-                            <label className={`${styles.colorSwatch} ${styles.bgRed}`}>
-                                <input
-                                    type="radio"
-                                    name="accent"
-                                    value="#B40200"
-                                    defaultChecked
-                                    onChange={(e) => handleAccentChange(e.target.value)}
-                                />
-                            </label>
-                            <label className={`${styles.colorSwatch} ${styles.bgBlack}`}>
-                                <input
-                                    type="radio"
-                                    name="accent"
-                                    value="black"
-                                    onChange={(e) => handleAccentChange(e.target.value)}
-                                />
-                            </label>
-                            <label className={`${styles.colorSwatch} ${styles.bgBlue}`}>
-                                <input
-                                    type="radio"
-                                    name="accent"
-                                    value="blue"
-                                    onChange={(e) => handleAccentChange(e.target.value)}
-                                />
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-{/* 
-            <div className={styles.workoutLocn}>
-                <h2>Workout Information</h2>
-                <div className={styles.innerWrkoutLocn}>
-                    <button className={styles.prsnBtn} onClick={handleAddLocation}>
-                        + Location
-                    </button>
-                    <button className={styles.prsnBtn} onClick={handleAddClass}>
-                        + Class
-                    </button>
-                </div>
-            </div> */}
-
-            {/* <div className={styles.workoutsVdo}>
-                <h2>Upload Photos and Videos for Workout</h2>
-                <div className={styles.uploadBox}>
-                    <input type="file" accept="video/*" id="videoUpload" />
-                    <label htmlFor="videoUpload" className={styles.uploadLabel}>
-                        <div className={styles.uploadIcon}>
-                            <Image
-                                src="/vdo_upload_icon.png"
-                                alt="upload-icon"
-                                width={25}
-                                height={26}
-                            />
-                        </div>
-                        <p className={styles.wrkoutVdoPara}>
-                            <span className={styles.workVdioBtn}>Select to Upload</span>
-                            <span>or drag your video here</span>
-                        </p>
-                    </label>
-                </div>
-            </div> */}
         </div>
     );
 };
