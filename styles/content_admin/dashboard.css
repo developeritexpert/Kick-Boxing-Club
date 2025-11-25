@@ -100,7 +100,7 @@ aside.sidebar.collapsed button.logout {
 }
 
 .content-admin .sidebar-top {
-  padding: 18px 36px 10px 36px;
+    padding: 18px 36px 10px 36px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.02);
     display: flex;
     align-items: center;
@@ -268,7 +268,6 @@ aside.sidebar.collapsed button.logout {
     padding: 0 22px;
     border-bottom: 1px solid #eee;
     justify-content: space-between;
-
 }
 
 /* header: left toggle (mobile) */
@@ -276,7 +275,7 @@ aside.sidebar.collapsed button.logout {
     /* display: none; */
     font-size: 18px;
     margin-right: 12px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 /* centered title */
@@ -296,7 +295,7 @@ aside.sidebar.collapsed button.logout {
 
 .content-admin .header-logo {
     object-fit: contain;
-     width:256px;
+    width: 256px;
 }
 /* content area */
 .content-admin .content-area {
@@ -558,13 +557,12 @@ aside.sidebar.collapsed button.logout {
 }
 
 @media (max-width: 767px) {
-  
     .content-admin .nav-item:hover .nav-link {
-    background: unset;
-    color: #fff;
-    border-top-left-radius: unset;
-    border-bottom-left-radius: unset;
-}
+        background: unset;
+        color: #fff;
+        border-top-left-radius: unset;
+        border-bottom-left-radius: unset;
+    }
     .content-admin .main-area {
         width: 100%;
     }
@@ -618,20 +616,19 @@ aside.sidebar.collapsed button.logout {
     }
 }
 
-@media(max-width:575px){
-      .content-admin .header-logo {
+@media (max-width: 575px) {
+    .content-admin .header-logo {
         /* max-height: 32px; */
-        width:140px;
+        width: 140px;
     }
 
-     .content-admin  .pagination .pagination-btn {
-    padding: 4px 10px;
-}
- .content-admin  .pagination .pagination-numbers {
-    gap:8px;
-}
- .content-admin  .pagination .pagination-number{
-  
-    padding: 4px 10px;
-}
+    .content-admin .pagination .pagination-btn {
+        padding: 4px 10px;
+    }
+    .content-admin .pagination .pagination-numbers {
+        gap: 8px;
+    }
+    .content-admin .pagination .pagination-number {
+        padding: 4px 10px;
+    }
 }

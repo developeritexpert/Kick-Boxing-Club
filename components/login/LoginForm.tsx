@@ -109,23 +109,23 @@ export default function LoginForm() {
 
                     <div className="password-input-wrapper">
                         <div className="inside-pswrd-wrper">
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            placeholder="Password"
-                            {...register('password')}
-                            className={errors.password ? 'error' : ''}
-                        />
-                        <button
-                            type="button"
-                            className="password-toggle-btn"
-                            onClick={() => setShowPassword(!showPassword)}
-                            aria-label={showPassword ? 'Hide password' : 'Show password'}
-                        >
-                            <img
-                                src={showPassword ? '/eye-open.svg' : '/eye-close.svg'}
-                                alt={showPassword ? 'Hide' : 'Show'}
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder="Password"
+                                {...register('password')}
+                                className={errors.password ? 'error' : ''}
                             />
-                        </button>
+                            <button
+                                type="button"
+                                className="password-toggle-btn"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                            >
+                                <img
+                                    src={showPassword ? '/eye-open.svg' : '/eye-close.svg'}
+                                    alt={showPassword ? 'Hide' : 'Show'}
+                                />
+                            </button>
                         </div>
                         {errors.password && (
                             <p
@@ -163,45 +163,6 @@ export default function LoginForm() {
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // old login form
 // 'use client';

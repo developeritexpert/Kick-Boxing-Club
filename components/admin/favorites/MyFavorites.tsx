@@ -116,7 +116,7 @@ const MyFavorites: React.FC = () => {
             </div>
         );
     }
-    
+
     if (error) return <div className="error-content">{error}</div>;
 
     return (

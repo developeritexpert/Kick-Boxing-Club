@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
-import "./resetPassword.css";
+import './resetPassword.css';
 
 export default function ResetPasswordPage() {
     const [password, setPassword] = useState('');
@@ -80,12 +80,8 @@ export default function ResetPasswordPage() {
         <div className="reset-password-container">
             <div className="reset-password-box">
                 <div>
-                    <h2 className="">
-                        Reset your password
-                    </h2>
-                    <p className="reset-text-blw">
-                        Enter your new password below
-                    </p>
+                    <h2 className="">Reset your password</h2>
+                    <p className="reset-text-blw">Enter your new password below</p>
                 </div>
                 <form className="reset-password-form" onSubmit={handleSubmit}>
                     <div className="reset-password-ctn">
@@ -140,11 +136,7 @@ export default function ResetPasswordPage() {
                     )}
 
                     <div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="sbmit-btn"
-                        >
+                        <button type="submit" disabled={loading} className="sbmit-btn">
                             {loading ? 'Updating...' : 'Update Password'}
                         </button>
                     </div>

@@ -273,8 +273,8 @@
 }
 
 .edit-user-form input:disabled {
-  cursor: not-allowed;
-  background-color: #e7e6e6;
-  color: #0f0f0f;
-  border-color: #d0d0d0;
+    cursor: not-allowed;
+    background-color: #e7e6e6;
+    color: #0f0f0f;
+    border-color: #d0d0d0;
 }

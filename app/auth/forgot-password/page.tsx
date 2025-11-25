@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
-import "./forgotPassword.css"
+import './forgotPassword.css';
 
 export default function ForgotPasswordPage() {
     const [email, setEmail] = useState('');
@@ -45,9 +45,7 @@ export default function ForgotPasswordPage() {
         <div className="forgot-pswrd-container">
             <div className="forgot-box">
                 <div className="">
-                    <h2 className="">
-                        Forgot your password?
-                    </h2>
+                    <h2 className="">Forgot your password?</h2>
                     <p className="inside-forget-para">
                         Enter your email address and we&apos;ll send you a link to reset your
                         password.
@@ -88,11 +86,7 @@ export default function ForgotPasswordPage() {
                     )}
 
                     <div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="sbmit-btn"
-                        >
+                        <button type="submit" disabled={loading} className="sbmit-btn">
                             {loading ? 'Sending...' : 'Send Reset Link'}
                         </button>
                     </div>
@@ -105,10 +99,7 @@ export default function ForgotPasswordPage() {
                         Back to login
                         </a> */}
 
-                        <Link
-                            href="/"
-                            className="back-to-lgin-btn"
-                        >
+                        <Link href="/" className="back-to-lgin-btn">
                             Back to login
                         </Link>
                     </div>

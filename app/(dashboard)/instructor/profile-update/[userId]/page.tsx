@@ -12,7 +12,10 @@ export default function EditUserPage() {
         <div className="user-management-container">
             <div className="table-header">
                 <h2>Edit Profile</h2>
-                <button className="add-user-btn" onClick={() => router.push('/instructor/settings')}>
+                <button
+                    className="add-user-btn"
+                    onClick={() => router.push('/instructor/settings')}
+                >
                     ← Back
                 </button>
             </div>

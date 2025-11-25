@@ -11,9 +11,9 @@ const Settings: React.FC = () => {
     const user = useAuthStore((state) => state.user);
     const setUser = useAuthStore((state) => state.setUser);
     const router = useRouter();
-    
+
     const [profileImageUrl, setProfileImageUrl] = useState<string | null>(
-        user?.profile_image_url || null
+        user?.profile_image_url || null,
     );
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const Settings: React.FC = () => {
 
     const handleImageUpdate = (newImageUrl: string) => {
         setProfileImageUrl(newImageUrl);
-        
+
         // Update Zustand store
         if (user) {
             setUser({ ...user, profile_image_url: newImageUrl });
@@ -58,7 +58,7 @@ const Settings: React.FC = () => {
     const handleUpload = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         router.push('/admin/movement/create');
-    }
+    };
 
     return (
         <div className="admin-setting-cntner">
@@ -72,7 +72,8 @@ const Settings: React.FC = () => {
                 )}
                 <div className={styles.profileName}>
                     <h3>
-                        {capitalizeFirstLetter(user?.first_name)} {capitalizeFirstLetter(user?.last_name)}
+                        {capitalizeFirstLetter(user?.first_name)}{' '}
+                        {capitalizeFirstLetter(user?.last_name)}
                     </h3>
                     <p>{capitalizeFirstLetter(user?.role)}</p>
                 </div>
@@ -168,39 +169,6 @@ const Settings: React.FC = () => {
 };
 
 export default Settings;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // without image upload
 // 'use client';
@@ -347,54 +315,6 @@ export default Settings;
 // };
 
 // export default Settings;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 'use client';
 // import React, { useEffect, useState } from 'react';
@@ -618,7 +538,7 @@ export default Settings;
 //                     </div>
 //                 </div>
 //             </div>
-//             {/* 
+//             {/*
 //             <div className={styles.acntInfo}>
 //                 <h2>{t.accountPreferences}</h2>
 

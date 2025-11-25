@@ -216,8 +216,8 @@ const Workouts: React.FC = () => {
                 <div className="spinner-wrapper">
                     <div className="spinner-large"></div>
                 </div>
-                // <div className="loading-content">Loading workouts...</div>
-            ) : error ? (
+            ) : // <div className="loading-content">Loading workouts...</div>
+            error ? (
                 <div className="error-content">{error}</div>
             ) : filteredWorkouts.length === 0 ? (
                 <div className="loading-content">No workouts found</div>

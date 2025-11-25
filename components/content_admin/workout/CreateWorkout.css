@@ -78,7 +78,6 @@ select {
 .content-admin-create-workout input::placeholder,
 textarea::placeholder {
     color: #666;
-    
 }
 
 .content-admin-create-workout input:focus,
@@ -371,7 +370,7 @@ select:focus {
     border-color: #c00;
     background-color: #fff1f1;
 }
-.content-admin-create-workout  .movement-card {
+.content-admin-create-workout .movement-card {
     text-align: center;
     cursor: pointer;
     background: #fff;
@@ -380,7 +379,7 @@ select:focus {
     flex-direction: column;
     gap: 6px;
     padding: 12px;
-    transition: all .2s;
+    transition: all 0.2s;
     display: flex;
 }
 
@@ -583,7 +582,7 @@ select:focus {
         padding: 22px;
     }
 
-    .content-admin-create-workout  h2 {
+    .content-admin-create-workout h2 {
         margin-bottom: 18px;
         font-size: 18px;
     }

@@ -477,15 +477,15 @@ aside.sidebar.collapsed .sidebar-top {
 .instructor .close_btn {
     display: none;
 }
-.instructor  .brand-logo {
+.instructor .brand-logo {
     justify-content: center;
     align-items: center;
     width: 100%;
     margin-top: 10px;
     display: flex;
 }
-input::placeholder{
-     color:#666 !important;
+input::placeholder {
+    color: #666 !important;
 }
 /* ===== Responsive behavior ===== */
 
@@ -513,22 +513,16 @@ input::placeholder{
     .instructor .collapsed .sidebar {
         width: 80px;
     } */
-
-   
-  
 }
 
 @media (max-width: 767px) {
     .instructor .header-toggle {
+        font-size: 24px;
+    }
 
-    font-size: 24px;
-}
-
- .instructor .content-area {
-  
-    padding: 15px;
-  
-}
+    .instructor .content-area {
+        padding: 15px;
+    }
     .instructor .main-area {
         width: 100%;
     }
@@ -569,7 +563,7 @@ input::placeholder{
         transition: transform 0.15s;
         transform: translateX(-100%);
     }
-/* 
+    /* 
     .instructor .header-title {
         font-size: 12px;
     } */
@@ -582,27 +576,24 @@ input::placeholder{
     .instructor .content-area {
         padding: 15px;
     }
-         .instructor  .pagination .pagination-btn {
-    padding: 4px 10px;
-}
-    .instructor   .pagination .pagination-numbers {
-    gap:8px;
-}
-    .instructor  .pagination .pagination-number{
-  
-    padding: 4px 10px;
-}
-.instructor .nav-item:hover .nav-link {
-    color: #fff; 
-background: unset;
- border-top-left-radius:unset;
-    border-bottom-left-radius: unset;
-}
-
+    .instructor .pagination .pagination-btn {
+        padding: 4px 10px;
+    }
+    .instructor .pagination .pagination-numbers {
+        gap: 8px;
+    }
+    .instructor .pagination .pagination-number {
+        padding: 4px 10px;
+    }
+    .instructor .nav-item:hover .nav-link {
+        color: #fff;
+        background: unset;
+        border-top-left-radius: unset;
+        border-bottom-left-radius: unset;
+    }
 }
 @media (max-width: 575px) {
     .instructor .header-logo {
         width: 170px;
     }
-
 }
