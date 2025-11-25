@@ -9,19 +9,19 @@ import Image from 'next/image';
 import styles from './Settings.module.css';
 
 const Settings: React.FC = () => {
-
     const user = useAuthStore((state) => state.user);
     const setUser = useAuthStore((state) => state.setUser);
     const router = useRouter();
 
-    const [profileImageUrl, setProfileImageUrl] = useState<string | null>(user?.profile_image_url || null);
+    const [profileImageUrl, setProfileImageUrl] = useState<string | null>(
+        user?.profile_image_url || null,
+    );
 
     useEffect(() => {
         if (user?.profile_image_url) {
             setProfileImageUrl(user.profile_image_url);
         }
     }, [user?.profile_image_url]);
-
 
     const capitalizeFirstLetter = (str?: string | null) => {
         if (!str) return '';
@@ -39,10 +39,10 @@ const Settings: React.FC = () => {
             // alert('working on it');
             router.push(`/content-admin/profile-update/${user.id}`);
         } else {
-            toast.error('Failed to detect login')
+            toast.error('Failed to detect login');
             router.push('/');
         }
-    }
+    };
 
     const handleImageUpdate = (newImageUrl: string) => {
         setProfileImageUrl(newImageUrl);
@@ -50,12 +50,12 @@ const Settings: React.FC = () => {
         if (user) {
             setUser({ ...user, profile_image_url: newImageUrl });
         }
-    }
+    };
 
     const handleUpload = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
         router.push(`/content-admin/movement/create`);
-    }
+    };
 
     return (
         <div className="content-admin-setting-cntner">
@@ -81,7 +81,8 @@ const Settings: React.FC = () => {
                 )}
                 <div className={styles.profileName}>
                     <h3>
-                        {capitalizeFirstLetter(user?.first_name)} {capitalizeFirstLetter(user?.last_name)}
+                        {capitalizeFirstLetter(user?.first_name)}{' '}
+                        {capitalizeFirstLetter(user?.last_name)}
                     </h3>
                     <p>{formatRole(user?.role)}</p>
                 </div>
@@ -90,7 +91,7 @@ const Settings: React.FC = () => {
             <div className={styles.personInfo}>
                 <div className={styles.prsnHd}>
                     <h2>Personal Information</h2>
-                    <button className={styles.prsnBtn} onClick={handleEdit} >
+                    <button className={styles.prsnBtn} onClick={handleEdit}>
                         <svg
                             width="15"
                             height="15"
@@ -165,75 +166,6 @@ const Settings: React.FC = () => {
 };
 
 export default Settings;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // static setting page
 // 'use client';
@@ -458,7 +390,7 @@ export default Settings;
 //                     </div>
 //                 </div>
 //             </div>
-//             {/* 
+//             {/*
 //             <div className={styles.acntInfo}>
 //                 <h2>{t.accountPreferences}</h2>
 
@@ -624,7 +556,7 @@ export default Settings;
 //                     </div>
 //                 </div>
 //             </div> */}
-// {/* 
+// {/*
 //             <div className={styles.workoutLocn}>
 //                 <h2>Workout Information</h2>
 //                 <div className={styles.innerWrkoutLocn}>

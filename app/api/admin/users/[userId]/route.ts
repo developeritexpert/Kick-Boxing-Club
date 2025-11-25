@@ -54,23 +54,59 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ userId:
 }
 
 // DELETE user by ID
+// export async function DELETE(req: NextRequest, context: { params: Promise<{ userId: string }> }) {
+//     const { userId } = await context.params;
+
+//     if (!userId) return NextResponse.json({ error: 'User ID required' }, { status: 400 });
+
+//     try {
+//         // Delete user metadata
+//         const { error: metaError } = await supabaseAdmin
+//             .from('user_meta')
+//             .delete()
+//             .eq('user_id', userId);
+
+//         if (metaError) throw metaError;
+
+//         // Delete Supabase auth user
+//         const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(userId);
+//         if (authError) console.error('Error deleting auth user:', authError);
+
+//         return NextResponse.json(
+//             { status: 'ok', message: 'User deleted successfully' },
+//             { status: 200 },
+//         );
+//     } catch (error) {
+//         return NextResponse.json(
+//             { error: error instanceof Error ? error.message : String(error) },
+//             { status: 500 },
+//         );
+//     }
+// }
+
 export async function DELETE(req: NextRequest, context: { params: Promise<{ userId: string }> }) {
     const { userId } = await context.params;
 
-    if (!userId) return NextResponse.json({ error: 'User ID required' }, { status: 400 });
+    if (!userId) {
+        return NextResponse.json({ error: 'User ID required' }, { status: 400 });
+    }
 
     try {
-        // Delete user metadata
+        const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(userId);
+        if (authError) {
+            console.error('Error deleting auth user:', authError);
+            throw new Error(authError.message || 'Failed to delete auth user');
+        }
+
         const { error: metaError } = await supabaseAdmin
             .from('user_meta')
             .delete()
             .eq('user_id', userId);
 
-        if (metaError) throw metaError;
-
-        // Delete Supabase auth user
-        const { error: authError } = await supabaseAdmin.auth.admin.deleteUser(userId);
-        if (authError) console.error('Error deleting auth user:', authError);
+        if (metaError) {
+            console.error('Error deleting user_meta:', metaError);
+            throw new Error(metaError.message || 'Auth user deleted but user_meta not cleaned');
+        }
 
         return NextResponse.json(
             { status: 'ok', message: 'User deleted successfully' },

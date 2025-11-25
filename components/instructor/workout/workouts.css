@@ -99,7 +99,7 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 9px;
-    width:100%;
+    width: 100%;
 }
 
 .instructor-wrkout-contnr .workout-title {
@@ -286,13 +286,13 @@
 } */
 /* Responsive Design */
 
- .instructor-wrkout-contnr .spinner-wrapper {
+.instructor-wrkout-contnr .spinner-wrapper {
     min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
- .instructor-wrkout-contnr  .spinner-large {
+.instructor-wrkout-contnr .spinner-large {
     width: 48px;
     height: 48px;
     border: 4px solid #e5e7eb;
@@ -308,20 +308,15 @@
     }
 }
 
-
-@media(max-width:991px){
-     .instructor-wrkout-contnr  .workouts-grid {
-    grid-template-columns: repeat(2, 1fr);
-
-}
+@media (max-width: 991px) {
+    .instructor-wrkout-contnr .workouts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 @media (max-width: 768px) {
-    
     .instructor-wrkout-contnr .workouts-grid {
-   
-    gap: 20px;
-  
-}
+        gap: 20px;
+    }
     .instructor-wrkout-contnr .workouts-header {
         flex-direction: column;
         align-items: stretch;
@@ -357,8 +352,8 @@
 }
 @media (max-width: 575px) {
     .instructor-wrkout-contnr .search-box {
-    max-width: 100%;
-}
+        max-width: 100%;
+    }
     .instructor-wrkout-contnr .workouts-controls {
         justify-content: unset;
         align-items: unset;
@@ -367,10 +362,10 @@
         display: flex;
         flex-direction: column;
     }
-.instructor-wrkout-contnr button.add-workout-btn {
-    max-width: 190px;
-    margin: auto;
-}
+    .instructor-wrkout-contnr button.add-workout-btn {
+        max-width: 190px;
+        margin: auto;
+    }
     .instructor-wrkout-contnr .add-workout-btn {
         padding: 6px 15px;
         font-size: 15px;

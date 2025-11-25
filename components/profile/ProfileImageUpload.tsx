@@ -78,12 +78,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
                     disabled={isLoading}
                     aria-label="Upload profile picture"
                 >
-                    <Image
-                        src="/camera_icon.png"
-                        alt="camera-icon"
-                        width={18}
-                        height={14}
-                    />
+                    <Image src="/camera_icon.png" alt="camera-icon" width={18} height={14} />
                 </button>
             </div>
             <input

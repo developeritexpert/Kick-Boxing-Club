@@ -131,15 +131,14 @@
 /* Buttons shared style */
 .movementLibrarySec .btnBlack {
     background: #000;
-   padding: 7px 13px;
+    padding: 7px 13px;
     font-size: 16px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     border: 1px solid transparent;
-       font-weight: 600;
-       color:white;
- 
+    font-weight: 600;
+    color: white;
 }
 .movementLibrarySec .btnRed {
     background: #b40200;
@@ -189,7 +188,7 @@
 .mvnmentLibraryBtns {
     display: flex;
     justify-content: space-between;
-    margin-top:30px;
+    margin-top: 30px;
 }
 
 /* Dropdown Button */
@@ -206,7 +205,6 @@
     justify-content: space-between;
     align-items: center;
 }
-
 
 /* Dropdown List */
 .movementLibrarySec .dropdownList {
@@ -269,7 +267,7 @@
     border: 1px solid #0000001a;
     border-radius: 5px;
     padding: 7px 15px;
-     color: black;
+    color: black;
 }
 .movementLibrarySec .mvmntName input:focus {
     outline: none;

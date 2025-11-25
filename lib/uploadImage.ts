@@ -1,19 +1,16 @@
-import { supabaseClient } from './supabaseClient'; 
+import { supabaseClient } from './supabaseClient';
 
-export const uploadProfileImage = async (
-    file: File,
-    userId: string
-): Promise<string> => {
+export const uploadProfileImage = async (file: File, userId: string): Promise<string> => {
     try {
         const fileExt = file.name.split('.').pop();
         const fileName = `${userId}-${Date.now()}.${fileExt}`;
         const filePath = `profile-images/${fileName}`;
 
         const { data, error: uploadError } = await supabaseClient.storage
-            .from('user-profiles') 
+            .from('user-profiles')
             .upload(filePath, file, {
                 cacheControl: '3600',
-                upsert: true, 
+                upsert: true,
             });
 
         if (uploadError) throw uploadError;
@@ -29,10 +26,7 @@ export const uploadProfileImage = async (
     }
 };
 
-export const updateUserProfileImage = async (
-    userId: string,
-    imageUrl: string
-): Promise<void> => {
+export const updateUserProfileImage = async (userId: string, imageUrl: string): Promise<void> => {
     try {
         const { error } = await supabaseClient
             .from('user_meta')

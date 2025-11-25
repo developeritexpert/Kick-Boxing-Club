@@ -115,13 +115,13 @@ export default function AddUserPage() {
                 }
                 break;
             case 'phone':
-                if(!value) {
+                if (!value) {
                     return 'Phone Number is required';
                 }
-                if(value.length < VALIDATION.PHONE_MIN_LENGTH){
+                if (value.length < VALIDATION.PHONE_MIN_LENGTH) {
                     return `Must be at least ${VALIDATION.PHONE_MIN_LENGTH} characters`;
                 }
-                if(value.length > VALIDATION.PHONE_MAX_LENGTH){
+                if (value.length > VALIDATION.PHONE_MAX_LENGTH) {
                     return `Must be at least ${VALIDATION.PHONE_MAX_LENGTH} characters`;
                 }
                 if (!isValidPhoneNumber(value)) {

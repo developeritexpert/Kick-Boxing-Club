@@ -1,5 +1,5 @@
 'use client';
-import Image from "next/image"
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
 import toast from 'react-hot-toast';
@@ -120,7 +120,7 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
     };
 
     if (!mounted) return null;
-     const handleSidebar = () => {
+    const handleSidebar = () => {
         if (window.innerWidth <= 768) {
             // Only mobile
             setCollapsed(true);
@@ -135,16 +135,16 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
                         ☰
                     </div> */}
                     {!collapsed && <div className="brand-text">All Locations</div>}
-                        {collapsed && (
-                                            <div className="brand-logo">
-                                                <Image
-                                                    src="/KickboxingLogo.png"
-                                                    alt="kickboxing-logo"
-                                                    width={33}
-                                                    height={33}
-                                                />
-                                            </div>
-                                        )}
+                    {collapsed && (
+                        <div className="brand-logo">
+                            <Image
+                                src="/KickboxingLogo.png"
+                                alt="kickboxing-logo"
+                                width={33}
+                                height={33}
+                            />
+                        </div>
+                    )}
                 </div>
                 <div className="close_btn" onClick={handleSidebar}>
                     <img src="/new_close.png" alt="close-img" />
@@ -160,7 +160,11 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
                                 : pathname === m.href;
 
                         return (
-                            <li key={m.key} className={`nav-item ${isActive ? 'active' : ''}`} onClick={handleSidebar}>
+                            <li
+                                key={m.key}
+                                className={`nav-item ${isActive ? 'active' : ''}`}
+                                onClick={handleSidebar}
+                            >
                                 <Link href={m.href} className="nav-link">
                                     <span className="nav-icon">
                                         <img src={m.icon} alt="home_icon" />
@@ -175,7 +179,7 @@ export default function Sidebar({ collapsed, setCollapsed }: Props) {
 
             <div className="sidebar-footer">
                 <button onClick={handleLogout} className="logout">
-                     <Image src="/logout_icon.png" alt="logout-icon" width={18} height={23} />
+                    <Image src="/logout_icon.png" alt="logout-icon" width={18} height={23} />
                     <span className="logout-text">Logout</span>
                 </button>
             </div>

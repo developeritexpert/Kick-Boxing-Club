@@ -98,7 +98,7 @@ export default function LoginForm() {
                                 style={{
                                     color: '#c00',
                                     fontSize: '12px',
-                                    marginTop: '5px',
+                                    marginTop: '-11px',
                                     textAlign: 'left',
                                 }}
                             >
@@ -108,23 +108,25 @@ export default function LoginForm() {
                     </div>
 
                     <div className="password-input-wrapper">
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            placeholder="Password"
-                            {...register('password')}
-                            className={errors.password ? 'error' : ''}
-                        />
-                        <button
-                            type="button"
-                            className="password-toggle-btn"
-                            onClick={() => setShowPassword(!showPassword)}
-                            aria-label={showPassword ? 'Hide password' : 'Show password'}
-                        >
-                            <img
-                                src={showPassword ? '/eye-open.svg' : '/eye-close.svg'}
-                                alt={showPassword ? 'Hide' : 'Show'}
+                        <div className="inside-pswrd-wrper">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder="Password"
+                                {...register('password')}
+                                className={errors.password ? 'error' : ''}
                             />
-                        </button>
+                            <button
+                                type="button"
+                                className="password-toggle-btn"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                            >
+                                <img
+                                    src={showPassword ? '/eye-open.svg' : '/eye-close.svg'}
+                                    alt={showPassword ? 'Hide' : 'Show'}
+                                />
+                            </button>
+                        </div>
                         {errors.password && (
                             <p
                                 style={{
@@ -161,45 +163,6 @@ export default function LoginForm() {
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // old login form
 // 'use client';

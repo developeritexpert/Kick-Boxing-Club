@@ -5,7 +5,6 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function GET() {
     try {
-
         const { data: movements, error: movementsError } = await supabaseAdmin
             .from('movements')
             .select(
@@ -107,4 +106,4 @@ export async function GET() {
             { status: 500 },
         );
     }
-}   
+}
