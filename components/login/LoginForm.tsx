@@ -98,7 +98,7 @@ export default function LoginForm() {
                                 style={{
                                     color: '#c00',
                                     fontSize: '12px',
-                                    marginTop: '5px',
+                                    marginTop: '-11px',
                                     textAlign: 'left',
                                 }}
                             >
@@ -108,6 +108,7 @@ export default function LoginForm() {
                     </div>
 
                     <div className="password-input-wrapper">
+                        <div className="inside-pswrd-wrper">
                         <input
                             type={showPassword ? 'text' : 'password'}
                             placeholder="Password"
@@ -125,6 +126,7 @@ export default function LoginForm() {
                                 alt={showPassword ? 'Hide' : 'Show'}
                             />
                         </button>
+                        </div>
                         {errors.password && (
                             <p
                                 style={{

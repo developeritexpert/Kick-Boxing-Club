@@ -17,11 +17,13 @@ html {
     align-items: center;
     min-height: 100vh;
     flex-direction: column;
+        padding: 0px 15px;
 }
 
 .login-box {
     background-color: #fff;
-    padding: 40px 30px;
+    padding: 40px 25px;
+
     border-radius: 8px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -102,9 +104,9 @@ html {
     cursor: pointer;
 }
 
-.login-box .forgot-password:hover {
+/* .login-box .forgot-password:hover {
     text-decoration: underline;
-}
+} */
 
 .login-footer {
     text-align: center;
@@ -162,4 +164,7 @@ html {
 
 .password-toggle-btn:hover img {
     opacity: 1;
+}
+.inside-pswrd-wrper {
+    position: relative;
 }
