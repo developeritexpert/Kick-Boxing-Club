@@ -129,6 +129,11 @@ export default function ContentAdminPage() {
         router.push(`/content-admin/workouts/${id}`);
     };
 
+    const capitalizeFirstLetter = (str?: string | null) => {
+        if (!str) return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     return (
         <div className={`${styles.dashboardPage} content-admin-dsbrd`}>
             <div className={styles.pageHeaderSpacer} />
@@ -217,7 +222,7 @@ export default function ContentAdminPage() {
                                                 />
                                                 Status:
                                             </div>
-                                            <p>{workout.status}</p>
+                                            <p>{capitalizeFirstLetter(workout.status)}</p>
                                         </div>
 
                                         <div className={styles.row}>

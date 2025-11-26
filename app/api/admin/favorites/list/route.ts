@@ -12,7 +12,9 @@ export async function POST(req: Request) {
         const { data: favorites, error: favError } = await supabaseAdmin
             .from('workout_favorites')
             .select('workout_id')
-            .eq('user_id', user_id);
+            .eq('user_id', user_id)
+            .order('created_at', { ascending: false });
+
 
         if (favError) throw favError;
         if (!favorites?.length) {
@@ -28,7 +30,10 @@ export async function POST(req: Request) {
 
         if (workoutError) throw workoutError;
 
+        const workoutMap = new Map(workouts.map((w) => [w.id, w]));
         const classIds = [...new Set(workouts.map((w) => w.class_id).filter(Boolean))];
+
+        // const classIds = [...new Set(workouts.map((w) => w.class_id).filter(Boolean))];
         const { data: classes, error: classError } = await supabaseAdmin
             .from('classes')
             .select('id, name')
@@ -36,7 +41,10 @@ export async function POST(req: Request) {
 
         if (classError) throw classError;
 
+        const classMap = new Map(classes.map((c) => [c.id, c]));
         const creatorIds = [...new Set(workouts.map((w) => w.created_by).filter(Boolean))];
+
+        // const creatorIds = [...new Set(workouts.map((w) => w.created_by).filter(Boolean))];
         const { data: creators, error: creatorError } = await supabaseAdmin
             .from('user_meta')
             .select('user_id, first_name, last_name')
@@ -44,16 +52,34 @@ export async function POST(req: Request) {
 
         if (creatorError) throw creatorError;
 
-        const result = workouts.map((w) => {
-            const classObj = classes.find((c) => c.id === w.class_id);
-            const creator = creators.find((c) => c.user_id === w.created_by);
+        const creatorMap = new Map(creators.map((c) => [c.user_id, c]));
+
+
+        // const result = workouts.map((w) => {
+        //     const classObj = classes.find((c) => c.id === w.class_id);
+        //     const creator = creators.find((c) => c.user_id === w.created_by);
+        //     return {
+        //         workout_id: w.id,
+        //         workout_name: w.name,
+        //         class_name: classObj ? classObj.name : null,
+        //         created_by: creator ? `${creator.first_name} ${creator.last_name}` : null,
+        //     };
+        // });
+
+        const result = favorites.map((fav) => {
+            const w = workoutMap.get(fav.workout_id);
+            if (!w) return null;
+
+            const classObj = classMap.get(w.class_id);
+            const creator = creatorMap.get(w.created_by);
+
             return {
                 workout_id: w.id,
                 workout_name: w.name,
                 class_name: classObj ? classObj.name : null,
                 created_by: creator ? `${creator.first_name} ${creator.last_name}` : null,
             };
-        });
+        }).filter(Boolean);
 
         return NextResponse.json({ success: true, data: result });
     } catch (error: any) {

@@ -130,6 +130,11 @@ export default function InstructorPage() {
         router.push(`/instructor/workouts/${id}`);
     };
 
+    const capitalizeFirstLetter = (str?: string | null) => {
+        if (!str) return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     return (
         <div className={`${styles.dashboardPage} instructor-dsbrd`}>
             <div className={styles.pageHeaderSpacer} />
@@ -218,7 +223,7 @@ export default function InstructorPage() {
                                                 />
                                                 Status:
                                             </div>
-                                            <p>{workout.status}</p>
+                                            <p>{capitalizeFirstLetter(workout.status)}</p>
                                         </div>
 
                                         <div className={styles.row}>
