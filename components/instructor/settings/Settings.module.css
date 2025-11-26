@@ -39,6 +39,7 @@ span.profileHeart img {
     position: relative;
     cursor:pointer;
 }
+
 .profileName {
     margin-left: 30px;
 }
@@ -55,7 +56,7 @@ span.profileHeart img {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     margin-top: 25px;
-    padding-bottom: 19px;
+    padding-bottom: 24px;
 }
 .prsnHd {
     display: flex;
@@ -91,9 +92,11 @@ button.prsnBtn span {
     padding: 30px 0px 30px 37px;
 }
 .prflInfoCnt {
-    padding: 22px 0 0 17px;
-    display: flex;
-    margin-top: 2px !important;
+    padding: 24px 0 0 17px;
+  display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    
 }
 
 .prflName {
@@ -548,16 +551,25 @@ select#timezone {
         font-size: 18px; /* ~24px default */
     }
 }
+@media(max-width:991px){
+    .prflInfoCnt {
+    grid-template-columns: repeat(2, 1fr);
+   }
+}
 @media (max-width: 767px) {
     .prflInfoCnt {
-        flex-direction: column;
+         grid-template-columns: repeat(1, 1fr);
+         gap:20px
     }
-    .prflName {
+    /* .prflName {
         flex: 1;
         margin-bottom: 18px;
-    }
+    } */
+     .Settings-module__c54V1a__personInfo {
+    padding-bottom: 15px;
+}
     .prflInfoCnt {
-        padding: 8px 0 0 17px;
+        padding: 15px 0 0 17px;
         margin-top: 0px !important;
     }
     .profileName h3 {
