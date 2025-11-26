@@ -123,9 +123,17 @@ const Settings: React.FC = () => {
                         <h4>Email Address</h4>
                         <h5>{user?.email}</h5>
                     </div>
+                     <div className={styles.prflName}>
+                        <h4>Phone Number</h4>
+                        <h5>{user?.phone || '---'}</h5>
+                    </div>
+                    <div className={styles.prflName}>
+                        <h4>User Role</h4>
+                        <h5>{formatRole(user?.role)}</h5>
+                    </div>
                 </div>
 
-                <div className={`${styles.prflInfoCnt} ${styles.mrgntp}`}>
+                {/* <div className={`${styles.prflInfoCnt} ${styles.mrgntp}`}>
                     <div className={styles.prflName}>
                         <h4>Phone Number</h4>
                         <h5>{user?.phone || '---'}</h5>
@@ -134,11 +142,11 @@ const Settings: React.FC = () => {
                         <h4>User Role</h4>
                         <h5>{formatRole(user?.role)}</h5>
                     </div>
-                    {/* <div className={styles.prflName}>
+                    <div className={styles.prflName}>
                         <h4>Date of birth</h4>
                         <h5>---</h5>
-                    </div> */}
-                </div>
+                    </div>
+                </div> */}
             </div>
 
             <div className={styles.workoutsVdo} onClick={(e) => handleUpload(e)}>

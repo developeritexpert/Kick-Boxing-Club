@@ -80,6 +80,9 @@
 .instructor-wrkout-contnr span.workout-hrt-icn img {
     width: 25px;
     height: 21px;
+    min-width: 25px;
+    min-height: 21px;
+    
 }
 .instructor-wrkout-contnr .workout-exercises {
     font-weight: 400;

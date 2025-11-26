@@ -273,6 +273,7 @@ aside.sidebar.collapsed .sidebar-top {
     flex: 1;
     font-size: 16px;
     font-weight: 600;
+    line-height: 1.2;
 }
 
 /* right logo */
@@ -520,7 +521,8 @@ input::placeholder {
         font-size: 24px;
     }
 
-    .instructor .content-area {
+    .instructor .main-area .content-area {
+        overflow-y: hidden;
         padding: 15px;
     }
     .instructor .main-area {
@@ -528,6 +530,9 @@ input::placeholder {
     }
     .instructor .collapsed .main-area {
         width: 100%;
+    }
+    .instructor.collapsed .main-area .content-area {
+        overflow-y: auto;
     }
     .instructor .dashboard-page article.card {
         padding: 20px 15px;
@@ -563,10 +568,10 @@ input::placeholder {
         transition: transform 0.15s;
         transform: translateX(-100%);
     }
-    /* 
-    .instructor .header-title {
-        font-size: 12px;
-    } */
+
+    .instructor .header-title .last-name {
+        display: none;
+    }
 
     .instructor .panel-actions {
         gap: 10px;
@@ -594,6 +599,9 @@ input::placeholder {
 }
 @media (max-width: 575px) {
     .instructor .header-logo {
-        width: 170px;
+        width: 162px;
+    }
+    .instructor .dashboard-header {
+        padding: 0 15px;
     }
 }

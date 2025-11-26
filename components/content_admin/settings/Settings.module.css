@@ -90,10 +90,18 @@ button.prsnBtn span {
     font-weight: 600;
     padding: 30px 0px 30px 37px;
 }
-.prflInfoCnt {
+/* .prflInfoCnt {
     padding: 22px 0 0 17px;
     display: flex;
     margin-top: 2px !important;
+} */
+
+.prflInfoCnt {
+    padding: 24px 0 0 17px;
+  display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    
 }
 
 .prflName {
@@ -548,9 +556,18 @@ select#timezone {
         font-size: 18px; /* ~24px default */
     }
 }
-@media (max-width: 767px) {
+@media(max-width:991px){
     .prflInfoCnt {
+    grid-template-columns: repeat(2, 1fr);
+   }
+}
+@media (max-width: 767px) {
+    /* .prflInfoCnt {
         flex-direction: column;
+    } */
+     .prflInfoCnt {
+         grid-template-columns: repeat(1, 1fr);
+         gap:20px
     }
     .prflName {
         flex: 1;

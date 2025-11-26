@@ -36,7 +36,7 @@ const menu = [
     },
     {
         key: 'favorites',
-        label: 'My Favorites',
+        label: 'My Favourites',
         icon: '/myFav_icon.png',
         alt: 'myFav__icon',
         href: '/instructor/favorites',
@@ -50,7 +50,7 @@ const menu = [
     },
     {
         key: 'settings',
-        label: 'Setting',
+        label: 'Settings',
         icon: '/setting_icon.png',
         alt: 'setting_icon',
         href: '/instructor/settings',
