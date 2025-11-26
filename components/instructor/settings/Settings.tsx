@@ -8,19 +8,19 @@ import ProfileImageUpload from '@/components/profile/ProfileImageUpload';
 import styles from './Settings.module.css';
 
 const Settings: React.FC = () => {
-
     const user = useAuthStore((state) => state.user);
     const setUser = useAuthStore((state) => state.setUser);
     const router = useRouter();
 
-    const [profileImageUrl, setProfileImageUrl] = useState<string | null>(user?.profile_image_url || null);
+    const [profileImageUrl, setProfileImageUrl] = useState<string | null>(
+        user?.profile_image_url || null,
+    );
 
     useEffect(() => {
         if (user?.profile_image_url) {
             setProfileImageUrl(user.profile_image_url);
         }
     }, [user?.profile_image_url]);
-
 
     const capitalizeFirstLetter = (str?: string | null) => {
         if (!str) return '';
@@ -32,10 +32,10 @@ const Settings: React.FC = () => {
             // alert('working on it');
             router.push(`/instructor/profile-update/${user.id}`);
         } else {
-            toast.error('Failed to detect login')
+            toast.error('Failed to detect login');
             router.push('/');
         }
-    }
+    };
 
     const handleImageUpdate = (newImageUrl: string) => {
         setProfileImageUrl(newImageUrl);
@@ -43,8 +43,7 @@ const Settings: React.FC = () => {
         if (user) {
             setUser({ ...user, profile_image_url: newImageUrl });
         }
-    }
-
+    };
 
     return (
         <div className="instructor-setting-cntner">
@@ -70,17 +69,17 @@ const Settings: React.FC = () => {
                 )}
                 <div className={styles.profileName}>
                     <h3>
-                        {capitalizeFirstLetter(user?.first_name)} {capitalizeFirstLetter(user?.last_name)}
+                        {capitalizeFirstLetter(user?.first_name)}{' '}
+                        {capitalizeFirstLetter(user?.last_name)}
                     </h3>
                     <p>{capitalizeFirstLetter(user?.role)}</p>
                 </div>
-
             </div>
 
             <div className={styles.personInfo}>
                 <div className={styles.prsnHd}>
                     <h2>Personal Information</h2>
-                    <button className={styles.prsnBtn} onClick={handleEdit} >
+                    <button className={styles.prsnBtn} onClick={handleEdit}>
                         <svg
                             width="15"
                             height="15"

@@ -211,7 +211,7 @@
 }
 /* ===== Responsive ===== */
 @media (max-width: 767px) {
-       .recentActivityHdg {
+    .recentActivityHdg {
         align-items: unset;
         margin-top: 30px;
         flex-direction: column;
@@ -259,10 +259,9 @@
         font-size: 18px;
         margin-bottom: 12px;
     } */
-     .recentCards {
-    margin-top: 10px;
-}
-
+    .recentCards {
+        margin-top: 10px;
+    }
 }
 @media (max-width: 575px) {
     .panelActions {

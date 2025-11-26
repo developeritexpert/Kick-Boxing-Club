@@ -16,7 +16,7 @@ export default function AdminPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         let isCancelled = false;
 
         const fetchAdminDashboardStats = async () => {
@@ -42,24 +42,22 @@ export default function AdminPage() {
                     setLBCount(data.data?.hiitLowerCount ?? 0);
                     setFBCount(data.data?.hiitFullBodyCount ?? 0);
                 }
-
-            } catch (error : any) {
+            } catch (error: any) {
                 console.error('Error fetching dashboard stats:', error);
                 setError(error?.message || 'Failed to load workout data');
-                toast.error('Failed to load workout data')
+                toast.error('Failed to load workout data');
             } finally {
                 if (!isCancelled) {
                     setLoading(false);
                 }
             }
-        }
-        fetchAdminDashboardStats()
+        };
+        fetchAdminDashboardStats();
 
         return () => {
             isCancelled = true;
         };
     }, []);
-
 
     const renderValue = (value: number | null) => {
         if (loading) return '...';
@@ -102,14 +100,19 @@ export default function AdminPage() {
 
     const handleRedirect = () => {
         router.push(`/admin/movement/library`);
-    }
+    };
 
     return (
         <div className="dashboard-page admin-dsbr">
             <div className="page-header-spacer" />
             <section className="cards-row">
                 {workoutCards.map((card, index) => (
-                    <article className="card" key={index} onClick={handleRedirect} style={{cursor : 'pointer'}}>
+                    <article
+                        className="card"
+                        key={index}
+                        onClick={handleRedirect}
+                        style={{ cursor: 'pointer' }}
+                    >
                         <div>
                             <div className="card-title">{card.title}</div>
                             <div className="card-value">{card.value}</div>

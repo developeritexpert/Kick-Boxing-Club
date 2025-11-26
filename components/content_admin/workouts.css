@@ -79,7 +79,7 @@
     padding: 28px;
     border-radius: 5px;
     transition: transform 0.3s ease;
-    cursor:pointer;
+    cursor: pointer;
 }
 .content-admin-wrkout-contnr span.workout-hrt-icn img {
     width: 25px;
@@ -103,7 +103,7 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 9px;
-    width:100%;
+    width: 100%;
 }
 
 .content-admin-wrkout-contnr .workout-title {
@@ -222,7 +222,7 @@
 }
 
 .content-admin-wrkout-contnr .add-workout-btn:hover {
-     background-color: white;
+    background-color: white;
     color: #b40200;
     border: 1px solid #b40200;
 }
@@ -319,13 +319,10 @@
         flex-direction: column;
         align-items: stretch;
     } */
-
-
 }
 @media (max-width: 575px) {
-        .content-admin-wrkout-contnr .search-box {
+    .content-admin-wrkout-contnr .search-box {
         max-width: 100%;
-        
     }
     .content-admin-wrkout-contnr .workouts-controls {
         justify-content: unset;
@@ -337,7 +334,7 @@
     }
     .content-admin-wrkout-contnr button.add-workout-btn {
         max-width: 190px;
-        margin:auto;
+        margin: auto;
     }
     .content-admin-wrkout-contnr .add-workout-btn {
         padding: 6px 15px;

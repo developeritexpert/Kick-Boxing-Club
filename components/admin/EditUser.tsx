@@ -273,7 +273,6 @@ export default function EditUserPage() {
     // Loading state
     if (loading) {
         return (
-
             <div className="spinner-wrapper">
                 <div className="spinner-large"></div>
             </div>
@@ -398,7 +397,6 @@ export default function EditUserPage() {
                         </select>
                     </div>
 
-
                     <div className="form-group">
                         <label htmlFor="phone">
                             Phone Number <span className="required">*</span>
@@ -423,7 +421,6 @@ export default function EditUserPage() {
                         )}
                     </div>
                 </div>
-
 
                 <div className="form-actions">
                     <button
