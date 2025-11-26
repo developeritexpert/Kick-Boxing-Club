@@ -1,3 +1,4 @@
+// code as per admin requirement 
 // 'use client';
 
 // import React, { useEffect, useState } from 'react';
@@ -448,7 +449,8 @@
 //                                     <option value="">Select Location</option>
 //                                     {locations.map((loc) => (
 //                                         <option key={loc.id} value={loc.id}>
-//                                             {loc.name}
+                                            // {loc.name.length > 20 ? `${loc.name.slice(0, 20)}...` : loc.name}
+
 //                                         </option>
 //                                     ))}
 //                                 </select>
@@ -464,7 +466,8 @@
 //                                     <option value="">Select Class</option>
 //                                     {classes.map((cls) => (
 //                                         <option key={cls.id} value={cls.id}>
-//                                             {cls.name}
+                                            // {cls.name.length > 20 ? `${cls.name.slice(0, 20)}...` : cls.name}
+
 //                                         </option>
 //                                     ))}
 //                                 </select>
@@ -970,7 +973,8 @@ const CreateWorkout: React.FC = () => {
                                     <option value="">Select Location</option>
                                     {locations.map((loc) => (
                                         <option key={loc.id} value={loc.id}>
-                                            {loc.name}
+                                            {/* {loc.name} */}
+                                            {loc.name.length > 20 ? `${loc.name.slice(0, 20)}...` : loc.name}
                                         </option>
                                     ))}
                                 </select>
@@ -985,8 +989,9 @@ const CreateWorkout: React.FC = () => {
                                 >
                                     <option value="">Select Class</option>
                                     {classes.map((cls) => (
-                                        <option key={cls.id} value={cls.id}>
-                                            {cls.name}
+                                        <option key={cls.id} value={cls.id}>    
+                                            {/* {cls.name} */}
+                                            {cls.name.length > 20 ? `${cls.name.slice(0, 20)}...` : cls.name}
                                         </option>
                                     ))}
                                 </select>

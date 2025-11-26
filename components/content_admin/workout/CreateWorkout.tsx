@@ -1,3 +1,4 @@
+// code as per admin requirement 
 // 'use client';
 
 // import React, { useEffect, useState } from 'react';
@@ -454,7 +455,7 @@
 //                                     <option value="">Select Location</option>
 //                                     {locations.map((loc) => (
 //                                         <option key={loc.id} value={loc.id}>
-//                                             {loc.name}
+// {loc.name.length > 20 ? `${loc.name.slice(0, 20)}...` : loc.name}
 //                                         </option>
 //                                     ))}
 //                                 </select>
@@ -470,7 +471,8 @@
 //                                     <option value="">Select Class</option>
 //                                     {classes.map((cls) => (
 //                                         <option key={cls.id} value={cls.id}>
-//                                             {cls.name}
+// {cls.name.length > 20 ? `${cls.name.slice(0, 20)}...` : cls.name}
+
 //                                         </option>
 //                                     ))}
 //                                 </select>
@@ -682,14 +684,14 @@ const CreateWorkout: React.FC = () => {
                 const locationsArray = Array.isArray(locData)
                     ? locData
                     : Array.isArray(locData.data)
-                      ? locData.data
-                      : [];
+                        ? locData.data
+                        : [];
 
                 const classesArray = Array.isArray(classData)
                     ? classData
                     : Array.isArray(classData.data)
-                      ? classData.data
-                      : [];
+                        ? classData.data
+                        : [];
 
                 setLocations(locationsArray || []);
                 setClasses(classesArray || []);
@@ -721,8 +723,8 @@ const CreateWorkout: React.FC = () => {
             category === 'boxing'
                 ? boxingMovements
                 : category === 'kickboxing'
-                  ? kickboxingMovements
-                  : hiitMovements;
+                    ? kickboxingMovements
+                    : hiitMovements;
         setTempSelected([...existingSelections]);
         setShowPopup(true);
     };
@@ -775,8 +777,8 @@ const CreateWorkout: React.FC = () => {
             category === 'boxing'
                 ? setBoxingMovements
                 : category === 'kickboxing'
-                  ? setKickboxingMovements
-                  : setHiitMovements;
+                    ? setKickboxingMovements
+                    : setHiitMovements;
 
         setter((prev) => {
             const updated = [...prev];
@@ -796,8 +798,8 @@ const CreateWorkout: React.FC = () => {
             category === 'boxing'
                 ? setBoxingMovements
                 : category === 'kickboxing'
-                  ? setKickboxingMovements
-                  : setHiitMovements;
+                    ? setKickboxingMovements
+                    : setHiitMovements;
 
         setter((prev) => {
             const updated = [...prev];
@@ -811,8 +813,8 @@ const CreateWorkout: React.FC = () => {
             category === 'boxing'
                 ? setBoxingMovements
                 : category === 'kickboxing'
-                  ? setKickboxingMovements
-                  : setHiitMovements;
+                    ? setKickboxingMovements
+                    : setHiitMovements;
 
         setter((prev) => {
             const filtered = prev.filter((m) => m.id !== movementId);
@@ -1002,7 +1004,9 @@ const CreateWorkout: React.FC = () => {
                                                         setOpenLocation(false);
                                                     }}
                                                 >
-                                                    {loc.name}
+                                                    {/* {loc.name} */}
+                                                    {loc.name.length > 20 ? `${loc.name.slice(0, 20)}...` : loc.name}
+
                                                 </li>
                                             ))}
                                         </ul>
@@ -1033,7 +1037,9 @@ const CreateWorkout: React.FC = () => {
                                                         setOpenClass(false);
                                                     }}
                                                 >
-                                                    {cls.name}
+                                                    {/* {cls.name} */}
+                                                    {cls.name.length > 20 ? `${cls.name.slice(0, 20)}...` : cls.name}
+
                                                 </li>
                                             ))}
                                         </ul>

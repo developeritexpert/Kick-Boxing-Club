@@ -81,6 +81,7 @@ const AddClass: React.FC = () => {
                             onChange={(e) => setName(e.target.value)}
                             required
                             placeholder="Enter class name"
+                            maxLength={50}
                         />
                     </div>
 
@@ -105,7 +106,8 @@ const AddClass: React.FC = () => {
                     {classes.length > 0 ? (
                         classes.map((cls) => (
                             <li key={cls.id} className="class-item">
-                                {cls.name}
+                                {/* {cls.name} */}
+                                {cls.name.length > 40 ? `${cls.name.slice(0, 40)}...` : cls.name}
                             </li>
                         ))
                     ) : (
