@@ -122,10 +122,10 @@ const Settings: React.FC = () => {
                         <h4>User Role</h4>
                         <h5>{capitalizeFirstLetter(user?.role)}</h5>
                     </div>
-                    <div className={styles.prflName}>
+                    {/* <div className={styles.prflName}>
                         <h4>Date of birth</h4>
                         <h5>---</h5>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

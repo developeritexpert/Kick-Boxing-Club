@@ -84,6 +84,7 @@ const AddLocation: React.FC = () => {
                             onChange={(e) => setName(e.target.value)}
                             required
                             placeholder="Enter location name"
+                            maxLength={50}
                         />
                     </div>
 
@@ -109,7 +110,9 @@ const AddLocation: React.FC = () => {
                     {locations.length > 0 ? (
                         locations.map((loc) => (
                             <li key={loc.id} className="location-item">
-                                {loc.name}
+                                {/* {loc.name} */}
+                                {loc.name.length > 40 ? `${loc.name.slice(0, 40)}...` : loc.name}
+
                             </li>
                         ))
                     ) : (
