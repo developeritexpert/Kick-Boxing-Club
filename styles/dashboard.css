@@ -534,6 +534,12 @@ header.dashboard-header {
     }
 }
 @media (max-width: 767px) {
+    .header-toggle{
+        font-size:24px;
+    }
+      .last-name{
+        display:none;
+      }
     .header-logo {
         object-fit: contain;
         max-height: 40px;
@@ -560,6 +566,7 @@ header.dashboard-header {
         transform: translateX(-100%); /* slide out */
     }
     /*new code for admin */
+
 
     .admin-pnl .close_btn {
         display: block;

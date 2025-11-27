@@ -70,13 +70,13 @@ export default function AdminPage() {
             title: 'Upper Body Workouts',
             value: renderValue(UBCount),
             sub: 'Arms, shoulders, and chest strength.',
-            img: '/running.png',
+            img: '/running.svg',
         },
         {
             title: 'Lower Body Workouts',
             value: renderValue(LBCount),
             sub: 'Legs, glutes, and core stability.',
-            img: '/sitting.png',
+            img: '/sitting.svg',
         },
         {
             title: 'Full Body Workouts',

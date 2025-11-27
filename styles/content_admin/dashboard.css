@@ -557,6 +557,9 @@ aside.sidebar.collapsed button.logout {
 }
 
 @media (max-width: 767px) {
+       .last-name{
+        display:none;
+      }
     .content-admin .nav-item:hover .nav-link {
         background: unset;
         color: #fff;
@@ -600,7 +603,7 @@ aside.sidebar.collapsed button.logout {
         font-size: 12px;
     } */
     .content-admin .header-toggle {
-        font-size: 20px;
+        font-size: 24px;
     }
 
     .content-admin .panel-actions {

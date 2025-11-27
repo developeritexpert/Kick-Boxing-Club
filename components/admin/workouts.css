@@ -80,6 +80,8 @@
 .workouts-container span.workout-hrt-icn img {
     width: 25px;
     height: 21px;
+    min-width:25px;
+    min-height:21px;
 }
 .workouts-container .workout-exercises {
     font-weight: 400;
@@ -344,10 +346,10 @@
         margin-bottom: 7px;
         font-size: 19px;
     }
-    .workouts-container span.workout-hrt-icn img {
-        width: 24px;
+    /* .workouts-container span.workout-hrt-icn img {
+        min-width: 24px;
         height: 20px;
-    }
+    } */
     .workouts-container .workout-card {
         padding: 15px 23px;
     }

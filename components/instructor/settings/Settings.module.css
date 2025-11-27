@@ -565,11 +565,11 @@ select#timezone {
         flex: 1;
         margin-bottom: 18px;
     } */
-     .Settings-module__c54V1a__personInfo {
-    padding-bottom: 15px;
+     .personInfo {
+    padding-bottom: 20px;
 }
     .prflInfoCnt {
-        padding: 15px 0 0 17px;
+        padding: 20px 0 0 17px;
         margin-top: 0px !important;
     }
     .profileName h3 {

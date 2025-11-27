@@ -291,10 +291,10 @@
         flex-direction: column;
     }
     .admin-library-container .search-box {
-        max-width: 227px;
+        max-width:100%;
     }
     .admin-library-container .category-filter {
-        width: 227px;
+        width: 100%;
     }
     .admin-library-container .pagination-btn {
         padding: 4px 10px;
