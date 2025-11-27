@@ -140,3 +140,9 @@
         transform: rotate(360deg);
     }
 }
+@media(max-width:991px){
+    .add-user-container .form-actions {
+    justify-content: center;
+
+}
+}

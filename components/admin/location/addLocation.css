@@ -150,4 +150,14 @@
     .add-location-container {
         flex-direction: column;
     }
+    .add-location-container .form-grid {
+        display: block;
+    }
+}
+@media (max-width: 567px) {
+    /* .add-location-container    .form-grid {
+   
+    grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+
+} */
 }

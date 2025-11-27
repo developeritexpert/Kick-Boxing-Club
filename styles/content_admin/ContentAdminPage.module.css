@@ -20,6 +20,7 @@
     display: flex;
     border: 1px solid #0000001a;
     border-radius: 5px;
+    gap:15px;
 }
 
 /* space for sticky header */
