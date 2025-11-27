@@ -1019,7 +1019,10 @@ const CreateWorkout: React.FC = () => {
                             <div className="workout-items hide-scrollbar">
                                 {movements.map((m) => (
                                     <div key={m.id} className="workout-item">
-                                        {m.name}
+                                        {/* {m.name} */}
+                                        {m.name.length > 65
+                                            ? m.name.substring(0, 65) + '...'
+                                            : m.name}
                                     </div>
                                 ))}
                             </div>

@@ -141,6 +141,7 @@ const CreateMovement: React.FC = () => {
                         value={movementName}
                         onChange={(e) => setMovementName(e.target.value)}
                         required
+                        maxLength={50}
                     />
 
                     <label>Category</label>

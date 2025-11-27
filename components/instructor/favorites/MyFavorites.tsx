@@ -162,7 +162,12 @@ const MyFavorites: React.FC = () => {
                         <tbody>
                             {currentFavorites.map((workout) => (
                                 <tr key={workout.workout_id}>
-                                    <td>{workout.workout_name}</td>
+                                    <td>
+                                        {/* {workout.workout_name} */}
+                                        {workout.workout_name.length > 50
+                                            ? workout.workout_name.substring(0, 50) + '...'
+                                            : workout.workout_name}
+                                    </td>
                                     <td>{workout.class_name || '—'}</td>
                                     <td>{workout.created_by || '—'}</td>
                                     <td>
@@ -240,9 +245,8 @@ const MyFavorites: React.FC = () => {
                             <button
                                 key={pageNumber}
                                 onClick={() => handlePageChange(pageNumber)}
-                                className={`pagination-number ${
-                                    currentPage === pageNumber ? 'active' : ''
-                                }`}
+                                className={`pagination-number ${currentPage === pageNumber ? 'active' : ''
+                                    }`}
                             >
                                 {pageNumber}
                             </button>

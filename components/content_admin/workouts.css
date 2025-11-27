@@ -84,6 +84,8 @@
 .content-admin-wrkout-contnr span.workout-hrt-icn img {
     width: 25px;
     height: 21px;
+        min-width: 25px;
+    min-height: 21px;
 }
 .content-admin-wrkout-contnr .workout-exercises {
     font-weight: 400;
@@ -104,13 +106,13 @@
     align-items: flex-start;
     margin-bottom: 9px;
     width: 100%;
+    gap:10px;
 }
 
 .content-admin-wrkout-contnr .workout-title {
     font-weight: 500;
     font-size: 16px;
     line-height: 1.2;
-    margin-right: 10px;
     color: #000000;
 }
 .content-admin-wrkout-contnr .workouts-pgnatin {
@@ -291,6 +293,14 @@
     transition: all .2s;
 } */
 /* Responsive Design */
+@media(max-width:991px){
+      /* .content-admin-wrkout-contnr span.workout-hrt-icn img {
+        width: 24px;
+        height: 20px;
+        min-width:24px;
+        min-height:20px;
+    } */
+}
 @media (max-width: 768px) {
     .content-admin-wrkout-contnr .workouts-header {
         flex-direction: column;
@@ -314,7 +324,7 @@
     .content-admin-wrkout-contnr .workouts-grid {
         grid-template-columns: 1fr;
     }
-
+  
     /* .workouts-controls {
         flex-direction: column;
         align-items: stretch;
@@ -344,10 +354,12 @@
         margin-bottom: 7px;
         font-size: 19px;
     }
-    .content-admin-wrkout-contnr span.workout-hrt-icn img {
+    /* .content-admin-wrkout-contnr span.workout-hrt-icn img {
         width: 24px;
         height: 20px;
-    }
+        min-width:24px;
+        min-height:20px;
+    } */
     .content-admin-wrkout-contnr .workout-card {
         padding: 15px 23px;
     }

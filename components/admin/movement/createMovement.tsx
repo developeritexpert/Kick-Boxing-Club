@@ -222,6 +222,7 @@ const CreateMovement: React.FC = () => {
                         }
                         disabled={isLoading}
                         required
+                        maxLength={50}
                     />
 
                     <label htmlFor="category">Category</label>

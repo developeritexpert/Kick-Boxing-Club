@@ -378,8 +378,8 @@
         font-size: 19px;
     }
     .instructor-wrkout-contnr span.workout-hrt-icn img {
-        width: 24px;
-        height: 20px;
+        /* width: 24px;
+        height: 20px; */
     }
     .instructor-wrkout-contnr .workout-card {
         padding: 15px 23px;

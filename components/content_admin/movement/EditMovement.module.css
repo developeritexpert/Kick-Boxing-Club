@@ -189,6 +189,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 /* Dropdown Button */
@@ -326,9 +328,9 @@
         padding: 0px 0px;
     }
 
-    .movementLibrarySec .deltBtn {
+    /* .movementLibrarySec .deltBtn {
         margin-top: 15px;
-    }
+    } */
     .movementLibrarySec .dropdownBtn {
         padding: 10px 14px;
     }
@@ -349,10 +351,13 @@
     }
 }
 @media (max-width: 575px) {
-    .mvnmentLibraryBtns {
-        flex-direction: column;
+   .movementLibrarySec .mvnmentLibraryBtns {
+        gap: 15px;
+     flex-direction: column;
+        align-items: center;
     }
+
     .mvnmentLibraryBtns button {
-        max-width: 170px;
+        min-width: 159px;
     }
 }

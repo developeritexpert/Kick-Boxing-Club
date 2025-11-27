@@ -517,6 +517,9 @@ input::placeholder {
 }
 
 @media (max-width: 767px) {
+       .last-name{
+        display:none;
+      }
     .instructor .header-toggle {
         font-size: 24px;
     }

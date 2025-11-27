@@ -190,7 +190,12 @@ const MovementLibraryWorkouts: React.FC = () => {
                                 currentMovements.map((movement, index) => (
                                     <tr key={movement.id}>
                                         <td>{index + 1}</td>
-                                        <td>{movement.name}</td>
+                                        {/* <td>{movement.name}</td> */}
+                                        <td>
+                                            {movement.name.length > 80
+                                            ? movement.name.substring(0, 80) + '...'
+                                            : movement.name}
+                                        </td>
                                         <td>{movement.category}</td>
                                         <td>
                                             <div className="fav-btn">

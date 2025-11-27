@@ -260,11 +260,11 @@ aside.sidebar.collapsed button.logout span {
     text-align: left;
     color: #111;
     flex: 1;
-    height: 85px;
+    /* height: 85px; */
     /* margin-top: 50px; */
     font-size: 16px;
     font-weight: 600;
-    display: flex;
+    /* display: flex; */
     align-items: center;
 }
 
@@ -534,6 +534,12 @@ header.dashboard-header {
     }
 }
 @media (max-width: 767px) {
+    .header-toggle{
+        font-size:24px;
+    }
+      .last-name{
+        display:none;
+      }
     .header-logo {
         object-fit: contain;
         max-height: 40px;
@@ -560,6 +566,7 @@ header.dashboard-header {
         transform: translateX(-100%); /* slide out */
     }
     /*new code for admin */
+
 
     .admin-pnl .close_btn {
         display: block;

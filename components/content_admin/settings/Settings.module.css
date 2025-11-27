@@ -55,7 +55,7 @@ span.profileHeart img {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     margin-top: 25px;
-    padding-bottom: 19px;
+    padding-bottom: 24px;
 }
 .prsnHd {
     display: flex;
@@ -569,17 +569,20 @@ select#timezone {
          grid-template-columns: repeat(1, 1fr);
          gap:20px
     }
-    .prflName {
+    /* .prflName {
         flex: 1;
         margin-bottom: 18px;
-    }
+    } */
     .prflInfoCnt {
-        padding: 8px 0 0 17px;
+        padding: 20px 0 0 17px;
         margin-top: 0px !important;
     }
     .profileName h3 {
         font-size: 16px;
     }
+        .personInfo {
+    padding-bottom: 20px;
+}
 }
 @media (max-width: 575px) {
     .prflName h5 {
