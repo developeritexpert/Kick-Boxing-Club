@@ -260,11 +260,11 @@ aside.sidebar.collapsed button.logout span {
     text-align: left;
     color: #111;
     flex: 1;
-    height: 85px;
+    /* height: 85px; */
     /* margin-top: 50px; */
     font-size: 16px;
     font-weight: 600;
-    display: flex;
+    /* display: flex; */
     align-items: center;
 }
 

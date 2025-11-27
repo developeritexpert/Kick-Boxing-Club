@@ -20,7 +20,7 @@ export default function Header({ onToggle }: { onToggle?: () => void }) {
 
             {/* <div className="header-title">Welcome to Dashboard, John Does!</div> */}
             <div className="header-title">
-                {firstName.length > 10 ? firstName.substring(0, 10) + '... ' : firstName}{" "}
+                {firstName.length > 10 ? firstName.substring(0, 10) + '... ' : firstName} {" "}
                 <span className="last-name">
                     {lastName.length > 10 ? lastName.substring(0, 10) + "..." : lastName}
                 </span>

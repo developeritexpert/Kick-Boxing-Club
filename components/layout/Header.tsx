@@ -19,7 +19,7 @@ export default function AdminHeader({ onToggle }: { onToggle?: () => void }) {
             </div>
 
             <div className="header-title">
-                {firstName.length > 10 ? firstName.substring(0, 10) + '... ' : ` ${firstName} ` }{" "}
+                {firstName.length > 10 ? firstName.substring(0, 10) + '... ' : firstName} {" "}
                 <span className="last-name">
                     {lastName.length > 10 ? lastName.substring(0, 10) + "..." : lastName}
                 </span>
