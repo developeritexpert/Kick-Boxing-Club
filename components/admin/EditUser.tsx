@@ -405,7 +405,7 @@ export default function EditUserPage() {
                             id="phone"
                             name="phone"
                             type="text"
-                            value={formData.phone}
+                            value={formData.phone ?? ''}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             disabled={saving}

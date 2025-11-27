@@ -7,6 +7,8 @@ import { useAuthStore } from '@/stores/useAuthStore';
 export default function AdminHeader({ onToggle }: { onToggle?: () => void }) {
     const user = useAuthStore((state) => state.user);
 
+    const firstName = user?.first_name ?? "";
+    const lastName = user?.last_name ?? "";
     return (
         <header className="dashboard-header">
             <div className="header-left">
@@ -17,7 +19,10 @@ export default function AdminHeader({ onToggle }: { onToggle?: () => void }) {
             </div>
 
             <div className="header-title">
-                {user?.first_name} {user?.last_name}
+                {firstName.length > 10 ? firstName.substring(0, 10) + '... ' : ` ${firstName} ` }{" "}
+                <span className="last-name">
+                    {lastName.length > 10 ? lastName.substring(0, 10) + "..." : lastName}
+                </span>
             </div>
 
             <div className="header-right">

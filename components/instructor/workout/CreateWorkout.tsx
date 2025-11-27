@@ -623,6 +623,7 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '@/stores/useAuthStore';
 import './CreateWorkout.css';
+import { useRouter } from 'next/navigation';
 
 interface Movement {
     id: string;
@@ -639,6 +640,7 @@ interface SelectedMovement extends Movement {
 
 const CreateWorkout: React.FC = () => {
     const user = useAuthStore((state) => state.user);
+    const router = useRouter();
 
     const [openLocation, setOpenLocation] = useState(false);
     const [locationValue, setLocationValue] = useState('');
@@ -887,6 +889,7 @@ const CreateWorkout: React.FC = () => {
 
             toast.success('Workout created successfully!');
             handleCancel();
+            router.push('/instructor/workouts');
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Something went wrong';
             toast.error(message);
@@ -1068,7 +1071,10 @@ const CreateWorkout: React.FC = () => {
                             <div className="workout-items hide-scrollbar">
                                 {movements.map((m) => (
                                     <div key={m.id} className="workout-item">
-                                        {m.name}
+                                        {/* {m.name} */}
+                                        {m.name.length > 65
+                                            ? m.name.substring(0, 65) + '...'
+                                            : m.name}
                                     </div>
                                 ))}
                             </div>

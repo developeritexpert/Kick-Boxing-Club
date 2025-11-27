@@ -57,6 +57,8 @@ const Settings: React.FC = () => {
         router.push(`/content-admin/movement/create`);
     };
 
+    const firstName = capitalizeFirstLetter(user?.first_name);
+    const lastName = capitalizeFirstLetter(user?.last_name);
     return (
         <div className="content-admin-setting-cntner">
             <div className={styles.profileCnt}>
@@ -81,8 +83,11 @@ const Settings: React.FC = () => {
                 )}
                 <div className={styles.profileName}>
                     <h3>
-                        {capitalizeFirstLetter(user?.first_name)}{' '}
-                        {capitalizeFirstLetter(user?.last_name)}
+                        {firstName.length > 10 ? firstName.substring(0, 10) + "..." : firstName}{' '}
+                        {lastName.length > 10 ? lastName.substring(0, 10) + "..." : lastName}
+
+                        {/* {capitalizeFirstLetter(user?.first_name)}{' '}
+                        {capitalizeFirstLetter(user?.last_name)} */}
                     </h3>
                     <p>{formatRole(user?.role)}</p>
                 </div>
@@ -113,17 +118,23 @@ const Settings: React.FC = () => {
                 <div className={styles.prflInfoCnt}>
                     <div className={styles.prflName}>
                         <h4>First Name</h4>
-                        <h5>{capitalizeFirstLetter(user?.first_name)}</h5>
+                        <h5>
+                            {firstName.length > 10 ? firstName.substring(0, 25) + "..." : firstName}
+                            {/* {capitalizeFirstLetter(user?.first_name)} */}
+                        </h5>
                     </div>
                     <div className={styles.prflName}>
                         <h4>Last Name</h4>
-                        <h5>{capitalizeFirstLetter(user?.last_name)}</h5>
+                        <h5>
+                            {lastName.length > 10 ? lastName.substring(0, 25) + "..." : lastName}
+                            {/* {capitalizeFirstLetter(user?.last_name)} */}
+                        </h5>
                     </div>
                     <div className={styles.prflName}>
                         <h4>Email Address</h4>
                         <h5>{user?.email}</h5>
                     </div>
-                     <div className={styles.prflName}>
+                    <div className={styles.prflName}>
                         <h4>Phone Number</h4>
                         <h5>{user?.phone || '---'}</h5>
                     </div>

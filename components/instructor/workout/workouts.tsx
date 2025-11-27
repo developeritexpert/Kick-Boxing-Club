@@ -231,7 +231,12 @@ const Workouts: React.FC = () => {
                                 onClick={() => handleCardClick(workout.id)}
                             >
                                 <div className="workout-header">
-                                    <h3 className="workout-title">{workout.name}</h3>
+                                    <h3 className="workout-title">
+                                        {/* {workout.name} */}
+                                        {workout.name.length > 30
+                                            ? workout.name.substring(0, 30) + '...'
+                                            : workout.name}
+                                        </h3>
                                     <span
                                         className="workout-hrt-icn"
                                         onClick={(e) => handleHeartClick(e, workout.id)}

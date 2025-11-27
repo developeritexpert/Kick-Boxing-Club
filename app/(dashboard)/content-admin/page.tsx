@@ -197,7 +197,13 @@ export default function ContentAdminPage() {
                                     onClick={() => handleRecentClick(workout.workout_id)}
                                     style={{ cursor: 'pointer' }}
                                 >
-                                    <h4>{workout.workout_name}</h4>
+                                    <h4>
+                                        {/* {workout.workout_name} */}
+                                        {workout.workout_name.length > 30
+                                            ? workout.workout_name.substring(0, 30) + '...'
+                                            : workout.workout_name}
+                                    </h4>
+
                                     <div className={styles.cardContent}>
                                         <div className={styles.row}>
                                             <div className={styles.iconRow}>

@@ -96,7 +96,7 @@ const MovementLibrary: React.FC = () => {
             if (res.status === 409 || data?.code === 'MOVEMENT_IN_USE') {
                 toast.error(
                     data.error ||
-                        'This movement is already used in a workout and cannot be deleted.',
+                    'This movement is already used in a workout and cannot be deleted.',
                 );
                 return;
             }
@@ -160,7 +160,12 @@ const MovementLibrary: React.FC = () => {
                                 currentMovements.map((m, index) => (
                                     <tr key={m.id}>
                                         <td>{indexOfFirstMovement + index + 1}</td>
-                                        <td>{m.name}</td>
+                                        <td>
+                                            {/* {m.name} */}
+                                            {m.name.length > 65
+                                                ? m.name.substring(0, 65) + '...'
+                                                : m.name}
+                                        </td>
                                         <td>{m.category}</td>
                                         <td>{m.created_by}</td>
                                         <td>
@@ -256,9 +261,8 @@ const MovementLibrary: React.FC = () => {
                             <button
                                 key={pageNumber}
                                 onClick={() => handlePageChange(pageNumber)}
-                                className={`pagination-number ${
-                                    currentPage === pageNumber ? 'active' : ''
-                                }`}
+                                className={`pagination-number ${currentPage === pageNumber ? 'active' : ''
+                                    }`}
                             >
                                 {pageNumber}
                             </button>
