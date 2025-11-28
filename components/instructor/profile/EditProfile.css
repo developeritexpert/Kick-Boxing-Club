@@ -299,6 +299,16 @@
 .instructor  .edit-instructor-user .add-user-btn svg {
     width: 8px;
 }
+
+.instructor  .edit-instructor-user button:hover {
+    background-color: white;
+    color: #b40200;
+    border:1px solid #b40200;
+}
+.instructor  .edit-instructor-user  button:hover svg path {
+    stroke: #b40200;
+}
+
 @media(max-width:767px){
   .instructor  .edit-instructor-user  .form-grid {
     grid-template-columns: repeat(1, 1fr);
@@ -306,5 +316,8 @@
 }
 .instructor  .edit-instructor-user  .page-header {
     margin-bottom: 1rem;
+}
+.instructor  .edit-instructor-user  .form-actions{
+    justify-content: center;
 }
 }

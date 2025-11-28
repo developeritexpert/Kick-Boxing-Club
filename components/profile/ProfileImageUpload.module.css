@@ -37,3 +37,17 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
+@media(max-width:767px){
+    .profileImg {
+   
+    width:100px;
+    height: 100px;
+}
+}
+@media(max-width:575px){
+    .profileImg {
+   
+    width:84px;
+    height: 84px;
+}
+}

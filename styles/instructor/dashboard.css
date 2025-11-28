@@ -381,7 +381,11 @@ aside.sidebar.collapsed .sidebar-top {
     align-items: center;
     margin-bottom: 20px;
 }
-
+.instructor .table-header h2 {
+    color: #000;
+    font-size: 17px;
+    font-weight: 600;
+}
 .instructor .add-user-btn {
     background-color: #d32f2f; /* Red */
     color: white;

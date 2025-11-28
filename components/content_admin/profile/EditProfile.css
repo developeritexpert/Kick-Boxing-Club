@@ -279,6 +279,11 @@
     border-color: #d0d0d0;
 }
 
+.edit-content-user .table-header h2 {
+    color: #000;
+    font-size: 17px;
+    font-weight: 600;
+}
 
 /* /*new back btn * */
 .content-admin .edit-content-user   .add-user-btn {
@@ -299,11 +304,26 @@
 .content-admin .edit-content-user  .add-user-btn svg {
     width: 8px;
 }
+.content-admin .edit-content-user button:hover {
+    background-color: white;
+    color: #b40200;
+    border:1px solid #b40200;
+}
+.content-admin .edit-content-user  button:hover svg path {
+    stroke: #b40200;
+}
+
 @media(max-width:767px){
 .content-admin .edit-content-user  .form-grid {
     grid-template-columns: repeat(1, 1fr);
   
 }
+.user-management-containr .form-actions {
+
+    justify-content:center !important;
+    
+}
+
 .content-admin .edit-content-user  .page-header {
     margin-bottom: 1rem;
 }

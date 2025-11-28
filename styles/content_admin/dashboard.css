@@ -546,10 +546,10 @@ aside.sidebar.collapsed button.logout {
     .content-admin .dashboard-header {
         padding: 12px 14px;
     }
-    .content-admin .header-toggle {
+    /* .content-admin .header-toggle {
         display: block;
         margin-right: 12px;
-    }
+    } */
     /* .content-admin .header-title {
         text-align: left;
         padding-left: 8px;
@@ -602,9 +602,9 @@ aside.sidebar.collapsed button.logout {
     /* .content-admin .header-title {
         font-size: 12px;
     } */
-    .content-admin .header-toggle {
+    /* .content-admin .header-toggle {
         font-size: 24px;
-    }
+    } */
 
     .content-admin .panel-actions {
         gap: 10px;
@@ -616,6 +616,7 @@ aside.sidebar.collapsed button.logout {
     }
     .content-admin .header-toggle {
         font-size: 20px;
+        margin-right:8px;
     }
 }
 

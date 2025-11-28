@@ -222,7 +222,11 @@
         min-width: 71px;
     }
 }
-
+@media(max-width:567px){
+    .admin-recnt-wrkout .search-box{
+        max-width:100%;
+    }
+}
 .spinner-wrapper {
     min-height: 60vh;
     display: flex;

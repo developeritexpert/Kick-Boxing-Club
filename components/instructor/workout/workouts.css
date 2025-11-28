@@ -39,7 +39,7 @@
 }
 
 .instructor-wrkout-contnr .add-workout-btn {
-    background-color: #d32f2f;
+    background-color: #b40200;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -49,10 +49,13 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     white-space: nowrap;
+    border:1px solid transparent;
 }
 
 .instructor-wrkout-contnr .add-workout-btn:hover {
-    background-color: #d32f2f;
+     background-color:white;
+    color:#b40200;
+    border:1px solid #b40200;
 }
 
 .instructor-wrkout-contnr .workouts-grid {
@@ -218,11 +221,12 @@
     font-size: 15px;
     font-weight: 600;
     transition: background-color 0.3s;
+    border:1px solid transparent;
 }
 
-.instructor-wrkout-contnr .add-workout-btn:hover {
+/* .instructor-wrkout-contnr .add-workout-btn:hover {
     background-color: #d32f2f;
-}
+} */
 .instructor-wrkout-contnr .workouts-pgnatin .arrow {
     border: 0.8px solid #0000000a;
     width: 32px;

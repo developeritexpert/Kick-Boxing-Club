@@ -589,7 +589,8 @@ select#timezone {
         font-weight: 400;
     }
     .profileImg {
-        width: 100px;
+        width: 84px;
+        height:84px;
     }
     span.profileHeart {
         padding: 6px;

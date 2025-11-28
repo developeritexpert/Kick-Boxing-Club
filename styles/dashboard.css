@@ -32,7 +32,7 @@ aside.sidebar.collapsed button.logout {
 /* ===== Layout (container) ===== */
 .admin-layout {
     background: var(--page-bg);
-    height: 100vh;
+    height: 100dvh;
     font-family: Inter, Arial, Helvetica, sans-serif;
     display: flex;
     overflow: hidden;
@@ -43,7 +43,7 @@ aside.sidebar.collapsed button.logout {
     background: var(--sidebar-bg);
     color: #fff;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100dvh;
     transition: width 0.26s;
     display: flex;
     position: relative;
@@ -240,7 +240,7 @@ aside.sidebar.collapsed button.logout span {
     background: none;
     border: none;
     font-size: 18px;
-    height: 100px;
+    /* height: 100px; */
     display: block;
     margin-right: 12px;
     cursor: pointer;
@@ -525,17 +525,18 @@ header.dashboard-header {
         padding: 12px 14px;
     }
     .header-toggle {
-        display: block;
-        margin-right: 12px;
+        /* display: block; */
+        /* margin-right: 12px; */
     }
     .header-title {
         text-align: left;
-        padding-left: 8px;
+        /* padding-left: 8px; */
     }
 }
 @media (max-width: 767px) {
     .header-toggle{
         font-size:24px;
+
     }
       .last-name{
         display:none;
@@ -559,7 +560,7 @@ header.dashboard-header {
         left: 0;
         transform: translateX(0); /* visible */
         transition: transform 0.35s ease; /* smooth */
-        height: 100vh;
+        height: 100dvh;
     }
     /*new code for admin */
     .admin-pnl.collapsed .sidebar {
@@ -597,7 +598,9 @@ header.dashboard-header {
     .admin-dsbr .panel-actions {
         width: 200px;
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
+        margin-right:auto;
+        margin-left:auto;
     }
     .admin-dsbr .card-title {
         font-size: 14px;
@@ -612,10 +615,10 @@ header.dashboard-header {
     }
     .admin-dsbr .btn-black,
     .admin-dsbr .btn-red {
-        padding: 5px 7px;
+        padding: 8px 7px;
         font-size: 14px;
     }
-    .header-title {
+    /* .header-title {
         font-size: 14px;
-    }
+    } */
 }

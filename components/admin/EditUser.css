@@ -299,6 +299,15 @@
 .admin-pnl  .edit-admin-user  .add-user-btn svg {
     width: 8px;
 }
+.admin-pnl  .edit-admin-user  button:hover {
+    background-color: white;
+    color: #b40200;
+    border:1px solid #b40200;
+}
+ .admin-pnl  .edit-admin-user  button:hover svg path {
+    stroke: #b40200;
+}
+
 @media(max-width:767px){
     .user-management-containr .form-grid {
     grid-template-columns: repeat(1, 1fr);

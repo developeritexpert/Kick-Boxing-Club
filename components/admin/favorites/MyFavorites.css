@@ -232,12 +232,16 @@
     color: black;
 }
 
+
 @media (max-width: 767px) {
     .admin-fav-cntnr table.favourites-tbl button.view {
         min-width: 71px;
     }
 }
 @media (max-width: 575px) {
+    .admin-fav-cntnr .search-box{
+        max-width:100%;
+    }
     .admin-fav-cntnr .pagination-btn {
         padding: 4px 11px;
     }

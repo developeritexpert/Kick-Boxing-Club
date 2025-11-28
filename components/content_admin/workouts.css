@@ -332,7 +332,7 @@
 }
 @media (max-width: 575px) {
     .content-admin-wrkout-contnr .search-box {
-        max-width: 100%;
+        max-width: 100% !important;
     }
     .content-admin-wrkout-contnr .workouts-controls {
         justify-content: unset;
