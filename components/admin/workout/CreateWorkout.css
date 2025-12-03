@@ -688,3 +688,18 @@ select:focus {
         gap: 45px;
     }
 }
+
+
+/* .class-type-box.drag-over {
+    border: 2px dashed #4CAF50;
+    background-color: rgba(76, 175, 80, 0.05);
+    transition: all 0.2s ease;
+}
+
+.workout-item {
+    cursor: grab;
+}
+
+.workout-item:active {
+    cursor: grabbing;
+} */
