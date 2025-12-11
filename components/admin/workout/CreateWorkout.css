@@ -551,6 +551,32 @@ select:focus {
 .create-workout-container .movement-table th:last-child {
     width: 190px;
 }
+
+.time-input {
+    position: relative;
+    display: inline-block;
+}
+
+.time-input .suffix {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #555;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 /* --- Responsive Design --- */
 @media (max-width: 1399px) {
     .create-workout-container .class-header h4 {

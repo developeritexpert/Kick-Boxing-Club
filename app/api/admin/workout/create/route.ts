@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         console.log(focus);
 
         const total_duration = movements.reduce(
-            (acc: number, m: MovementInput) => acc + (m.duration || 0) + (m.rest_after || 0),
+            (acc: number, m: MovementInput) => acc + (m.duration || 0) + Number(m.rest_after || 0),
             0,
         );
 
