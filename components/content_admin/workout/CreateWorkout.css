@@ -543,6 +543,32 @@ select:focus {
     border-color: #000;
     outline: none;
 }
+
+.time-input {
+    position: relative;
+    display: inline-block;
+}
+
+.time-input .suffix {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #555;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 /* --- Responsive Design --- */
 @media (max-width: 1399px) {
     .content-admin-create-workout .class-header h4 {

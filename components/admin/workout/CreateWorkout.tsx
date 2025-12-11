@@ -810,6 +810,7 @@ const CreateWorkout: React.FC = () => {
     const [locationId, setLocationId] = useState('');
     const [classId, setClassId] = useState('');
     const [selectedClassName, setSelectedClassName] = useState('');
+    const [restAfter, setRestAfter] = useState("");
 
     // Fetch locations, classes, categories, and movements
     useEffect(() => {
@@ -1002,6 +1003,21 @@ const CreateWorkout: React.FC = () => {
             return;
         }
 
+        if(!focus.trim()){
+            toast.error('Please select workout focus');
+            return;
+        }
+
+        if (!/^\d+$/.test(restAfter)) {
+            toast.error("Rest time must be a whole number in seconds");
+            return;
+        }
+
+        if (Number(restAfter) > 300) {
+            toast.error("Rest time cannot be more than 5 minutes (300 seconds)");
+            return;
+        }
+
         // Get categories in display order
         const categoriesToSubmit = getCategoriesToDisplay();
         const allMovements: SelectedMovement[] = [];
@@ -1040,7 +1056,7 @@ const CreateWorkout: React.FC = () => {
                         id: m.id,
                         order: index + 1,
                         duration: m.duration || 30,
-                        rest_after: 30,
+                        rest_after: Number(restAfter),
                     })),
                 }),
             });
@@ -1200,6 +1216,43 @@ const CreateWorkout: React.FC = () => {
                                         </option>
                                     ))}
                                 </select>
+                            </div>
+                        </div>
+
+                        <div className="form-row">  
+                            <div className="form-group">
+                                <label>Rest Time</label>
+                                <div className="time-input">
+                                    <input
+                                        type="number"
+                                        value={restAfter}
+                                        // onChange={(e) => setRestAfter(e.target.value)}
+                                        onChange={(e) => {
+                                            const val = e.target.value;
+
+                                            if (val === "") {
+                                                setRestAfter("");
+                                                return;
+                                            }
+                                            const num = Number(val);
+                                            if (num > 300) {
+                                                setRestAfter('300');
+                                                return;
+                                            }
+                                            setRestAfter(String(num));
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (["e", "E", "+", "-", "."].includes(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                        placeholder="Enter rest time"
+                                        min="0"
+                                        max="300"
+                                        required
+                                    />
+                                    <span className="suffix">sec</span>
+                                </div>
                             </div>
                         </div>
 
