@@ -51,7 +51,7 @@ export async function GET() {
                         path: '/',
                         sameSite: 'lax',
                         secure: process.env.NODE_ENV === 'production',
-                        maxAge: rememberMe ? 7 * 24 * 60 * 60 : 60 * 60,
+                        maxAge: rememberMe ? 7 * 24 * 60 * 60 : 24 * 60 * 60,
                     });
                 }
             }

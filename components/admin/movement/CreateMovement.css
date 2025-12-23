@@ -141,6 +141,33 @@
     border-color: #000;
 }
 
+
+
+.admin-crt-movment .movement-form input[type='number']
+{
+    padding: 7px 15px;
+    border: 1px solid #0000001a;
+    border-radius: 5px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s ease;
+    color: #000;
+}
+.admin-crt-movment .movement-form input[type='number']::placeholder
+{
+    color: #000;
+}
+
+.admin-crt-movment .movement-form input[type='number']:focus{
+    border-color: #000;
+}
+
+
+
+
+
+
+
 .admin-crt-movment .workoutsVdo {
     margin-top: 22px;
     margin-bottom: 18px;
