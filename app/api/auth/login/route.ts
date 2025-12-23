@@ -67,7 +67,7 @@ export async function POST(req: Request) {
             path: '/',
             sameSite: 'lax' as const,
             secure: process.env.NODE_ENV === 'production',
-            ...(rememberMe ? { maxAge: 7 * 24 * 60 * 60 } : { maxAge: 60 * 60 }), // 7 days or 1 hour
+            ...(rememberMe ? { maxAge: 7 * 24 * 60 * 60 } : { maxAge: 24 * 60 * 60 }), // 7 days or 1 hour
         };
 
         // Cookie for remember-me flag (long-lived)
