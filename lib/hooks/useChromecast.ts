@@ -9,7 +9,7 @@ declare global {
 
 interface CastMedia {
     videoId: string;
-    title: string;
+    title?: string;
     thumbnailUrl?: string;
     duration?: number;
 }
@@ -381,12 +381,29 @@ export const useChromecast = () => {
                 'application/dash+xml',
             );
 
-            mediaInfo.metadata = new window.chrome.cast.media.GenericMediaMetadata();
-            mediaInfo.metadata.title = media.title;
-            mediaInfo.metadata.subtitle = `Duration: ${media.duration || 0}s`;
+            // mediaInfo.metadata = new window.chrome.cast.media.GenericMediaMetadata();
+            // mediaInfo.metadata.title = media.title;
+            // mediaInfo.metadata.subtitle = `Duration: ${media.duration || 0}s`;
 
-            if (media.thumbnailUrl) {
-                mediaInfo.metadata.images = [new window.chrome.cast.Image(media.thumbnailUrl)];
+            // if (media.thumbnailUrl) {
+            //     mediaInfo.metadata.images = [new window.chrome.cast.Image(media.thumbnailUrl)];
+            // }
+
+            // Only add metadata if title is provided
+            if (media.title || media.thumbnailUrl || media.duration) {
+                mediaInfo.metadata = new window.chrome.cast.media.GenericMediaMetadata();
+                
+                if (media.title) {
+                    mediaInfo.metadata.title = media.title;
+                }
+                
+                if (media.duration) {
+                    mediaInfo.metadata.subtitle = `Duration: ${media.duration}s`;
+                }
+
+                if (media.thumbnailUrl) {
+                    mediaInfo.metadata.images = [new window.chrome.cast.Image(media.thumbnailUrl)];
+                }
             }
 
             mediaInfo.streamType = window.chrome.cast.media.StreamType.BUFFERED;

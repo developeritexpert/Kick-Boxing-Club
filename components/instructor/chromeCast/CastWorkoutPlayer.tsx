@@ -293,9 +293,9 @@ export const CastWorkoutPlayer: React.FC<CastWorkoutPlayerProps> = ({
         try {
             const media = await loadMedia({
                 videoId,
-                title: movement.movements.name,
-                thumbnailUrl: movement.movements.thumbnail_url,
-                duration: movement.duration,
+                // title: movement.movements.name,
+                // thumbnailUrl: movement.movements.thumbnail_url,
+                // duration: movement.duration,
             });
 
             console.log(' Media loaded successfully');

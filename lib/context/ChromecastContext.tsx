@@ -6,7 +6,7 @@ import { useChromecast } from '@/lib/hooks/useChromecast';
 
 interface CastMedia {
     videoId: string;
-    title: string;
+    title?: string;
     thumbnailUrl?: string;
     duration?: number;
 }
