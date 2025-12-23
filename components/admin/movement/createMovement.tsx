@@ -19,6 +19,8 @@ const CreateMovement: React.FC = () => {
     const [dragActive, setDragActive] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+    // const [defaultPlaybackSeconds, setDefaultPlaybackSeconds] = useState('');
+
 
     useEffect(() => {
         const fetchCategories = async (): Promise<void> => {
@@ -129,6 +131,14 @@ const CreateMovement: React.FC = () => {
             return;
         }
 
+        // if(
+        //     defaultPlaybackSeconds !== '' &&
+        //     Number(defaultPlaybackSeconds) <= 0
+        // ) {
+        //     toast.error('Default playback seconds must be greater than 0');
+        //     return;
+        // }
+
         const selectedTag = tags.find((t) => t.id === category);
         if (selectedTag?.name === 'HIIT' && !subCategory) {
             toast.error('Please select a sub-category for HIIT.');
@@ -149,6 +159,13 @@ const CreateMovement: React.FC = () => {
             if (subCategory) {
                 formData.append('subCategory', subCategory);
             }
+
+            // if (defaultPlaybackSeconds !== '') {
+            //     formData.append(
+            //         'default_playback_seconds',
+            //         defaultPlaybackSeconds,
+            //     );
+            // }
 
             const res: Response = await fetch('/api/admin/movement/create', {
                 method: 'POST',
@@ -186,6 +203,7 @@ const CreateMovement: React.FC = () => {
             setMovementName('');
             setVideo(null);
             setSubCategory('');
+            // setDefaultPlaybackSeconds('');
 
             router.push('/admin/movement/library');
         } catch (err) {
@@ -206,6 +224,39 @@ const CreateMovement: React.FC = () => {
     );
     const showSubCategory: boolean = selectedTag?.name === 'HIIT';
 
+
+    //  <label htmlFor="PlaybackSeconds">
+    //     Playback Seconds
+    // </label>
+    // <input
+    //     id="PlaybackSeconds"
+    //     type="number"
+    //     placeholder="e.g. 30"
+    //     value={defaultPlaybackSeconds}
+    //     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+    //         const value = e.target.value;
+    //         if (value === "") {
+    //             setDefaultPlaybackSeconds("");
+    //             return;
+    //         }
+    //         const num = Number(value);
+    //         if (num > 600) {
+    //             setDefaultPlaybackSeconds('600');
+    //             return;
+    //         }
+    //         setDefaultPlaybackSeconds(String(num));
+    //     }}
+    //     onKeyDown={(e) => {
+    //         if (["e", "E", "+", "-", "."].includes(e.key)) {
+    //             e.preventDefault();
+    //         }
+    //     }}
+    //     min="0"
+    //     max="600"
+    //     required
+    //     disabled={isLoading}
+    // />
+
     return (
         <div className="movement-container admin-crt-movment">
             <div className="movement-card">
@@ -224,6 +275,8 @@ const CreateMovement: React.FC = () => {
                         required
                         maxLength={50}
                     />
+
+                   
 
                     <label htmlFor="category">Category</label>
                     <select
@@ -321,229 +374,3 @@ const CreateMovement: React.FC = () => {
 };
 
 export default CreateMovement;
-
-// old code
-// 'use client';
-
-// import React, { useEffect, useState } from 'react';
-// import toast from 'react-hot-toast';
-// import { useRouter } from 'next/navigation';
-// import { useAuthStore } from '@/stores/useAuthStore';
-// import './CreateMovement.css';
-
-// const CreateMovement: React.FC = () => {
-//     const router = useRouter();
-//     const user = useAuthStore((state) => state.user);
-
-//     const [movementName, setMovementName] = useState('');
-//     const [category, setCategory] = useState('');
-//     const [subCategory, setSubCategory] = useState('');
-//     const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
-//     const [video, setVideo] = useState<File | null>(null);
-//     const [dragActive, setDragActive] = useState(false);
-
-//     useEffect(() => {
-//         const fetchCategories = async () => {
-//             try {
-//                 const res = await fetch('/api/common/categories');
-//                 const data = await res.json();
-//                 if (data.categories) {
-//                     setTags(data.categories);
-//                     setCategory(data.categories[0]?.id || '');
-//                 }
-//             } catch (err) {
-//                 console.error('Error fetching tags:', err);
-//             }
-//         };
-//         fetchCategories();
-//     }, []);
-
-//     useEffect(() => {
-//         const selectedTag = tags.find((t) => t.id === category);
-//         if (selectedTag?.name !== 'HIIT') {
-//             setSubCategory('');
-//         }
-//     }, [category]);
-
-//     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//         if (e.target.files && e.target.files[0]) {
-//             setVideo(e.target.files[0]);
-//         }
-//     };
-//     const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
-//         e.preventDefault();
-//         e.stopPropagation();
-//         setDragActive(false);
-//         const file = e.dataTransfer.files?.[0];
-//         if (file && file.type.startsWith('video/')) {
-//             setVideo(file);
-//         }
-//     };
-
-//     const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
-//         e.preventDefault();
-//         e.stopPropagation();
-//         setDragActive(true);
-//     };
-
-//     const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
-//         e.preventDefault();
-//         e.stopPropagation();
-//         setDragActive(false);
-//     };
-
-//     const handleSubmit = async (e: React.FormEvent) => {
-//         e.preventDefault();
-
-//         if (!video) {
-//             toast.error('Please select a video before submitting.');
-//             return;
-//         }
-
-//         const formData = new FormData();
-//         formData.append('movementName', movementName);
-//         formData.append('category', category);
-
-//         if (user?.id) {
-//             formData.append('created_by', user.id);
-//         }
-
-//         if (subCategory) formData.append('subCategory', subCategory);
-
-//         // if (video) formData.append('video', video);
-//         // console.log("Form Data :");
-//         // for (const [key, value] of formData.entries()) {
-//         //   console.log(key, value);
-//         // }
-
-//         const res = await fetch('/api/admin/movement/create', {
-//             method: 'POST',
-//             body: formData,
-//         });
-
-//         const data = await res.json();
-
-//         if (!res.ok) {
-//             toast.error('Something Went wrong');
-//             console.log('Error from /api/admin/movement/create');
-//             console.log(data.error);
-//             return;
-//         }
-
-//         // const { uploadURL, video_uid } = data;
-//         const { uploadURL } = data;
-
-//         const uploadForm = new FormData();
-//         uploadForm.append('file', video);
-
-//         const uploadRes = await fetch(uploadURL, {
-//             method: 'POST',
-//             body: uploadForm,
-//         });
-
-//         if (!uploadRes.ok) {
-//             const text = await uploadRes.text();
-//             console.error('Cloudflare upload failed:', text);
-//             toast.error('Video upload failed');
-//             return;
-//         }
-
-//         // const uploadData = await uploadRes.json();
-//         // console.log("Cloudflare upload response:", uploadData);
-
-//         // if (!uploadRes.ok) {
-//         //     toast.error('Video upload failed');
-//         //     return;
-//         // }
-
-//         toast.success('Movement created and video uploaded!');
-//         setMovementName('');
-//         setVideo(null);
-//         router.push('/admin/movement/library');
-//     };
-
-//     return (
-//         <div className="movement-container">
-//             <div className="movement-card">
-//                 <h2>Movement Details</h2>
-//                 <form onSubmit={handleSubmit} className="movement-form">
-//                     <label>Movement Name</label>
-//                     <input
-//                         type="text"
-//                         placeholder="Enter movement name"
-//                         value={movementName}
-//                         onChange={(e) => setMovementName(e.target.value)}
-//                         required
-//                     />
-
-//                     <label>Category</label>
-//                     <select value={category} onChange={(e) => setCategory(e.target.value)}>
-//                         {tags.length > 0 ? (
-//                             tags.map((tag) => (
-//                                 <option key={tag.id} value={tag.id}>
-//                                     {tag.name}
-//                                 </option>
-//                             ))
-//                         ) : (
-//                             <option disabled>Loading...</option>
-//                         )}
-//                     </select>
-
-//                     {(() => {
-//                         const selectedTag = tags.find((t) => t.id === category);
-//                         if (selectedTag?.name === 'HIIT') {
-//                             return (
-//                                 <>
-//                                     <label>Sub-category</label>
-//                                     <select
-//                                         value={subCategory}
-//                                         onChange={(e) => setSubCategory(e.target.value)}
-//                                         required
-//                                     >
-//                                         <option value="">Select sub-category</option>
-//                                         <option value="Upper Body">Upper Body</option>
-//                                         <option value="Lower Body">Lower Body</option>
-//                                         <option value="Full Body">Full Body</option>
-//                                         <option value="Core">Core</option>
-//                                     </select>
-//                                 </>
-//                             );
-//                         }
-//                         return null;
-//                     })()}
-
-//                     <label>Upload Video</label>
-//                     <div className="upload-box">
-//                         <input
-//                             type="file"
-//                             accept="video/*"
-//                             id="videoUpload"
-//                             onChange={handleFileChange}
-//                         />
-//                         <label
-//                             htmlFor="videoUpload"
-//                             className="upload-label"
-//                             onDrop={handleDrop}
-//                             onDragOver={handleDragOver}
-//                             onDragLeave={handleDragLeave}
-//                         >
-//                             <div className="upload-icon">⬆️</div>
-//                             <p>
-//                                 Select to Upload
-//                                 <br />
-//                                 or drag your video here
-//                             </p>
-//                         </label>
-//                         {video && <p className="file-name">{video.name}</p>}
-//                     </div>
-
-//                     <button type="submit" className="submit-btn">
-//                         Submit
-//                     </button>
-//                 </form>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default CreateMovement;

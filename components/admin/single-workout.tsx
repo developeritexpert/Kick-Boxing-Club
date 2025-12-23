@@ -1,5 +1,4 @@
-// latest code for safri and chrome (browser based code for macOS)
-// components/admin/single-workout.tsx
+// // components/admin/single-workout.tsx
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
@@ -42,12 +41,22 @@ const SingleWorkout: React.FC = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isAppleDevice, setIsAppleDevice] = useState(false);
     const [safariUnsupported, setSafariUnsupported] = useState(false);
+    
+    // State for tracking elapsed time during custom duration movements
+    const [elapsedTime, setElapsedTime] = useState(0);
+    
+    // NEW: State to track if video is currently playing
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+    
     const { workoutId } = useParams();
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const currentIndexRef = useRef(currentIndex);
     const workoutRef = useRef(workout);
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
+    
+    // Ref for movement duration timer
+    const movementTimerRef = useRef<NodeJS.Timeout | null>(null);
 
     // Detect Apple device (iOS only)
     useEffect(() => {
@@ -120,6 +129,78 @@ const SingleWorkout: React.FC = () => {
     }, [currentIndex]);
 
     useEffect(() => {
+        workoutRef.current = workout;
+    }, [workout]);
+
+    // MODIFIED: Effect to manage movement duration timer - now depends on isVideoPlaying
+    useEffect(() => {
+        // Clear any existing movement timer
+        if (movementTimerRef.current) {
+            clearInterval(movementTimerRef.current);
+            movementTimerRef.current = null;
+        }
+
+        // Don't run timer if resting, workout complete, no workout, Apple device, or video is paused
+        if (isResting || workoutComplete || !workout || isAppleDevice || !isVideoPlaying) return;
+
+        const currentMovement = workout.workout_movements[currentIndex];
+        const customDuration = currentMovement?.duration || 0;
+
+        // Only start timer if there's a custom duration AND video is playing
+        if (customDuration > 0) {
+            console.log(`Starting duration timer for ${customDuration}s (video is playing)`);
+            movementTimerRef.current = setInterval(() => {
+                setElapsedTime((prev) => prev + 1);
+            }, 1000);
+        }
+
+        return () => {
+            if (movementTimerRef.current) {
+                clearInterval(movementTimerRef.current);
+                movementTimerRef.current = null;
+            }
+        };
+    }, [currentIndex, isResting, workoutComplete, workout, isAppleDevice, isVideoPlaying]);
+
+    // Reset elapsed time and video playing state when movement changes
+    useEffect(() => {
+        setElapsedTime(0);
+        setIsVideoPlaying(false); // Will be set to true when video starts playing
+    }, [currentIndex]);
+
+    // Effect to check if custom duration is reached
+    useEffect(() => {
+        if (!workout || isResting || workoutComplete || isAppleDevice) return;
+
+        const currentMovement = workout.workout_movements[currentIndex];
+        const customDuration = currentMovement?.duration || 0;
+
+        // Check if custom duration is reached
+        if (customDuration > 0 && elapsedTime >= customDuration) {
+            console.log(`Custom duration of ${customDuration}s reached`);
+            
+            // Clear the movement timer
+            if (movementTimerRef.current) {
+                clearInterval(movementTimerRef.current);
+                movementTimerRef.current = null;
+            }
+
+            // Reset video playing state
+            setIsVideoPlaying(false);
+
+            // Check if last movement
+            if (currentIndex >= workout.workout_movements.length - 1) {
+                setWorkoutComplete(true);
+                return;
+            }
+
+            // Start rest period
+            startRestPeriod(currentMovement.rest_after);
+        }
+    }, [elapsedTime]);
+
+    // MODIFIED: Handle iframe messages - now also listens for play/pause events
+    useEffect(() => {
         // Only set up iframe message handler for non-Apple devices
         if (isAppleDevice) return;
 
@@ -129,7 +210,35 @@ const SingleWorkout: React.FC = () => {
             }
             try {
                 const data = event.data;
-                if (data && data.eventName === 'ended') {
+                
+                if (!data || !data.eventName) return;
+
+                // Handle play/pause events
+                if (data.eventName === 'play' || data.eventName === 'playing') {
+                    console.log('Video started playing');
+                    setIsVideoPlaying(true);
+                }
+                
+                if (data.eventName === 'pause') {
+                    console.log('Video paused');
+                    setIsVideoPlaying(false);
+                }
+
+                if (data.eventName === 'ended') {
+                    // Get current movement's custom duration
+                    const current = workoutRef.current?.workout_movements[currentIndexRef.current];
+                    const customDuration = current?.duration || 0;
+
+                    // If there's a custom duration, don't handle video end
+                    // The video will loop and the timer will trigger the transition
+                    if (customDuration > 0) {
+                        console.log('Video ended but custom duration not reached yet, looping...');
+                        // Video will auto-loop, keep playing state true
+                        return;
+                    }
+
+                    // No custom duration - handle as before
+                    setIsVideoPlaying(false);
                     handleVideoEnd();
                 }
             } catch (error) {
@@ -141,10 +250,6 @@ const SingleWorkout: React.FC = () => {
             window.removeEventListener('message', handleMessage);
         };
     }, [currentIndex, workout, isAppleDevice]);
-
-    useEffect(() => {
-        workoutRef.current = workout;
-    }, [workout]);
 
     useEffect(() => {
         // Fullscreen handling only for non-Apple devices
@@ -201,15 +306,27 @@ const SingleWorkout: React.FC = () => {
         fetchWorkout();
     }, [workoutId]);
 
+    // Cleanup both timers on unmount
     useEffect(() => {
         return () => {
             if (timerRef.current) {
                 clearInterval(timerRef.current);
             }
+            if (movementTimerRef.current) {
+                clearInterval(movementTimerRef.current);
+            }
         };
     }, []);
 
     const startRestPeriod = (restSeconds: number) => {
+        // Clear movement timer when starting rest
+        if (movementTimerRef.current) {
+            clearInterval(movementTimerRef.current);
+            movementTimerRef.current = null;
+        }
+        setElapsedTime(0);
+        setIsVideoPlaying(false);
+
         if (restSeconds <= 0) {
             goToNextVideo();
             return;
@@ -253,11 +370,18 @@ const SingleWorkout: React.FC = () => {
         startRestPeriod(current.rest_after);
     };
 
+    // Clear movement timer and reset elapsed time
     const goToNextVideo = () => {
         if (timerRef.current) {
             clearInterval(timerRef.current);
             timerRef.current = null;
         }
+        if (movementTimerRef.current) {
+            clearInterval(movementTimerRef.current);
+            movementTimerRef.current = null;
+        }
+        setElapsedTime(0);
+        setIsVideoPlaying(false);
         setIsResting(false);
         setRestTimer(0);
         setWorkoutComplete(false);
@@ -266,11 +390,18 @@ const SingleWorkout: React.FC = () => {
         }
     };
 
+    // Clear movement timer and reset elapsed time
     const goToPreviousVideo = () => {
         if (timerRef.current) {
             clearInterval(timerRef.current);
             timerRef.current = null;
         }
+        if (movementTimerRef.current) {
+            clearInterval(movementTimerRef.current);
+            movementTimerRef.current = null;
+        }
+        setElapsedTime(0);
+        setIsVideoPlaying(false);
         setIsResting(false);
         setRestTimer(0);
         setWorkoutComplete(false);
@@ -414,10 +545,12 @@ const SingleWorkout: React.FC = () => {
     const isFirst = currentIndex === 0;
     const isLast = currentIndex === workout.workout_movements.length - 1;
     const totalMovements = workout.workout_movements.length;
+    const customDuration = currentMovement?.duration || 0;
 
+    // Add loop=true when there's a custom duration
     const getIframeSrc = (videoId: string) => {
-        // Cloudflare recommended embed with muted for better autoplay compatibility
-        return `https://iframe.videodelivery.net/${videoId}?autoplay=true&controls=1&playsinline=1&muted=1`;
+        const loopParam = customDuration > 0 ? '&loop=true' : '';
+        return `https://iframe.videodelivery.net/${videoId}?autoplay=true&controls=1&playsinline=1&muted=1${loopParam}`;
     };
 
     return (
@@ -453,7 +586,7 @@ const SingleWorkout: React.FC = () => {
                     {currentMovement?.movements.video_id ? (
                         <iframe
                             ref={iframeRef}
-                            key={currentMovement.movements.video_id}
+                            key={`${currentMovement.movements.video_id}-${currentIndex}`}
                             src={getIframeSrc(currentMovement.movements.video_id)}
                             style={{
                                 width: '100%',
@@ -663,7 +796,13 @@ const SingleWorkout: React.FC = () => {
                                     <div className="meta-item">
                                         <span className="meta-label">Duration:</span>
                                         <span className="meta-value">
-                                            {currentMovement.duration}s
+                                            {elapsedTime}s / {currentMovement.duration}s
+                                            {/* NEW: Show paused indicator */}
+                                            {!isVideoPlaying && elapsedTime > 0 && (
+                                                <span style={{ color: '#fbbf24', marginLeft: '8px' }}>
+                                                    (Paused)
+                                                </span>
+                                            )}
                                         </span>
                                     </div>
                                 )}
@@ -793,7 +932,698 @@ const SingleWorkout: React.FC = () => {
 
 export default SingleWorkout;
 
-// previous code in main branch
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// css update to seprate file 
+// 'use client';
+
+// import React, { useEffect, useState, useRef } from 'react';
+// import { useParams } from 'next/navigation';
+// import { useChromecastContext } from '@/lib/context/ChromecastContext';
+// import { CastWorkoutPlayer } from './chromeCast/CastWorkoutPlayer';
+// import { AppleWorkoutPlayer } from './apple/AppleWorkoutPlayer';
+// import { useAuthStore } from '@/stores/useAuthStore';
+// import './single-workout.css';
+
+// interface MovementItem {
+//     id: string;
+//     sequence_order: number;
+//     duration: number;
+//     rest_after: number;
+//     movements: {
+//         id: string;
+//         name: string;
+//         video_id: string | null;
+//         video_url: string;
+//         thumbnail_url: string;
+//     };
+// }
+
+// interface WorkoutData {
+//     id: string;
+//     name: string;
+//     workout_movements: MovementItem[];
+// }
+
+// const SingleWorkout: React.FC = () => {
+//     const user = useAuthStore((state) => state.user);
+//     const [workout, setWorkout] = useState<WorkoutData | null>(null);
+//     const [currentIndex, setCurrentIndex] = useState(0);
+//     const [isResting, setIsResting] = useState(false);
+//     const [restTimer, setRestTimer] = useState(0);
+//     const [workoutComplete, setWorkoutComplete] = useState(false);
+//     const [loading, setLoading] = useState(true);
+//     const [error, setError] = useState<string | null>(null);
+//     const [isFullscreen, setIsFullscreen] = useState(false);
+//     const [isAppleDevice, setIsAppleDevice] = useState(false);
+//     const [safariUnsupported, setSafariUnsupported] = useState(false);
+//     const { workoutId } = useParams();
+//     const timerRef = useRef<NodeJS.Timeout | null>(null);
+//     const currentIndexRef = useRef(currentIndex);
+//     const workoutRef = useRef(workout);
+//     const videoContainerRef = useRef<HTMLDivElement>(null);
+//     const iframeRef = useRef<HTMLIFrameElement>(null);
+
+//     // Detect Apple device (iOS only)
+//     useEffect(() => {
+//         const userAgent = navigator.userAgent;
+//         const platform = navigator.platform;
+
+//         const isIOS =
+//             /iPad|iPhone|iPod/.test(userAgent) ||
+//             (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+//         setIsAppleDevice(isIOS);
+
+//         console.log('Device Detection:', {
+//             userAgent: userAgent.substring(0, 50),
+//             platform,
+//             isIOS,
+//             isMacOS: /Macintosh|MacIntel/.test(platform),
+//         });
+//     }, []);
+
+//     // Check Safari version support
+//     useEffect(() => {
+//         const ua = navigator.userAgent;
+//         const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+//         const versionMatch = ua.match(/Version\/(\d+\.\d+)/);
+//         const version = versionMatch ? parseFloat(versionMatch[1]) : null;
+
+//         console.log('Safari Check:', { isSafari, version });
+
+//         if (isSafari && version && version < 15) {
+//             setSafariUnsupported(true);
+//         }
+//     }, []);
+
+//     const {
+//         isCastAvailable,
+//         isConnected,
+//         isLoading: castLoading,
+//         deviceName,
+//         requestCastSession,
+//     } = useChromecastContext();
+
+//     const saveRecentWorkout = async () => {
+//         if (!user?.id || !workoutId) {
+//             console.log('Missing user or workoutId — skipping recent workout save.');
+//             return;
+//         }
+//         try {
+//             const res = await fetch('/api/admin/recent-workouts', {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 body: JSON.stringify({
+//                     user_id: user.id,
+//                     workout_id: workoutId,
+//                 }),
+//             });
+//             const result = await res.json();
+//         } catch (error) {
+//             console.log('Error saving recent workout:', error);
+//         }
+//     };
+
+//     useEffect(() => {
+//         saveRecentWorkout();
+//     }, [user?.id, workoutId]);
+
+//     useEffect(() => {
+//         currentIndexRef.current = currentIndex;
+//     }, [currentIndex]);
+
+//     useEffect(() => {
+//         if (isAppleDevice) return;
+
+//         const handleMessage = (event: MessageEvent) => {
+//             if (event.origin !== 'https://iframe.videodelivery.net') {
+//                 return;
+//             }
+//             try {
+//                 const data = event.data;
+//                 if (data && data.eventName === 'ended') {
+//                     handleVideoEnd();
+//                 }
+//             } catch (error) {
+//                 console.error('Error handling iframe message:', error);
+//             }
+//         };
+//         window.addEventListener('message', handleMessage);
+//         return () => {
+//             window.removeEventListener('message', handleMessage);
+//         };
+//     }, [currentIndex, workout, isAppleDevice]);
+
+//     useEffect(() => {
+//         workoutRef.current = workout;
+//     }, [workout]);
+
+//     useEffect(() => {
+//         if (isAppleDevice) return;
+
+//         const handleFullscreenChange = () => {
+//             setIsFullscreen(!!document.fullscreenElement);
+//         };
+//         document.addEventListener('fullscreenchange', handleFullscreenChange);
+//         document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+//         document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+//         document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+//         return () => {
+//             document.removeEventListener('fullscreenchange', handleFullscreenChange);
+//             document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+//             document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+//             document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+//         };
+//     }, [isAppleDevice]);
+
+//     const toggleFullscreen = () => {
+//         const elem = videoContainerRef.current;
+//         if (!elem) return;
+
+//         if (!document.fullscreenElement) {
+//             if (elem.requestFullscreen) {
+//                 elem.requestFullscreen();
+//             }
+//         } else {
+//             if (document.exitFullscreen) {
+//                 document.exitFullscreen();
+//             }
+//         }
+//     };
+
+//     useEffect(() => {
+//         if (!workoutId) return;
+
+//         const fetchWorkout = async () => {
+//             try {
+//                 setLoading(true);
+//                 const res = await fetch(`/api/admin/workout/${workoutId}`);
+//                 if (!res.ok) throw new Error('Failed to load workout');
+//                 const data: WorkoutData = await res.json();
+//                 setWorkout(data);
+//                 setError(null);
+//             } catch (err) {
+//                 console.error('Error fetching workout:', err);
+//                 setError(err instanceof Error ? err.message : 'Unknown error occurred');
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+//         fetchWorkout();
+//     }, [workoutId]);
+
+//     useEffect(() => {
+//         return () => {
+//             if (timerRef.current) {
+//                 clearInterval(timerRef.current);
+//             }
+//         };
+//     }, []);
+
+//     const startRestPeriod = (restSeconds: number) => {
+//         if (restSeconds <= 0) {
+//             goToNextVideo();
+//             return;
+//         }
+//         setIsResting(true);
+//         setRestTimer(restSeconds);
+//         timerRef.current = setInterval(() => {
+//             setRestTimer((prev) => {
+//                 if (prev <= 1) {
+//                     if (timerRef.current) {
+//                         clearInterval(timerRef.current);
+//                         timerRef.current = null;
+//                     }
+
+//                     setTimeout(() => {
+//                         setIsResting(false);
+//                         const currentWorkout = workoutRef.current;
+//                         const currentIdx = currentIndexRef.current;
+//                         if (
+//                             currentWorkout &&
+//                             currentIdx < currentWorkout.workout_movements.length - 1
+//                         ) {
+//                             setCurrentIndex(currentIdx + 1);
+//                         }
+//                     }, 0);
+
+//                     return 0;
+//                 }
+//                 return prev - 1;
+//             });
+//         }, 1000);
+//     };
+
+//     const handleVideoEnd = () => {
+//         const current = workout?.workout_movements[currentIndex];
+//         if (!current) return;
+//         if (!workout || currentIndex >= workout.workout_movements.length - 1) {
+//             setWorkoutComplete(true);
+//             return;
+//         }
+//         startRestPeriod(current.rest_after);
+//     };
+
+//     const goToNextVideo = () => {
+//         if (timerRef.current) {
+//             clearInterval(timerRef.current);
+//             timerRef.current = null;
+//         }
+//         setIsResting(false);
+//         setRestTimer(0);
+//         setWorkoutComplete(false);
+//         if (workout && currentIndex < workout.workout_movements.length - 1) {
+//             setCurrentIndex((prev) => prev + 1);
+//         }
+//     };
+
+//     const goToPreviousVideo = () => {
+//         if (timerRef.current) {
+//             clearInterval(timerRef.current);
+//             timerRef.current = null;
+//         }
+//         setIsResting(false);
+//         setRestTimer(0);
+//         setWorkoutComplete(false);
+//         if (currentIndex > 0) {
+//             setCurrentIndex((prev) => prev - 1);
+//         }
+//     };
+
+//     const skipRest = () => {
+//         if (timerRef.current) {
+//             clearInterval(timerRef.current);
+//             timerRef.current = null;
+//         }
+//         setIsResting(false);
+//         setRestTimer(0);
+//         goToNextVideo();
+//     };
+
+//     const handleCastClick = async () => {
+//         console.log('🎥 Cast button clicked');
+//         await requestCastSession();
+//     };
+
+//     const handleCastDisconnect = () => {
+//         console.log('📴 Cast disconnected handler called');
+//     };
+
+//     if (loading) {
+//         return (
+//             <div className="spinner-wrapper">
+//                 <div className="spinner-large"></div>
+//             </div>
+//         );
+//     }
+
+//     if (error) {
+//         return (
+//             <div className="single-workout-container">
+//                 <div className="workout-card">
+//                     <p className="error-message">Error: {error}</p>
+//                 </div>
+//             </div>
+//         );
+//     }
+
+//     if (safariUnsupported) {
+//         return (
+//             <div className="single-workout-container">
+//                 <div className="workout-card">
+//                     <p className="safari-unsupported-message">
+//                         ⚠️ Your Safari version is too old to play these workout videos.
+//                         <br />
+//                         Please update Safari to version 15 or later, or use the latest version of
+//                         Chrome.
+//                     </p>
+//                 </div>
+//             </div>
+//         );
+//     }
+
+//     if (!workout || !workout.workout_movements || workout.workout_movements.length === 0) {
+//         return (
+//             <div className="single-workout-container">
+//                 <div className="workout-card">
+//                     <p>No workout movements found.</p>
+//                 </div>
+//             </div>
+//         );
+//     }
+
+//     // Render Apple player for iOS devices
+//     if (isAppleDevice) {
+//         console.log('🍎 Rendering Apple device player');
+//         return (
+//             <div className="single-workout-container">
+//                 <AppleWorkoutPlayer
+//                     workout={workout}
+//                     currentIndex={currentIndex}
+//                     onIndexChange={setCurrentIndex}
+//                     onComplete={() => setWorkoutComplete(true)}
+//                 />
+//             </div>
+//         );
+//     }
+
+//     // Render Cast Player when connected
+//     if (isConnected) {
+//         console.log('📺 Rendering CastWorkoutPlayer');
+//         return (
+//             <div className="single-workout-container">
+//                 <div className="workout-card">
+//                     <h1 className="workout-title">
+//                         {workout.name.length > 30
+//                             ? workout.name.substring(0, 30) + '...'
+//                             : workout.name}
+//                     </h1>
+//                     <CastWorkoutPlayer
+//                         workout={workout}
+//                         currentIndex={currentIndex}
+//                         onIndexChange={setCurrentIndex}
+//                         onComplete={() => setWorkoutComplete(true)}
+//                         onDisconnect={handleCastDisconnect}
+//                     />
+//                     {workoutComplete && (
+//                         <div className="workout-complete-banner">
+//                             <h3 className="complete-title">Workout Complete!</h3>
+//                             <p className="complete-message">
+//                                 Great job finishing all {workout.workout_movements.length}{' '}
+//                                 movements!
+//                             </p>
+//                         </div>
+//                     )}
+//                 </div>
+//             </div>
+//         );
+//     }
+
+//     // Regular player for non-Apple devices when not connected to Cast
+//     console.log('💻 Rendering regular player');
+//     const currentMovement = workout.workout_movements[currentIndex];
+//     const isFirst = currentIndex === 0;
+//     const isLast = currentIndex === workout.workout_movements.length - 1;
+//     const totalMovements = workout.workout_movements.length;
+
+//     const getIframeSrc = (videoId: string) => {
+//         return `https://iframe.videodelivery.net/${videoId}?autoplay=true&controls=1&playsinline=1&muted=1`;
+//     };
+
+//     return (
+//         <div className="single-workout-container">
+//             <div className="workout-card">
+//                 <div className="workout-header">
+//                     <h1 className="workout-title">
+//                         {workout.name.length > 30
+//                             ? workout.name.substring(0, 50) + '...'
+//                             : workout.name}
+//                     </h1>
+//                     <div className="workout-meta">
+//                         <div className="meta-item">
+//                             <span className="meta-label">Movement:</span>
+//                             <span className="meta-value">
+//                                 {currentIndex + 1} of {totalMovements}
+//                             </span>
+//                         </div>
+//                     </div>
+//                 </div>
+
+//                 <div ref={videoContainerRef} className="video-container">
+//                     {currentMovement?.movements.video_id ? (
+//                         <iframe
+//                             ref={iframeRef}
+//                             key={currentMovement.movements.video_id}
+//                             src={getIframeSrc(currentMovement.movements.video_id)}
+//                             className="video-iframe"
+//                             allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
+//                             allowFullScreen
+//                             title={`Video player for ${currentMovement.movements.name}`}
+//                         />
+//                     ) : (
+//                         <div className="no-video-placeholder">
+//                             <p>No video available</p>
+//                         </div>
+//                     )}
+
+//                     <button onClick={toggleFullscreen} className="fullscreen-btn">
+//                         {isFullscreen ? '✕ Exit Fullscreen' : 'Fullscreen'}
+//                     </button>
+
+//                     {isResting && (
+//                         <div className="rest-overlay">
+//                             <h2 className={`rest-title ${isFullscreen ? 'rest-title-fullscreen' : ''}`}>
+//                                 Rest Time
+//                             </h2>
+//                             <div className={`rest-timer ${isFullscreen ? 'rest-timer-fullscreen' : ''}`}>
+//                                 {restTimer}s
+//                             </div>
+//                             {currentIndex < totalMovements - 1 && (
+//                                 <p className={`rest-next-text ${isFullscreen ? 'rest-next-text-fullscreen' : ''}`}>
+//                                     Next:{' '}
+//                                     {workout.workout_movements[currentIndex + 1]?.movements.name}
+//                                 </p>
+//                             )}
+//                             <button
+//                                 onClick={skipRest}
+//                                 className={`skip-rest-btn ${isFullscreen ? 'skip-rest-btn-fullscreen' : ''}`}
+//                             >
+//                                 Skip Rest →
+//                             </button>
+//                         </div>
+//                     )}
+
+//                     {workoutComplete && (
+//                         <div className="workout-complete-overlay">
+//                             <h3 className={`complete-overlay-title ${isFullscreen ? 'complete-overlay-title-fullscreen' : ''}`}>
+//                                 Workout Complete!
+//                             </h3>
+//                             <p className={`complete-overlay-message ${isFullscreen ? 'complete-overlay-message-fullscreen' : ''}`}>
+//                                 Great job finishing all {totalMovements} movements!
+//                             </p>
+//                         </div>
+//                     )}
+//                 </div>
+
+//                 {!isFullscreen && (
+//                     <>
+//                         <div className="movement-info">
+//                             <div className="casting-cnt">
+//                                 <h2 className="workout-title">
+//                                     {currentMovement?.movements.name.length > 30
+//                                         ? currentMovement?.movements.name.substring(0, 30) + '...'
+//                                         : currentMovement?.movements.name}
+//                                 </h2>
+//                                 {isCastAvailable && (
+//                                     <button
+//                                         onClick={handleCastClick}
+//                                         disabled={castLoading}
+//                                         className={`cast-btn ${castLoading ? 'cast-btn-disabled' : ''}`}
+//                                         title="Cast to TV"
+//                                     >
+//                                         <img
+//                                             src="/casting_icon.png"
+//                                             alt="Cast to TV"
+//                                             className={`cast-icon ${castLoading ? 'cast-icon-disabled' : ''}`}
+//                                         />
+//                                     </button>
+//                                 )}
+//                             </div>
+//                             <div className="workout-meta">
+//                                 {currentMovement?.duration > 0 && (
+//                                     <div className="meta-item">
+//                                         <span className="meta-label">Duration:</span>
+//                                         <span className="meta-value">
+//                                             {currentMovement.duration}s
+//                                         </span>
+//                                     </div>
+//                                 )}
+//                                 {currentMovement?.rest_after > 0 && (
+//                                     <div className="meta-item">
+//                                         <span className="meta-label">Rest After:</span>
+//                                         <span className="meta-value">
+//                                             {currentMovement.rest_after}s
+//                                         </span>
+//                                     </div>
+//                                 )}
+//                             </div>
+//                         </div>
+
+//                         <div className="navigation-controls">
+//                             <button
+//                                 onClick={goToPreviousVideo}
+//                                 disabled={isFirst}
+//                                 className={`nav-btn ${isFirst ? 'nav-btn-disabled' : 'nav-btn-active'}`}
+//                             >
+//                                 ← Previous
+//                             </button>
+
+//                             <div className="progress-bar-container">
+//                                 <div className="progress-bar-track">
+//                                     <div
+//                                         className="progress-bar-fill"
+//                                         style={{ width: `${((currentIndex + 1) / totalMovements) * 100}%` }}
+//                                     />
+//                                 </div>
+//                             </div>
+
+//                             <button
+//                                 onClick={isLast ? undefined : goToNextVideo}
+//                                 disabled={isLast}
+//                                 className={`nav-btn ${isLast ? 'nav-btn-disabled' : 'nav-btn-active'}`}
+//                             >
+//                                 Next →
+//                             </button>
+//                         </div>
+
+//                         {!isResting && !isLast && (
+//                             <button onClick={handleVideoEnd} className="action-btn">
+//                                 Video Finished - Start Rest Period
+//                             </button>
+//                         )}
+
+//                         {isLast && !workoutComplete && (
+//                             <button onClick={handleVideoEnd} className="action-btn">
+//                                 Complete Workout
+//                             </button>
+//                         )}
+//                     </>
+//                 )}
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default SingleWorkout;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // latest code for safri and chrome (browser based code for macOS)
 // // components/admin/single-workout.tsx
 // 'use client';
 
@@ -836,6 +1666,7 @@ export default SingleWorkout;
 //     const [error, setError] = useState<string | null>(null);
 //     const [isFullscreen, setIsFullscreen] = useState(false);
 //     const [isAppleDevice, setIsAppleDevice] = useState(false);
+//     const [safariUnsupported, setSafariUnsupported] = useState(false);
 //     const { workoutId } = useParams();
 //     const timerRef = useRef<NodeJS.Timeout | null>(null);
 //     const currentIndexRef = useRef(currentIndex);
@@ -843,52 +1674,8 @@ export default SingleWorkout;
 //     const videoContainerRef = useRef<HTMLDivElement>(null);
 //     const iframeRef = useRef<HTMLIFrameElement>(null);
 
-//     // Detect Apple device
-//     // useEffect(() => {
-//     //     const userAgent = navigator.userAgent;
-//     //     const platform = navigator.platform;
-//     //     const isIOS =
-//     //         /iPad|iPhone|iPod/.test(userAgent) ||
-//     //         (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-//     //     const isMacOS = /Macintosh|MacIntel|MacPPC|Mac68K/.test(platform);
-
-//     //     setIsAppleDevice(isIOS || isMacOS);
-//     // }, []);
-
-//     // Detect Apple device except chrome on macOS
-//     // useEffect(() => {
-//     //     const userAgent = navigator.userAgent;
-//     //     const platform = navigator.platform;
-
-//     //     const isIOS =
-//     //         /iPad|iPhone|iPod/.test(userAgent) ||
-//     //         (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-//     //     const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
-
-//     //     const isMacOS = /Macintosh|MacIntel|MacPPC|Mac68K/.test(platform);
-//     //     const needsApplePlayer = isIOS || (isMacOS && isSafari);
-
-//     //     setIsAppleDevice(needsApplePlayer);
-//     // }, []);
-
-//     // useEffect(() => {
-//     //     const userAgent = navigator.userAgent;
-//     //     const platform = navigator.platform;
-//     //     const isIOS =
-//     //         /iPad|iPhone|iPod/.test(userAgent) ||
-//     //         (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-//     //     const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
-//     //     const isMacOS = /Macintosh|MacIntel|MacPPC|Mac68K/.test(platform);
-//     //     const needsApplePlayer = isIOS && !isMacOS;
-//     //     console.log('Device Detection:', { isIOS, isSafari, isMacOS, needsApplePlayer });
-
-//     //     setIsAppleDevice(needsApplePlayer);
-//     // }, []);
-
+//     // Detect Apple device (iOS only)
 //     useEffect(() => {
-//         console.log('detecting device');
-
 //         const userAgent = navigator.userAgent;
 //         const platform = navigator.platform;
 
@@ -897,8 +1684,6 @@ export default SingleWorkout;
 //             /iPad|iPhone|iPod/.test(userAgent) ||
 //             (platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-//         // Only use AppleWorkoutPlayer for iOS devices
-//         // macOS (including Safari) will use the regular player
 //         setIsAppleDevice(isIOS);
 
 //         console.log('Device Detection:', {
@@ -907,16 +1692,19 @@ export default SingleWorkout;
 //             isIOS,
 //             isMacOS: /Macintosh|MacIntel/.test(platform),
 //         });
+//     }, []);
 
-//         if (userAgent.includes('Macintosh')) {
-//             console.log(' macOS Detected');
-//             if (userAgent.includes('Chrome')) {
-//                 console.log(' Chrome on macOS → Will use regular iframe player');
-//             } else if (userAgent.includes('Safari')) {
-//                 console.log(' Safari on macOS → Will use regular iframe player');
-//             }
-//         } else if (/iPad|iPhone|iPod/.test(userAgent)) {
-//             console.log(' iOS Detected → Will use AppleWorkoutPlayer with AirPlay support');
+//     // Check Safari version support
+//     useEffect(() => {
+//         const ua = navigator.userAgent;
+//         const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+//         const versionMatch = ua.match(/Version\/(\d+\.\d+)/);
+//         const version = versionMatch ? parseFloat(versionMatch[1]) : null;
+
+//         console.log('Safari Check:', { isSafari, version });
+
+//         if (isSafari && version && version < 15) {
+//             setSafariUnsupported(true);
 //         }
 //     }, []);
 
@@ -943,7 +1731,6 @@ export default SingleWorkout;
 //                 }),
 //             });
 //             const result = await res.json();
-//             // console.log('Recent workout API response:', result);
 //         } catch (error) {
 //             console.log('Error saving recent workout:', error);
 //         }
@@ -1062,7 +1849,6 @@ export default SingleWorkout;
 //                         timerRef.current = null;
 //                     }
 
-//                     // Use setTimeout to avoid state updates during render
 //                     setTimeout(() => {
 //                         setIsResting(false);
 //                         const currentWorkout = workoutRef.current;
@@ -1139,10 +1925,8 @@ export default SingleWorkout;
 
 //     if (loading) {
 //         return (
-//             <div className="single-workout-container">
-//                 <div className="workout-card">
-//                     <p>Loading workout...</p>
-//                 </div>
+//             <div className="spinner-wrapper">
+//                 <div className="spinner-large"></div>
 //             </div>
 //         );
 //     }
@@ -1152,6 +1936,21 @@ export default SingleWorkout;
 //             <div className="single-workout-container">
 //                 <div className="workout-card">
 //                     <p style={{ color: 'red' }}>Error: {error}</p>
+//                 </div>
+//             </div>
+//         );
+//     }
+
+//     if (safariUnsupported) {
+//         return (
+//             <div className="single-workout-container">
+//                 <div className="workout-card">
+//                     <p style={{ color: '#b40200', fontSize: '16px', fontWeight: '600' }}>
+//                         ⚠️ Your Safari version is too old to play these workout videos.
+//                         <br />
+//                         Please update Safari to version 15 or later, or use the latest version of
+//                         Chrome.
+//                     </p>
 //                 </div>
 //             </div>
 //         );
@@ -1167,7 +1966,7 @@ export default SingleWorkout;
 //         );
 //     }
 
-//     // Render Apple player for Apple devices
+//     // Render Apple player for iOS devices
 //     if (isAppleDevice) {
 //         console.log('🍎 Rendering Apple device player');
 //         return (
@@ -1189,7 +1988,6 @@ export default SingleWorkout;
 //             <div className="single-workout-container">
 //                 <div className="workout-card">
 //                     <h1 className="workout-title">
-//                         {/* {workout.name} */}
 //                         {workout.name.length > 30
 //                             ? workout.name.substring(0, 30) + '...'
 //                             : workout.name}
@@ -1243,8 +2041,8 @@ export default SingleWorkout;
 //     const totalMovements = workout.workout_movements.length;
 
 //     const getIframeSrc = (videoId: string) => {
-//         // For non-Apple devices, hide controls and use playsinline
-//         return `https://iframe.videodelivery.net/${videoId}?autoplay=true&controls=1&playsinline=1`;
+//         // Cloudflare recommended embed with muted for better autoplay compatibility
+//         return `https://iframe.videodelivery.net/${videoId}?autoplay=true&controls=1&playsinline=1&muted=1`;
 //     };
 
 //     return (
@@ -1252,7 +2050,6 @@ export default SingleWorkout;
 //             <div className="workout-card">
 //                 <div style={{ width: '100%', marginBottom: '20px' }}>
 //                     <h1 className="workout-title">
-//                         {/* {workout.name} */}
 //                         {workout.name.length > 30
 //                             ? workout.name.substring(0, 50) + '...'
 //                             : workout.name}
@@ -1291,8 +2088,8 @@ export default SingleWorkout;
 //                                 top: 0,
 //                                 left: 0,
 //                             }}
-//                             allow="autoplay; encrypted-media;"
-//                             allowFullScreen={false}
+//                             allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
+//                             allowFullScreen
 //                             title={`Video player for ${currentMovement.movements.name}`}
 //                         />
 //                     ) : (
@@ -1456,7 +2253,6 @@ export default SingleWorkout;
 //                         <div style={{ width: '100%', marginTop: '16px' }}>
 //                             <div className="casting-cnt">
 //                                 <h2 className="workout-title">
-//                                     {/* {currentMovement?.movements.name} */}
 //                                     {currentMovement?.movements.name.length > 30
 //                                         ? currentMovement?.movements.name.substring(0, 30) + '...'
 //                                         : currentMovement?.movements.name}

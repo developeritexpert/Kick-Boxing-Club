@@ -167,7 +167,7 @@ const MovementLibrary: React.FC = () => {
                                                 : m.name}
                                         </td>
                                         <td>{m.category}</td>
-                                        <td>{m.created_by}</td>
+                                        <td>{m.created_by.length > 40 ? m.created_by.substring(0, 40) + '...' : m.created_by }</td>
                                         <td>
                                             {/* <button
                                                 className="edit-btn"

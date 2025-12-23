@@ -12,7 +12,28 @@ export async function POST(req: Request) {
         const category_id = formData.get('category') as string;
         const subCategory = formData.get('subCategory') as string | null;
         const created_by = formData.get('created_by') as string;
-        // const created_by = 'ed14d193-b06a-4961-a84e-d8341490abc0';
+
+        //  const defaultPlaybackSecondsRaw =
+        //     formData.get('default_playback_seconds');
+
+        // const default_playback_seconds =
+        //     typeof defaultPlaybackSecondsRaw === 'string' &&
+        //         defaultPlaybackSecondsRaw.trim() !== ''
+        //         ? Number(defaultPlaybackSecondsRaw)
+        //         : null;
+        // if (
+        //     default_playback_seconds !== null &&
+        //     (!Number.isInteger(default_playback_seconds) ||
+        //         default_playback_seconds <= 0)
+        // ) {
+        //     return NextResponse.json(
+        //         {
+        //             error: 'default_playback_seconds must be a positive integer',
+        //         },
+        //         { status: 400 },
+        //     );
+        // }
+
         const video_provider = 'cloudflare';
         const description = 'video uploaded on cloudFlare Stream';
         const cfReservedContainer = await CLOUDFLARE.createDirectUpload(600);
